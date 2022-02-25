@@ -24,10 +24,14 @@ class PostMainScreenViewModel extends BaseModel {
     posts.addAll(postResult.map((post) => PostPresentation(
         id: post.id,
         loginId: post.loginId,
+        category: post.category,
+        title: post.title,
         userNickname: post.userNickname,
         body: post.body,
         createdAt: dateToPastTime(post.createdAt),
-        likedCount: post.likedCount.toString())));
+        likedCount: post.likedCount.toString(),
+        viewCount: post.viewCount.toString(),
+        commentCount: post.commentCount.toString())));
     nextPageToken++;
     setBusy(false);
   }
@@ -37,18 +41,26 @@ class PostMainScreenViewModel extends BaseModel {
 class PostPresentation {
   final int id;
   final String loginId;
+  final String category;
+  final String title;
   final String userNickname;
   final String body;
   String createdAt;
   String likedCount;
+  String viewCount;
+  String commentCount;
   List<dynamic>? imageUrls;
 
   PostPresentation(
       {required this.id,
       required this.loginId,
+      required this.category,
+      required this.title,
       required this.userNickname,
       required this.body,
       required this.createdAt,
       required this.likedCount,
+      required this.viewCount,
+      required this.commentCount,
       this.imageUrls});
 }

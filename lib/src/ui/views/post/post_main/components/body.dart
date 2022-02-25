@@ -25,7 +25,8 @@ class Body extends StatelessWidget {
             ? SizedBox(
                 height: getProportionateScreenHeight(400),
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child:
+                      CircularProgressIndicator(), //모델이 뭔가 일을 하고 있으면 그 로딩중 창 띄우는 거 같음
                 ))
             : (model.posts.isEmpty
                 ? const CenterSentence(

@@ -29,7 +29,29 @@ class _PostMainScreenState extends State<PostMainScreen> {
         create: (context) => model,
         child:
             Consumer<PostMainScreenViewModel>(builder: (context, model, child) {
-          return Scaffold(body: Body(model: model));
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text('피드',
+                    style: TextStyle(
+                      color: Colors.black,
+                    )),
+                actions: [
+                  IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.edit_outlined),
+                    color: Colors.black,
+                  ),
+                  IconButton(
+                    onPressed: () => {},
+                    icon: const Icon(Icons.notifications_outlined),
+                    color: Colors.black,
+                  ),
+                ],
+                elevation: 0.0,
+                backgroundColor: Colors.transparent,
+              ),
+              backgroundColor: Color(0xfff8f8f8),
+              body: Body(model: model));
         }));
   }
 }
