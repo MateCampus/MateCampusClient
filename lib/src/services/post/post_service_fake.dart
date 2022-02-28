@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../business_logic/models/post.dart';
 import 'post_service.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class FakePostService implements PostService {
   @override
