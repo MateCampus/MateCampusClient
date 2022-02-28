@@ -22,16 +22,18 @@ class PostMainScreenViewModel extends BaseModel {
     List<Post> postResult = await _postService.fetchPosts(
         type: _sortType, nextPageToken: nextPageToken);
     posts.addAll(postResult.map((post) => PostPresentation(
-        id: post.id,
-        loginId: post.loginId,
-        category: post.category,
-        title: post.title,
-        userNickname: post.userNickname,
-        body: post.body,
-        createdAt: dateToPastTime(post.createdAt),
-        likedCount: post.likedCount.toString(),
-        viewCount: post.viewCount.toString(),
-        commentCount: post.commentCount.toString())));
+          id: post.id,
+          loginId: post.loginId,
+          category: post.category,
+          title: post.title,
+          userNickname: post.userNickname,
+          body: post.body,
+          createdAt: dateToPastTime(post.createdAt),
+          likedCount: post.likedCount.toString(),
+          viewCount: post.viewCount.toString(),
+          commentCount: post.commentCount.toString(),
+          imageUrl: post.imageUrls?.first,
+        )));
     nextPageToken++;
     setBusy(false);
   }
@@ -39,6 +41,7 @@ class PostMainScreenViewModel extends BaseModel {
 
 /* String 값으로 변환된 viewmodel */
 class PostPresentation {
+  //이미지가 있는지 없는지 판단할수있는 변수 여기에다 추가?
   final int id;
   final String loginId;
   final String category;
@@ -49,7 +52,7 @@ class PostPresentation {
   String likedCount;
   String viewCount;
   String commentCount;
-  List<dynamic>? imageUrls;
+  String? imageUrl;
 
   PostPresentation(
       {required this.id,
@@ -62,5 +65,5 @@ class PostPresentation {
       required this.likedCount,
       required this.viewCount,
       required this.commentCount,
-      this.imageUrls});
+      this.imageUrl});
 }

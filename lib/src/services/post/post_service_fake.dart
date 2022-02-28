@@ -35,7 +35,7 @@ class FakePostService implements PostService {
         likedCount: 789,
         viewCount: 2132,
         commentCount: 345,
-        imageUrls: null));
+        imageUrls: ["/assets/"]));
     list.add(Post(
         id: 3,
         loginId: "suss",
@@ -48,6 +48,45 @@ class FakePostService implements PostService {
         likedCount: 688,
         viewCount: 897,
         commentCount: 156,
+        imageUrls: null));
+    list.add(Post(
+        id: 4,
+        loginId: "sye",
+        category: "연애",
+        title: "제 이상형을 찾은것 같아요!",
+        userNickname: "폼포코팡팡",
+        body:
+            "저는 묶은머리를 좋아해요. 뒷머리는 산뜻하게 묶고 옆머리는 흘러내리는 얼마전에 동기가 그 머리를 하고 왔어요. 완전 내 이상형",
+        createdAt: DateTime(2022, 2, 3),
+        likedCount: 874,
+        viewCount: 3123,
+        commentCount: 671,
+        imageUrls: null));
+    list.add(Post(
+        id: 5,
+        loginId: "sye",
+        category: "연애",
+        title: "제 이상형을 찾은것 같아요!",
+        userNickname: "폼포코팡팡",
+        body:
+            "저는 묶은머리를 좋아해요. 뒷머리는 산뜻하게 묶고 옆머리는 흘러내리는 얼마전에 동기가 그 머리를 하고 왔어요. 완전 내 이상형",
+        createdAt: DateTime(2022, 2, 3),
+        likedCount: 874,
+        viewCount: 3123,
+        commentCount: 671,
+        imageUrls: null));
+    list.add(Post(
+        id: 6,
+        loginId: "sye",
+        category: "연애",
+        title: "제 이상형을 찾은것 같아요!",
+        userNickname: "폼포코팡팡",
+        body:
+            "저는 묶은머리를 좋아해요. 뒷머리는 산뜻하게 묶고 옆머리는 흘러내리는 얼마전에 동기가 그 머리를 하고 왔어요. 완전 내 이상형",
+        createdAt: DateTime(2022, 2, 3),
+        likedCount: 874,
+        viewCount: 3123,
+        commentCount: 671,
         imageUrls: null));
     return list;
   }
