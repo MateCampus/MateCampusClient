@@ -10,8 +10,8 @@ class RecommendUserListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset(recommendUser.imageUrl.first,
-            height: 200, width: 200, fit: BoxFit.fill),
+        Image.asset(recommendUser.imageUrls.first,
+            height: 100, width: 100, fit: BoxFit.fill),
         Text(recommendUser.majorName),
         Text(recommendUser.collegeName)
       ],
