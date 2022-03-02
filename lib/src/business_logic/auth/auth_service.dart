@@ -4,15 +4,14 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 
-import '../view_models/base_model.dart';
-
-class AuthService extends BaseModel {
-  String? loginId;
-  String? token;
+class AuthService extends ChangeNotifier {
+  static String? loginId;
+  static String? token;
 
   bool get isLogined => token?.isNotEmpty ?? false;
 
   /* 1. token,loginId 값 넣기  2. 추천친구,추천대화방 load */
+  /* 아무곳에서나 못 사용하도록 static 선언 안함 */
   Future<void> authInit(
       {required String token, required String loginId}) async {
     setTokenAndLoginId(token: token, loginId: loginId);
@@ -24,13 +23,11 @@ class AuthService extends BaseModel {
 
   Future<void> setTokenAndLoginId(
       {required String token, required String loginId}) async {
-    setBusy(true);
-    this.loginId = loginId;
-    this.token = token;
-    setBusy(false);
+    AuthService.loginId = loginId;
+    AuthService.token = token;
   }
 
-  Future<void> logout(BuildContext context) async {
+  static Future<void> logout(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('loginId');
     prefs.remove('token');
@@ -38,7 +35,7 @@ class AuthService extends BaseModel {
     toastMessage("로그아웃하셨습니다!");
   }
 
-  Map<String, String> get_auth_header() {
+  static Map<String, String> get_auth_header() {
     return {
       "Content-Type": "application/json",
       "x-auth-token": token!,

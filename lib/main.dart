@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/business_logic/auth/auth_service.dart';
 import 'src/config/routes.dart';
