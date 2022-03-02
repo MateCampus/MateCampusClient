@@ -13,6 +13,7 @@ class User {
   final String? email;
   final String? deviceToken;
   final List<String>? imageUrls;
+  final bool? isOnline;
 
   const User(
       {required this.loginId,
@@ -25,5 +26,6 @@ class User {
       this.name,
       this.email,
       this.deviceToken,
-      this.imageUrls});
+      this.imageUrls,
+      this.isOnline});
 }

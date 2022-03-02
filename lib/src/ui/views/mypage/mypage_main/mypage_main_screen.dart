@@ -18,9 +18,17 @@ class MypageMainScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        child: Text("로그인ID : " + (AuthService.loginId ?? "")),
-        alignment: Alignment.center,
-      ),
+          alignment: Alignment.center,
+          child: Column(
+            children: [
+              Text("로그인ID : " + (AuthService.loginId ?? "")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/voiceFriendForm");
+                  },
+                  child: Text("voicefriendform으로 이동"))
+            ],
+          )),
     );
   }
 }
