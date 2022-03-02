@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
-import 'package:zamongcampus/src/services/login/login_service.dart';
-import 'src/business_logic/view_models/main_view_model.dart';
+import 'src/business_logic/auth/auth_service.dart';
 import 'src/config/routes.dart';
-import 'src/ui/views/home.dart';
 
 String initRoute = "/login";
 Future<void> main() async {
   setupServiceLocator();
+  WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getString('token') == null) {
+  if (prefs.getString('token') == null || prefs.getString('loginId') == null) {
     initRoute = "/login";
   } else {
-    initRoute = "/";
+    // 서버 통신 후 token이 실제로 맞는지 확인까지 하고 이동?
+    bool isTokenValid = true;
+    if (isTokenValid) {
+      AuthService authService = serviceLocator<AuthService>();
+      authService.authInit(
+          token: prefs.getString('token')!,
+          loginId: prefs.getString('loginId')!);
+      initRoute = "/";
+    }
   }
   runApp(const MyApp());
 }
@@ -25,10 +32,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // login말고 다른 mainviewmodel를 만들어야할듯..?
-
     return ChangeNotifierProvider(
-        create: (BuildContext context) => MainViewModel(),
+        create: (BuildContext context) => AuthService(),
         child: MaterialApp(
           title: 'zamongCampus',
           debugShowCheckedModeBanner: false,

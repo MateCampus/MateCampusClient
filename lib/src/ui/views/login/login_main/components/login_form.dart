@@ -89,7 +89,7 @@ class LoginForm extends StatelessWidget {
       },
       child: Container(
         height: getProportionateScreenHeight(50),
-        width: getProportionateScreenWidth(50),
+        width: getProportionateScreenWidth(250),
         decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -100,7 +100,7 @@ class LoginForm extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(50))),
         child: const Center(
           child: Text(
-            "LOGIN",
+            "로그인",
             style: TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
           ),
