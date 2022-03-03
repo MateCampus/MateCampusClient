@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-// snackbar
-void snackBar({required String message, Color color = Colors.redAccent}) {
-  SnackBar(
-      content: Text(message),
-      backgroundColor: color,
-      action: SnackBarAction(
-        label: '취소',
-        onPressed: () {
-          // Some code to undo the change.
-        },
-      ));
+// snackbar => 해결 필요.
+void snackBar(
+    {required BuildContext context,
+    required String message,
+    Color color = Colors.redAccent}) {
+  final snackBar = SnackBar(
+    content: Text(message),
+    backgroundColor: color,
+  );
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(snackBar);
 }
 
 // toast

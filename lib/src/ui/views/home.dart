@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     const VoiceMainScreen(),
     const PostMainScreen(),
     const ChatMainScreen(),
-    const MypageMainScreen()
+    MypageMainScreen()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();

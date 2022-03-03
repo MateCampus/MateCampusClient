@@ -1,8 +1,12 @@
 import 'package:get_it/get_it.dart';
+import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/auth/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_friend_form_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/services/login/login_service.dart';
+import 'package:zamongcampus/src/services/login/login_service_fake.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/post/post_service_fake.dart';
-import 'package:zamongcampus/src/services/post/post_service_implementation.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/user/user_service_fake.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
@@ -17,13 +21,18 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
+  serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
   // You can replace the actual services above with fake implementations during development.
   //
   // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
 
   // view models
+  serviceLocator.registerFactory(() => AuthService());
+  serviceLocator.registerFactory(() => LoginMainScreenViewModel());
   serviceLocator.registerFactory<PostMainScreenViewModel>(
       () => PostMainScreenViewModel());
   serviceLocator.registerFactory<VoiceMainScreenViewModel>(
       () => VoiceMainScreenViewModel());
+  serviceLocator.registerFactory<VoiceFriendFormScreenViewModel>(
+      () => VoiceFriendFormScreenViewModel());
 }
