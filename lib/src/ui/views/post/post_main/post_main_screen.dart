@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/ui/views/post/post_create/post_create_screen.dart';
 
 import '../../../../business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'components/body.dart';
@@ -14,11 +15,11 @@ class PostMainScreen extends StatefulWidget {
 }
 
 class _PostMainScreenState extends State<PostMainScreen> {
-  PostMainScreenViewModel model = serviceLocator<PostMainScreenViewModel>();
+  PostMainScreenViewModel vm = serviceLocator<PostMainScreenViewModel>();
 
   @override
   void initState() {
-    model.loadPost();
+    vm.loadPost();
     super.initState();
   }
 
@@ -26,9 +27,8 @@ class _PostMainScreenState extends State<PostMainScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<PostMainScreenViewModel>(
-        create: (context) => model,
-        child:
-            Consumer<PostMainScreenViewModel>(builder: (context, model, child) {
+        create: (context) => vm,
+        child: Consumer<PostMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
               appBar: AppBar(
                 title: const Text('피드',
@@ -37,7 +37,10 @@ class _PostMainScreenState extends State<PostMainScreen> {
                     )),
                 actions: [
                   IconButton(
-                    onPressed: () => {},
+                    onPressed: () => {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PostCreateScreen()))
+                    },
                     icon: const Icon(Icons.edit_outlined),
                     color: Colors.black,
                   ),
@@ -51,7 +54,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
                 backgroundColor: Colors.transparent,
               ),
               backgroundColor: Color(0xfff8f8f8),
-              body: Body(model: model));
+              body: Body(vm: vm));
         }));
   }
 }

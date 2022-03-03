@@ -1,7 +1,9 @@
+import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
+
 class Post {
   final int id;
   final String loginId;
-  final String category;
+  final List<Category> categories; //포스트에 관심사 설정이 없을 수도 있음
   final String title;
   final String userNickname;
   final String body;
@@ -14,7 +16,7 @@ class Post {
   Post(
       {required this.id,
       required this.loginId,
-      required this.category,
+      required this.categories,
       required this.title,
       required this.userNickname,
       required this.body,
@@ -28,7 +30,7 @@ class Post {
     return Post(
         id: json['id'],
         loginId: json['loginId'],
-        category: json['category'],
+        categories: json['categories'],
         title: json['title'],
         userNickname: json['userNickname'],
         body: json['body'],

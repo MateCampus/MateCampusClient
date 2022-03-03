@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
+import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -9,7 +10,7 @@ class PostMainScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
 
   List<PostPresentation> _posts = [];
-  String _sortType = "recent";
+  String _sortType = "popular";
   ScrollController scrollController = ScrollController();
   int nextPageToken = 0;
 
@@ -24,7 +25,12 @@ class PostMainScreenViewModel extends BaseModel {
     posts.addAll(postResult.map((post) => PostPresentation(
           id: post.id,
           loginId: post.loginId,
-          category: post.category,
+          categories: post.categories
+              .map((category) =>
+                  CategoryData.iconOf(category.name) +
+                  " " +
+                  CategoryData.korNameOf(category.name))
+              .toList(),
           title: post.title,
           userNickname: post.userNickname,
           body: post.body,
@@ -35,7 +41,24 @@ class PostMainScreenViewModel extends BaseModel {
           imageUrl: post.imageUrls?.first,
         )));
     nextPageToken++;
+
+    print(sortType + '글 입니다'); //test 용 -> test 후 삭제 예정
+
     setBusy(false);
+  }
+
+  void changeType(int value) {
+    switch (value) {
+      case 0:
+        _sortType = "popular";
+        break;
+      case 1:
+        _sortType = "recommend";
+        break;
+      case 2:
+        _sortType = "recent";
+        break;
+    }
   }
 }
 
@@ -44,7 +67,7 @@ class PostPresentation {
   //이미지가 있는지 없는지 판단할수있는 변수 여기에다 추가?
   final int id;
   final String loginId;
-  final String category;
+  final List<dynamic> categories;
   final String title;
   final String userNickname;
   final String body;
@@ -57,7 +80,7 @@ class PostPresentation {
   PostPresentation(
       {required this.id,
       required this.loginId,
-      required this.category,
+      required this.categories,
       required this.title,
       required this.userNickname,
       required this.body,

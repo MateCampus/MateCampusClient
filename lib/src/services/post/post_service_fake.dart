@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/config/dummy_data.dart';
 
 import '../../business_logic/models/post.dart';
 import 'post_service.dart';
@@ -11,7 +14,7 @@ class FakePostService implements PostService {
     list.add(Post(
         id: 1,
         loginId: "sye",
-        category: "연애",
+        categories: categoryDummy[Random().nextInt(2)],
         title: "제 이상형을 찾은것 같아요!",
         userNickname: "폼포코팡팡",
         body:
@@ -24,7 +27,7 @@ class FakePostService implements PostService {
     list.add(Post(
         id: 2,
         loginId: "zamong",
-        category: "맛집투어",
+        categories: categoryDummy[Random().nextInt(2)],
         title: "줄서서 기다리는 단국대 맛집",
         userNickname: "자몽쟁이",
         body:
@@ -33,11 +36,14 @@ class FakePostService implements PostService {
         likedCount: 789,
         viewCount: 2132,
         commentCount: 345,
-        imageUrls: ["/assets/"]));
+        imageUrls: [
+          "assets/images/event/event1.jpg",
+          "assets/images/event/event2.jpg"
+        ]));
     list.add(Post(
         id: 3,
         loginId: "suss",
-        category: "반려동물",
+        categories: categoryDummy[Random().nextInt(2)],
         title: "고양이들이 코 박고 자는 이유",
         userNickname: "미완성작품",
         body:
@@ -50,7 +56,7 @@ class FakePostService implements PostService {
     list.add(Post(
         id: 4,
         loginId: "sye",
-        category: "연애",
+        categories: categoryDummy[Random().nextInt(2)],
         title: "제 이상형을 찾은것 같아요!",
         userNickname: "폼포코팡팡",
         body:
@@ -59,11 +65,14 @@ class FakePostService implements PostService {
         likedCount: 874,
         viewCount: 3123,
         commentCount: 671,
-        imageUrls: null));
+        imageUrls: [
+          "assets/images/event/event1.jpg",
+          "assets/images/event/event2.jpg"
+        ]));
     list.add(Post(
         id: 5,
         loginId: "sye",
-        category: "연애",
+        categories: categoryDummy[Random().nextInt(2)],
         title: "제 이상형을 찾은것 같아요!",
         userNickname: "폼포코팡팡",
         body:
@@ -76,7 +85,7 @@ class FakePostService implements PostService {
     list.add(Post(
         id: 6,
         loginId: "sye",
-        category: "연애",
+        categories: categoryDummy[Random().nextInt(2)],
         title: "제 이상형을 찾은것 같아요!",
         userNickname: "폼포코팡팡",
         body:
