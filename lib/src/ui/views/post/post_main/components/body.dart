@@ -1,84 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
-import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
+import 'package:zamongcampus/src/ui/views/post/post_create/post_create_screen.dart';
+import 'package:zamongcampus/src/ui/views/post/post_main/components/post_loading.dart';
+import 'package:zamongcampus/src/ui/views/post/post_main/components/post_tab_btns.dart';
 import 'post_list_tile.dart';
 
+//예전 버전
 class Body extends StatelessWidget {
   PostMainScreenViewModel vm;
   Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  vm.changeType(0);
-                  vm.loadPost();
-                  print(vm.sortType);
-                },
-                child: Text('인기'),
-              ),
-              TextButton(
-                  onPressed: () {
-                    vm.changeType(1);
-                    vm.loadPost();
-                    print(vm.sortType);
-                  },
-                  child: Text('추천')),
-              TextButton(
-                  onPressed: () {
-                    vm.changeType(2);
-                    vm.loadPost();
-                    print(vm.sortType);
-                  },
-                  child: Text('최신'))
-            ],
-          ),
-          Column(children: [
-            ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: vm.posts.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return PostListTile(post: vm.posts[index]);
-                }),
-            // TODO : 게시글이 아예 없는 경우, loading되는 상태,
-            vm.busy
-                ? SizedBox(
-                    height: getProportionateScreenHeight(400),
-                    child: const Center(
-                      child:
-                          CircularProgressIndicator(), //모델이 뭔가 일을 하고 있으면 그 로딩중 창 띄우는 거 같음
-                    ))
-                : (vm.posts.isEmpty
-                    ? const CenterSentence(
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          title: const Text('피드',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              )),
+          actions: [
+            IconButton(
+              onPressed: () => {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PostCreateScreen()))
+              },
+              icon: const Icon(Icons.edit_outlined),
+              color: Colors.black,
+            ),
+            IconButton(
+              onPressed: () => {},
+              icon: const Icon(Icons.notifications_outlined),
+              color: Colors.black,
+            ),
+          ],
+          elevation: 0.0,
+          backgroundColor: const Color(0xfff8f8f8),
+          pinned: false,
+          floating: true,
+        ),
+        //PostTabBtns2(vm: vm),
+        SliverPersistentHeader(
+          delegate: PostTabBtns(vm: vm),
+          pinned: true,
+        ),
+
+        vm.busy
+            ? SliverList(
+                // Use a delegate to build items as they're scrolled on screen.
+                delegate: SliverChildBuilderDelegate(
+                  // The builder function returns a ListTile with a title that
+                  // displays the index of the current item.
+                  (context, index) => const PostLoading(),
+                  // Builds 1000 ListTiles
+                  childCount: 1,
+                ),
+              )
+            : (vm.posts.isEmpty)
+                ? SliverList(
+                    // Use a delegate to build items as they're scrolled on screen.
+                    delegate: SliverChildBuilderDelegate(
+                      // The builder function returns a ListTile with a title that
+                      // displays the index of the current item.
+                      (context, index) => const CenterSentence(
                         sentence: "등록된 게시글이 없습니다.",
                         verticalSpace: 50,
-                      )
-                    : Container()),
-          ]),
-        ],
-      ),
-    );
-  }
-}
-
-class TabBtn extends StatelessWidget {
-  final String tabtitle;
-
-  TabBtn({required this.tabtitle});
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return TextButton(
-      onPressed: () {},
-      child: Text(tabtitle),
+                      ),
+                      // Builds 1000 ListTiles
+                      childCount: 1,
+                    ),
+                  )
+                : SliverList(
+                    //여기에 모델 일하면 써클돌고 뭐시기 저시기 넣으면 될듯. 아띠 참고(안됨)
+                    delegate: SliverChildBuilderDelegate(
+                        (context, index) => PostListTile(post: vm.posts[index]),
+                        childCount: vm.posts.length),
+                  )
+      ],
     );
   }
 }

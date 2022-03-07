@@ -28,6 +28,7 @@ class _CheckOptionsState extends State<CheckOptions> {
             color: Colors.grey,
             width: 1.5,
           ),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         const Text('같은 학교만 보여주기')
       ],

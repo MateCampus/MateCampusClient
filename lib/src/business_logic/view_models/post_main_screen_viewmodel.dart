@@ -12,7 +12,7 @@ class PostMainScreenViewModel extends BaseModel {
   List<PostPresentation> _posts = [];
   String _sortType = "popular";
   ScrollController scrollController = ScrollController();
-  int nextPageToken = 0;
+  int _nextPageToken = 0;
 
   List<PostPresentation> get posts => _posts;
   String get sortType => _sortType;
@@ -21,7 +21,7 @@ class PostMainScreenViewModel extends BaseModel {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 2000)); // 2초 딜레이
     List<Post> postResult = await _postService.fetchPosts(
-        type: _sortType, nextPageToken: nextPageToken);
+        type: _sortType, nextPageToken: _nextPageToken);
     posts.addAll(postResult.map((post) => PostPresentation(
           id: post.id,
           loginId: post.loginId,
@@ -40,14 +40,13 @@ class PostMainScreenViewModel extends BaseModel {
           commentCount: post.commentCount.toString(),
           imageUrl: post.imageUrls?.first,
         )));
-    nextPageToken++;
-
-    print(sortType + '글 입니다'); //test 용 -> test 후 삭제 예정
+    _nextPageToken++;
+    //print(_sortType);
 
     setBusy(false);
   }
 
-  void changeType(int value) {
+  void changePostType(int value) {
     switch (value) {
       case 0:
         _sortType = "popular";
@@ -58,13 +57,22 @@ class PostMainScreenViewModel extends BaseModel {
       case 2:
         _sortType = "recent";
         break;
+      default:
+        break;
     }
+  }
+
+  void refreshPost(int value) {
+    _posts = []; //포스트에 담았던거 다 비움
+    _nextPageToken = 0;
+    changePostType(value);
+    loadPost();
   }
 }
 
 /* String 값으로 변환된 viewmodel */
 class PostPresentation {
-  //이미지가 있는지 없는지 판단할수있는 변수 여기에다 추가?
+  //이미지가 있는지 없는지 판단할수있는 변수 여기에다 추가? ㄴㄴ
   final int id;
   final String loginId;
   final List<dynamic> categories;
