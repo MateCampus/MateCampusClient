@@ -50,7 +50,7 @@ class VoiceMainScreenViewModel extends BaseModel {
         await _userService.fetchRecommendUsers(nextPageToken: nextPageToken);
     recommendUsers.addAll(userResult.map((user) => UserPresentation(
           loginId: user.loginId,
-          imageUrl: user.imageUrls ?? [],
+          imageUrls: user.imageUrls ?? [],
           collegeName: CollegeData.korNameOf(
               describeEnum(user.collegeCode ?? College.college0000)),
           majorName: MajorData.korNameOf(
@@ -78,13 +78,13 @@ class VoiceRoomPresentation {
 
 class UserPresentation {
   String loginId;
-  List<String> imageUrl;
+  List<String> imageUrls;
   String collegeName;
   String majorName;
 
   UserPresentation(
       {required this.loginId,
-      required this.imageUrl,
+      required this.imageUrls,
       required this.collegeName,
       required this.majorName});
 }
