@@ -41,7 +41,6 @@ class PostMainScreenViewModel extends BaseModel {
           imageUrl: post.imageUrls?.first,
         )));
     _nextPageToken++;
-    //print(_sortType);
 
     setBusy(false);
   }

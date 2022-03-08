@@ -19,23 +19,13 @@ class _BodyState extends State<Body> {
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: const [
             TextInputSpace(),
             CheckOptions(),
             TagCategory(),
           ],
         ),
       ),
-      //DefaultBtn(text: '등록하기', press: () {})
-      // TextButton(
-      //   onPressed: () {},
-      //   child: Text('등록하기'),
-      //   style: TextButton.styleFrom(
-      //       primary: Colors.white,
-      //       backgroundColor: Colors.red,
-      //       minimumSize: Size(335, 20),
-      //       shape: BeveledRectangleBorder()),
-      // ),
     );
   }
 }
