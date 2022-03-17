@@ -19,7 +19,7 @@ class RecommendUserListTile extends StatelessWidget {
         children: [
           CircleAvatar(
               radius: 30,
-              backgroundImage: AssetImage(recommendUser.imageUrl.first)),
+              backgroundImage: AssetImage(recommendUser.imageUrls.first)),
           const SizedBox(height: 10),
           Text(recommendUser.majorName),
           const SizedBox(height: 5),
