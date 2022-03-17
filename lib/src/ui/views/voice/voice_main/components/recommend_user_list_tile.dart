@@ -8,13 +8,25 @@ class RecommendUserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Image.asset(recommendUser.imageUrl.first,
-            height: 200, width: 200, fit: BoxFit.fill),
-        Text(recommendUser.majorName),
-        Text(recommendUser.collegeName)
-      ],
+    return Container(
+      height: 133,
+      width: 116,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+              radius: 30,
+              backgroundImage: AssetImage(recommendUser.imageUrl.first)),
+          const SizedBox(height: 10),
+          Text(recommendUser.majorName),
+          const SizedBox(height: 5),
+          Text(recommendUser.collegeName),
+          Card()
+        ],
+      ),
     );
   }
 }

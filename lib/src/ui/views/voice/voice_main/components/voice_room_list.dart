@@ -6,8 +6,8 @@ import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'voice_room_list_tile.dart';
 
 class VoiceRoomList extends StatelessWidget {
-  VoiceMainScreenViewModel model;
-  VoiceRoomList({Key? key, required this.model}) : super(key: key);
+  VoiceMainScreenViewModel vm;
+  VoiceRoomList({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +16,17 @@ class VoiceRoomList extends StatelessWidget {
         ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: model.voiceRooms.length,
+            itemCount: vm.voiceRooms.length,
             itemBuilder: (BuildContext context, int index) {
-              return VoiceRoomListTile(voiceRoom: model.voiceRooms[index]);
+              return VoiceRoomListTile(voiceRoom: vm.voiceRooms[index]);
             }),
-        model.busy
+        vm.busy
             ? SizedBox(
                 height: getProportionateScreenHeight(400),
                 child: const Center(
                   child: CircularProgressIndicator(),
                 ))
-            : (model.voiceRooms.isEmpty
+            : (vm.voiceRooms.isEmpty
                 ? const CenterSentence(
                     sentence: "등록된 게시글이 없습니다.",
                     verticalSpace: 50,
