@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
+
 import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user_list_tile.dart';
 
 class RecommendUserList extends StatelessWidget {
@@ -10,10 +10,11 @@ class RecommendUserList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
+    return Container(
+      //width: getProportionateScreenWidth(116),
+      height: getProportionateScreenHeight(165),
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
       child: ListView.builder(
-          //padding: const EdgeInsets.only(right: 100),
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           itemCount: vm.recommendUsers.length,

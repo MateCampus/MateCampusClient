@@ -12,7 +12,18 @@ class VoiceRoomList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+            margin: EdgeInsets.fromLTRB(
+                getProportionateScreenWidth(20),
+                getProportionateScreenHeight(20),
+                getProportionateScreenWidth(20),
+                getProportionateScreenHeight(10)),
+            child: const Text(
+              'NOW \u{1F34A}',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+            )),
         ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -20,18 +31,6 @@ class VoiceRoomList extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return VoiceRoomListTile(voiceRoom: vm.voiceRooms[index]);
             }),
-        vm.busy
-            ? SizedBox(
-                height: getProportionateScreenHeight(400),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ))
-            : (vm.voiceRooms.isEmpty
-                ? const CenterSentence(
-                    sentence: "등록된 게시글이 없습니다.",
-                    verticalSpace: 50,
-                  )
-                : Container()),
       ],
     );
   }

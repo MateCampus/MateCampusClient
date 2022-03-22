@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
+import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_create/post_create_screen.dart';
-import 'package:zamongcampus/src/ui/views/post/post_main/components/post_loading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/post_tab_btns.dart';
 import 'post_list_tile.dart';
 
@@ -53,7 +53,7 @@ class Body extends StatelessWidget {
                 delegate: SliverChildBuilderDelegate(
                   // The builder function returns a ListTile with a title that
                   // displays the index of the current item.
-                  (context, index) => const PostLoading(),
+                  (context, index) => const IsLoading(),
                   // Builds 1000 ListTiles
                   childCount: 1,
                 ),
@@ -73,7 +73,6 @@ class Body extends StatelessWidget {
                     ),
                   )
                 : SliverList(
-                    //여기에 모델 일하면 써클돌고 뭐시기 저시기 넣으면 될듯. 아띠 참고(안됨)
                     delegate: SliverChildBuilderDelegate(
                         (context, index) => PostListTile(post: vm.posts[index]),
                         childCount: vm.posts.length),

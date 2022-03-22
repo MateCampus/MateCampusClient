@@ -11,11 +11,13 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(height: getProportionateScreenHeight(50)),
-      Logo(height: getProportionateScreenHeight(200)),
-      SizedBox(height: getProportionateScreenHeight(40)),
-      LoginForm(model: model),
-    ]);
+    return SingleChildScrollView(
+      child: Column(children: [
+        SizedBox(height: getProportionateScreenHeight(50)),
+        Logo(height: getProportionateScreenHeight(200)),
+        SizedBox(height: getProportionateScreenHeight(40)),
+        LoginForm(model: model),
+      ]),
+    );
   }
 }

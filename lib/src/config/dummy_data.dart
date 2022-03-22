@@ -24,14 +24,14 @@ List<User> userDummy = [
       collegeCode: College.college0002,
       imageUrls: ["assets/images/user/user2.jpg"],
       majorCode: Major.major0002,
-      isOnline: true),
+      isOnline: false),
   const User(
       loginId: "zm3",
       nickname: "다부지",
       collegeCode: College.college0003,
       imageUrls: ["assets/images/user/user3.jpg"],
       majorCode: Major.major0003,
-      isOnline: false),
+      isOnline: null),
   const User(
       loginId: "zm4",
       nickname: "라디오꾼",
