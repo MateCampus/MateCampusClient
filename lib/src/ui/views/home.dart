@@ -51,8 +51,7 @@ class _HomeState extends State<Home> {
                     children: [
                       InkWell(
                         onTap: () {
-                          print('create public voice room');
-                          //Navigator.pushNamed(context, "/publicVoiceCreate");
+                          Navigator.pushNamed(context, "/publicVoiceCreate");
                         },
                         child: SizedBox(
                           height: getProportionateScreenHeight(120),
@@ -70,7 +69,7 @@ class _HomeState extends State<Home> {
                                   color: Colors.white,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               const Text(
                                 '공개 대화방',
                                 style: TextStyle(
@@ -88,7 +87,7 @@ class _HomeState extends State<Home> {
                       ),
                       InkWell(
                         onTap: () {
-                          print('create private voice room');
+                          Navigator.pushNamed(context, "/privateVoiceCreate");
                         },
                         child: SizedBox(
                           height: getProportionateScreenHeight(120),
@@ -106,7 +105,7 @@ class _HomeState extends State<Home> {
                                   color: Colors.white,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               const Text(
                                 '비밀 대화방',
                                 style: TextStyle(
