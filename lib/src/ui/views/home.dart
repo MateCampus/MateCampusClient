@@ -1,6 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 import '../../business_logic/utils/constants.dart';
 import 'chat/chat_main/chat_main_screen.dart';
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     const VoiceMainScreen(),
     const PostMainScreen(),
     const ChatMainScreen(),
-    MypageMainScreen()
+    const MypageMainScreen()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -38,7 +38,9 @@ class _HomeState extends State<Home> {
           Icons.add,
         ),
         backgroundColor: mainColor,
-        onPressed: () {},
+        onPressed: () {
+          _showModalBottomSheet();
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -152,5 +154,111 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+//bottomsheet 함수
+  void _showModalBottomSheet() {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+            height: getProportionateScreenHeight(235),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20))),
+            child: Padding(
+              padding: EdgeInsets.all(getProportionateScreenHeight(25)),
+              child: Column(
+                children: [
+                  const Text(
+                    '어떤 대화방을 만드시겠어요?',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const VerticalSpacing(of: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/publicVoiceCreate");
+                        },
+                        child: SizedBox(
+                          height: getProportionateScreenHeight(120),
+                          width: getProportionateScreenWidth(150),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: getProportionateScreenHeight(70),
+                                width: getProportionateScreenWidth(70),
+                                decoration: const BoxDecoration(
+                                    color: mainColor, shape: BoxShape.circle),
+                                child: const Icon(
+                                  Icons.forum_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Spacer(),
+                              const Text(
+                                '공개 대화방',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                '누구나 참여 가능',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/privateVoiceCreate");
+                        },
+                        child: SizedBox(
+                          height: getProportionateScreenHeight(120),
+                          width: getProportionateScreenWidth(150),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: getProportionateScreenHeight(70),
+                                width: getProportionateScreenWidth(70),
+                                decoration: const BoxDecoration(
+                                    color: subColor, shape: BoxShape.circle),
+                                child: const Icon(
+                                  Icons.lock_outlined,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              const Spacer(),
+                              const Text(
+                                '비밀 대화방',
+                                style: TextStyle(
+                                    fontSize: 15, fontWeight: FontWeight.bold),
+                              ),
+                              const Text(
+                                '친구만 참여 가능',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

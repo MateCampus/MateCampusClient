@@ -17,7 +17,7 @@ const kDefaultPadding = 20.0;
 
 // 새로운 컬러
 const mainColor = Color(0xFFFF6F5E);
-const subColor = Color(0xFFFE7B73);
+const subColor = Color(0xFFFFC45E);
 const containerBackColor = Color(0xFFF7F4F4);
 const normaltextColor = Color(0xFF363636);
 

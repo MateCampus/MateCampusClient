@@ -49,13 +49,13 @@ class VoiceMainScreenViewModel extends BaseModel {
     List<User> userResult =
         await _userService.fetchRecommendUsers(nextPageToken: nextPageToken);
     recommendUsers.addAll(userResult.map((user) => UserPresentation(
-          loginId: user.loginId,
-          imageUrls: user.imageUrls ?? [],
-          collegeName: CollegeData.korNameOf(
-              describeEnum(user.collegeCode ?? College.college0000)),
-          majorName: MajorData.korNameOf(
-              describeEnum(user.majorCode ?? Major.major0000)),
-        )));
+        loginId: user.loginId,
+        imageUrls: user.imageUrls ?? [],
+        collegeName: CollegeData.korNameOf(
+            describeEnum(user.collegeCode ?? College.college0000)),
+        majorName: MajorData.korNameOf(
+            describeEnum(user.majorCode ?? Major.major0000)),
+        isOnline: user.isOnline ?? false)));
     nextPageToken++;
     setBusy(false);
   }
@@ -81,10 +81,12 @@ class UserPresentation {
   List<String> imageUrls;
   String collegeName;
   String majorName;
+  bool isOnline;
 
   UserPresentation(
       {required this.loginId,
       required this.imageUrls,
       required this.collegeName,
-      required this.majorName});
+      required this.majorName,
+      required this.isOnline});
 }

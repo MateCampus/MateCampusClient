@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user_list.dart';
 
 import 'components/body.dart';
 
@@ -14,12 +17,12 @@ class VoiceMainScreen extends StatefulWidget {
 }
 
 class _VoiceMainScreenState extends State<VoiceMainScreen> {
-  VoiceMainScreenViewModel model = serviceLocator<VoiceMainScreenViewModel>();
+  VoiceMainScreenViewModel vm = serviceLocator<VoiceMainScreenViewModel>();
 
   @override
   void initState() {
-    model.loadVoiceRoom();
-    model.loadRecommendUsers();
+    vm.loadVoiceRoom();
+    vm.loadRecommendUsers();
     super.initState();
   }
 
@@ -27,11 +30,22 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<VoiceMainScreenViewModel>(
-        create: (context) => model,
-        child: Consumer<VoiceMainScreenViewModel>(
-            builder: (context, model, child) {
+        create: (context) => vm,
+        child:
+            Consumer<VoiceMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
-              appBar: AppBar(title: Text("hi")), body: Body(model: model));
+              appBar: AppBar(
+                  title: const Text("자몽캠퍼스"),
+                  centerTitle: false,
+                  actions: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.notifications_outlined))
+                  ],
+                  backgroundColor: mainColor,
+                  elevation: 0.0),
+              backgroundColor: const Color(0xfff8f8f8),
+              body: Body(vm: vm));
         }));
   }
 }
