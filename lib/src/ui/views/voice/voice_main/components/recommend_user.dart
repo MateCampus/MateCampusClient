@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_vi
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user_list.dart';
 
 class RecommendUser extends SliverPersistentHeaderDelegate {
@@ -17,7 +18,8 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
       height: getProportionateScreenHeight(246),
       color: mainColor,
       child: Padding(
-        padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(20), 0, 0, 0),
+        padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(20),
+            getProportionateScreenHeight(25), 0, 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,6 +34,9 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
             const Text(
               '나와 같은 학교 혹은 관심사가 같은 친구를 추천합니다',
               style: TextStyle(fontSize: 12, color: Colors.white),
+            ),
+            const VerticalSpacing(
+              of: 10,
             ),
             vm.busy
                 ? const IsLoading()
@@ -60,28 +65,3 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
       true;
 }
-
-
-
-/*원래코드 
-class RecommendUser extends StatefulWidget {
-  VoiceMainScreenViewModel vm;
-  RecommendUser({Key? key, required this.vm}) : super(key: key);
-
-  @override
-  State<RecommendUser> createState() => _RecommendUserState();
-}
-
-class _RecommendUserState extends State<RecommendUser> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Container(
-      height: 250,
-      child: Column(
-        children: [RecommendUserList(vm: widget.vm)],
-      ),
-    );
-  }
-}
-*/

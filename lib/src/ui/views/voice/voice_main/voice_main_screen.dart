@@ -35,19 +35,15 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
             Consumer<VoiceMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
               appBar: AppBar(
-                title: const Text("자몽캠퍼스"),
-                centerTitle: false,
-                actions: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications_outlined))
-                ],
-                backgroundColor: mainColor,
-                elevation: 0.0,
-                // bottom: PreferredSize(
-                //     child: RecommendUser(model: model),
-                //     preferredSize: Size(10, 260)),
-              ),
+                  title: const Text("자몽캠퍼스"),
+                  centerTitle: false,
+                  actions: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.notifications_outlined))
+                  ],
+                  backgroundColor: mainColor,
+                  elevation: 0.0),
               backgroundColor: const Color(0xfff8f8f8),
               body: Body(vm: vm));
         }));

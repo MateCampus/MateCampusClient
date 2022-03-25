@@ -47,19 +47,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-
-
-/*원래코드
-class Body extends StatelessWidget {
-  VoiceMainScreenViewModel vm;
-  Body({Key? key, required this.vm}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child:
-          Column(children: [RecommendUserList(vm: vm), VoiceRoomList(vm: vm)]),
-    );
-  }
-}
-*/

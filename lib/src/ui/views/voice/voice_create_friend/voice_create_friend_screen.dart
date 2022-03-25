@@ -68,6 +68,7 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                       ),
                       tabs: const [Tab(text: '최근 대화'), Tab(text: '내 친구')]),
                 ),
+                backgroundColor: Colors.white, //배경색
                 body: TabBarView(children: [
                   RecentTalkBody(
                     vm: vm,

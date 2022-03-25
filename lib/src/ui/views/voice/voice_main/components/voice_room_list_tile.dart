@@ -62,21 +62,5 @@ class VoiceRoomListTile extends StatelessWidget {
         ),
       ),
     );
-
-    /*원래코드
-    Container(
-      child: Column(
-        children: [
-          Text(voiceRoom.title),
-          ...voiceRoom.categories.map((category) => Text(category)),
-          Text(voiceRoom.createdAt),
-          ...voiceRoom.memberImageUrls.map(
-            (imageUrl) => Image.asset(imageUrl),
-          ),
-          const Text("----- 여기까지"),
-        ],
-      ),
-    );
-    */
   }
 }

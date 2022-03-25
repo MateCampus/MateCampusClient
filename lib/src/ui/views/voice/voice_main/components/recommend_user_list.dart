@@ -12,8 +12,9 @@ class RecommendUserList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       //width: getProportionateScreenWidth(116),
-      height: getProportionateScreenHeight(165),
-      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      height: getProportionateScreenHeight(133),
+      margin: EdgeInsets.fromLTRB(0, getProportionateScreenHeight(10), 0,
+          getProportionateScreenHeight(10)),
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
@@ -25,44 +26,3 @@ class RecommendUserList extends StatelessWidget {
     );
   }
 }
-
-
-
-
-/* 원래코드
-class RecommendUserList extends StatelessWidget {
-  VoiceMainScreenViewModel vm;
-  RecommendUserList({Key? key, required this.vm}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: getProportionateScreenHeight(250),
-          child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: vm.recommendUsers.length,
-              itemBuilder: (BuildContext context, int index) {
-                return RecommendUserListTile(
-                    recommendUser: vm.recommendUsers[index]);
-              }),
-        ),
-       vm.busy
-            ? SizedBox(
-                height: getProportionateScreenHeight(250),
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ))
-            : (vm.voiceRooms.isEmpty
-                ? const CenterSentence(
-                    sentence: "등록된 게시글이 없습니다.",
-                    verticalSpace: 50,
-                  )
-                : Container()),
-      ],
-    );
-  }
-}
-*/
