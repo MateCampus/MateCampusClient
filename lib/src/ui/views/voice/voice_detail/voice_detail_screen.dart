@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/dummy_data.dart';
 
 import 'components/body.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -40,12 +41,12 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
     _engine = await RtcEngine.create(appId);
 
     await _engine.enableVideo();
-    // await _engine.enableAudio();
+    await _engine.enableAudio();
 
     _engine.setEventHandler(
       RtcEngineEventHandler(
         joinChannelSuccess: (String channel, int uid, int elapsed) {
-          print("local user $uid joined");
+          print("내가 join를 성공 => $uid joined");
           setState(() {
             _localUserJoined = true;
           });
@@ -93,7 +94,37 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                       : CircularProgressIndicator(),
                 ),
               ),
-            )
+            ),
+            GridView.builder(
+              itemCount: userDummy.length, //item 개수
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4, //1 개의 행에 보여줄 item 개수
+                childAspectRatio: 1 / 2, //item 의 가로 1, 세로 2 의 비율
+                mainAxisSpacing: 10, //수평 Padding
+                crossAxisSpacing: 10, //수직 Padding
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                //item 의 반목문 항목 형성
+                return Container(
+                  child: Column(
+                    children: [
+                      Image.asset(userDummy[index].imageUrls!.first),
+                      Container(
+                        height: 50,
+                        alignment: Alignment.center,
+                        color: Colors.yellow,
+                        child: Text(
+                          '$index',
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
           ],
         ));
   }
