@@ -26,7 +26,9 @@ class RecentTalkBody extends StatelessWidget {
                 getProportionateScreenHeight(25)),
             child: DefaultBtn(
               text: '시작하기!',
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, "/voiceDetail");
+              },
               btnColor: color,
             ),
           ),

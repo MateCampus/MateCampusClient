@@ -42,3 +42,7 @@ final devServer = Platform.isAndroid
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
 const dankookEmail = "@dankook.ac.kr";
+
+const appId = "1db42f592687465e9ad1564ae4b55221";
+const token =
+    "0061db42f592687465e9ad1564ae4b55221IACw/tjuOtpwWUFsQLJpqMJOo19GLyFmzbfO+4TKTpQFSVLu7f4AAAAAEAAg4mLW0blCYgEAAQDPuUJi";
