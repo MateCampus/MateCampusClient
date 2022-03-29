@@ -113,7 +113,7 @@ List<Post> postDummy1 = [
       viewCount: 3123,
       commentCount: 671,
       imageUrls: null,
-      comments: [commentDummy.first]),
+      comments: commentDummy),
   Post(
     id: 2,
     loginId: "zamong",
@@ -207,5 +207,21 @@ List<Comment> commentDummy = [
         "assets/images/user/user4.jpg"
       ],
       body: "와 댓글 일빠다",
+      createdAt: DateTime(2022, 3, 28)),
+  Comment(
+      id: 2,
+      loginId: "hithere",
+      userNickname: "댓글러2",
+      body: "두번째 댓글~",
+      createdAt: DateTime(2022, 3, 28)),
+  Comment(
+      id: 3,
+      loginId: "lilly",
+      userNickname: "댓글러3",
+      userImageUrls: [
+        "assets/images/user/user1.jpg",
+        "assets/images/user/user4.jpg"
+      ],
+      body: "세번째 메롱",
       createdAt: DateTime(2022, 3, 28))
 ];

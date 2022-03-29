@@ -2,7 +2,7 @@ class Comment {
   final int id;
   final String loginId;
   final String userNickname;
-  final List<String> userImageUrls;
+  List<String>? userImageUrls;
   final String body;
   DateTime createdAt;
   List<Comment>? nestedComments;
@@ -11,7 +11,7 @@ class Comment {
     required this.id,
     required this.loginId,
     required this.userNickname,
-    required this.userImageUrls,
+    this.userImageUrls,
     required this.body,
     required this.createdAt,
     this.nestedComments,
@@ -22,7 +22,7 @@ class Comment {
         id: json['id'],
         loginId: json['loginId'],
         userNickname: json['userNickname'],
-        userImageUrls: json['userImageUrls'].toList(),
+        userImageUrls: json['userImageUrls']?.toList(),
         body: json['body'],
         createdAt: DateTime.parse(json['createdAt']),
         nestedComments: json['nestedComments']?.toList());

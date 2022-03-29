@@ -32,13 +32,12 @@ class PostMainScreenViewModel extends BaseModel {
                   CategoryData.korNameOf(category.name))
               .toList(),
           title: post.title,
-          userNickname: post.userNickname,
           body: post.body,
           createdAt: dateToPastTime(post.createdAt),
           likedCount: post.likedCount.toString(),
           viewCount: post.viewCount.toString(),
           commentCount: post.commentCount.toString(),
-          imageUrl: post.imageUrls?.first,
+          imageUrl: post.imageUrls?.first ?? '',
         )));
     _nextPageToken++;
 
@@ -71,12 +70,10 @@ class PostMainScreenViewModel extends BaseModel {
 
 /* String 값으로 변환된 viewmodel */
 class PostPresentation {
-  //이미지가 있는지 없는지 판단할수있는 변수 여기에다 추가? ㄴㄴ
   final int id;
   final String loginId;
   final List<dynamic> categories;
   final String title;
-  final String userNickname;
   final String body;
   String createdAt;
   String likedCount;
@@ -89,7 +86,6 @@ class PostPresentation {
       required this.loginId,
       required this.categories,
       required this.title,
-      required this.userNickname,
       required this.body,
       required this.createdAt,
       required this.likedCount,

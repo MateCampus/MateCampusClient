@@ -7,7 +7,7 @@ class Post {
   final List<Category> categories; //포스트에 관심사 설정이 없을 수도 있음
   final String title;
   final String userNickname;
-  final List<String> userImageUrls;
+  List<String>? userImageUrls;
   final String body;
   DateTime createdAt;
   int likedCount;
@@ -22,7 +22,7 @@ class Post {
       required this.categories,
       required this.title,
       required this.userNickname,
-      required this.userImageUrls,
+      this.userImageUrls,
       required this.body,
       required this.createdAt,
       required this.likedCount,

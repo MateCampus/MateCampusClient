@@ -25,7 +25,8 @@ class PostDetailScreenVeiwModel extends BaseModel {
                 id: comment.id,
                 loginId: comment.loginId,
                 userNickname: comment.userNickname,
-                userImageUrls: comment.userImageUrls.toList(),
+                userImageUrls: comment.userImageUrls?.toList() ??
+                    ["assets/images/user/general_user.png"],
                 body: comment.body,
                 createdAt: dateToPastTime(comment.createdAt))) ??
         []);
@@ -41,12 +42,13 @@ class PostDetailScreenVeiwModel extends BaseModel {
           .toList(),
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
-      userImageUrls: postDetailResult.userImageUrls.toList(),
+      userImageUrls: postDetailResult.userImageUrls?.toList() ??
+          ["assets/images/user/general_user.png"],
       body: postDetailResult.body,
       createdAt: dateToPastTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.comments?.length.toString() ?? '0',
-      imageUrls: postDetailResult.imageUrls?.toList(),
+      imageUrls: postDetailResult.imageUrls?.toList() ?? [],
     );
 
     setBusy(false);
@@ -59,7 +61,7 @@ class PostDetailPresentation {
   final List<dynamic> categories;
   final String title;
   final String userNickname;
-  final List<String> userImageUrls;
+  List<String>? userImageUrls;
   final String body;
   String createdAt;
   String likedCount;
@@ -72,7 +74,7 @@ class PostDetailPresentation {
     required this.categories,
     required this.title,
     required this.userNickname,
-    required this.userImageUrls,
+    this.userImageUrls,
     required this.body,
     required this.createdAt,
     required this.likedCount,
@@ -85,7 +87,7 @@ class CommentPresentation {
   final int id;
   final String loginId;
   final String userNickname;
-  final List<String> userImageUrls;
+  List<String>? userImageUrls;
   final String body;
   String createdAt;
   List<Comment>? nestedComments;
@@ -94,7 +96,7 @@ class CommentPresentation {
     required this.id,
     required this.loginId,
     required this.userNickname,
-    required this.userImageUrls,
+    this.userImageUrls,
     required this.body,
     required this.createdAt,
     this.nestedComments,
