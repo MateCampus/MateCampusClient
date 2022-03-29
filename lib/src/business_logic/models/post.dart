@@ -12,7 +12,7 @@ class Post {
   DateTime createdAt;
   int likedCount;
   int viewCount;
-  int commentCount;
+  int? commentCount;
   List<String>? imageUrls;
   List<Comment>? comments;
 
@@ -27,7 +27,7 @@ class Post {
       required this.createdAt,
       required this.likedCount,
       required this.viewCount,
-      required this.commentCount,
+      this.commentCount,
       this.imageUrls,
       this.comments});
 

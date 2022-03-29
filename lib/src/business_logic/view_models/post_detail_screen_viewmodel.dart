@@ -9,37 +9,45 @@ import 'package:zamongcampus/src/business_logic/models/post.dart';
 class PostDetailScreenVeiwModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
 
-  List<PostDetailPresentation> _postDetail = [];
-  List<CommentPresentation> _comments = [];
+  PostDetailPresentation? _postDetail;
+  final List<CommentPresentation> _comments = [];
 
-  int _postId = 0;
-
-  List<PostDetailPresentation> get postDetail => _postDetail;
+  PostDetailPresentation? get postDetail => _postDetail;
   List<CommentPresentation> get comments => _comments;
 
-  void loadPostDetail() async {
+  void loadPostDetail(int postId) async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 2000)); // 2초 딜레이
-    Post postDetailResult = await _postService.fetchPostDetail(postId: _postId);
-    postDetail.add(PostDetailPresentation(
-        id: postDetailResult.id,
-        loginId: postDetailResult.loginId,
-        categories: postDetailResult.categories
-          ..map((category) =>
+    Post postDetailResult = await _postService.fetchPostDetail(postId: postId);
+
+    comments.addAll(postDetailResult.comments?.map((comment) =>
+            CommentPresentation(
+                id: comment.id,
+                loginId: comment.loginId,
+                userNickname: comment.userNickname,
+                userImageUrls: comment.userImageUrls.toList(),
+                body: comment.body,
+                createdAt: dateToPastTime(comment.createdAt))) ??
+        []);
+
+    _postDetail = PostDetailPresentation(
+      id: postDetailResult.id,
+      loginId: postDetailResult.loginId,
+      categories: postDetailResult.categories
+          .map((category) =>
               CategoryData.iconOf(category.name) +
               " " +
-              CategoryData.korNameOf(category.name)).toList(),
-        title: postDetailResult.title,
-        userNickname: postDetailResult.userNickname,
-        userImageUrls: postDetailResult.userImageUrls.toList(),
-        body: postDetailResult.body,
-        createdAt: dateToPastTime(postDetailResult.createdAt),
-        likedCount: postDetailResult.likedCount.toString(),
-        commentCount: postDetailResult.commentCount.toString(),
-        imageUrls: postDetailResult.imageUrls?.toList(),
-        comments: postDetailResult.comments //여기가 이상함
-
-        ));
+              CategoryData.korNameOf(category.name))
+          .toList(),
+      title: postDetailResult.title,
+      userNickname: postDetailResult.userNickname,
+      userImageUrls: postDetailResult.userImageUrls.toList(),
+      body: postDetailResult.body,
+      createdAt: dateToPastTime(postDetailResult.createdAt),
+      likedCount: postDetailResult.likedCount.toString(),
+      commentCount: postDetailResult.comments?.length.toString() ?? '0',
+      imageUrls: postDetailResult.imageUrls?.toList(),
+    );
 
     setBusy(false);
   }
@@ -57,21 +65,20 @@ class PostDetailPresentation {
   String likedCount;
   String commentCount;
   List<String>? imageUrls;
-  List<Comment>? comments;
 
-  PostDetailPresentation(
-      {required this.id,
-      required this.loginId,
-      required this.categories,
-      required this.title,
-      required this.userNickname,
-      required this.userImageUrls,
-      required this.body,
-      required this.createdAt,
-      required this.likedCount,
-      required this.commentCount,
-      this.imageUrls,
-      this.comments});
+  PostDetailPresentation({
+    required this.id,
+    required this.loginId,
+    required this.categories,
+    required this.title,
+    required this.userNickname,
+    required this.userImageUrls,
+    required this.body,
+    required this.createdAt,
+    required this.likedCount,
+    required this.commentCount,
+    this.imageUrls,
+  });
 }
 
 class CommentPresentation {
