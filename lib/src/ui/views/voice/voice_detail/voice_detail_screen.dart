@@ -22,8 +22,14 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
 
   @override
   void initState() {
-    super.initState();
     initForAgora();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    leaveChannel();
+    super.dispose();
   }
 
   Future<void> initForAgora() async {
@@ -34,8 +40,8 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
     _engine = await RtcEngine.create(appId);
 
     await _engine.enableVideo();
+    // await _engine.enableAudio();
 
-    await _engine.enableVideo();
     _engine.setEventHandler(
       RtcEngineEventHandler(
         joinChannelSuccess: (String channel, int uid, int elapsed) {
@@ -59,7 +65,12 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
       ),
     );
 
-    await _engine.joinChannel(token, "room002", null, 0);
+    await _engine.joinChannel(token, "room001", null, 0);
+  }
+
+  Future<void> leaveChannel() async {
+    print("leave channel");
+    _engine.leaveChannel();
   }
 
   @override

@@ -27,7 +27,8 @@ class RecentTalkBody extends StatelessWidget {
             child: DefaultBtn(
               text: '시작하기!',
               press: () {
-                Navigator.pushNamed(context, "/voiceDetail");
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/voiceDetail", ModalRoute.withName("/"));
               },
               btnColor: color,
             ),
