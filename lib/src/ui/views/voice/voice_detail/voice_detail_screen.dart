@@ -40,33 +40,49 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
     // create the engine
     _engine = await RtcEngine.create(appId);
 
-    await _engine.enableVideo();
+    // await _engine.enableVideo();
     await _engine.enableAudio();
-
+    _engine.enableAudioVolumeIndication(200, 3, true);
+    // 2번: register 후 join하기. 이 방식이 1번보다 빠르다.
+    _engine.registerLocalUserAccount(appId, "닉네임인건가?");
     _engine.setEventHandler(
-      RtcEngineEventHandler(
-        joinChannelSuccess: (String channel, int uid, int elapsed) {
-          print("내가 join를 성공 => $uid joined");
-          setState(() {
-            _localUserJoined = true;
-          });
-        },
-        userJoined: (int uid, int elapsed) {
-          print("remote user $uid joined");
-          setState(() {
-            _remoteUid = uid;
-          });
-        },
-        userOffline: (int uid, UserOfflineReason reason) {
-          print("remote user $uid left channel");
-          setState(() {
-            _remoteUid = null;
-          });
-        },
-      ),
+      RtcEngineEventHandler(localUserRegistered: (uid, userAccount) {
+        _engine.joinChannelWithUserAccount(token, "room001", userAccount);
+      }, joinChannelSuccess: (String channel, int uid, int elapsed) {
+        print("내가 join를 성공 => $uid joined");
+        // 이때 uid를 넘긴다.
+        setState(() {
+          _localUserJoined = true;
+        });
+      }, userJoined: (int uid, int elapsed) {
+        // 누가 들어왔을 때의 callback 함수.
+        print("remote user $uid joined");
+        Future<UserInfo> userInfo = _engine.getUserInfoByUid(uid);
+        // 이때 uid와 image, nickname까지 알 수 없을까?
+        setState(() {
+          userInfo.then((value) => value.userAccount); // => 이게 결국 닉네임
+          _remoteUid = uid;
+        });
+      }, userOffline: (int uid, UserOfflineReason reason) {
+        print("remote user $uid left channel");
+        setState(() {
+          _remoteUid = null;
+        });
+      }, audioVolumeIndication: (List<AudioVolumeInfo> speakers, int volume) {
+        print("hi~");
+        speakers.forEach((speaker) {
+          print("Uid ${speaker.uid} Level ${speaker.volume}");
+          if (speaker.uid == 1) {
+            // 나 자신인 경우
+          }
+        });
+      }),
     );
 
     await _engine.joinChannel(token, "room001", null, 0);
+    // + server로 참여자 uid 와 loginId 추가. // chatmemberInfo를 줘야할까?
+    // 1번: 이 아래걸로만 연결하기.
+    await _engine.joinChannelWithUserAccount(token, "room0001", "닉네임으로?");
   }
 
   Future<void> leaveChannel() async {
