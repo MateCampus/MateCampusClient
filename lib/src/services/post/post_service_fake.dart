@@ -15,4 +15,12 @@ class FakePostService implements PostService {
 
     return list;
   }
+
+  @override
+  Future<Post> fetchPostDetail({required int postId}) async {
+    Post post;
+    post = postDummy1.first;
+
+    return post;
+  }
 }
