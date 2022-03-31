@@ -35,7 +35,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
 
   Future<void> initForAgora() async {
     // permissions
-    await [Permission.microphone, Permission.camera].request();
+    await [Permission.microphone].request();
 
     // create the engine
     _engine = await RtcEngine.create(appId);
@@ -46,25 +46,19 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
     // 2번: register 후 join하기. 이 방식이 1번보다 빠르다.
     _engine.registerLocalUserAccount(appId, "닉네임인건가?");
     _engine.setEventHandler(
-      RtcEngineEventHandler(localUserRegistered: (uid, userAccount) {
-        _engine.joinChannelWithUserAccount(token, "room001", userAccount);
-      }, joinChannelSuccess: (String channel, int uid, int elapsed) {
+      RtcEngineEventHandler(
+          joinChannelSuccess: (String channel, int uid, int elapsed) {
         print("내가 join를 성공 => $uid joined");
         // 이때 uid를 넘긴다.
         setState(() {
           _localUserJoined = true;
         });
       }, userJoined: (int uid, int elapsed) {
-        // 누가 들어왔을 때의 callback 함수.
+        // 안 쓸 예정.
         print("remote user $uid joined");
-        Future<UserInfo> userInfo = _engine.getUserInfoByUid(uid);
-        // 이때 uid와 image, nickname까지 알 수 없을까?
-        setState(() {
-          userInfo.then((value) => value.userAccount); // => 이게 결국 닉네임
-          _remoteUid = uid;
-        });
       }, userOffline: (int uid, UserOfflineReason reason) {
         print("remote user $uid left channel");
+        // 누가 나감.
         setState(() {
           _remoteUid = null;
         });
