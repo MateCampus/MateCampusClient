@@ -151,7 +151,7 @@ List<Post> postDummy1 = [
     imageUrls: null,
   ),
   Post(
-    id: 3,
+    id: 4,
     loginId: "suss",
     categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
@@ -166,7 +166,7 @@ List<Post> postDummy1 = [
     imageUrls: null,
   ),
   Post(
-    id: 3,
+    id: 5,
     loginId: "suss",
     categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
@@ -181,7 +181,7 @@ List<Post> postDummy1 = [
     imageUrls: null,
   ),
   Post(
-    id: 3,
+    id: 6,
     loginId: "suss",
     categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
