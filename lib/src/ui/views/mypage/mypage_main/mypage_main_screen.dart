@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/auth/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 
 class MypageMainScreen extends StatelessWidget {

@@ -19,6 +19,7 @@ class VoiceMainScreenViewModel extends BaseModel {
   int nextPageToken = 0;
 
   void loadVoiceRoom() async {
+    print('loadVoiceRoom 시작');
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 2000)); // 1초 딜레이
     List<VoiceRoom> voiceRoomResult =

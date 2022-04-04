@@ -10,15 +10,22 @@ class AuthService extends ChangeNotifier {
 
   bool get isLogined => token?.isNotEmpty ?? false;
 
-  /* 1. token,loginId 값 넣기  2. 추천친구,추천대화방 load */
+  /*  1. token,loginId 값 넣기  
+      2. stomp 연결 / 채팅방 초기화 / 채팅방 불러오기
+      3. 추천친구,추천대화방 load 
+  */
   /* 아무곳에서나 못 사용하도록 static 선언 안함 */
-  Future<void> authInit(
+  Future<void> loginAndSetInitData(
       {required String token, required String loginId}) async {
     setTokenAndLoginId(token: token, loginId: loginId);
     VoiceMainScreenViewModel voicemainvm =
         serviceLocator<VoiceMainScreenViewModel>();
     voicemainvm.loadRecommendUsers();
     voicemainvm.loadVoiceRoom();
+    // 근데 이렇게 하면, load를 할 필요가 없넹. voiceroom의 경우에는?
+    // 그러면 하단 탭 누를 떄마다 load를 안할지도.
+    // 근데 post는 load할 듯. 그러면 좀 이상한가.
+    // 그러면 post는 load를 언제하지. initstate말고.
   }
 
   Future<void> setTokenAndLoginId(

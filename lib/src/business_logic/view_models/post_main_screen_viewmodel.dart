@@ -37,7 +37,7 @@ class PostMainScreenViewModel extends BaseModel {
           likedCount: post.likedCount.toString(),
           viewCount: post.viewCount.toString(),
           commentCount: post.commentCount.toString(),
-          imageUrl: post.imageUrls?.first ?? '',
+          imageUrl: post.imageUrls?.first,
         )));
     _nextPageToken++;
 
