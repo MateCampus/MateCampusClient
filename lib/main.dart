@@ -31,8 +31,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (BuildContext context) => AuthService(),
+    return MultiProvider(
+        // authservice와 더불어, chatservice도 필요할 듯.
+        // 그러면 chatservice에서의 chatroom들을 관리할 수 있다.
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthService()),
+          ChangeNotifierProvider(create: (_) => AuthService()),
+        ],
         child: MaterialApp(
           title: 'zamongCampus',
           debugShowCheckedModeBanner: false,

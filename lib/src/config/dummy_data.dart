@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:zamongcampus/src/business_logic/models/chat_message.dart';
+import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
@@ -79,19 +79,19 @@ List<ChatMessage> chatMessageDummy = [
       roomId: "1",
       loginId: "zm1",
       text: "하이루~",
-      type: ChatMessageType.talk,
+      type: MessageType.talk,
       createdAt: DateTime(2022, 02, 15)),
   ChatMessage(
       roomId: "1",
       loginId: "zm2",
       text: "방가방가",
-      type: ChatMessageType.talk,
+      type: MessageType.talk,
       createdAt: DateTime(2022, 02, 16)),
   ChatMessage(
       roomId: "1",
       loginId: "zm3",
       text: "헬로우",
-      type: ChatMessageType.talk,
+      type: MessageType.talk,
       createdAt: DateTime(2022, 02, 17)),
 ];
 

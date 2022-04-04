@@ -1,6 +1,6 @@
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 
-import 'chat_message.dart';
+import 'chatMessage.dart';
 import 'user.dart';
 
 class VoiceRoom {
