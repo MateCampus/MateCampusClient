@@ -7,10 +7,13 @@ import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 
 class StompObject {
-  late StompClient stompClient;
+  static late StompClient _stompClient;
 
-  connectStomp() {
-    stompClient = StompClient(
+  StompClient get stompClient => _stompClient;
+
+  static connectStomp() {
+    print("stomp init start");
+    _stompClient = StompClient(
       config: StompConfig.SockJS(
         url: devServer + '/ws-stomp',
         onConnect: onConnect,
@@ -22,12 +25,12 @@ class StompObject {
         webSocketConnectHeaders: {'Authorization': 'Bearer yourToken'},
       ),
     );
-    stompClient.activate(); // 서버 실행
-    stompClient = stompClient; // stompClient 초기화
+    _stompClient.activate(); // 서버 실행
+    _stompClient = _stompClient; // stompClient 초기화
   }
 
   // connect 성공
-  dynamic onConnect(StompFrame frame) async {
+  static dynamic onConnect(StompFrame frame) async {
     print('stomp 연결 완료');
     // 이미 있는 방들 stomp연결 initStompExistChatRoom();
     // 새로운 메세지로 chatroom setting하기 setChatRoomByNewMessages();

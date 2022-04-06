@@ -1,29 +1,24 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/init/main_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/config/routes.dart';
+// import 'firebase_options.dart';
 
-String initRoute = "/login";
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(); // 여기에 option을 달아서 click_action을 하는듯?
+  print('Handling a background message ${message.messageId}');
+}
+
 Future<void> main() async {
-  setupServiceLocator();
-  WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getString('token') == null || prefs.getString('loginId') == null) {
-    initRoute = "/login";
-  } else {
-    // 서버 통신 후 token이 실제로 맞는지 확인까지 하고 이동?
-    bool isTokenValid = true;
-    if (isTokenValid) {
-      AuthService authService = serviceLocator<AuthService>();
-      authService.loginAndSetInitData(
-          token: prefs.getString('token')!,
-          loginId: prefs.getString('loginId')!);
-      initRoute = "/";
-    }
-  }
+  setupServiceLocator(); // for serviceLocator
+  WidgetsFlutterBinding.ensureInitialized(); // for firebase
+  await Firebase.initializeApp(); // for firebase
+  FirebaseMessaging.onBackgroundMessage(
+      _firebaseMessagingBackgroundHandler); // for firebase(background + terminated)
   runApp(const MyApp());
 }
 
@@ -33,8 +28,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        // authservice와 더불어, chatservice도 필요할 듯.
-        // 그러면 chatservice에서의 chatroom들을 관리할 수 있다.
         providers: [
           ChangeNotifierProvider(create: (_) => AuthService()),
           ChangeNotifierProvider(create: (_) => MainService()),
@@ -46,7 +39,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           routes: routes,
-          initialRoute: initRoute,
+          initialRoute: "/splash",
         ));
   }
 }

@@ -1,18 +1,20 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class SqfliteConfig {
+class SqfliteObject {
   static Database? _database;
 
-  // 맨처음에, 없으면 initDB, 있으면 그냥 리턴
-  Future<Database?> get database async {
+  // prefs와 비슷하게 만들려다가 일단 뒀음. (4/6)
+  static Future<Database?> get database async {
+    print("sqflite init start");
     if (_database != null) return _database;
 
     _database = await initChatRoomsDB();
+    print("sqflite init end");
     return _database;
   }
 
-  Future<void> dropTableIfExistsThenReCreate() async {
+  static Future<void> dropTableIfExistsThenReCreate() async {
     final db = await database;
     await db!.execute("DROP TABLE IF EXISTS ChatRoomMemberInfo"); // ** 디비 삭제.
     await db.execute("DROP TABLE IF EXISTS ChatRoom"); // ** 디비 삭제.
@@ -54,7 +56,7 @@ class SqfliteConfig {
   }
 
   // initChatRoomsDB init
-  Future<Database> initChatRoomsDB() async {
+  static Future<Database> initChatRoomsDB() async {
     // Chat.db
     String path = join(await getDatabasesPath(), 'Chat.db');
     return await openDatabase(path, version: 1, onCreate: (db, version) async {

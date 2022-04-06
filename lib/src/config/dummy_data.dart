@@ -8,6 +8,11 @@ import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 
+/**
+ * 테스트를 위한 dummyData. 
+ * 추후에 삭제할 예정
+ */
+
 List<User> userDummy = [
   const User(
       loginId: "zm1",
