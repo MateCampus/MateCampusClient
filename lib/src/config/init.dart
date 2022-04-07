@@ -23,7 +23,8 @@ class Init {
     if (loginId == null || token == null) {
       return "/login";
     } else {
-      AuthService.loginAndSetInitData(token: token, loginId: loginId);
+      AuthService.setGlobalLoginIdTokenAndInitUserData(
+          token: token, loginId: loginId);
       return "/";
     }
   }

@@ -12,9 +12,6 @@ class StorageKeys {
 class PrefsObject {
   static late SharedPreferences _prefs;
 
-  // static Future<dynamic> _getInstance() async =>
-  //     _prefs = await SharedPreferences.getInstance();
-
   static Future<SharedPreferences> init() async {
     print("prefs init start");
     _prefs = await SharedPreferences.getInstance();
@@ -39,7 +36,7 @@ class PrefsObject {
   }
 
   /* prefs(cache)에 저장 */
-  static void setLoginIdAndToken(String loginId, String token) async {
+  static void setPrefsLoginIdToken(String loginId, String token) async {
     _prefs.setString(StorageKeys.loginId, loginId);
     _prefs.setString(StorageKeys.token, token);
   }

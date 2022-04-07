@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -18,7 +17,8 @@ class AuthService extends ChangeNotifier {
   /// 3. 추천친구,추천대화방 load
   static Future<void> loginAndSetInitData(
       {required String token, required String loginId}) async {
-    setTokenAndLoginId(token: token, loginId: loginId);
+    _loginId = loginId;
+    _token = token;
     VoiceMainScreenViewModel voicemainvm =
         serviceLocator<VoiceMainScreenViewModel>();
     voicemainvm.loadRecommendUsers();
@@ -29,12 +29,6 @@ class AuthService extends ChangeNotifier {
       * 근데 post는 load할 듯. 그러면 좀 이상한가.
       * 그러면 post는 load를 언제하지. initstate말고. 하단 tab 2번 누를때마다?
     */
-  }
-
-  static Future<void> setTokenAndLoginId(
-      {required String token, required String loginId}) async {
-    AuthService._loginId = loginId;
-    AuthService._token = token;
   }
 
   static Future<void> logout(BuildContext context) async {

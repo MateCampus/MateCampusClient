@@ -27,10 +27,10 @@ class LoginMainScreenViewModel extends BaseModel {
       snackBar(context: context, message: "아이디와 패스워드를 다시 확인해주세요");
       return;
     }
-    PrefsObject.setLoginIdAndToken(id, response.headers["x-auth-token"]);
+    PrefsObject.setPrefsLoginIdToken(id, response.headers["x-auth-token"]);
     toastMessage("로그인하셨습니다!");
 
-    AuthService.loginAndSetInitData(
+    AuthService.setGlobalLoginIdTokenAndInitUserData(
             token: response.headers["x-auth-token"], loginId: id)
         .then((value) => {
               Future.delayed(const Duration(milliseconds: 1000), () {
