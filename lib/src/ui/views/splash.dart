@@ -10,16 +10,10 @@ class SplashScreen extends StatelessWidget {
     return Material(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
-            "splash 화면: Init 중",
-            style: TextStyle(
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 20),
-          CircularProgressIndicator()
+        children: [
+          Expanded(
+            child: Image.asset("assets/images/splash/splash1.png"),
+          )
         ],
       ),
     );
