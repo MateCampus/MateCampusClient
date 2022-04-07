@@ -15,7 +15,8 @@ class AuthService extends ChangeNotifier {
   /// 1. token,loginId 값 넣기
   /// 2. 밀린 메시지 불러오고, 채팅방 초기화(+채팅방 불러오기)
   /// 3. 추천친구,추천대화방 load
-  static Future<void> loginAndSetInitData(
+  /// setGlobalLoginIdTokenAndInitUserData
+  static Future<void> setGlobalLoginIdTokenAndInitUserData(
       {required String token, required String loginId}) async {
     _loginId = loginId;
     _token = token;
