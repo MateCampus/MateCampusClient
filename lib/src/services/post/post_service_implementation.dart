@@ -33,4 +33,10 @@ class PostServiceImpl implements PostService {
     // TODO: implement fetchPostDetail
     throw UnimplementedError();
   }
+
+  @override
+  Future<int> likePost({required String loginId, required int postId}) {
+    // TODO: implement likePost
+    throw UnimplementedError();
+  }
 }

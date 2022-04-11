@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
@@ -6,14 +7,30 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 
-class PostDetailScreenVeiwModel extends BaseModel {
+class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
 
-  PostDetailPresentation? _postDetail;
+  PostDetailPresentation _postDetail =
+      defaultPostDetail; //요기 -> ? 안쓰고 선언할 수 없을까? 그러면 초기값 다 설정해둬야하는데.. (설정하는게 맞는거 같기두하고)
   final List<CommentPresentation> _comments = [];
+  bool _isliked = false;
 
-  PostDetailPresentation? get postDetail => _postDetail;
+  static final PostDetailPresentation defaultPostDetail =
+      PostDetailPresentation(
+          id: 0,
+          loginId: '',
+          categories: [],
+          title: '',
+          userNickname: '',
+          userImageUrl: 'assets/images/user/general_user.png',
+          body: '',
+          createdAt: '',
+          likedCount: '',
+          commentCount: '');
+
+  PostDetailPresentation get postDetail => _postDetail; //요기
   List<CommentPresentation> get comments => _comments;
+  bool get isliked => _isliked;
 
   void loadPostDetail(int postId) async {
     setBusy(true);
@@ -25,8 +42,8 @@ class PostDetailScreenVeiwModel extends BaseModel {
                 id: comment.id,
                 loginId: comment.loginId,
                 userNickname: comment.userNickname,
-                userImageUrls: comment.userImageUrls?.toList() ??
-                    ["assets/images/user/general_user.png"],
+                userImageUrl: comment.userImageUrls?.first ??
+                    'assets/images/user/general_user.png',
                 body: comment.body,
                 createdAt: dateToPastTime(comment.createdAt))) ??
         []);
@@ -42,15 +59,24 @@ class PostDetailScreenVeiwModel extends BaseModel {
           .toList(),
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
-      userImageUrls: postDetailResult.userImageUrls?.toList() ??
-          ["assets/images/user/general_user.png"],
+      userImageUrl:
+          postDetailResult.userImageUrls?.first ?? _postDetail.userImageUrl,
       body: postDetailResult.body,
       createdAt: dateToPastTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.comments?.length.toString() ?? '0',
-      imageUrls: postDetailResult.imageUrls?.toList() ?? [],
+      imageUrls: postDetailResult.imageUrls?.toList(),
     );
 
+    setBusy(false);
+  }
+
+  void likePost(String loginId, int postId) async {
+    setBusy(true);
+    _isliked = !_isliked;
+    int likecount =
+        await _postService.likePost(loginId: loginId, postId: postId);
+    _postDetail.likedCount = likecount.toString();
     setBusy(false);
   }
 }
@@ -61,7 +87,7 @@ class PostDetailPresentation {
   final List<dynamic> categories;
   final String title;
   final String userNickname;
-  List<String>? userImageUrls;
+  final String userImageUrl;
   final String body;
   String createdAt;
   String likedCount;
@@ -74,7 +100,7 @@ class PostDetailPresentation {
     required this.categories,
     required this.title,
     required this.userNickname,
-    this.userImageUrls,
+    required this.userImageUrl,
     required this.body,
     required this.createdAt,
     required this.likedCount,
@@ -87,16 +113,16 @@ class CommentPresentation {
   final int id;
   final String loginId;
   final String userNickname;
-  List<String>? userImageUrls;
+  final String userImageUrl;
   final String body;
   String createdAt;
-  List<Comment>? nestedComments;
+  List<CommentPresentation>? nestedComments;
 
   CommentPresentation({
     required this.id,
     required this.loginId,
     required this.userNickname,
-    this.userImageUrls,
+    required this.userImageUrl,
     required this.body,
     required this.createdAt,
     this.nestedComments,

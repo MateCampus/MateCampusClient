@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/body.dart';
 
 class PostDetailScreen extends StatefulWidget {
@@ -28,13 +29,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       create: (context) => vm,
       child: Consumer<PostDetailScreenViewModel>(
         builder: (context, value, child) {
-          return Scaffold(
-            appBar: AppBar(
-                title: const Text('글쓰기',
-                    style: TextStyle(
-                      color: Colors.black,
-                    )),
-                centerTitle: false,
+          return GestureDetector(
+            onTap: () =>
+                FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
+            child: Scaffold(
+              appBar: AppBar(
                 leading: IconButton(
                   icon: const Icon(Icons.arrow_back),
                   color: Colors.black,
@@ -50,9 +49,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   ),
                 ],
                 elevation: 0.0,
-                backgroundColor: Colors.transparent),
-            backgroundColor: Colors.white,
-            body: Body(vm: vm),
+                backgroundColor: Colors.transparent,
+              ),
+              backgroundColor: Colors.white,
+              //extendBodyBehindAppBar: true,
+              body: vm.busy ? const IsLoading() : Body(vm: vm),
+            ),
           );
         },
       ),
