@@ -62,7 +62,7 @@ class ChatMemberInfoDBHelper {
   }
 
   // DELETE: loginId에 해당되는 멤버 삭제
-  void deleteMemberInfo(String loginId) async {
+  Future<void> deleteMemberInfo(String loginId) async {
     final db = await SqfliteObject.database;
     List res = await db!
         .rawQuery('DELETE FROM $tableName WHERE loginId = ?', [loginId]);
@@ -70,7 +70,7 @@ class ChatMemberInfoDBHelper {
   }
 
   // DELETE: 모든 멤버 삭제
-  void deleteAllMemberInfo() async {
+  Future<void> deleteAllMemberInfo() async {
     final db = await SqfliteObject.database;
     db!.delete(tableName);
     print("모든 멤버 정보 삭제");

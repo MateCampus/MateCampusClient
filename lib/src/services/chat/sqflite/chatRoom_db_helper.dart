@@ -11,7 +11,7 @@ const String columnlastMsgCreatedAt = 'lastMsgCreatedAt';
 const String columnImageUrl = 'imageUrl';
 const String columnUnreadCount = 'unreadCount';
 
-class ChatRoomDB {
+class ChatRoomDBHelper {
   // CREATE
   Future<int?> insertChatRoom(ChatRoom chatRoom) async {
     final db = await SqfliteObject.database;
@@ -74,7 +74,7 @@ class ChatRoomDB {
     return res.isEmpty ? false : true;
   }
 
-  void updateChatRoom(String lastMsg, DateTime lastMsgCreatedAt,
+  Future<void> updateChatRoom(String lastMsg, DateTime lastMsgCreatedAt,
       int unreadCount, String roomId) async {
     final db = await SqfliteObject.database;
     List res = await db!.rawQuery(
@@ -82,7 +82,7 @@ class ChatRoomDB {
         [lastMsg, lastMsgCreatedAt.toString(), unreadCount, roomId]);
   }
 
-  void updateUnreadCount(int unreadCount, String roomId) async {
+  Future<void> updateUnreadCount(int unreadCount, String roomId) async {
     final db = await SqfliteObject.database;
     List res = await db!.rawQuery(
         'UPDATE $tableName SET unreadCount = ? WHERE roomId = ?',

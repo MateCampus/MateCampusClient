@@ -7,7 +7,7 @@ const String columnrowId = 'rowId';
 const String columnroomId = 'roomId';
 const String columnloginId = 'loginId';
 
-class ChatRoomMemberInfoDB {
+class ChatRoomMemberInfoDBHelper {
   // CREATE : params로 chatmemberInfo를 받음(놓치지말 것)
   // TODO: update 후, 안되면 insert (22.04.01)
   Future<void> insertChatRoomMemberInfo(
@@ -32,7 +32,7 @@ class ChatRoomMemberInfoDB {
   }
 
   // DELETE: 1개 삭제
-  void deleteChatRoomMemberInfo(String roomId, String loginId) async {
+  Future<void> deleteChatRoomMemberInfo(String roomId, String loginId) async {
     final db = await SqfliteObject.database;
     List res = await db!.rawQuery(
         'DELETE FROM $tableName WHERE roomId = ?, loginId = ?',
@@ -41,7 +41,7 @@ class ChatRoomMemberInfoDB {
   }
 
   // DELETE: 전체 방 member 삭제
-  void deleteChatRoomMemberInfoByRoomId(String roomId) async {
+  Future<void> deleteChatRoomMemberInfoByRoomId(String roomId) async {
     final db = await SqfliteObject.database;
     List res =
         await db!.rawQuery('DELETE FROM $tableName WHERE roomId = ?', [roomId]);
@@ -71,7 +71,7 @@ class ChatRoomMemberInfoDB {
   }
 
   // DELETE: 모든 중간 테이블 삭제
-  void deleteAllChatRoomMemberInfo() async {
+  Future<void> deleteAllChatRoomMemberInfo() async {
     final db = await SqfliteObject.database;
     db!.delete(tableName);
     print("모든 멤버 정보 삭제");

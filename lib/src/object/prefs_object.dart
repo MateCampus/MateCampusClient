@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class StorageKeys {
   static const String token = "TOKEN";
   static const String loginId = "LOGINID";
+  static const String totalLastMsgCreatedAt = "TOTALLASTMSGCREATEDAT";
 }
 
 class PrefsObject {
@@ -19,14 +20,7 @@ class PrefsObject {
     return _prefs;
   }
 
-  static Future<String?> get(String key) async {
-    return _prefs.getString(key);
-  }
-
-  static void set(String key, dynamic value) async {
-    _prefs.setString(key, value);
-  }
-
+  /// getter, setter for loginId, token
   static Future<String?> getLoginId() async {
     return _prefs.getString(StorageKeys.loginId);
   }
@@ -35,7 +29,6 @@ class PrefsObject {
     return _prefs.getString(StorageKeys.token);
   }
 
-  /* prefs(cache)에 저장 */
   static void setPrefsLoginIdToken(String loginId, String token) async {
     _prefs.setString(StorageKeys.loginId, loginId);
     _prefs.setString(StorageKeys.token, token);
@@ -44,5 +37,19 @@ class PrefsObject {
   static void removeLoginIdAndToken() async {
     _prefs.remove(StorageKeys.loginId);
     _prefs.remove(StorageKeys.token);
+  }
+
+  /// getter, setter for totalLastMsgCreatedAt
+  /// TODO: 나중에 반드시 total -> 이거는 암호화해서 저장할 것
+  static Future<String?> getTotalLastMsgCreatedAt() async {
+    return _prefs.getString(StorageKeys.totalLastMsgCreatedAt);
+  }
+
+  static void setTotalLastMsgCreatedAt(String totalLastMsgCreatedAt) async {
+    _prefs.setString(StorageKeys.totalLastMsgCreatedAt, totalLastMsgCreatedAt);
+  }
+
+  static void removeTotalLastMsgCreatedAt() async {
+    _prefs.remove(StorageKeys.totalLastMsgCreatedAt);
   }
 }
