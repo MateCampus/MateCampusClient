@@ -5,4 +5,6 @@ abstract class PostService {
       {required String type, required int nextPageToken});
 
   Future<Post> fetchPostDetail({required int postId});
+
+  Future<int> likePost({required String loginId, required int postId});
 }

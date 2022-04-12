@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/init/main_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zamongcampus/src/config/route_generators.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/config/routes.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -41,6 +43,7 @@ class MyApp extends StatelessWidget {
           ),
           routes: routes,
           initialRoute: "/splash",
+          onGenerateRoute: RouteGenerator.generateRoute,
         ));
   }
 }
