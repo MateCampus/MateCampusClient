@@ -24,8 +24,11 @@ abstract class ChatService {
   deleteChatRoomByRoomId(String roomId) {}
   deleteAllChatRoom() async {}
   isExistRoom(String roomId) {}
-  updateChatRoom(String lastMsg, DateTime lastMsgCreatedAt, int unreadCount,
-      String roomId) {}
+  updateChatRoom(
+      {String? lastMsg,
+      DateTime? lastMsgCreatedAt,
+      int? unreadCount,
+      String? roomId}) {}
   updateUnreadCount(int unreadCount, String roomId) {}
   // chatRoomDB 끝
 

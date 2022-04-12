@@ -135,10 +135,16 @@ class ChatServiceImpl implements ChatService {
   }
 
   @override
-  updateChatRoom(String lastMsg, DateTime lastMsgCreatedAt, int unreadCount,
-      String roomId) async {
+  updateChatRoom(
+      {String? lastMsg,
+      DateTime? lastMsgCreatedAt,
+      int? unreadCount,
+      String? roomId}) async {
     return await chatRoomDBHelper.updateChatRoom(
-        lastMsg, lastMsgCreatedAt, unreadCount, roomId);
+        lastMsg: lastMsg,
+        lastMsgCreatedAt: lastMsgCreatedAt,
+        unreadCount: unreadCount,
+        roomId: roomId);
   }
 
   @override
@@ -173,7 +179,7 @@ class ChatServiceImpl implements ChatService {
   }
 
   @override
-  isExistChatRoomMemberInfo(String loginId) async {
+  Future<bool> isExistChatRoomMemberInfo(String loginId) async {
     return await chatRoomMemberInfoDBHelper.isExistChatRoomMemberInfo(loginId);
   }
 

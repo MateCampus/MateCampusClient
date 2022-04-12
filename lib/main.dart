@@ -6,6 +6,7 @@ import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/init/main_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/config/routes.dart';
+import 'package:timeago/timeago.dart' as timeago;
 // import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -27,10 +28,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    timeago.setLocaleMessages('ko', timeago.KoMessages()); // for korean timeago
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => AuthService()),
-          ChangeNotifierProvider(create: (_) => MainService()),
         ],
         child: MaterialApp(
           title: 'zamongCampus',

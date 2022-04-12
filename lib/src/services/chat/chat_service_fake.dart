@@ -155,7 +155,7 @@ class FakeChatService implements ChatService {
   }
 
   @override
-  isExistChatRoomMemberInfo(String loginId) {
+  Future<bool> isExistChatRoomMemberInfo(String loginId) {
     // TODO: implement isExistChatRoomMemberInfo
     throw UnimplementedError();
   }
@@ -167,8 +167,11 @@ class FakeChatService implements ChatService {
   }
 
   @override
-  updateChatRoom(String lastMsg, DateTime lastMsgCreatedAt, int unreadCount,
-      String roomId) {
+  updateChatRoom(
+      {String? lastMsg,
+      DateTime? lastMsgCreatedAt,
+      int? unreadCount,
+      String? roomId}) {
     // TODO: implement updateChatRoom
     throw UnimplementedError();
   }

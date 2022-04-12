@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // 잡동사니 모아두는 느낌...
 
-class MainService extends ChangeNotifier {
+class MainService {
   String? _deviceToken;
   List<int> _likedPostIds = [];
   List<int> _bookMarkedPostIds = [];

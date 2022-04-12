@@ -6,14 +6,13 @@ import 'package:zamongcampus/src/object/stomp_object.dart';
 
 /**
  * config init하는 함수
- * prefs, sqflite, stomp, firebase
+ * prefs, sqflite, firebase
  */
 class Init {
   static Future<String> initialize() async {
     // 여기서는 순서대로 하는 것이 맞다. 그래서 async await 개념으로 해야함. 그 안의 함수들도 다.
     await PrefsObject.init();
     await SqfliteObject.database;
-    // await StompObject.connectStomp();
     await FirebaseObject.init();
     // 서버 통신 후 token이 실제로 맞는지 확인까지 하고 이동?
     // bool isTokenValid = true;

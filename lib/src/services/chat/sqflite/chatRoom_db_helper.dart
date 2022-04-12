@@ -40,7 +40,8 @@ class ChatRoomDBHelper {
     return chatrooms;
   }
 
-  // TODO: 용도를 잘 모르겠네? member의 nickname 변경된 방의 title를 바꾸기 위함인가? (22.04.01)
+  // member의 nickname 변경된 방의 title를 바꾸기 위함
+  // stompObject의 changeMemberInfo 확인
   Future<List<ChatRoom>> getChatRoomsByMemberLoginId(String loginId) async {
     final db = await SqfliteObject.database;
     List res = await db!.rawQuery(
@@ -74,9 +75,13 @@ class ChatRoomDBHelper {
     return res.isEmpty ? false : true;
   }
 
-  Future<void> updateChatRoom(String lastMsg, DateTime lastMsgCreatedAt,
-      int unreadCount, String roomId) async {
+  Future<void> updateChatRoom(
+      {String? lastMsg,
+      DateTime? lastMsgCreatedAt,
+      int? unreadCount,
+      String? roomId}) async {
     final db = await SqfliteObject.database;
+    // TODO: null이면 업데이트 안하도록 하는 로직 구현.
     List res = await db!.rawQuery(
         'UPDATE $tableName SET lastMessage = ?, lastMsgCreatedAt = ?, unreadCount = unreadCount + ? WHERE roomId = ?',
         [lastMsg, lastMsgCreatedAt.toString(), unreadCount, roomId]);
