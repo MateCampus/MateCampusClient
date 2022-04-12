@@ -19,8 +19,15 @@ class FakePostService implements PostService {
   @override
   Future<Post> fetchPostDetail({required int postId}) async {
     Post post;
-    post = postDummy1.first;
+    post = postDummy1[1];
 
     return post;
+  }
+
+  @override
+  Future<int> likePost({required String loginId, required int postId}) async {
+    // TODO: implement likePost
+    int likecount = Random().nextInt(100);
+    return likecount;
   }
 }

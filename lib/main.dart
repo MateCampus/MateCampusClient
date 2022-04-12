@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zamongcampus/src/config/route_generators.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/business_logic/auth/auth_service.dart';
 import 'src/config/routes.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
           ),
           routes: routes,
           initialRoute: initRoute,
+          onGenerateRoute: RouteGenerator.generateRoute,
         ));
   }
 }
