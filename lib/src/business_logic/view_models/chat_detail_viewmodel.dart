@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
+import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 
@@ -9,20 +10,38 @@ import 'base_model.dart';
 
 class ChatDetailViewModel extends BaseModel {
   ChatService chatService = serviceLocator<ChatService>();
-  List<ChatMessage> _chatMessages = [];
-  String _title = "";
+  late ChatRoom chatRoom;
+  late int index;
+  final List<ChatMessage> _chatMessages = List.empty(growable: true);
   int nextPageToken = 1;
   Map<String, ChatMemberInfo> chatMemberInfos = <String, ChatMemberInfo>{};
   ScrollController scrollController = ScrollController();
 
   List<ChatMessage> get chatMessages => _chatMessages;
-  String get title => _title;
 
-  Future<void> loadChatMessages() async {
-    print("load chatMessage 완료");
+  changeUnreadCount(String roomId) {
+    chatService.updateUnreadCount(0, roomId);
+  }
+
+  void setChatRoomAndIndex(ChatRoom chatRoom, int index) {
+    this.chatRoom = chatRoom;
+    this.index = index;
+  }
+
+  void getChatMessagesAndMember(String roomId) async {
+    setBusy(true);
+    _chatMessages.addAll(await chatService.getMessages(roomId, 0));
+    List<ChatMemberInfo> chatMemberInfos =
+        await chatService.getMemberInfoes(roomId);
+    for (var element in chatMemberInfos) {
+      this.chatMemberInfos.addAll({element.loginId: element});
+    }
+    setBusy(false);
   }
 
   Future<void> addChatMessage(ChatMessage chatMessage) async {
+    chatMessages.insert(0, chatMessage);
+    changeScrollToLowest();
     print("load chatMessage 완료");
   }
 
@@ -31,18 +50,16 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   Future<void> loadMoreChatMessages() async {
-    // TODO: vm에서 vm을? -> 좀 이상한 것 같은데
-    // 그러면 그냥 chatroomID를 전역변수로?
     setBusy(true);
-    List<ChatMessage> result = await chatService.getMessages(
-        HomeController.to.chatRoomId.value, nextPageToken);
+    List<ChatMessage> result =
+        await chatService.getMessages(chatRoom.roomId, nextPageToken);
     await Future.delayed(Duration(milliseconds: 500));
     chatMessages.insertAll(chatMessages.length, result); // ** 맨마지막에 더하기
     nextPageToken++;
     setBusy(false);
   }
 
-  void _scrollInit() {
+  void scrollInit() {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {

@@ -40,7 +40,7 @@ class Body extends StatelessWidget {
                 }),
           ),
         ),
-        ChatInputField(roomId: vm.roomId)
+        ChatInputField(vm: vm)
       ],
     );
   }

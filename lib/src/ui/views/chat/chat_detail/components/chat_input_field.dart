@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 
 class ChatInputField extends StatefulWidget {
-  final String roomId;
-
-  const ChatInputField({Key? key, required this.roomId}) : super(key: key);
+  final ChatDetailViewModel vm;
+  const ChatInputField({Key? key, required this.vm}) : super(key: key);
 
   @override
   _ChatInputFieldState createState() => _ChatInputFieldState();
@@ -22,10 +24,9 @@ class _ChatInputFieldState extends State<ChatInputField> {
   // 메세지 보내기
   void _sendMessage(String text) {
     if (text != "") {
-      print("메시지 전송 => 방번호: ${this.widget.roomId}");
-      // StompObject.sendMessage(roomId, text, type, chatRoomType)
-      ChatController.to.stompObject.sendMessage(this.widget.roomId, text,
-          "TALK", ChatDetailController.to.chatRoom.type);
+      print("메시지 전송 => 방번호: ${widget.vm.chatRoom.roomId}");
+      StompObject.sendMessage(
+          widget.vm.chatRoom.roomId, text, "TALK", widget.vm.chatRoom.type);
       setState(() {
         _textController.text = "";
       });
@@ -39,7 +40,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
       padding: EdgeInsets.symmetric(
           horizontal: getProportionateScreenWidth(12),
           vertical: getProportionateScreenHeight(12)),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -61,7 +62,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
               textAlign: TextAlign.left,
               controller: _textController,
               onSubmitted: _sendMessage,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 contentPadding: EdgeInsets.fromLTRB(15, 0, 15, 10),
                 hintText: "메세지를 입력하세요",
                 hintStyle: TextStyle(),
