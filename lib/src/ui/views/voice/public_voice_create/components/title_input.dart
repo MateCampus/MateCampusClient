@@ -13,10 +13,10 @@ class _TitleInputState extends State<TitleInput> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
+      children: const [
+        Text(
           '대화방 정보',
-          style: TextStyle(fontSize: 12, color: Colors.black45),
+          style: TextStyle(fontSize: 12, color: Colors.black87),
         ),
         VerticalSpacing(of: 10),
         TextField(
