@@ -23,7 +23,7 @@ class _FriendListTileState extends State<FriendListTile> {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: AssetImage(widget.user.imageUrl),
+              backgroundImage: AssetImage(widget.user.userImageUrl),
             ),
             Positioned(
               bottom: 1,
@@ -45,7 +45,7 @@ class _FriendListTileState extends State<FriendListTile> {
           ],
         ),
         title: Text(
-          widget.user.nickname,
+          widget.user.userNickname,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         trailing: Icon(

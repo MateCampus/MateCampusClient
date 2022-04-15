@@ -17,8 +17,9 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
-          top: getProportionateScreenHeight(10),
-          bottom: getProportionateScreenHeight(10)), //이부분 간격 체크,
+        top: getProportionateScreenHeight(10),
+        //bottom: getProportionateScreenHeight(5) -> FixedBottomBar에서 조절
+      ), //이부분 간격 체크,
       child: Column(
         children: [
           Expanded(
@@ -33,7 +34,7 @@ class _BodyState extends State<Body> {
               ),
             ),
           ),
-          FixedBottomBar()
+          const FixedBottomBar()
         ],
       ),
     );
