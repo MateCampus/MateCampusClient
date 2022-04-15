@@ -31,3 +31,15 @@ void backWithToast(message, BuildContext context) {
   Navigator.pop(context);
   toastMessage(message);
 }
+
+void showCustomModalBottomSheet(BuildContext context, Widget widget) {
+  showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) {
+        return widget;
+      });
+}

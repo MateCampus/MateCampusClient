@@ -4,20 +4,22 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 class DefaultBtn extends StatelessWidget {
   final String text;
-  final GestureTapCallback press;
+  final GestureTapCallback? press;
   final double? width;
   final double? height;
   final double? fontsize;
   final Color? btnColor;
+  final Color? textColor;
 
   const DefaultBtn(
       {Key? key,
       required this.text,
-      required this.press,
+      this.press,
       this.width,
       this.height,
       this.fontsize,
-      this.btnColor})
+      this.btnColor,
+      this.textColor})
       : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class DefaultBtn extends StatelessWidget {
       onPressed: press,
       child: Text(text),
       style: TextButton.styleFrom(
-          primary: Colors.white,
+          primary: textColor ?? Colors.white,
           minimumSize: Size(width ?? getProportionateScreenWidth(335),
               height ?? getProportionateScreenHeight(56)),
           backgroundColor: btnColor ?? mainColor,
