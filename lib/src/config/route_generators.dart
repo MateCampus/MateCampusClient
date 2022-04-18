@@ -15,6 +15,7 @@ onGenerateRoute: (settings) {
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/ui/views/chat/chat_detail/chat_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 
 class RouteGenerator {
@@ -27,7 +28,8 @@ class RouteGenerator {
       case "/chatDetail":
         final args = settings.arguments as ChatDetailScreenArgs;
         return MaterialPageRoute(
-            builder: (_) => ChatDetailScreen(postId: args.postId));
+            builder: (_) =>
+                ChatDetailScreen(chatRoom: args.chatRoom, index: args.index));
       default:
         return _errorRoute();
     }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 
 class Message extends StatelessWidget {
-  const Message({Key? key}) : super(key: key);
+  ChatMessage message;
+  Message({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
