@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/voice_bottom_sheet_component/component/create_private_voice_room_btn.dart';
 import 'package:zamongcampus/src/ui/common_components/voice_bottom_sheet_component/component/create_public_voice_room_btn.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class VoiceBottomSheet extends StatelessWidget {
   const VoiceBottomSheet({Key? key}) : super(key: key);

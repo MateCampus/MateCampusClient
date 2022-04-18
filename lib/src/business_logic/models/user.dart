@@ -4,7 +4,7 @@ import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 class User {
   final String loginId;
   final String? password;
-  final String userNickname;
+  final String nickname;
   final String? studentNum;
   final College? collegeCode;
   final Major? majorCode;
@@ -12,14 +12,14 @@ class User {
   final String? name;
   final String? email;
   final String? deviceToken;
-  final List<String>? userImageUrls;
+  final List<String>? imageUrls;
   final bool? isOnline;
-  final String? userIntroduction;
+  final String? introduction;
 
   const User(
       {required this.loginId,
       this.password,
-      required this.userNickname,
+      required this.nickname,
       this.studentNum,
       this.collegeCode,
       this.majorCode,
@@ -27,7 +27,7 @@ class User {
       this.name,
       this.email,
       this.deviceToken,
-      this.userImageUrls,
+      this.imageUrls,
       required this.isOnline,
-      this.userIntroduction});
+      this.introduction});
 }

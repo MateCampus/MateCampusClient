@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
@@ -26,6 +27,7 @@ class _FriendRequestBtnState extends State<FriendRequestBtn> {
           text: '친구 신청',
           press: () {
             widget.vm.requestFriend('userId', widget.vm.profile.loginId);
+            toastMessage('친구 신청 완료!');
           },
         ),
       ),

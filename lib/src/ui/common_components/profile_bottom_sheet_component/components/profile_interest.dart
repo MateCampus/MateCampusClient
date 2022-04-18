@@ -24,10 +24,10 @@ class ProfileInterest extends StatelessWidget {
           children: [
             ...profileInterests.map((interest) {
               switch (interest.status) {
-                case InterestStatus.same:
+                case InterestStatus.SAME:
                   return InterestSameChip(interest: interest);
 
-                case InterestStatus.different:
+                case InterestStatus.DIFFERENT:
                   return InterestDifferentChip(interest: interest);
                 default: //status.none 상태
                   return InterestNoneChip(interest: interest);

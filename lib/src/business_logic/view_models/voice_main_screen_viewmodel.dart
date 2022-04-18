@@ -28,7 +28,7 @@ class VoiceMainScreenViewModel extends BaseModel {
         title: voiceRoom.title,
         memberImageUrls: voiceRoom.members
             .map((member) =>
-                member.userImageUrls?.first ??
+                member.imageUrls?.first ??
                 "assets/images/user/general_user.png")
             .toList(),
         categories: voiceRoom.categories
@@ -51,7 +51,7 @@ class VoiceMainScreenViewModel extends BaseModel {
     recommendUsers.addAll(userResult.map((user) => UserPresentation(
         loginId: user.loginId,
         userImageUrls:
-            user.userImageUrls ?? ["assets/images/user/general_user.png"],
+            user.imageUrls ?? ["assets/images/user/general_user.png"],
         collegeName: CollegeData.korNameOf(
             describeEnum(user.collegeCode ?? College.college0000)),
         majorName: MajorData.korNameOf(

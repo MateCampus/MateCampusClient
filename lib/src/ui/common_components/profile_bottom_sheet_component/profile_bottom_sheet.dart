@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -12,7 +10,6 @@ import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_compo
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_interest.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/waiting_friend_request.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class ProfileBottomSheet extends StatefulWidget {
   final String userId;
@@ -57,7 +54,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                                 controller: scrollController,
                                 children: [
                                   const ProfileHeader(),
-                                  ProfileInfo(profileInfo: vm.profile),
+                                  ProfileInfo(userProfile: vm.profile),
                                   ProfileInterest(
                                       profileInterests: vm.interests),
                                 ],
@@ -80,9 +77,9 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
 
   Widget _bottomFixedBtn() {
     switch (vm.profile.friendRequestStatus) {
-      case FriendRequestStatus.done:
+      case FriendRequestStatus.ACCEPTED:
         return GoToChatRoomBtn();
-      case FriendRequestStatus.waiting:
+      case FriendRequestStatus.UNACCEPTE:
         return WaitingFriendRequest();
       default:
         return FriendRequestBtn(vm: vm);

@@ -11,41 +11,41 @@ import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 List<User> userDummy = [
   const User(
       loginId: "zm1",
-      userNickname: "가나초코릿",
+      nickname: "가나초코릿",
       collegeCode: College.college0001,
-      userImageUrls: [
+      imageUrls: [
         "assets/images/user/user1.jpg",
         "assets/images/user/user2.jpg"
       ],
       majorCode: Major.major0001,
-      userIntroduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
+      introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
       isOnline: true),
   const User(
       loginId: "zm2",
-      userNickname: "나비야훨훨",
+      nickname: "나비야훨훨",
       collegeCode: College.college0002,
-      userImageUrls: null,
+      imageUrls: null,
       majorCode: Major.major0002,
       isOnline: false),
   const User(
       loginId: "zm3",
-      userNickname: "다부지",
+      nickname: "다부지",
       collegeCode: College.college0003,
-      userImageUrls: ["assets/images/user/user3.jpg"],
+      imageUrls: ["assets/images/user/user3.jpg"],
       majorCode: Major.major0003,
       isOnline: null),
   const User(
       loginId: "zm4",
-      userNickname: "라디오꾼",
+      nickname: "라디오꾼",
       collegeCode: College.college0004,
-      userImageUrls: ["assets/images/user/user4.jpg"],
+      imageUrls: ["assets/images/user/user4.jpg"],
       majorCode: Major.major0004,
       isOnline: false),
   const User(
       loginId: "zm5",
-      userNickname: "마라탕궈",
+      nickname: "마라탕궈",
       collegeCode: College.college0005,
-      userImageUrls: ["assets/images/user/user5.jpg"],
+      imageUrls: ["assets/images/user/user5.jpg"],
       majorCode: Major.major0005,
       isOnline: false),
 ];
@@ -53,9 +53,9 @@ List<User> userDummy = [
 List<User> userDummy2 = [
   const User(
       loginId: "zm6",
-      userNickname: "바나나",
+      nickname: "바나나",
       collegeCode: College.college0001,
-      userImageUrls: [
+      imageUrls: [
         "assets/images/user/user1.jpg",
         "assets/images/user/user2.jpg"
       ],
@@ -63,9 +63,9 @@ List<User> userDummy2 = [
       isOnline: true),
   const User(
       loginId: "zm7",
-      userNickname: "사이다",
+      nickname: "사이다",
       collegeCode: College.college0002,
-      userImageUrls: ["assets/images/user/user2.jpg"],
+      imageUrls: ["assets/images/user/user2.jpg"],
       majorCode: Major.major0002,
       isOnline: true),
 ];

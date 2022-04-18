@@ -20,7 +20,7 @@ void toastMessage(String message) {
   Fluttertoast.showToast(
       msg: message,
       gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black.withOpacity(0.75),
       fontSize: 15.0,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT);

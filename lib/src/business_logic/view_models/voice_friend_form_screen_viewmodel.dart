@@ -23,14 +23,14 @@ class VoiceFriendFormScreenViewModel extends BaseModel {
     List<User> friendUserResult = await _friendService.fetchFriendUsers();
     recentTalkUsers.addAll(recentTalkUserResult.map((recentTalkUser) =>
         FriendPresentation(
-            userImageUrl: recentTalkUser.userImageUrls?.first ??
+            userImageUrl: recentTalkUser.imageUrls?.first ??
                 "assets/images/user/general_user.png",
-            userNickname: recentTalkUser.userNickname,
+            userNickname: recentTalkUser.nickname,
             isOnline: recentTalkUser.isOnline ?? false)));
     friendUsers.addAll(friendUserResult.map((friendUser) => FriendPresentation(
-        userImageUrl: friendUser.userImageUrls?.first ??
+        userImageUrl: friendUser.imageUrls?.first ??
             "assets/images/user/general_user.png",
-        userNickname: friendUser.userNickname,
+        userNickname: friendUser.nickname,
         isOnline: friendUser.isOnline ?? false)));
     setBusy(false);
   }
