@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 class FixedBottomBar extends StatefulWidget {
@@ -23,64 +24,69 @@ final ImagePicker _picker = ImagePicker();
 class _FixedBottomBarState extends State<FixedBottomBar> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _pickedImgs.isEmpty ? const SizedBox() : _showLoadImage(),
-        const Divider(),
-        Padding(
-          padding: EdgeInsets.only(
-              right: getProportionateScreenWidth(10),
-              left: getProportionateScreenWidth(10)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: Icon(
-                  Icons.image_outlined,
-                  color: Colors.grey,
-                  size: getProportionateScreenWidth(25),
-                ),
-                onPressed: () {
-                  getImageFromGallery();
-                },
+    return DefaultShadowBox(
+      child: Padding(
+        padding: EdgeInsets.only(bottom: getProportionateScreenHeight(5)),
+        child: Column(
+          children: [
+            _pickedImgs.isEmpty ? const SizedBox() : _showLoadImage(),
+            Padding(
+              padding: EdgeInsets.only(
+                  right: getProportionateScreenWidth(10),
+                  left: getProportionateScreenWidth(10)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.image_outlined,
+                      color: Colors.grey,
+                      size: getProportionateScreenWidth(25),
+                    ),
+                    onPressed: () {
+                      getImageFromGallery();
+                    },
+                  ),
+                  const HorizontalSpacing(of: 5),
+                  IconButton(
+                    icon: Icon(
+                      Icons.photo_camera_outlined,
+                      color: Colors.grey,
+                      size: getProportionateScreenWidth(25),
+                    ),
+                    onPressed: () {
+                      getImageFromCamera();
+                    },
+                  ),
+                  const Spacer(),
+                  Checkbox(
+                    value: _isChecked,
+                    onChanged: (value) {
+                      setState(() {
+                        _isChecked = !_isChecked;
+                      });
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    activeColor: mainColor,
+                    side: const BorderSide(
+                      color: Colors.grey,
+                      width: 1.7,
+                    ),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  Text(
+                    '같은 학교만 보여주기',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: _isChecked ? mainColor : Colors.grey),
+                  )
+                ],
               ),
-              const HorizontalSpacing(of: 5),
-              IconButton(
-                icon: Icon(
-                  Icons.photo_camera_outlined,
-                  color: Colors.grey,
-                  size: getProportionateScreenWidth(25),
-                ),
-                onPressed: () {
-                  getImageFromCamera();
-                },
-              ),
-              const Spacer(),
-              Checkbox(
-                value: _isChecked,
-                onChanged: (value) {
-                  setState(() {
-                    _isChecked = !_isChecked;
-                  });
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                activeColor: mainColor,
-                side: const BorderSide(
-                  color: Colors.grey,
-                  width: 1.7,
-                ),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-              Text(
-                '같은 학교만 보여주기',
-                style: TextStyle(
-                    fontSize: 13, color: _isChecked ? mainColor : Colors.grey),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

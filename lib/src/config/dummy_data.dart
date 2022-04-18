@@ -18,6 +18,7 @@ List<User> userDummy = [
         "assets/images/user/user2.jpg"
       ],
       majorCode: Major.major0001,
+      introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
       isOnline: true),
   const User(
       loginId: "zm2",

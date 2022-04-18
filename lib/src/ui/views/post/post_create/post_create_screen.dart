@@ -40,7 +40,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
               ),
             )
           ],
-          elevation: 0.5,
+          elevation: 0.0,
           backgroundColor: Colors.white,
         ),
         backgroundColor: Colors.white,

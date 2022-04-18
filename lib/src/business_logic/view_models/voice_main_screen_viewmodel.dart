@@ -20,7 +20,7 @@ class VoiceMainScreenViewModel extends BaseModel {
 
   void loadVoiceRoom() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 2000)); // 1초 딜레이
+    await Future.delayed(const Duration(milliseconds: 2000)); // 딜레이
     List<VoiceRoom> voiceRoomResult =
         await _voiceService.fetchVoiceRooms(nextPageToken: nextPageToken);
     voiceRooms.addAll(voiceRoomResult.map((voiceRoom) => VoiceRoomPresentation(
@@ -50,7 +50,8 @@ class VoiceMainScreenViewModel extends BaseModel {
         await _userService.fetchRecommendUsers(nextPageToken: nextPageToken);
     recommendUsers.addAll(userResult.map((user) => UserPresentation(
         loginId: user.loginId,
-        imageUrls: user.imageUrls ?? ["assets/images/user/general_user.png"],
+        userImageUrls:
+            user.imageUrls ?? ["assets/images/user/general_user.png"],
         collegeName: CollegeData.korNameOf(
             describeEnum(user.collegeCode ?? College.college0000)),
         majorName: MajorData.korNameOf(
@@ -78,14 +79,14 @@ class VoiceRoomPresentation {
 
 class UserPresentation {
   String loginId;
-  List<String> imageUrls;
+  List<String> userImageUrls;
   String collegeName;
   String majorName;
   bool isOnline;
 
   UserPresentation(
       {required this.loginId,
-      required this.imageUrls,
+      required this.userImageUrls,
       required this.collegeName,
       required this.majorName,
       required this.isOnline});

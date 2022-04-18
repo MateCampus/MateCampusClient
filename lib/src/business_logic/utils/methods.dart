@@ -20,7 +20,7 @@ void toastMessage(String message) {
   Fluttertoast.showToast(
       msg: message,
       gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.black87,
+      backgroundColor: Colors.black.withOpacity(0.75),
       fontSize: 15.0,
       textColor: Colors.white,
       toastLength: Toast.LENGTH_SHORT);
@@ -30,4 +30,16 @@ void toastMessage(String message) {
 void backWithToast(message, BuildContext context) {
   Navigator.pop(context);
   toastMessage(message);
+}
+
+void showCustomModalBottomSheet(BuildContext context, Widget widget) {
+  showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (context) {
+        return widget;
+      });
 }

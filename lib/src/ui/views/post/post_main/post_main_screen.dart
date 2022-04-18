@@ -32,42 +32,4 @@ class _PostMainScreenState extends State<PostMainScreen> {
               backgroundColor: const Color(0xfff8f8f8), body: Body(vm: vm));
         }));
   }
-
-  //기존코드
-  // @override
-  // Widget build(BuildContext context) {
-  //   SizeConfig().init(context: context);
-  //   return ChangeNotifierProvider<PostMainScreenViewModel>(
-  //       create: (context) => vm,
-  //       child: Consumer<PostMainScreenViewModel>(builder: (context, vm, child) {
-  //         return Scaffold(
-  //             appBar: AppBar(
-  //               title: const Text('피드',
-  //                   style: TextStyle(
-  //                     color: Colors.black,
-  //                   )),
-  //               actions: [
-  //                 IconButton(
-  //                   onPressed: () => {
-  //                     Navigator.of(context).push(MaterialPageRoute(
-  //                         builder: (context) => PostCreateScreen()))
-  //                   },
-  //                   icon: const Icon(Icons.edit_outlined),
-  //                   color: Colors.black,
-  //                 ),
-  //                 IconButton(
-  //                   onPressed: () => {},
-  //                   icon: const Icon(Icons.notifications_outlined),
-  //                   color: Colors.black,
-  //                 ),
-  //               ],
-  //               elevation: 0.0,
-  //               backgroundColor: Colors.transparent,
-
-  //             ),
-  //             backgroundColor: Color(0xfff8f8f8),
-  //             body: Body(vm: vm));
-  //       }));
-  // }
-  //여기까지 기존코드
 }

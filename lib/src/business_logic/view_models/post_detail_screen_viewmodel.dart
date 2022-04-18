@@ -10,12 +10,12 @@ import 'package:zamongcampus/src/business_logic/models/post.dart';
 class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
 
-  PostDetailPresentation _postDetail =
-      defaultPostDetail; //요기 -> ? 안쓰고 선언할 수 없을까? 그러면 초기값 다 설정해둬야하는데.. (설정하는게 맞는거 같기두하고)
+  PostDetailPresentation _postDetail = defaultPostDetail;
   final List<CommentPresentation> _comments = [];
   bool _isliked = false;
 
-  static final PostDetailPresentation defaultPostDetail =
+  static final PostDetailPresentation
+      defaultPostDetail = //postDetailPresentation 초기값 설정
       PostDetailPresentation(
           id: 0,
           loginId: '',

@@ -1,11 +1,13 @@
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 import 'base_model.dart';
 
 class VoiceFriendFormScreenViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
+  final FriendService _friendService = serviceLocator<FriendService>();
 
   final List<FriendPresentation> _recentTalkUsers = [];
   final List<FriendPresentation> _friendUsers = [];
@@ -18,17 +20,17 @@ class VoiceFriendFormScreenViewModel extends BaseModel {
   void loadUsers() async {
     setBusy(true);
     List<User> recentTalkUserResult = await _userService.fetchRecentTalkUsers();
-    List<User> friendUserResult = await _userService.fetchFriendUsers();
+    List<User> friendUserResult = await _friendService.fetchFriendUsers();
     recentTalkUsers.addAll(recentTalkUserResult.map((recentTalkUser) =>
         FriendPresentation(
-            imageUrl: recentTalkUser.imageUrls?.first ??
+            userImageUrl: recentTalkUser.imageUrls?.first ??
                 "assets/images/user/general_user.png",
-            nickname: recentTalkUser.nickname ?? "error user",
+            userNickname: recentTalkUser.nickname,
             isOnline: recentTalkUser.isOnline ?? false)));
     friendUsers.addAll(friendUserResult.map((friendUser) => FriendPresentation(
-        imageUrl: friendUser.imageUrls?.first ??
+        userImageUrl: friendUser.imageUrls?.first ??
             "assets/images/user/general_user.png",
-        nickname: friendUser.nickname ?? "error user",
+        userNickname: friendUser.nickname,
         isOnline: friendUser.isOnline ?? false)));
     setBusy(false);
   }
@@ -53,10 +55,12 @@ class VoiceFriendFormScreenViewModel extends BaseModel {
 }
 
 class FriendPresentation {
-  final String imageUrl;
-  final String nickname;
+  final String userImageUrl;
+  final String userNickname;
   final bool isOnline;
 
   FriendPresentation(
-      {required this.imageUrl, required this.nickname, required this.isOnline});
+      {required this.userImageUrl,
+      required this.userNickname,
+      required this.isOnline});
 }
