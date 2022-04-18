@@ -40,8 +40,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<ChatDetailViewModel>(
-        create: (context) => vm,
+    return ChangeNotifierProvider.value(
+        value: vm,
         child: Consumer<ChatDetailViewModel>(builder: (context, vm, child) {
           return GestureDetector(
             onTap: () {

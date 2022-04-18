@@ -19,13 +19,13 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<ChatViewModel>(
-        create: (context) => vm,
+    return ChangeNotifierProvider.value(
+        value: vm,
         child: Consumer<ChatViewModel>(builder: (context, vm, child) {
           return Scaffold(
               appBar: CommonAppbar(
                 appBar: AppBar(),
-                title: "자몽캠퍼스",
+                title: "채팅",
               ),
               backgroundColor: const Color(0xfff8f8f8),
               body: Body(vm: vm));

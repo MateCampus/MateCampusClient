@@ -23,10 +23,7 @@ class CommonAppbar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         title ?? "",
         style: TextStyle(
-            color: Colors.white,
-            fontSize: titleSize ?? 25,
-            letterSpacing: 3,
-            fontFamily: "SCDream4"),
+            color: Colors.black, fontSize: titleSize ?? 20, letterSpacing: 3),
       ),
       flexibleSpace: Container(
         decoration: const BoxDecoration(
@@ -38,12 +35,12 @@ class CommonAppbar extends StatelessWidget with PreferredSizeWidget {
           ),
         ),
       ),
-      centerTitle: true,
+      centerTitle: false,
       actions: <Widget>[
         Row(
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.people),
+              icon: Icon(Icons.add_comment_rounded),
               color: Colors.white,
               onPressed: () {
                 // 추후 반드시 삭제 (local db 확인 용)
@@ -58,11 +55,6 @@ class CommonAppbar extends StatelessWidget with PreferredSizeWidget {
           ],
         ),
       ],
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        color: Colors.white,
-        onPressed: () {},
-      ),
       bottom: bottom,
     );
   }
