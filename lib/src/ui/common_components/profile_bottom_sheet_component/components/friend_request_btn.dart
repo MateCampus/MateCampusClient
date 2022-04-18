@@ -27,7 +27,6 @@ class _FriendRequestBtnState extends State<FriendRequestBtn> {
           text: '친구 신청',
           press: () {
             widget.vm.requestFriend('userId', widget.vm.profile.loginId);
-            toastMessage('친구 신청 완료!');
           },
         ),
       ),

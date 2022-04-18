@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
@@ -54,6 +55,7 @@ class ProfileViewModel extends BaseModel {
     //userId: 친구신청 버튼을 누른 유저(본인)  requestId: 친구 신청 당하는 유저
     _profile.friendRequestStatus = FriendRequestStatus.UNACCEPTE;
     print(_profile.nickname + '님에게 친구를 요청합니다'); //테스트용
+    toastMessage('친구 신청 완료!');
     notifyListeners();
   }
 }
