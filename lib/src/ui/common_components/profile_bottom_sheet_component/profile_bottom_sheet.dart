@@ -25,7 +25,6 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   @override
   void initState() {
     vm.loadProfile(widget.userId);
-    vm.loadInterests();
 
     super.initState();
   }
@@ -49,18 +48,26 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                               BorderRadius.vertical(top: Radius.circular(20))),
                       child: vm.busy
                           ? const IsLoading()
-                          : Stack(alignment: Alignment.bottomCenter, children: [
-                              ListView(
-                                controller: scrollController,
-                                children: [
-                                  const ProfileHeader(),
-                                  ProfileInfo(userProfile: vm.profile),
-                                  ProfileInterest(
-                                      profileInterests: vm.interests),
-                                ],
-                              ),
-                              _bottomFixedBtn()
-                            ])),
+                          : Column(
+                              children: [
+                                const ProfileHeader(),
+                                ProfileInfo(userProfile: vm.profile),
+                                Expanded(
+                                  child: Stack(
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        ListView(
+                                          controller: scrollController,
+                                          children: [
+                                            ProfileInterest(
+                                                profileInterests: vm.interests),
+                                          ],
+                                        ),
+                                        _bottomFixedBtn()
+                                      ]),
+                                ),
+                              ],
+                            )),
             ),
           );
         }));

@@ -44,13 +44,16 @@ class ProfileViewModel extends BaseModel {
         introduction: userProfileResult.introduction,
         isOnline: userProfileResult.isOnline ?? defaultProfile.isOnline,
         friendRequestStatus: defaultProfile.friendRequestStatus);
+    _interests = interestDummy;
+
+    // _interests= userProfileResult.interests.map((interest)=> )
+    /// 전체 관심사 수 만큼 map돌려서 status 지정 상대방과 내가 모두 가지고 있는 관심사는 same, 상대방은 있는데 나는 없으면 different 그외는 none
     setBusy(false);
   }
 
-  void loadInterests() async {
-    _interests = interestDummy;
-  }
-
+// void loadInterests() async {
+//     _interests = interestDummy;
+//   }
   void requestFriend(String userId, String requestId) async {
     //userId: 친구신청 버튼을 누른 유저(본인)  requestId: 친구 신청 당하는 유저
     _profile.friendRequestStatus = FriendRequestStatus.UNACCEPTE;
