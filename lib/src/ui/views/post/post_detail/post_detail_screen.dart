@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/body.dart';
 
@@ -25,6 +26,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context: context);
     return ChangeNotifierProvider<PostDetailScreenViewModel>(
       create: (context) => vm,
       child: Consumer<PostDetailScreenViewModel>(
@@ -35,7 +37,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             child: Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
+                  icon: const Icon(Icons.arrow_back_ios_outlined),
                   color: Colors.black,
                   onPressed: () {
                     Navigator.of(context).pop();
