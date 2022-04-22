@@ -86,7 +86,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
     switch (vm.profile.friendRequestStatus) {
       case FriendRequestStatus.ACCEPTED:
         return GoToChatRoomBtn();
-      case FriendRequestStatus.UNACCEPTE:
+      case FriendRequestStatus.UNACCEPTED:
         return WaitingFriendRequest();
       default:
         return FriendRequestBtn(vm: vm);
