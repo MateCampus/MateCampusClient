@@ -48,7 +48,7 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                   elevation: 0.0,
                   backgroundColor: Colors.white,
                   leading: IconButton(
-                    icon: const Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back_ios_outlined),
                     color: Colors.black,
                     onPressed: () {
                       Navigator.of(context).pop();

@@ -8,6 +8,7 @@ class VoiceBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context: context);
     return Container(
       height: getProportionateScreenHeight(235),
       decoration: const BoxDecoration(

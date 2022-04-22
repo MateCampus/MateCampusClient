@@ -23,7 +23,8 @@ class PostListTile extends StatelessWidget {
           //모서리를 둥글게 하기 위해 사용
           borderRadius: BorderRadius.circular(10.0),
         ),
-        elevation: 2.0,
+        shadowColor: Colors.grey.shade100,
+        elevation: 4.0,
         margin: const EdgeInsets.fromLTRB(20, 10, 20, 0),
         child: Padding(
           padding: const EdgeInsets.all(15.0),

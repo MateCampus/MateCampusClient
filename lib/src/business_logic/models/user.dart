@@ -1,3 +1,4 @@
+import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 
@@ -15,6 +16,7 @@ class User {
   final List<String>? imageUrls;
   final bool? isOnline;
   final String? introduction;
+  final List<Interest> interests;
 
   const User(
       {required this.loginId,
@@ -29,5 +31,6 @@ class User {
       this.deviceToken,
       this.imageUrls,
       required this.isOnline,
-      this.introduction});
+      this.introduction,
+      required this.interests});
 }

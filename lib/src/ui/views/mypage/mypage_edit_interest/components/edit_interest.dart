@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/selected_interest_chip.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/unselected_interest_chip.dart';
+
+class EditInterest extends StatefulWidget {
+  MypageViewModel vm;
+  EditInterest({Key? key, required this.vm}) : super(key: key);
+
+  @override
+  _EditInterestState createState() => _EditInterestState();
+}
+
+class _EditInterestState extends State<EditInterest> {
+  final List<InterestPresentation> _selectedInterests = [];
+
+  @override
+  void initState() {
+    for (InterestPresentation interest in widget.vm.myInterests) {
+      if (interest.isSelected) {
+        _selectedInterests.add(interest);
+      }
+    }
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(alignment: Alignment.bottomCenter, children: [
+      Padding(
+        padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(30), 0,
+            getProportionateScreenWidth(30), getProportionateScreenHeight(70)),
+        child: ListView(
+          children: [
+            Wrap(
+              runSpacing: getProportionateScreenHeight(15), //세로 간격
+              //alignment: WrapAlignment.spaceBetween,
+              spacing: getProportionateScreenWidth(25),
+              children: [
+                ...widget.vm.myInterests.map((interest) => interest.isSelected
+                    ? Column(
+                        children: [
+                          ChoiceChip(
+                            label: SelectedInterestChip(icon: interest.icon),
+                            selected: interest.isSelected,
+                            selectedColor: Colors.white,
+                            backgroundColor: Colors.white,
+                            padding: EdgeInsets.zero,
+                            labelPadding: EdgeInsets.zero,
+                            onSelected: (bool value) {
+                              setState(() {
+                                interest.isSelected = value;
+                              });
+                              _selectedInterests.remove(interest);
+                            },
+                          ),
+                          Text(
+                            interest.title,
+                            style: const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          ChoiceChip(
+                            label: UnselectedInterestChip(icon: interest.icon),
+                            selected: interest.isSelected,
+                            selectedColor: Colors.white,
+                            backgroundColor: Colors.white,
+                            padding: EdgeInsets.zero,
+                            labelPadding: EdgeInsets.zero,
+                            onSelected: (bool value) {
+                              setState(() {
+                                interest.isSelected = value;
+                              });
+                              _selectedInterests.add(interest);
+                            },
+                          ),
+                          Text(
+                            interest.title,
+                            style: const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w600),
+                          )
+                        ],
+                      ))
+              ],
+            )
+          ],
+        ),
+      ),
+      DefaultShadowBox(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+              getProportionateScreenWidth(20),
+              getProportionateScreenHeight(10),
+              getProportionateScreenWidth(20),
+              getProportionateScreenHeight(25)),
+          child: DefaultBtn(
+            text: _selectedInterests.length.toString() + '개 선택됨',
+            press: () {
+              widget.vm.updateInterests(
+                  selectedInterests: _selectedInterests, context: context);
+            },
+          ),
+        ),
+      )
+    ]);
+  }
+}
