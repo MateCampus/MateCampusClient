@@ -18,7 +18,7 @@ class _MypageEditInterestScreenState extends State<MypageEditInterestScreen> {
 
   @override
   void initState() {
-    //vm.loadMyInterest(); -> 여기서 쓰면 안됨. 관심사 수정 버튼 누를때 로드
+    vm.loadMyInterest();
     super.initState();
   }
 

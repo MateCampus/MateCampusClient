@@ -10,7 +10,8 @@ import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 
 class MypageViewModel extends BaseModel {
   MypagePresentation _myInfo = defaultInfo;
-  List<InterestPresentation> _myInterests = [];
+  final List<InterestPresentation> _myInterests = [];
+  final List<InterestPresentation> _selectedInterests = [];
 
   static final MypagePresentation defaultInfo = MypagePresentation(
     nickname: '',
@@ -25,6 +26,7 @@ class MypageViewModel extends BaseModel {
 
   MypagePresentation get myInfo => _myInfo;
   List<InterestPresentation> get myInterests => _myInterests;
+  List<InterestPresentation> get selectedInterests => _selectedInterests;
 
   void loadMyInfo(String loginId) async {
     setBusy(true);
@@ -52,31 +54,51 @@ class MypageViewModel extends BaseModel {
     //List<Interest> selectedInterests = await _userService.fetchMyInterest(loginId: loginId); 유저의 관심사 데이터만 패치
 
     _myInterests.clear();
+    _selectedInterests.clear();
 
-    List<Interest> selectedInterests = fakeMyInfo.interests;
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      List<Interest> selectedInterests = fakeMyInfo.interests;
 
-    for (Interest systemInterest in systemInterests) {
-      //이중 포문 안쓰는 방법 찾아보기
-      bool hasData = false;
-      for (Interest selectedInterest in selectedInterests) {
-        if (systemInterest.codeNum == selectedInterest.codeNum) {
-          hasData = true;
-          break;
+      for (Interest systemInterest in systemInterests) {
+        //이중 포문 안쓰는 방법 찾아보기
+        bool hasData = false;
+        for (Interest selectedInterest in selectedInterests) {
+          if (systemInterest.codeNum == selectedInterest.codeNum) {
+            hasData = true;
+            break;
+          }
+        }
+        if (hasData == true) {
+          _myInterests.add(InterestPresentation(
+              codeNum: systemInterest.codeNum,
+              title: InterestData.korNameOf(systemInterest.codeNum.name),
+              icon: InterestData.iconOf(systemInterest.codeNum.name),
+              isSelected: hasData));
+        } else if (hasData == false) {
+          _myInterests.add(InterestPresentation(
+              codeNum: systemInterest.codeNum,
+              title: InterestData.korNameOf(systemInterest.codeNum.name),
+              icon: InterestData.iconOf(systemInterest.codeNum.name),
+              isSelected: hasData));
         }
       }
-      if (hasData == true) {
-        _myInterests.add(InterestPresentation(
-            codeNum: systemInterest.codeNum,
-            title: InterestData.korNameOf(systemInterest.codeNum.name),
-            icon: InterestData.iconOf(systemInterest.codeNum.name),
-            isSelected: hasData));
-      } else if (hasData == false) {
-        _myInterests.add(InterestPresentation(
-            codeNum: systemInterest.codeNum,
-            title: InterestData.korNameOf(systemInterest.codeNum.name),
-            icon: InterestData.iconOf(systemInterest.codeNum.name),
-            isSelected: hasData));
+
+      for (InterestPresentation interest in _myInterests) {
+        if (interest.isSelected) {
+          _selectedInterests.add(interest);
+        }
       }
+
+      notifyListeners();
+    });
+  }
+
+  void changeInterestStatus(InterestPresentation interest, bool value) {
+    interest.isSelected = value;
+    if (interest.isSelected == false) {
+      _selectedInterests.remove(interest);
+    } else if (interest.isSelected == true) {
+      _selectedInterests.add(interest);
     }
     notifyListeners();
   }
@@ -104,18 +126,16 @@ class MypageViewModel extends BaseModel {
     toastMessage('프로필 변경 완료!');
   }
 
-  void updateInterests(
-      {required List<InterestPresentation> selectedInterests,
-      required BuildContext context}) {
-    print(selectedInterests.length); //확인용
+  void updateInterests({required BuildContext context}) {
     List<InterestCode> _result = []; //서버에 넘길 값. 선택된 관심사의 코드값만 넘김
 
-    for (InterestPresentation selectedInterest in selectedInterests) {
-      _result.add(selectedInterest.codeNum);
+    for (InterestPresentation interest in _selectedInterests) {
+      _result.add(interest.codeNum);
     }
+    print(_result.length); //확인용
     print(_result); //확인용
 
-    _myInfo.interestCount = selectedInterests.length.toString();
+    _myInfo.interestCount = _selectedInterests.length.toString();
     notifyListeners();
     Navigator.pop(context);
     toastMessage('관심사 변경 완료!');
