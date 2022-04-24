@@ -93,7 +93,6 @@ class ShowInfo extends StatelessWidget {
     return TextButton(
         onPressed: () {
           Navigator.pushNamed(context, '/mypageEditInterest');
-          vm.loadMyInterest();
         },
         style: TextButton.styleFrom(
             primary: Colors.white,

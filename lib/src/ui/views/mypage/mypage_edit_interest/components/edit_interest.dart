@@ -15,19 +15,6 @@ class EditInterest extends StatefulWidget {
 }
 
 class _EditInterestState extends State<EditInterest> {
-  final List<InterestPresentation> _selectedInterests = [];
-
-  @override
-  void initState() {
-    for (InterestPresentation interest in widget.vm.myInterests) {
-      if (interest.isSelected) {
-        _selectedInterests.add(interest);
-      }
-    }
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.bottomCenter, children: [
@@ -52,10 +39,7 @@ class _EditInterestState extends State<EditInterest> {
                             padding: EdgeInsets.zero,
                             labelPadding: EdgeInsets.zero,
                             onSelected: (bool value) {
-                              setState(() {
-                                interest.isSelected = value;
-                              });
-                              _selectedInterests.remove(interest);
+                              widget.vm.changeInterestStatus(interest, value);
                             },
                           ),
                           Text(
@@ -75,10 +59,7 @@ class _EditInterestState extends State<EditInterest> {
                             padding: EdgeInsets.zero,
                             labelPadding: EdgeInsets.zero,
                             onSelected: (bool value) {
-                              setState(() {
-                                interest.isSelected = value;
-                              });
-                              _selectedInterests.add(interest);
+                              widget.vm.changeInterestStatus(interest, value);
                             },
                           ),
                           Text(
@@ -101,10 +82,9 @@ class _EditInterestState extends State<EditInterest> {
               getProportionateScreenWidth(20),
               getProportionateScreenHeight(25)),
           child: DefaultBtn(
-            text: _selectedInterests.length.toString() + '개 선택됨',
+            text: widget.vm.selectedInterests.length.toString() + '개 선택됨',
             press: () {
-              widget.vm.updateInterests(
-                  selectedInterests: _selectedInterests, context: context);
+              widget.vm.updateInterests(context: context);
             },
           ),
         ),
