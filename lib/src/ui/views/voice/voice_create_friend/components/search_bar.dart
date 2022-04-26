@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 
 class SearchBar extends StatefulWidget {
   const SearchBar({Key? key}) : super(key: key);
@@ -10,25 +11,31 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
-    return const TextField(
-      //autofocus: true,
-      keyboardType: TextInputType.multiline,
-      style: TextStyle(fontSize: 14),
-      //controller: widget.textInput,
-      maxLines: 1,
-      decoration: InputDecoration(
-        prefixIcon: Icon(
-          Icons.search,
-          color: Color(0xff707070),
-          size: 20.0,
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(20)),
+      child: const TextField(
+        //autofocus: true,
+        keyboardType: TextInputType.multiline,
+        style: TextStyle(fontSize: 14),
+        //controller: widget.textInput,
+        maxLines: 1,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.search,
+            color: Color(0xff707070),
+            size: 20.0,
+          ),
+          contentPadding: EdgeInsets.zero,
+          hintText: "친구 검색",
+          hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+          fillColor: Color(0xfff8f8f8),
+          filled: true,
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(5))),
         ),
-        hintText: "친구 검색",
-        hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-        fillColor: Color(0xfff8f8f8),
-        filled: true,
-        border: OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(Radius.circular(5))),
       ),
     );
   }

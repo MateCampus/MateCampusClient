@@ -16,7 +16,7 @@ class User {
   final List<String>? imageUrls;
   final bool? isOnline;
   final String? introduction;
-  final List<Interest> interests;
+  final List<Interest>? interests;
 
   const User(
       {required this.loginId,

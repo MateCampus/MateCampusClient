@@ -1,28 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_friend_form_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class FriendListTile extends StatefulWidget {
-  FriendPresentation user;
-  FriendListTile({Key? key, required this.user}) : super(key: key);
+  final VoiceCreateViewModel vm;
+  final UserPresentation user;
+  const FriendListTile({Key? key, required this.vm, required this.user})
+      : super(key: key);
 
   @override
   State<FriendListTile> createState() => _FriendListTileState();
 }
 
-bool _isChecked = false;
-
 class _FriendListTileState extends State<FriendListTile> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: getProportionateScreenHeight(15)),
-      child: ListTile(
-        leading: Stack(
+      padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(20), 0,
+          getProportionateScreenWidth(20), getProportionateScreenHeight(20)),
+      child: CheckboxListTile(
+        //체크박스 동그랗게 안됨. -> 패키지 써야함
+        title: Text(
+          widget.user.userNickname,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+        contentPadding: const EdgeInsets.all(0),
+        activeColor: mainColor,
+        side: BorderSide.none,
+        secondary: Stack(
           children: [
             CircleAvatar(
-              radius: 30,
+              radius: getProportionateScreenHeight(30),
               backgroundImage: AssetImage(widget.user.userImageUrl),
             ),
             Positioned(
@@ -44,19 +53,9 @@ class _FriendListTileState extends State<FriendListTile> {
             )
           ],
         ),
-        title: Text(
-          widget.user.userNickname,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-        trailing: Icon(
-          Icons.check_circle,
-          color: _isChecked ? mainColor : Colors.grey,
-        ),
-        contentPadding: const EdgeInsets.all(0),
-        onTap: () {
-          setState(() {
-            _isChecked = !_isChecked;
-          });
+        value: widget.user.isChecked,
+        onChanged: (value) {
+          widget.vm.setMembers(widget.user, value!, widget.user.loginId);
         },
       ),
     );
