@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_friend_form_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/my_friend_body.dart';
@@ -16,11 +16,14 @@ class VoiceCreateFriendScreen extends StatefulWidget {
 }
 
 class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
-  VoiceFriendFormScreenViewModel vm =
-      serviceLocator<VoiceFriendFormScreenViewModel>();
+  VoiceCreateViewModel vm = serviceLocator<VoiceCreateViewModel>();
   @override
   void initState() {
-    vm.loadUsers();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.loadRecentTalkUsers();
+      vm.loadFriendUsers();
+    });
+
     super.initState();
   }
 
@@ -30,10 +33,9 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
     final args = ModalRoute.of(context)!.settings.arguments
         as VoiceCreateFriendScreenArgs;
 
-    return ChangeNotifierProvider<VoiceFriendFormScreenViewModel>(
-        create: (context) => vm,
-        child: Consumer<VoiceFriendFormScreenViewModel>(
-            builder: (context, model, child) {
+    return ChangeNotifierProvider<VoiceCreateViewModel>.value(
+        value: vm,
+        child: Consumer<VoiceCreateViewModel>(builder: (context, vm, child) {
           return GestureDetector(
             onTap: () =>
                 FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
@@ -54,28 +56,41 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  bottom: TabBar(
-                      indicatorColor: args.color,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      labelColor: Colors.black,
-                      labelStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      unselectedLabelColor: const Color(0xff7f7f7f),
-                      unselectedLabelStyle: const TextStyle(
-                        fontSize: 15,
-                      ),
-                      tabs: const [Tab(text: '최근 대화'), Tab(text: '내 친구')]),
+                  bottom: PreferredSize(
+                    preferredSize:
+                        Size.fromHeight(getProportionateScreenHeight(40)),
+                    child: TabBar(
+                        indicatorColor: args.color,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        labelColor: Colors.black,
+                        labelStyle: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        unselectedLabelColor: const Color(0xff7f7f7f),
+                        unselectedLabelStyle: const TextStyle(
+                          fontSize: 15,
+                        ),
+                        tabs: [
+                          SizedBox(
+                              height: getProportionateScreenHeight(30),
+                              child: const Tab(text: '최근 대화')),
+                          SizedBox(
+                              height: getProportionateScreenHeight(30),
+                              child: const Tab(text: '내 친구'))
+                        ]),
+                  ),
                 ),
                 backgroundColor: Colors.white, //배경색
                 body: TabBarView(children: [
                   RecentTalkBody(
                     vm: vm,
+                    users: vm.recentTalkUsers,
                     color: args.color,
                   ),
                   MyFriendBody(
                     vm: vm,
+                    users: vm.friendUsers,
                     color: args.color,
                   )
                 ]),

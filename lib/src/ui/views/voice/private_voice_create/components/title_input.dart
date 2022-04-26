@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class TitleInput extends StatefulWidget {
-  const TitleInput({Key? key}) : super(key: key);
+  final VoiceCreateViewModel vm;
+  const TitleInput({Key? key, required this.vm}) : super(key: key);
 
   @override
   State<TitleInput> createState() => _TitleInputState();
 }
 
 class _TitleInputState extends State<TitleInput> {
+  @override
+  void initState() {
+    super.initState();
+
+    widget.vm.titleController.addListener(() {
+      //widget.vm.setTitle();
+    });
+  }
+
+  // @override
+  // void dispose() {
+  //   widget.vm.titleController.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Column(

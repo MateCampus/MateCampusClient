@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 class CheckOptions extends StatefulWidget {
-  const CheckOptions({Key? key}) : super(key: key);
+  final VoiceCreateViewModel vm;
+  const CheckOptions({Key? key, required this.vm}) : super(key: key);
 
   @override
   State<CheckOptions> createState() => _CheckOptionsState();
 }
-
-bool _isSchoolChecked = false;
-bool _isMajorChecked = false;
 
 class _CheckOptionsState extends State<CheckOptions> {
   @override
@@ -17,36 +17,32 @@ class _CheckOptionsState extends State<CheckOptions> {
     return Row(
       children: [
         Checkbox(
-          value: _isSchoolChecked,
+          value: widget.vm.collegeOnlyChecked,
           onChanged: (value) {
-            setState(() {
-              _isSchoolChecked = !_isSchoolChecked;
-            });
+            widget.vm.setCollegeOption(value!);
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          activeColor: const Color(0xffff6f5e),
+          activeColor: mainColor,
           side: const BorderSide(
             color: Colors.grey,
-            width: 1.5,
+            width: 1.0,
           ),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
         const Text('같은 학교만 만나기'),
         const HorizontalSpacing(of: 10),
         Checkbox(
-          value: _isMajorChecked,
+          value: widget.vm.majorOnlyChecked,
           onChanged: (value) {
-            setState(() {
-              _isMajorChecked = !_isMajorChecked;
-            });
+            widget.vm.setMajorOption(value!);
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          activeColor: const Color(0xffff6f5e),
+          activeColor: mainColor,
           side: const BorderSide(
             color: Colors.grey,
-            width: 1.5,
+            width: 1.0,
           ),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
