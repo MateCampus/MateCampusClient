@@ -58,11 +58,43 @@ List<User> userDummy = [
       majorCode: Major.major0005,
       isOnline: false,
       interests: []),
+  const User(
+      loginId: "zm6",
+      nickname: "나비야훨훨",
+      collegeCode: College.college0002,
+      imageUrls: null,
+      majorCode: Major.major0002,
+      isOnline: false,
+      interests: []),
+  const User(
+      loginId: "zm7",
+      nickname: "다부지",
+      collegeCode: College.college0003,
+      imageUrls: ["assets/images/user/user3.jpg"],
+      majorCode: Major.major0003,
+      isOnline: null,
+      interests: []),
+  const User(
+      loginId: "zm8",
+      nickname: "라디오꾼",
+      collegeCode: College.college0004,
+      imageUrls: ["assets/images/user/user4.jpg"],
+      majorCode: Major.major0004,
+      isOnline: false,
+      interests: []),
+  const User(
+      loginId: "zm9",
+      nickname: "마라탕궈",
+      collegeCode: College.college0005,
+      imageUrls: ["assets/images/user/user5.jpg"],
+      majorCode: Major.major0005,
+      isOnline: false,
+      interests: []),
 ];
 
 List<User> userDummy2 = [
   const User(
-      loginId: "zm6",
+      loginId: "zm10",
       nickname: "바나나",
       collegeCode: College.college0001,
       imageUrls: [
@@ -73,7 +105,7 @@ List<User> userDummy2 = [
       isOnline: true,
       interests: []),
   const User(
-      loginId: "zm7",
+      loginId: "zm11",
       nickname: "사이다",
       collegeCode: College.college0002,
       imageUrls: ["assets/images/user/user2.jpg"],

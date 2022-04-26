@@ -5,19 +5,25 @@ import 'user.dart';
 
 class VoiceRoom {
   final int id;
-  final String title;
-  final List<User> members;
-  final List<ChatMessage> chatMessages;
-  final List<Category> categories;
+  String title;
+  List<User> members;
+  List<ChatMessage>? chatMessages;
+  List<Category> categories;
   DateTime createdAt;
+  VoiceRoomType type;
+  bool? collegeOnly;
+  bool? majorOnly;
 
   VoiceRoom(
       {required this.id,
       required this.title,
       required this.members,
-      required this.chatMessages,
+      this.chatMessages,
       required this.categories,
-      required this.createdAt});
+      required this.createdAt,
+      required this.type,
+      this.collegeOnly,
+      this.majorOnly});
 
   factory VoiceRoom.fromJson(Map<String, dynamic> json) {
     return VoiceRoom(
@@ -26,6 +32,9 @@ class VoiceRoom {
         members: json['members'],
         chatMessages: json['chatMessages'],
         categories: json['categories'],
-        createdAt: DateTime.parse(json['createdAt']));
+        createdAt: DateTime.parse(json['createdAt']),
+        type: json['']);
   }
 }
+
+enum VoiceRoomType { PUBLIC, PRIVATE }

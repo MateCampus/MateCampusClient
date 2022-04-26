@@ -42,7 +42,7 @@ class MypageViewModel extends BaseModel {
         majorName: MajorData.korNameOf(
             describeEnum(myInfoResult.majorCode ?? Major.major0000)),
         introduction: myInfoResult.introduction,
-        interestCount: myInfoResult.interests.length.toString(),
+        interestCount: myInfoResult.interests!.length.toString(),
         friendCount: defaultInfo.friendCount,
         bookmarkCount: defaultInfo.bookmarkCount,
         feedCount: defaultInfo.feedCount,
@@ -57,7 +57,7 @@ class MypageViewModel extends BaseModel {
     _selectedInterests.clear();
 
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      List<Interest> selectedInterests = fakeMyInfo.interests;
+      List<Interest> selectedInterests = fakeMyInfo.interests!;
 
       for (Interest systemInterest in systemInterests) {
         //이중 포문 안쓰는 방법 찾아보기
