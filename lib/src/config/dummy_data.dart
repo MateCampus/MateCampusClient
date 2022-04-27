@@ -95,7 +95,7 @@ List<User> userDummy = [
 List<User> userDummy2 = [
   const User(
       loginId: "zm10",
-      nickname: "바나나",
+      nickname: "바나나2",
       collegeCode: College.college0001,
       imageUrls: [
         "assets/images/user/user1.jpg",
@@ -113,6 +113,34 @@ List<User> userDummy2 = [
       isOnline: true,
       interests: []),
 ];
+
+List<User> userDummy3 = [
+  const User(
+      loginId: "zm3",
+      nickname: "삼부지",
+      collegeCode: College.college0003,
+      imageUrls: ["assets/images/user/user3.jpg"],
+      majorCode: Major.major0003,
+      isOnline: null,
+      interests: []),
+  const User(
+      loginId: "zm4",
+      nickname: "라디오꾼",
+      collegeCode: College.college0004,
+      imageUrls: ["assets/images/user/user4.jpg"],
+      majorCode: Major.major0004,
+      isOnline: false,
+      interests: []),
+  const User(
+      loginId: "zm5",
+      nickname: "마라탕궈",
+      collegeCode: College.college0005,
+      imageUrls: ["assets/images/user/user5.jpg"],
+      majorCode: Major.major0005,
+      isOnline: false,
+      interests: []),
+];
+
 List<List<Category>> categoryDummy = [
   [Category.c0010, Category.c0002],
   [Category.c0003, Category.c0009],
