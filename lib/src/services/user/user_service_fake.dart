@@ -13,7 +13,7 @@ class FakeUserService implements UserService {
   @override
   Future<List<User>> fetchRecentTalkUsers() async {
     List<User> list = [];
-    list.addAll(userDummy2);
+    list.addAll(userDummy);
     return list;
   }
 
