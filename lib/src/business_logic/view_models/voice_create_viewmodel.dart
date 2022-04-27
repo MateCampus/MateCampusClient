@@ -137,7 +137,7 @@ class VoiceCreateViewModel extends BaseModel {
   }
 
 //대화방 만들기
-  void createVoiceRoom() {
+  void createVoiceRoom() async {
     final createVoiceRoomJson = jsonEncode({
       "title": titleController.text,
       "collegeOnly": _collegeOnlyChecked,

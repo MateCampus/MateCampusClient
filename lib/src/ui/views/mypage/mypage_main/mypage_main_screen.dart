@@ -39,7 +39,9 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
                   )),
               actions: [
                 IconButton(
-                  onPressed: () => {Navigator.pushNamed(context, '/settings')},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/settings');
+                  },
                   icon: const Icon(Icons.settings_outlined),
                   color: Colors.black,
                 ),

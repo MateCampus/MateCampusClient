@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/ui/views/Friend/friend_main_screen.dart';
 import 'package:zamongcampus/src/ui/views/home.dart';
 import 'package:zamongcampus/src/ui/views/login/login_main/login_main_screen.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/mypage_edit_info_screen.dart';
@@ -21,4 +22,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/mypageEditInterest": (BuildContext context) =>
       const MypageEditInterestScreen(),
   "/settings": (BuildContext context) => const SettingsScreen(),
+  "/friend": (BuildContext context) => const FriendMainScreen(),
 };

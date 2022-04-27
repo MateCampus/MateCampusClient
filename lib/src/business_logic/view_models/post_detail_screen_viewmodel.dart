@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
