@@ -22,7 +22,7 @@ class CommentList extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: mainColor,
                     letterSpacing: 1),
-                children: [
+                children: const [
               TextSpan(
                   text: '개의 댓글',
                   style: TextStyle(color: Colors.black, letterSpacing: 1))

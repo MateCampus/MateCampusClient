@@ -10,25 +10,22 @@ class PostHead extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Wrap(
           //카테고리 나열 -> viewmodel에서 맵핑할때 이렇게까지 작업하고 여기에서는 Text(post.category) 이런식으로만 쓸 수 있게 해야할거같음.
+          alignment: WrapAlignment.start,
+          spacing: getProportionateScreenWidth(8),
           children: [
-            ...post.categories.map((category) => Container(
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: const Color(0xfff8f8f8)),
-                  child: Text(
-                    category + "  ",
-                    style: const TextStyle(fontSize: 12),
-                  ),
+            ...post.categories.map((category) => Chip(
+                  label: Text(category),
+                  labelStyle: const TextStyle(fontSize: 12),
+                  backgroundColor: const Color(0xfff8f8f8),
                 ))
           ],
         ),
-        const VerticalSpacing(of: 10),
+
+        const VerticalSpacing(of: 5),
         Text(
           post.title,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
