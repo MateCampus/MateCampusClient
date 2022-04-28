@@ -18,7 +18,7 @@ class AuthService extends ChangeNotifier {
     VoiceMainScreenViewModel voicemainvm =
         serviceLocator<VoiceMainScreenViewModel>();
     voicemainvm.loadRecommendUsers();
-    voicemainvm.loadVoiceRoom();
+    voicemainvm.loadVoiceRooms();
   }
 
   Future<void> setTokenAndLoginId(
