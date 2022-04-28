@@ -20,6 +20,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   void initState() {
     vm.loadPostDetail(widget.postId);
+
     //print(widget.postId);
     super.initState();
   }
@@ -30,28 +31,32 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     return ChangeNotifierProvider<PostDetailScreenViewModel>(
       create: (context) => vm,
       child: Consumer<PostDetailScreenViewModel>(
-        builder: (context, value, child) {
+        builder: (context, vm, child) {
           return GestureDetector(
             onTap: () =>
                 FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
             child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_outlined),
-                  color: Colors.black,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.more_horiz),
+              appBar: PreferredSize(
+                preferredSize:
+                    Size.fromHeight(getProportionateScreenHeight(30)),
+                child: AppBar(
+                  leading: IconButton(
+                    icon: const Icon(Icons.chevron_left_outlined),
                     color: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                   ),
-                ],
-                elevation: 0.0,
-                backgroundColor: Colors.transparent,
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.more_horiz),
+                      color: Colors.black,
+                      onPressed: () {},
+                    ),
+                  ],
+                  elevation: 0.0,
+                  backgroundColor: Colors.transparent,
+                ),
               ),
               backgroundColor: Colors.white,
               //extendBodyBehindAppBar: true,

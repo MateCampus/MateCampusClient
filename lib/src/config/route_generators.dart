@@ -14,7 +14,9 @@ onGenerateRoute: (settings) {
 
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,6 +25,10 @@ class RouteGenerator {
         final args = settings.arguments as PostDetailScreenArgs;
         return MaterialPageRoute(
             builder: (_) => PostDetailScreen(postId: args.postId));
+      case "/voiceDetail":
+        final args = settings.arguments as VoiceDetailScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) => VoiceDetailScreen(voiceRoomId: args.voiceRoomId));
       default:
         return _errorRoute();
     }

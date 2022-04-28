@@ -16,7 +16,6 @@ class Body extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(20, 20, 20, 5),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Expanded(
               child: SingleChildScrollView(

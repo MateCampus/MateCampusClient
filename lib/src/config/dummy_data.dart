@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
+import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
@@ -116,6 +117,25 @@ List<User> userDummy2 = [
 
 List<User> userDummy3 = [
   const User(
+      loginId: "zm10",
+      nickname: "바나나2",
+      collegeCode: College.college0001,
+      imageUrls: [
+        "assets/images/user/user1.jpg",
+        "assets/images/user/user2.jpg"
+      ],
+      majorCode: Major.major0001,
+      isOnline: true,
+      interests: []),
+  const User(
+      loginId: "zm11",
+      nickname: "나랑드사이다",
+      collegeCode: College.college0002,
+      imageUrls: ["assets/images/user/user2.jpg"],
+      majorCode: Major.major0002,
+      isOnline: true,
+      interests: []),
+  const User(
       loginId: "zm3",
       nickname: "삼부지",
       collegeCode: College.college0003,
@@ -145,6 +165,49 @@ List<List<Category>> categoryDummy = [
   [Category.c0010, Category.c0002],
   [Category.c0003, Category.c0009],
   [Category.c0005, Category.c0007]
+];
+
+List<VoiceRoom> voiceRoomDummy = [
+  VoiceRoom(
+      id: 1,
+      title: "단국대 20학번 산업디자인과 드루왕!!",
+      members: userDummy3,
+      chatMessages: chatMessageDummy,
+      createdAt: DateTime(2022, 2, 3),
+      categories: categoryDummy[Random().nextInt(2)],
+      type: VoiceRoomType.PUBLIC),
+  VoiceRoom(
+      id: 2,
+      title: "고정팟 구함!! 배틀그라운드 컴온",
+      members: userDummy2,
+      chatMessages: chatMessageDummy,
+      createdAt: DateTime(2022, 2, 3),
+      categories: categoryDummy[Random().nextInt(2)],
+      type: VoiceRoomType.PUBLIC),
+  VoiceRoom(
+      id: 3,
+      title: "프로자취러들의 모임~ 각자 꿀팁공유행",
+      members: userDummy2,
+      chatMessages: chatMessageDummy,
+      createdAt: DateTime(2022, 2, 3),
+      categories: categoryDummy[Random().nextInt(2)],
+      type: VoiceRoomType.PUBLIC),
+  VoiceRoom(
+      id: 4,
+      title: "경기대 새내기 손!!",
+      members: userDummy2,
+      chatMessages: chatMessageDummy,
+      createdAt: DateTime(2022, 2, 3),
+      categories: categoryDummy[Random().nextInt(2)],
+      type: VoiceRoomType.PUBLIC),
+  VoiceRoom(
+      id: 5,
+      title: "즐겁게 대화할사람 들어와주세요~~~컨셉질환영 과몰입환영 그냥 다 환영 드루와드루와",
+      members: userDummy2,
+      chatMessages: chatMessageDummy,
+      createdAt: DateTime(2022, 2, 3),
+      categories: categoryDummy[Random().nextInt(2)],
+      type: VoiceRoomType.PUBLIC)
 ];
 
 List<ChatMessage> chatMessageDummy = [

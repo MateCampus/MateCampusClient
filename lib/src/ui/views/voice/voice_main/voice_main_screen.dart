@@ -4,8 +4,6 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user_list.dart';
 
 import 'components/body.dart';
 
@@ -21,7 +19,7 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
 
   @override
   void initState() {
-    vm.loadVoiceRoom();
+    vm.loadVoiceRooms();
     vm.loadRecommendUsers();
     super.initState();
   }

@@ -18,12 +18,12 @@ class VoiceMainScreenViewModel extends BaseModel {
   List<UserPresentation> recommendUsers = [];
   int nextPageToken = 0;
 
-  void loadVoiceRoom() async {
+  void loadVoiceRooms() async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 2000)); // 딜레이
-    List<VoiceRoom> voiceRoomResult =
+    List<VoiceRoom> voiceRoomsResult =
         await _voiceService.fetchVoiceRooms(nextPageToken: nextPageToken);
-    voiceRooms.addAll(voiceRoomResult.map((voiceRoom) => VoiceRoomPresentation(
+    voiceRooms.addAll(voiceRoomsResult.map((voiceRoom) => VoiceRoomPresentation(
         id: voiceRoom.id,
         title: voiceRoom.title,
         memberImageUrls: voiceRoom.members
