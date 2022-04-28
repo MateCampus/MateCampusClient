@@ -13,8 +13,10 @@ onGenerateRoute: (settings) {
   */
 
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
+import 'package:zamongcampus/src/ui/views/chat/chat_detail/chat_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
@@ -29,6 +31,11 @@ class RouteGenerator {
         final args = settings.arguments as VoiceDetailScreenArgs;
         return MaterialPageRoute(
             builder: (_) => VoiceDetailScreen(voiceRoomId: args.voiceRoomId));
+      case "/chatDetail":
+        final args = settings.arguments as ChatDetailScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) =>
+                ChatDetailScreen(chatRoom: args.chatRoom, index: args.index));
       default:
         return _errorRoute();
     }

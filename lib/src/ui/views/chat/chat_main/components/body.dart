@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
+import 'chatTile.dart';
+
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+  ChatViewModel vm;
+  Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return SingleChildScrollView(
+        child: Column(
       children: [
         Card(
           shape: RoundedRectangleBorder(
@@ -32,8 +38,26 @@ class Body extends StatelessWidget {
               Navigator.pushNamed(context, "/friend");
             },
           ),
+        ),
+        AnimatedList(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          key: vm.listKey,
+          initialItemCount: vm.chatRooms.length,
+          itemBuilder: (context, index, animation) => ChatTile(
+              chatRoom: vm.chatRooms[index],
+              animation: animation,
+              onClicked: () {
+                Navigator.pushNamed(context, "/chatDetail",
+                        arguments:
+                            ChatDetailScreenArgs(vm.chatRooms[index], index))
+                    .then((value) => vm.changeInsideRoomId("0"));
+              },
+              onDeleted: () {
+                vm.removeItem(index, vm.chatRooms[index].roomId);
+              }),
         )
       ],
-    );
+    ));
   }
 }

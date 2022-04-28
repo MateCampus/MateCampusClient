@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:zamongcampus/src/business_logic/models/chat_message.dart';
+import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
@@ -9,6 +9,11 @@ import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
+
+/**
+ * 테스트를 위한 dummyData. 
+ * 추후에 삭제할 예정
+ */
 
 List<User> userDummy = [
   User(
@@ -215,19 +220,19 @@ List<ChatMessage> chatMessageDummy = [
       roomId: "1",
       loginId: "zm1",
       text: "하이루~",
-      type: ChatMessageType.talk,
+      type: MessageType.talk,
       createdAt: DateTime(2022, 02, 15)),
   ChatMessage(
       roomId: "1",
       loginId: "zm2",
       text: "방가방가",
-      type: ChatMessageType.talk,
+      type: MessageType.talk,
       createdAt: DateTime(2022, 02, 16)),
   ChatMessage(
       roomId: "1",
       loginId: "zm3",
       text: "헬로우",
-      type: ChatMessageType.talk,
+      type: MessageType.talk,
       createdAt: DateTime(2022, 02, 17)),
 ];
 

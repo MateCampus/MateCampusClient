@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 
 import 'voice_room_list_tile.dart';
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "526540381947",
+    "project_id": "litcitrus-2fc7a",
+    "storage_bucket": "litcitrus-2fc7a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526540381947:android:2b1ed010bc1e4fa45dda5e",
+        "android_client_info": {
+          "package_name": "com.litCitrus.zamongcampus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526540381947-s31d41n6bqtnprbh7d6vfpdccm4nh8ae.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7p59yOrZzacVZIa-jsec5VAO9EiFDDno"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526540381947-s31d41n6bqtnprbh7d6vfpdccm4nh8ae.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
