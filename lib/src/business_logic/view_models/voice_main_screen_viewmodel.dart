@@ -20,7 +20,7 @@ class VoiceMainScreenViewModel extends BaseModel {
 
   void loadVoiceRooms() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 2000)); // 딜레이
+    await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
     List<VoiceRoom> voiceRoomsResult =
         await _voiceService.fetchVoiceRooms(nextPageToken: nextPageToken);
     voiceRooms.addAll(voiceRoomsResult.map((voiceRoom) => VoiceRoomPresentation(
@@ -45,7 +45,7 @@ class VoiceMainScreenViewModel extends BaseModel {
 
   void loadRecommendUsers() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 2000)); // 1초 딜레이
+    await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
     List<User> userResult =
         await _userService.fetchRecommendUsers(nextPageToken: nextPageToken);
     recommendUsers.addAll(userResult.map((user) => UserPresentation(
