@@ -26,7 +26,7 @@ class AuthService extends ChangeNotifier {
     VoiceMainScreenViewModel voicemainvm =
         serviceLocator<VoiceMainScreenViewModel>();
     voicemainvm.loadRecommendUsers();
-    voicemainvm.loadVoiceRoom();
+    voicemainvm.loadVoiceRooms();
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     await chatViewModel.loadChatRooms();
     await StompObject.connectStomp();

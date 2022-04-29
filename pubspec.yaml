@@ -45,7 +45,7 @@ dependencies:
   stomp_dart_client: ^0.4.4
   sqflite: ^2.0.2
   firebase_core: ^1.14.0
-  firebase_messaging: ^11.2.11
+  firebase_messaging: ^11.2.10
   timeago: ^3.2.2
   
 
