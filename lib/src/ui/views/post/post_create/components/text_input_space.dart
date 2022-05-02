@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class TextInputSpace extends StatefulWidget {
-  const TextInputSpace({Key? key}) : super(key: key);
+  PostCreateScreenViewModel vm;
+  TextInputSpace({Key? key, required this.vm}) : super(key: key);
 
   @override
   _TextInputSpaceState createState() => _TextInputSpaceState();
@@ -24,13 +26,13 @@ class _TextInputSpaceState extends State<TextInputSpace> {
             style: TextStyle(fontSize: 12, color: Colors.black87),
           ),
           const VerticalSpacing(of: 10),
-          const TextField(
+          TextField(
             //autofocus: true,
             keyboardType: TextInputType.multiline,
-            style: TextStyle(fontSize: 14),
-            //controller: widget.textInput,
+            style: const TextStyle(fontSize: 14),
+            controller: widget.vm.titleTextController,
             maxLines: 1, //제목 글자수 제한 미정
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "게시물 제목을 입력해주세요",
               hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
               fillColor: Color(0xfff8f8f8),
@@ -51,13 +53,14 @@ class _TextInputSpaceState extends State<TextInputSpace> {
                 color: const Color(0xfff8f8f8),
                 borderRadius: BorderRadius.circular(5)),
             child: Column(
-              children: const [
+              children: [
                 TextField(
                   keyboardType: TextInputType.multiline,
+                  controller: widget.vm.bodyTextController,
                   maxLines: null,
                   minLines: 5, //이걸로 사이즈 조절
                   //style: TextStyle(fontSize: 150),  //테스트용
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "게시물 내용을 입력해주세요",
                     hintStyle:
                         TextStyle(color: Color(0xFFADADAD), fontSize: 14),

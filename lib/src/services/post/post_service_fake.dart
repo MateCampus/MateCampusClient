@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 
 import '../../business_logic/models/post.dart';
@@ -29,5 +29,14 @@ class FakePostService implements PostService {
     // TODO: implement likePost
     int likecount = Random().nextInt(100);
     return likecount;
+  }
+
+  @override
+  Future<bool> createPost(
+      {required String title,
+      required String body,
+      List<XFile>? imageFileList}) {
+    // TODO: implement createPost
+    throw UnimplementedError();
   }
 }

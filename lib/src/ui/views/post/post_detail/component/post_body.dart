@@ -115,6 +115,9 @@ class PostBody extends StatelessWidget {
         top: getProportionateScreenHeight(10),
         bottom: getProportionateScreenHeight(5));
     switch (vm.postDetail.imageUrls!.length) {
+      case 0:
+        widget = Container();
+        break;
       case 1:
         widget = Container(
           margin: margin,

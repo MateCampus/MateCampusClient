@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_vi
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
@@ -33,8 +34,8 @@ GetIt serviceLocator = GetIt.instance;
 
 void setupServiceLocator() {
   /* services */
-  // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
-  // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
+  serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
+  serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   serviceLocator
@@ -42,14 +43,17 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
 
   /* You can replace the actual services above with fake implementations during development.*/
-  serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
-  serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  /* 아래 impl를 주석하면 위에 fake를 풀어야한다. */
+  // serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
+  // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
 
   serviceLocator.registerFactory<PostMainScreenViewModel>(
       () => PostMainScreenViewModel());
+  serviceLocator.registerFactory<PostCreateScreenViewModel>(
+      () => PostCreateScreenViewModel());
   serviceLocator.registerLazySingleton<VoiceMainScreenViewModel>(
       () => VoiceMainScreenViewModel());
   serviceLocator.registerLazySingleton<ChatViewModel>(() => ChatViewModel());

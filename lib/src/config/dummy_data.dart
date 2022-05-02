@@ -253,7 +253,7 @@ List<Post> postDummy1 = [
       likedCount: 874,
       viewCount: 3123,
       commentCount: 671,
-      imageUrls: null,
+      imageUrls: [],
       comments: commentDummy),
   Post(
       //post detail fake data로 사용
@@ -293,7 +293,7 @@ List<Post> postDummy1 = [
     likedCount: 688,
     viewCount: 897,
     commentCount: 156,
-    imageUrls: null,
+    imageUrls: [],
   ),
   Post(
     id: 4,
@@ -308,7 +308,7 @@ List<Post> postDummy1 = [
     likedCount: 688,
     viewCount: 897,
     commentCount: 156,
-    imageUrls: null,
+    imageUrls: [],
   ),
   Post(
     id: 5,
@@ -323,7 +323,7 @@ List<Post> postDummy1 = [
     likedCount: 688,
     viewCount: 897,
     commentCount: 156,
-    imageUrls: null,
+    imageUrls: [],
   ),
   Post(
     id: 6,
@@ -338,7 +338,7 @@ List<Post> postDummy1 = [
     likedCount: 688,
     viewCount: 897,
     commentCount: 156,
-    imageUrls: null,
+    imageUrls: [],
   ),
 ];
 

@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 
 import '../../business_logic/models/post.dart';
@@ -46,5 +47,34 @@ class PostServiceImpl implements PostService {
   Future<int> likePost({required String loginId, required int postId}) {
     // TODO: implement likePost
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> createPost(
+      {required String title,
+      required String body,
+      List<XFile>? imageFileList}) async {
+    var request =
+        http.MultipartRequest("POST", Uri.parse(devServer + "/api/post"))
+          ..headers.addAll(AuthService.get_auth_header());
+
+    request.fields['body'] = body;
+    request.fields['title'] = title;
+
+    if (imageFileList != null) {
+      for (var imageFile in imageFileList) {
+        request.files
+            .add(await http.MultipartFile.fromPath('files', imageFile.path));
+      }
+    }
+    var response = await request.send();
+    print("hi");
+    if (response.statusCode == 200) {
+      print("post 생성 성공");
+      return true;
+    } else {
+      return false;
+      throw Exception("게시물 생성 오류");
+    }
   }
 }
