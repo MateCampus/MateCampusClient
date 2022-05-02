@@ -13,8 +13,7 @@ class FakeLoginService implements LoginService {
         "password", () => sha256.convert(utf8.encode(password)).toString());
 
     return FakeRes(
-        statusCode: 200,
-        headers: {"Authorization": "fakeauthtoken12381j812jd812js212"});
+        statusCode: 200, headers: {"authorization": "fakeauthtoken"});
   }
 
   @override

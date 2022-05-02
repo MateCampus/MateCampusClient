@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 
@@ -105,12 +106,28 @@ class PostListTile extends StatelessWidget {
         const HorizontalSpacing(of: 5),
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            post.imageUrl!,
-            width: 60,
-            height: 60,
-            fit: BoxFit.cover,
-          ),
+          child: post.imageUrl!.startsWith('https')
+              ? CachedNetworkImage(
+                  width: 60,
+                  height: 60,
+                  imageUrl: post.imageUrl!,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                )
+              : Image.asset(
+                  post.imageUrl!,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.cover,
+                ),
         )
       ],
     );

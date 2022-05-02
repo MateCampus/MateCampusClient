@@ -4,20 +4,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 class FixedBottomBar extends StatefulWidget {
-  const FixedBottomBar({Key? key}) : super(key: key);
+  PostCreateScreenViewModel vm;
+  FixedBottomBar({Key? key, required this.vm}) : super(key: key);
 
   @override
   _FixedBottomBarState createState() => _FixedBottomBarState();
 }
-
-bool _isChecked = false;
-List<XFile> _pickedImgs = [];
-final ImagePicker _picker = ImagePicker();
 
 //List<XFile> get pickedIgms => _pickedImgs;
 
@@ -29,7 +27,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
         padding: EdgeInsets.only(bottom: getProportionateScreenHeight(5)),
         child: Column(
           children: [
-            _pickedImgs.isEmpty ? const SizedBox() : _showLoadImage(),
+            widget.vm.pickedImgs.isEmpty ? const SizedBox() : _showLoadImage(),
             Padding(
               padding: EdgeInsets.only(
                   right: getProportionateScreenWidth(10),
@@ -44,7 +42,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                       size: getProportionateScreenWidth(25),
                     ),
                     onPressed: () {
-                      getImageFromGallery();
+                      widget.vm.getImageFromGallery();
                     },
                   ),
                   const HorizontalSpacing(of: 5),
@@ -55,16 +53,14 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                       size: getProportionateScreenWidth(25),
                     ),
                     onPressed: () {
-                      getImageFromCamera();
+                      widget.vm.getImageFromCamera();
                     },
                   ),
                   const Spacer(),
                   Checkbox(
-                    value: _isChecked,
+                    value: widget.vm.isShowOnlySameUniv,
                     onChanged: (value) {
-                      setState(() {
-                        _isChecked = !_isChecked;
-                      });
+                      widget.vm.changeIsShowOnlySameUniv();
                     },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
@@ -79,7 +75,9 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                     '같은 학교만 보여주기',
                     style: TextStyle(
                         fontSize: 13,
-                        color: _isChecked ? mainColor : Colors.grey),
+                        color: widget.vm.isShowOnlySameUniv
+                            ? mainColor
+                            : Colors.grey),
                   )
                 ],
               ),
@@ -90,33 +88,6 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
     );
   }
 
-//갤러리에서 이미지 가져오는 함수
-  void getImageFromGallery() async {
-    final List<XFile>? images = await _picker.pickMultiImage();
-    if (images != null) {
-      setState(() {
-        _pickedImgs = images;
-      });
-    }
-  }
-
-  //카메라에서 이미지 가져오는 함수
-  void getImageFromCamera() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      setState(() {
-        _pickedImgs.add(image);
-      });
-    }
-  }
-
-  //이미지 삭제 함수
-  void removeImage(int index) {
-    setState(() {
-      _pickedImgs.removeAt(index);
-    });
-  }
-
   Widget _showLoadImage() {
     return Padding(
       padding: EdgeInsets.only(
@@ -125,13 +96,13 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
       child: SizedBox(
         height: getProportionateScreenHeight(100),
         child: ListView.builder(
-            itemCount: _pickedImgs.length,
+            itemCount: widget.vm.pickedImgs.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => Stack(children: [
                   Padding(
                     padding: const EdgeInsets.only(right: 8.0, top: 8.0),
                     child: Image.file(
-                      File(_pickedImgs[index].path),
+                      File(widget.vm.pickedImgs[index].path),
                       height: getProportionateScreenHeight(90),
                       width: getProportionateScreenWidth(90),
                       fit: BoxFit.cover,
@@ -142,7 +113,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                     top: 0.1,
                     child: InkWell(
                       onTap: (() {
-                        removeImage(index);
+                        widget.vm.removeImage(index);
                       }),
                       child: const Icon(
                         Icons.cancel,

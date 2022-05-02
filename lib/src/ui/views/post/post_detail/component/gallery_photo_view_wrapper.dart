@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -95,7 +96,9 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
   PhotoViewGalleryPageOptions _buildItem(BuildContext context, int index) {
     final ImageItem item = widget.imageItems[index];
     return PhotoViewGalleryPageOptions(
-      imageProvider: AssetImage(item.resource),
+      imageProvider: item.resource.startsWith('https')
+          ? CachedNetworkImageProvider(item.resource) as ImageProvider
+          : AssetImage(item.resource),
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
       maxScale: PhotoViewComputedScale.covered * 4.1,
