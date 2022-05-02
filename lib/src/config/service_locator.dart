@@ -13,6 +13,7 @@ import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_fake.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
 import 'package:zamongcampus/src/services/login/login_service_fake.dart';
+import 'package:zamongcampus/src/services/login/login_service_implementation.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/post/post_service_fake.dart';
 import 'package:zamongcampus/src/services/post/post_service_implementation.dart';
@@ -31,19 +32,20 @@ import '../services/voice/voice_service_fake.dart';
 GetIt serviceLocator = GetIt.instance;
 
 void setupServiceLocator() {
-  // services
-  serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
+  /* services */
+  // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
+  // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
-  serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
   serviceLocator
       .registerLazySingleton<FriendService>(() => FakeFriendService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
-  // You can replace the actual services above with fake implementations during development.
-  //
-  // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
 
-  // view models
+  /* You can replace the actual services above with fake implementations during development.*/
+  serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
+  serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+
+  /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
 
   serviceLocator.registerFactory<PostMainScreenViewModel>(

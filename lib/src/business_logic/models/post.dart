@@ -4,17 +4,17 @@ import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 class Post {
   final int id;
   final String loginId;
-  final List<Category> categories; //포스트에 관심사 설정이 없을 수도 있음
-  final String title;
   final String userNickname;
-  List<String>? userImageUrls;
+  final String title;
   final String body;
   DateTime createdAt;
   int likedCount;
+  List<dynamic>? imageUrls;
   int viewCount;
   int? commentCount;
-  List<String>? imageUrls;
-  List<Comment>? comments;
+  List<dynamic>? comments;
+  final List<Category>? categories; //포스트에 관심사 설정이 없을 수도 있음
+  List<String>? userImageUrls;
 
   Post(
       {required this.id,
@@ -38,7 +38,7 @@ class Post {
         categories: json['categories'],
         title: json['title'],
         userNickname: json['userNickname'],
-        userImageUrls: json['userImageUrls'].toList(),
+        userImageUrls: json['userImageUrls']?.toList(),
         body: json['body'],
         createdAt: DateTime.parse(json['createdAt']),
         likedCount: json['likedCount'],

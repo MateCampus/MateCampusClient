@@ -32,7 +32,7 @@ class PostDetailScreenViewModel extends BaseModel {
 
   void loadPostDetail(int postId) async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 2000)); // 2초 딜레이
+    await Future.delayed(const Duration(milliseconds: 500)); // 2초 딜레이
     Post postDetailResult = await _postService.fetchPostDetail(postId: postId);
 
     comments.addAll(postDetailResult.comments?.map((comment) =>
@@ -50,7 +50,7 @@ class PostDetailScreenViewModel extends BaseModel {
       id: postDetailResult.id,
       loginId: postDetailResult.loginId,
       categories: postDetailResult.categories
-          .map((category) =>
+          ?.map((category) =>
               CategoryData.iconOf(category.name) +
               " " +
               CategoryData.korNameOf(category.name))
@@ -82,7 +82,7 @@ class PostDetailScreenViewModel extends BaseModel {
 class PostDetailPresentation {
   final int id;
   final String loginId;
-  final List<dynamic> categories;
+  final List<dynamic>? categories;
   final String title;
   final String userNickname;
   final String userImageUrl;
@@ -90,7 +90,7 @@ class PostDetailPresentation {
   String createdAt;
   String likedCount;
   String commentCount;
-  List<String>? imageUrls;
+  List<dynamic>? imageUrls;
 
   PostDetailPresentation({
     required this.id,

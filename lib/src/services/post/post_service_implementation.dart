@@ -11,12 +11,11 @@ class PostServiceImpl implements PostService {
   Future<List<Post>> fetchPosts(
       {required String type, required int nextPageToken}) async {
     final response = await http.get(
-        Uri(
-          path: devServer +
+        Uri.parse(
+          devServer +
               "/api/post/" +
               type +
-              "?loginId=sye" +
-              "&nextPageToken=" +
+              "?nextPageToken=" +
               nextPageToken.toString(),
         ),
         headers: AuthService.get_auth_header());
@@ -33,8 +32,13 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<Post> fetchPostDetail({required int postId}) {
-    // TODO: implement fetchPostDetail
+  Future<Post> fetchPostDetail({required int postId}) async {
+    final response = await http.get(
+        Uri.parse(devServer + "/api/post/" + postId.toString()),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      return Post.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    }
     throw UnimplementedError();
   }
 

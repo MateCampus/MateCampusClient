@@ -17,7 +17,7 @@ class PostHead extends StatelessWidget {
           alignment: WrapAlignment.start,
           spacing: getProportionateScreenWidth(8),
           children: [
-            ...post.categories.map((category) => Chip(
+            ...?post.categories?.map((category) => Chip(
                   label: Text(category),
                   labelStyle: const TextStyle(fontSize: 12),
                   backgroundColor: const Color(0xfff8f8f8),

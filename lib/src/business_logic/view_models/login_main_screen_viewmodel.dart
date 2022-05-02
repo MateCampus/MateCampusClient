@@ -22,7 +22,7 @@ class LoginMainScreenViewModel extends BaseModel {
       snackBar(context: context, message: "아이디와 패스워드를 다시 확인해주세요");
       return;
     }
-    String token = response.headers["Authorization"];
+    String token = response.headers["authorization"];
     PrefsObject.setPrefsLoginIdToken(id, token);
     toastMessage("로그인하셨습니다!");
     // 여기서 값이 어떤걸로 넘어오는지 확인할 것.

@@ -25,18 +25,20 @@ class PostMainScreenViewModel extends BaseModel {
     posts.addAll(postResult.map((post) => PostPresentation(
           id: post.id,
           loginId: post.loginId,
-          categories: post.categories
-              .map((category) =>
-                  CategoryData.iconOf(category.name) +
-                  " " +
-                  CategoryData.korNameOf(category.name))
-              .toList(),
+          categories: post.categories == null
+              ? []
+              : post.categories!
+                  .map((category) =>
+                      CategoryData.iconOf(category.name) +
+                      " " +
+                      CategoryData.korNameOf(category.name))
+                  .toList(),
           title: post.title,
           body: post.body,
           createdAt: dateToPastTime(post.createdAt),
           likedCount: post.likedCount.toString(),
           viewCount: post.viewCount.toString(),
-          commentCount: post.commentCount.toString(),
+          commentCount: post.commentCount?.toString() ?? "0",
           imageUrl: post.imageUrls?.first,
         )));
     _nextPageToken++;
