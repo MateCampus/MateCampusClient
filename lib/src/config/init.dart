@@ -14,14 +14,16 @@ class Init {
     await PrefsObject.init();
     await SqfliteObject.database;
     await FirebaseObject.init();
-    // 서버 통신 후 token이 실제로 맞는지 확인까지 하고 이동?
-    // bool isTokenValid = true;
-    // TODO: 단순히 token이 있다고 가는 것이 아님. 확인까지 할 것. (4/6)
     String? loginId = await PrefsObject.getLoginId();
     String? token = await PrefsObject.getToken();
     if (loginId == null || token == null) {
       return "/login";
     } else {
+      /// 여기 logic
+      // token의 validation 확인
+      // 이상 없으면 "/"
+      // 아니면 loginId, token 삭제 후 "login"으로.
+
       AuthService.setGlobalLoginIdTokenAndInitUserData(
           token: token, loginId: loginId);
       return "/";

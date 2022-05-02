@@ -17,15 +17,19 @@ class VoiceMainScreen extends StatefulWidget {
 class _VoiceMainScreenState extends State<VoiceMainScreen> {
   VoiceMainScreenViewModel vm = serviceLocator<VoiceMainScreenViewModel>();
 
-  @override
-  void initState() {
-    vm.loadVoiceRooms();
-    vm.loadRecommendUsers();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   vm.loadVoiceRooms();
+  //   vm.loadRecommendUsers();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.loadVoiceRooms();
+      vm.loadRecommendUsers();
+    });
     SizeConfig().init(context: context);
     return ChangeNotifierProvider.value(
         value: vm,

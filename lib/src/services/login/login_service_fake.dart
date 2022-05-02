@@ -14,7 +14,13 @@ class FakeLoginService implements LoginService {
 
     return FakeRes(
         statusCode: 200,
-        headers: {"x-auth-token": "fakeauthtoken12381j812jd812js212"});
+        headers: {"Authorization": "fakeauthtoken12381j812jd812js212"});
+  }
+
+  @override
+  Future checkTokenValidation() {
+    // TODO: implement checkTokenValidation
+    throw UnimplementedError();
   }
 }
 

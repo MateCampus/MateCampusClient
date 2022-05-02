@@ -6,6 +6,8 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 
+/// loginId와 token 값의 변화에 따라서 UI가 변경되는가?
+/// 그렇지 않다면 ChangeNotifier를 뺴도 될 듯. (22.04.30)
 class AuthService extends ChangeNotifier {
   static String? _loginId;
   static String? _token;
@@ -25,14 +27,10 @@ class AuthService extends ChangeNotifier {
     _token = token;
     VoiceMainScreenViewModel voicemainvm =
         serviceLocator<VoiceMainScreenViewModel>();
-    voicemainvm.loadRecommendUsers();
-    voicemainvm.loadVoiceRooms();
+
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-    await chatViewModel.loadChatRooms();
-    await StompObject.connectStomp();
-    // await chatViewModel
-    //     .loadChatRooms()
-    //     .then((value) => StompObject.connectStomp());
+    // await chatViewModel.loadChatRooms();
+    // await StompObject.connectStomp();
 
     /// 로그인인데 아직 채팅방 없는 사람과 로그인 안한 사람 구분 해야함.
     /// 로그인한 사람은 무조건 본인의 devicetoken도 구독해야함.
@@ -40,11 +38,11 @@ class AuthService extends ChangeNotifier {
     /// 로그인 상태인지 아닌지를 뭘로 구분짓지?
     /// 전역변수? 흠.. 일단 그렇게 진행하자.
     /** 
-      * 근데 이렇게 하면, load를 할 필요가 없넹. voiceroom의 경우에는?
-      * 그러면 하단 탭 누를 떄마다 load를 안할지도.
-      * 근데 post는 load할 듯. 그러면 좀 이상한가.
-      * 그러면 post는 load를 언제하지. initstate말고. 하단 tab 2번 누를때마다?
+      * initstate에서 load를 하는게 맞는지,
+      * 아님 하단탭 누를 때마다 load하는게 맞는지. 
     */
+    // voicemainvm.loadRecommendUsers();
+    // voicemainvm.loadVoiceRooms();
   }
 
   static Future<void> logout(BuildContext context) async {
@@ -56,7 +54,7 @@ class AuthService extends ChangeNotifier {
   static Map<String, String> get_auth_header() {
     return {
       "Content-Type": "application/json",
-      "x-auth-token": _token!,
+      "Authorization": _token!,
     };
   }
 

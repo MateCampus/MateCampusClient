@@ -1,3 +1,5 @@
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+
 import '../../business_logic/models/post.dart';
 import '../../business_logic/utils/constants.dart';
 import 'post_service.dart';
@@ -8,14 +10,16 @@ class PostServiceImpl implements PostService {
   @override
   Future<List<Post>> fetchPosts(
       {required String type, required int nextPageToken}) async {
-    final response = await http.get(Uri(
-      path: devServer +
-          "/api/post/" +
-          type +
-          "?loginId=sye" +
-          "&nextPageToken=" +
-          nextPageToken.toString(),
-    ));
+    final response = await http.get(
+        Uri(
+          path: devServer +
+              "/api/post/" +
+              type +
+              "?loginId=sye" +
+              "&nextPageToken=" +
+              nextPageToken.toString(),
+        ),
+        headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
       List<Post> posts = await jsonDecode(utf8.decode(response.bodyBytes))
           .map<Post>((json) => Post.fromJson(json))

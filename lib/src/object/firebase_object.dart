@@ -38,7 +38,7 @@ class FirebaseObject {
       sound: true,
     );
 
-    print('User granted permission: ${settings.authorizationStatus}');
+    // print('User granted permission: ${settings.authorizationStatus}');
 
     /* 사용하고 있는 상태(Foreground messages) */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
