@@ -48,6 +48,8 @@ dependencies:
   firebase_messaging: ^11.2.10
   timeago: ^3.2.2
   
+  agora_rtc_engine: ^5.1.0
+  permission_handler: ^9.2.0
 
   
 dependency_overrides:
