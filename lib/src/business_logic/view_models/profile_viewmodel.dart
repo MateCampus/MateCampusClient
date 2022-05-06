@@ -27,11 +27,12 @@ class ProfileViewModel extends BaseModel {
   ProfilePresentation get profile => _profile;
   List<InterestPresentation> get interests => _interests;
 
-  void loadProfile(String userId) async {
+  void loadProfile(String userLoginId) async {
     setBusy(true);
     await Future.delayed(const Duration(milliseconds: 1000)); // 딜레이
+    // 여기서에서 유저의 정보 더 가져올 것!
     User userProfileResult =
-        await _userService.fetchUserProfile(userId: userId);
+        await _userService.fetchUserProfile(userLoginId: userLoginId);
     _profile = ProfilePresentation(
         loginId: userProfileResult.loginId,
         nickname: userProfileResult.nickname,

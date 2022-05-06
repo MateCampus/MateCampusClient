@@ -12,6 +12,7 @@ import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmod
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_fake.dart';
+import 'package:zamongcampus/src/services/friend/friend_service_implementation.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
 import 'package:zamongcampus/src/services/login/login_service_fake.dart';
 import 'package:zamongcampus/src/services/login/login_service_implementation.dart';
@@ -34,18 +35,20 @@ GetIt serviceLocator = GetIt.instance;
 
 void setupServiceLocator() {
   /* services */
-  serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
-  serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
+  // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
+  // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
-  serviceLocator
-      .registerLazySingleton<FriendService>(() => FakeFriendService());
+  // serviceLocator
+  //     .registerLazySingleton<FriendService>(() => FakeFriendService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
 
   /* You can replace the actual services above with fake implementations during development.*/
   /* 아래 impl를 주석하면 위에 fake를 풀어야한다. */
-  // serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
-  // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
+  serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  serviceLocator
+      .registerLazySingleton<FriendService>(() => FriendServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
@@ -71,5 +74,5 @@ void setupServiceLocator() {
   serviceLocator
       .registerLazySingleton<MypageViewModel>(() => MypageViewModel());
   serviceLocator
-      .registerLazySingleton<FriendListViewModel>(() => FriendListViewModel());
+      .registerFactory<FriendListViewModel>(() => FriendListViewModel());
 }

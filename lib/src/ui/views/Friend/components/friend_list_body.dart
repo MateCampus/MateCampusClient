@@ -5,8 +5,8 @@ import 'package:zamongcampus/src/ui/views/Friend/components/search_bar.dart';
 
 class FriendListBody extends StatelessWidget {
   final FriendListViewModel vm;
-  final List<FriendPresentation> users;
-  const FriendListBody({Key? key, required this.vm, required this.users})
+  final List<FriendPresentation> friends;
+  const FriendListBody({Key? key, required this.vm, required this.friends})
       : super(key: key);
 
   @override
@@ -17,9 +17,9 @@ class FriendListBody extends StatelessWidget {
         Expanded(
             child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: users.length,
+                itemCount: friends.length,
                 itemBuilder: (BuildContext context, int index) =>
-                    FriendListTile(vm: vm, user: users[index])))
+                    FriendListTile(vm: vm, friend: friends[index])))
       ],
     );
   }
