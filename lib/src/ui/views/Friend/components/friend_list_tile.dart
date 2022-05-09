@@ -19,7 +19,7 @@ class FriendListTile extends StatelessWidget {
       child: InkWell(
         onTap: () {
           showCustomModalBottomSheet(
-              context, ProfileBottomSheet(userId: friend.loginId));
+              context, ProfileBottomSheet(friendId: friend.id));
         },
         child: ListTile(
             contentPadding: const EdgeInsets.all(0),

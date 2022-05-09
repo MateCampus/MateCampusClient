@@ -22,6 +22,7 @@ class FriendListViewModel extends BaseModel {
     List<FriendPresentation> iRequestTemp = [];
     for (var friend in friendResults) {
       FriendPresentation friendPresentation = FriendPresentation(
+          id: friend.id,
           loginId: friend.loginId,
           userImageUrl:
               friend.imageUrl ?? "assets/images/user/general_user.png",
@@ -67,13 +68,15 @@ class FriendListViewModel extends BaseModel {
 }
 
 class FriendPresentation {
+  final int id;
   final String loginId;
   final String userImageUrl;
   final String userNickname;
   FriendRequestStatus friendRequestStatus;
 
   FriendPresentation(
-      {required this.loginId,
+      {required this.id,
+      required this.loginId,
       required this.userImageUrl,
       required this.userNickname,
       required this.friendRequestStatus});

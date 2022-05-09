@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart'
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
@@ -35,16 +36,17 @@ GetIt serviceLocator = GetIt.instance;
 
 void setupServiceLocator() {
   /* services */
+  /* 1. 실제 가능한 services */
   // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
   // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
-  serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
-  serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   // serviceLocator
   //     .registerLazySingleton<FriendService>(() => FakeFriendService());
+  /* 2. 실제 불가능한 services */
+  serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
+  serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
 
-  /* You can replace the actual services above with fake implementations during development.*/
-  /* 아래 impl를 주석하면 위에 fake를 풀어야한다. */
+  /* 3. 실제 services */
   serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
   serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
   serviceLocator
@@ -71,6 +73,8 @@ void setupServiceLocator() {
       .registerFactory<VoiceDetailViewModel>(() => VoiceDetailViewModel());
 
   serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());
+  serviceLocator
+      .registerFactory<UserProfileViewModel>(() => UserProfileViewModel());
   serviceLocator
       .registerLazySingleton<MypageViewModel>(() => MypageViewModel());
   serviceLocator

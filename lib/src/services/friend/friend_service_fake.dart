@@ -1,4 +1,6 @@
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
+import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 
 class FakeFriendService implements FriendService {
@@ -11,6 +13,12 @@ class FakeFriendService implements FriendService {
   Future<List<Friend>> fetchAcceptedTypeFriends() {
     // TODO: implement fetchAcceptedTypeFriends
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Friend> fetchFriend(int friendId) async {
+    // TODO: implement fetchFriend
+    return friendDetailDummy;
   }
 }
 
@@ -57,3 +65,14 @@ List<Friend> acceptedOnlyfriendDummy = [
       friendRequestStatus: FriendRequestStatus.ACCEPTED,
       requestorLoginId: 'hello2'),
 ];
+
+Friend friendDetailDummy = Friend(
+    id: 2,
+    loginId: "hello2",
+    nickname: "hello2",
+    friendRequestStatus: FriendRequestStatus.ACCEPTED,
+    requestorLoginId: 'hello2',
+    imageUrl: "assets/images/user/user1.jpg",
+    collegeCode: College.college0001,
+    majorCode: Major.major0001,
+    introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!");

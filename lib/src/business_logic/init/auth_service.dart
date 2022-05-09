@@ -18,31 +18,23 @@ class AuthService extends ChangeNotifier {
 
   /// login하면서 loginId(user)에 해당되는 데이터들 불러옴
   /// 1. token,loginId 값 넣기
-  /// 2. 추천친구,추천대화방 load
-  /// 3. 밀린 메시지 불러오고, 채팅방 초기화(+채팅방 불러오기)
-  /// setGlobalLoginIdTokenAndInitUserData
+  /// 2. 밀린 메시지 불러오고, 채팅방 초기화(+채팅방 불러오기)
+  /// 3. 추천친구,추천대화방 load (이건 추후 변경할수도. 주석처리)
   static Future<void> setGlobalLoginIdTokenAndInitUserData(
       {required String token, required String loginId}) async {
     _loginId = loginId;
     _token = token;
-    VoiceMainScreenViewModel voicemainvm =
-        serviceLocator<VoiceMainScreenViewModel>();
 
-    ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-    // await chatViewModel.loadChatRooms();
-    // await StompObject.connectStomp();
+    await StompObject.connectStomp();
 
-    /// 로그인인데 아직 채팅방 없는 사람과 로그인 안한 사람 구분 해야함.
-    /// 로그인한 사람은 무조건 본인의 devicetoken도 구독해야함.
-    /// 근데 로그인 안한 사람은 stomp만 연결함.
-    /// 로그인 상태인지 아닌지를 뭘로 구분짓지?
-    /// 전역변수? 흠.. 일단 그렇게 진행하자.
     /** 
       * initstate에서 load를 하는게 맞는지,
       * 아님 하단탭 누를 때마다 load하는게 맞는지. 
+    VoiceMainScreenViewModel voicemainvm =
+        serviceLocator<VoiceMainScreenViewModel>();
+    voicemainvm.loadRecommendUsers();
+    voicemainvm.loadVoiceRooms();
     */
-    // voicemainvm.loadRecommendUsers();
-    // voicemainvm.loadVoiceRooms();
   }
 
   static Future<void> logout(BuildContext context) async {

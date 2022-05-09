@@ -32,12 +32,11 @@ class ChatServiceImpl implements ChatService {
     String loginId = AuthService.loginId ?? "";
     print("totalLastMsgCreatedAt 날짜; " + totalLastMsgCreatedAt);
     print("loginId: " + loginId);
-    final response = await http.get(Uri(
-        path: devServer +
-            "/api/chat/message?loginId=" +
-            loginId +
-            "&totalLastMsgCreatedAt=" +
-            totalLastMsgCreatedAt));
+    final response = await http.get(
+        Uri.parse(devServer +
+            "/api/chat/message?totalLastMsgCreatedAt=" +
+            totalLastMsgCreatedAt),
+        headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
       dynamic newMessages = jsonDecode(utf8.decode(response.bodyBytes));
       // 여기서 json으로 변경 해야해ㅐㅐㅐㅐㅐ!!

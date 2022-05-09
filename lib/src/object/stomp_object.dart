@@ -31,8 +31,8 @@ class StompObject {
           print('stomp 연결 중 ...');
         },
         onWebSocketError: (dynamic error) => print(error.toString()),
-        stompConnectHeaders: {'Authorization': 'Bearer yourToken'},
-        webSocketConnectHeaders: {'Authorization': 'Bearer yourToken'},
+        stompConnectHeaders: AuthService.get_auth_header(),
+        webSocketConnectHeaders: AuthService.get_auth_header(),
       ),
     );
     _stompClient.activate(); // 서버 실행
@@ -43,15 +43,20 @@ class StompObject {
   static dynamic _onConnect(StompFrame frame) async {
     print('stomp 연결 완료');
     if (AuthService.loginId != null && AuthService.token != null) {
+      /// 1. 채팅방 불러오고
+      /// 2. 이미 존재한 방들 구독
+      /// 3. 내 token에 해당되는 방 구독
+      /// 4. 밀린 메세지 불러와서 재세팅
+      /// 5. 다시 채팅방 불러오기
       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-      chatViewModel.chatRooms.forEach((ChatRoom) {
-        subscribeChatRoom(ChatRoom.roomId);
-      });
+      await chatViewModel.loadChatRooms();
+      for (ChatRoom chatRoom in chatViewModel.chatRooms) {
+        subscribeChatRoom(chatRoom.roomId);
+      }
       subscribeChatRoom(FirebaseObject.deviceFcmToken);
+      await chatViewModel.setChatRoomByNewMessages();
+      await chatViewModel.loadChatRooms();
     }
-    // 이미 있는 방들 stomp연결 initStompExistChatRoom();
-    // 새로운 메세지로 chatroom setting하기 setChatRoomByNewMessages();
-    // chatroom load하기.  loadChatRooms()
   }
 
   // roomId로 오는 메세지
