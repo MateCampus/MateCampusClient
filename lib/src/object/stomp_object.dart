@@ -131,7 +131,7 @@ class StompObject {
           ChatMessage chatMessage = ChatMessage(
               roomId: res["roomId"],
               loginId: "",
-              text: "${res["nickname"]}님이 입장하셨습니다.",
+              text: res["body"],
               type: MessageType.enter,
               createdAt: DateTime.parse(res["createdAt"]));
           _chatService.insertMessage(chatMessage);
@@ -157,7 +157,7 @@ class StompObject {
           ChatMessage chatMessage = ChatMessage(
               roomId: res["roomId"],
               loginId: "",
-              text: "${res["nickname"]}님이 퇴장하셨습니다.",
+              text: res["body"],
               type: MessageType.exit,
               createdAt: DateTime.parse(res["createdAt"]));
           _chatService.insertMessage(chatMessage);
@@ -185,6 +185,7 @@ class StompObject {
           /* 2. UI 수정 */
           _changeMemberInfo(chatMemberInfo);
         } else {
+          /***** CREATE ******/
           /* 1. 채팅방정보 저장 및 구독 */
           ChatRoom chatRoom = ChatRoom(
               roomId: res["roomInfo"]["roomId"],

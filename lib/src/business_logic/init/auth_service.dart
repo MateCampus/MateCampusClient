@@ -25,7 +25,7 @@ class AuthService extends ChangeNotifier {
     _loginId = loginId;
     _token = token;
 
-    await StompObject.connectStomp();
+    // await StompObject.connectStomp();
 
     /** 
       * initstate에서 load를 하는게 맞는지,
