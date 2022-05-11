@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
-import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/friend_request_btn.dart';
-import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/goto_chatroom_btn.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_header.dart';
-import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_info.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_interest.dart';
-import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/waiting_friend_request.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 
-class ProfileBottomSheet extends StatefulWidget {
-  final int friendId;
-  const ProfileBottomSheet({Key? key, required this.friendId})
+import '../profile_bottom_sheet_component/components/friend_request_btn.dart';
+import '../profile_bottom_sheet_component/components/goto_chatroom_btn.dart';
+import '../profile_bottom_sheet_component/components/profile_info.dart';
+import '../profile_bottom_sheet_component/components/waiting_friend_request.dart';
+
+class UserProfileBottomSheet extends StatefulWidget {
+  final String loginId;
+  const UserProfileBottomSheet({Key? key, required this.loginId})
       : super(key: key);
 
   @override
-  State<ProfileBottomSheet> createState() => _ProfileBottomSheetState();
+  State<UserProfileBottomSheet> createState() => _UserProfileBottomSheetState();
 }
 
-class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
-  ProfileViewModel vm = serviceLocator<ProfileViewModel>();
+class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
+  UserProfileViewModel vm = serviceLocator<UserProfileViewModel>();
 
   @override
   void initState() {
-    vm.loadProfile(widget.friendId);
+    vm.loadUserProfile(widget.loginId);
 
     super.initState();
   }
@@ -34,9 +35,9 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<ProfileViewModel>(
+    return ChangeNotifierProvider<UserProfileViewModel>(
         create: (context) => vm,
-        child: Consumer<ProfileViewModel>(builder: (context, vm, child) {
+        child: Consumer<UserProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(
               initialChildSize: 0.6,
@@ -54,11 +55,11 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                               children: [
                                 const ProfileHeader(),
                                 ProfileInfo(
-                                  imageUrl: vm.profile.imageUrl,
-                                  nickname: vm.profile.nickname,
-                                  majorName: vm.profile.majorName,
-                                  collegeName: vm.profile.collegeName,
-                                  introduction: vm.profile.introduction,
+                                  imageUrl: vm.userProfile.imageUrl,
+                                  nickname: vm.userProfile.nickname,
+                                  majorName: vm.userProfile.majorName,
+                                  collegeName: vm.userProfile.collegeName,
+                                  introduction: vm.userProfile.introduction,
                                 ),
                                 Expanded(
                                   child: Stack(
@@ -91,15 +92,15 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
       );
 
   Widget _bottomFixedBtn() {
-    switch (vm.profile.friendRequestStatus) {
+    switch (vm.userProfile.friendRequestStatus) {
       case FriendRequestStatus.ACCEPTED:
-        return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
+        return GoToChatRoomBtn(profileLoginId: vm.userProfile.loginId);
       case FriendRequestStatus.UNACCEPTED:
         return WaitingFriendRequest();
       default:
         return FriendRequestBtn(
           vm: vm,
-          profileLoginId: vm.profile.loginId,
+          profileLoginId: vm.userProfile.loginId,
         );
     }
   }

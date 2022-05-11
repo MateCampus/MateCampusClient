@@ -4,7 +4,8 @@ import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 
 class GoToChatRoomBtn extends StatefulWidget {
-  const GoToChatRoomBtn({Key? key}) : super(key: key);
+  String profileLoginId;
+  GoToChatRoomBtn({Key? key, required this.profileLoginId}) : super(key: key);
 
   @override
   _GoToChatRoomBtnState createState() => _GoToChatRoomBtnState();

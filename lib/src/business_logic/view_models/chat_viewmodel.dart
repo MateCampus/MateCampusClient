@@ -31,7 +31,7 @@ class ChatViewModel extends BaseModel {
     // 기반 5월5일 => 서버에서는 무조건 5월5일 이후 값이 오게 되기에 상관없다.
     DateTime totalLastMsgCreatedAt = DateTime(2021, 5, 5);
     /* 1. 멤버 및 채팅방 정보 저장(modifiedInfos) */
-    /* ENTER, EXIT, UPDATE, MATCH 다 저장. 따라서 없는 방도 저장하게 됨. + 구독까지 2-(1) 로직 참고 */
+    /* ENTER, EXIT, UPDATE, CREATE 다 저장. 따라서 없는 방도 저장하게 됨. + 구독까지 2-(1) 로직 참고 */
     if (chatBundle["modifiedInfos"].length != 0) {
       List<ChatMemberInfo> chatMemberInfos = List.empty(growable: true);
       List<ChatRoomMemberInfo> chatRoomMemberInfos = List.empty(growable: true);
