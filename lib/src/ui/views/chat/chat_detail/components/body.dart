@@ -14,15 +14,17 @@ class Body extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          padding: const EdgeInsets.only(top: 10.0),
-          child: const SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              )),
-        ),
+        vm.busy
+            ? Container(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                    )),
+              )
+            : Container(),
         Expanded(
           child: Container(
             alignment: Alignment.bottomCenter,
@@ -34,13 +36,14 @@ class Body extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: vm.chatMessages.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Message(
-                    message: vm.chatMessages[index],
-                  );
+                  return Message(message: vm.chatMessages[index], vm: vm);
                 }),
           ),
         ),
-        ChatInputField(vm: vm)
+        ChatInputField(
+          roomId: vm.chatRoom.roomId,
+          roomType: vm.chatRoom.type,
+        )
       ],
     );
   }

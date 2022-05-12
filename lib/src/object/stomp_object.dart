@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -31,7 +32,7 @@ class StompObject {
           print('stomp 연결 중 ...');
         },
         onWebSocketError: (dynamic error) => print(error.toString()),
-        stompConnectHeaders: AuthService.get_auth_header(),
+        // stompConnectHeaders: AuthService.get_auth_header(),
         webSocketConnectHeaders: AuthService.get_auth_header(),
       ),
     );
@@ -63,8 +64,11 @@ class StompObject {
   static void subscribeChatRoom(String? roomId) {
     ChatService _chatService = serviceLocator<ChatService>();
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+
     ChatDetailViewModel chatDetailViewModel =
         serviceLocator<ChatDetailViewModel>();
+    ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
+        serviceLocator<ChatDetailFromFriendProfileViewModel>();
     stompClient.subscribe(
       destination: '/sub/chat/room/$roomId',
       callback: (frame) {
@@ -78,7 +82,7 @@ class StompObject {
               ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
           // 1. 메세지 저장
           _chatService.insertMessage(chatMessage);
-          // 2. chatroom 내용 변경 => 이미 그 방 안이면 0, 아니면 1 추가
+          // 2. local db의 chatroom 내용 변경 => 이미 그 방 안이면 0, 아니면 1 추가
           _chatService.updateChatRoom(
               lastMsg: chatMessage.text,
               lastMsgCreatedAt: chatMessage.createdAt,
@@ -88,14 +92,18 @@ class StompObject {
 
           // 3. pref에 최근 메시지 시간 저장할 것
           PrefsObject.setTotalLastMsgCreatedAt(
-              chatMessage.createdAt.toString());
+              chatMessage.createdAt.toIso8601String());
 
           // UI: 현재 위치가 해당방이면 ui 수정(chatdetail)
           if (chatMessage.roomId == chatViewModel.insideRoomId) {
-            chatDetailViewModel.addChatMessage(chatMessage);
+            if (chatViewModel.fromFriendProfile) {
+              chatDetailFromFriendProfileViewModel.addChatMessage(chatMessage);
+            } else {
+              chatDetailViewModel.addChatMessage(chatMessage);
+            }
           }
           // ** UI(chatsScreen) 변경
-          int index = chatViewModel.getExistRoomIndex(chatMessage.roomId);
+          int index = chatViewModel.getExistRoomIndex(chatMessage.roomId!);
           ChatRoom chatRoom = chatViewModel.chatRooms[index];
           if (index == 0) {
             // 최상단 : 업데이트만 => lastmsg, unreadcount, lastMsgCreatedAt
@@ -132,7 +140,7 @@ class StompObject {
               roomId: res["roomId"],
               loginId: "",
               text: res["body"],
-              type: MessageType.enter,
+              type: MessageType.ENTER,
               createdAt: DateTime.parse(res["createdAt"]));
           _chatService.insertMessage(chatMessage);
 
@@ -145,12 +153,16 @@ class StompObject {
 
           /* 3. 현재 위치가 해당방이면 ui 수정(chatdetail) */
           if (chatMessage.roomId == chatViewModel.insideRoomId) {
-            chatDetailViewModel.addChatMessage(chatMessage);
+            if (chatViewModel.fromFriendProfile) {
+              chatDetailFromFriendProfileViewModel.addChatMessage(chatMessage);
+            } else {
+              chatDetailViewModel.addChatMessage(chatMessage);
+            }
           }
 
           /* 4. pref에 최근 메시지 시간 저장할 것 */
           PrefsObject.setTotalLastMsgCreatedAt(
-              chatMessage.createdAt.toString());
+              chatMessage.createdAt.toIso8601String());
         } else if (res["type"] == "exit") {
           /***** EXIT ******/
           /* 1. 메세지 저장 */
@@ -158,7 +170,7 @@ class StompObject {
               roomId: res["roomId"],
               loginId: "",
               text: res["body"],
-              type: MessageType.exit,
+              type: MessageType.EXIT,
               createdAt: DateTime.parse(res["createdAt"]));
           _chatService.insertMessage(chatMessage);
 
@@ -170,12 +182,16 @@ class StompObject {
 
           /* 3. 현재 위치가 해당방이면 ui 수정(chatdetail) */
           if (chatMessage.roomId == chatViewModel.insideRoomId) {
-            chatDetailViewModel.addChatMessage(chatMessage);
+            if (chatViewModel.fromFriendProfile) {
+              chatDetailFromFriendProfileViewModel.addChatMessage(chatMessage);
+            } else {
+              chatDetailViewModel.addChatMessage(chatMessage);
+            }
           }
 
           /* 4. pref에 최근 메시지 시간 저장할 것 */
           PrefsObject.setTotalLastMsgCreatedAt(
-              chatMessage.createdAt.toString());
+              chatMessage.createdAt.toIso8601String());
         } else if (res["type"] == "update") {
           /***** UPDATE ******/
           /* 1. 멤버 수정 */
@@ -191,7 +207,7 @@ class StompObject {
               roomId: res["roomInfo"]["roomId"],
               title: res["roomInfo"]["title"],
               type: res["roomInfo"]["type"],
-              lastMessage: "새로운 매칭입니다!",
+              lastMessage: "대화를 시작해보세요!",
               lastMsgCreatedAt: DateTime(2021, 5, 5),
               imageUrl: res["roomInfo"]["imageUrl"],
               unreadCount: 0);
@@ -219,15 +235,15 @@ class StompObject {
       String roomId, String text, String type, String chatRoomType) {
     print("-----메세지 전송 => 내용: $text, 방번호: ${roomId}");
     stompClient.send(
-      destination: '/pub/chat/message',
-      body: json.encode({
-        'roomId': roomId,
-        'loginId': AuthService.loginId,
-        'text': text,
-        "type": type,
-        "chatRoomType": chatRoomType,
-      }),
-    );
+        destination: '/pub/chat/message',
+        body: json.encode({
+          'roomId': roomId,
+          'loginId': AuthService.loginId,
+          'text': text,
+          "type": type,
+          "chatRoomType": chatRoomType,
+        }),
+        headers: AuthService.get_auth_header());
   }
 
   static void _changeMemberInfo(ChatMemberInfo chatMemberInfo) async {
@@ -241,12 +257,18 @@ class StompObject {
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     ChatDetailViewModel chatDetailViewModel =
         serviceLocator<ChatDetailViewModel>();
+    ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
+        serviceLocator<ChatDetailFromFriendProfileViewModel>();
     List<ChatRoom> chatRooms =
         await _chatService.getChatRoomsByMemberLoginId(chatMemberInfo.loginId);
 
     chatRooms.forEach((chatRoom) {
       if (chatRoom.roomId == chatViewModel.insideRoomId) {
-        chatDetailViewModel.changeMember(chatMemberInfo);
+        if (chatViewModel.fromFriendProfile) {
+          chatDetailFromFriendProfileViewModel.changeMember(chatMemberInfo);
+        } else {
+          chatDetailViewModel.changeMember(chatMemberInfo);
+        }
       }
       if (chatRoom.type == "single") {
         chatRoom.title = chatMemberInfo.nickname;
