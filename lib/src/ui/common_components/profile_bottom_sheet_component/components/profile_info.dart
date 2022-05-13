@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -33,8 +34,12 @@ class ProfileInfo extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: getProportionateScreenHeight(40),
-                  backgroundImage:
-                      AssetImage(this.imageUrl), //추후 누르면 전체화면으로 프사볼수있도록 변경하기
+                  backgroundImage: this.imageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(this.imageUrl)
+                          as ImageProvider
+                      : AssetImage(
+                          this.imageUrl,
+                        ),
                 ),
                 // Positioned(
                 //   bottom: 1,

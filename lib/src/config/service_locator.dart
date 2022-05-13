@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
@@ -64,6 +65,8 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<ChatViewModel>(() => ChatViewModel());
   serviceLocator
       .registerLazySingleton<ChatDetailViewModel>(() => ChatDetailViewModel());
+  serviceLocator.registerLazySingleton<ChatDetailFromFriendProfileViewModel>(
+      () => ChatDetailFromFriendProfileViewModel());
   serviceLocator.registerFactory<PostDetailScreenViewModel>(
       () => PostDetailScreenViewModel());
 

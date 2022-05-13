@@ -221,19 +221,19 @@ List<ChatMessage> chatMessageDummy = [
       roomId: "1",
       loginId: "zm1",
       text: "하이루~",
-      type: MessageType.talk,
+      type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 15)),
   ChatMessage(
       roomId: "1",
       loginId: "zm2",
       text: "방가방가",
-      type: MessageType.talk,
+      type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 16)),
   ChatMessage(
       roomId: "1",
       loginId: "zm3",
       text: "헬로우",
-      type: MessageType.talk,
+      type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 17)),
 ];
 

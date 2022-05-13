@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -27,7 +28,12 @@ class FriendListTile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: getProportionateScreenHeight(30),
-                  backgroundImage: AssetImage(friend.userImageUrl),
+                  backgroundImage: friend.userImageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(friend.userImageUrl)
+                          as ImageProvider
+                      : AssetImage(
+                          friend.userImageUrl,
+                        ),
                 ),
                 /* isOnlined 추후 개발 */
                 // Positioned(

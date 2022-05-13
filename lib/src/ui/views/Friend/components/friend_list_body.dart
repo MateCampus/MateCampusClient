@@ -14,12 +14,23 @@ class FriendListBody extends StatelessWidget {
     return Column(
       children: [
         const SearchBar(),
-        Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: friends.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    FriendListTile(vm: vm, friend: friends[index])))
+        vm.busy
+            ? Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.only(top: 10.0),
+                child: const SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 4,
+                    )),
+              )
+            : Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: friends.length,
+                    itemBuilder: (BuildContext context, int index) =>
+                        FriendListTile(vm: vm, friend: friends[index])))
       ],
     );
   }

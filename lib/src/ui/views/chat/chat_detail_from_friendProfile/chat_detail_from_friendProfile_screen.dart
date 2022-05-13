@@ -1,39 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
-import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
-import '../../../../business_logic/utils/constants.dart';
 import 'components/body.dart';
 
-class ChatDetailScreen extends StatefulWidget {
-  static const routeName = '/chatDetail';
-  final ChatRoom chatRoom;
-  final int index;
-  const ChatDetailScreen(
-      {Key? key, required this.chatRoom, required this.index})
+class ChatDetailFromFriendProfileScreen extends StatefulWidget {
+  static const routeName = '/chatDetailFromFriendProfile';
+  final String profileLoginId;
+  const ChatDetailFromFriendProfileScreen(
+      {Key? key, required this.profileLoginId})
       : super(key: key);
 
   @override
-  _ChatDetailScreenState createState() => _ChatDetailScreenState();
+  State<ChatDetailFromFriendProfileScreen> createState() =>
+      _ChatDetailFromFriendProfileScreenState();
 }
 
-class _ChatDetailScreenState extends State<ChatDetailScreen> {
-  ChatDetailViewModel vm = serviceLocator<ChatDetailViewModel>();
-
+class _ChatDetailFromFriendProfileScreenState
+    extends State<ChatDetailFromFriendProfileScreen> {
+  ChatDetailFromFriendProfileViewModel vm =
+      serviceLocator<ChatDetailFromFriendProfileViewModel>();
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      vm.chatDetailInit(widget.chatRoom);
+      vm.chatDetailInit(widget.profileLoginId);
     });
     super.initState();
   }
 
   @override
   void dispose() {
+    ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+    chatViewModel.changeFromFriendProfile(false);
     vm.resetData();
     super.dispose();
   }
@@ -43,7 +45,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider.value(
         value: vm,
-        child: Consumer<ChatDetailViewModel>(builder: (context, vm, child) {
+        child: Consumer<ChatDetailFromFriendProfileViewModel>(
+            builder: (context, vm, child) {
           return GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
