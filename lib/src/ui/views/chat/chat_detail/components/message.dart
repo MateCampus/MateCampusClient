@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
@@ -40,14 +41,21 @@ class Message extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(
                               top: getProportionateScreenHeight(2)),
-                          child: const CircleAvatar(
-                              radius: 18,
-                              backgroundImage:
-                                  // TODO: aws 적용 부분
-                                  // Image.network(message.imageUrl).image,
-                                  // loginIdToImageUrl(message.loginId),
-                                  AssetImage(
-                                      "assets/images/background/hanriver_chicken.jpeg")),
+                          child: CircleAvatar(
+                            radius: 18,
+                            backgroundImage:
+                                // TODO: aws 적용 부분
+                                // Image.network(message.imageUrl).image,
+                                // loginIdToImageUrl(message.loginId),
+                                loginIdToImageUrl(message.loginId)
+                                        .startsWith('https')
+                                    ? CachedNetworkImageProvider(
+                                            loginIdToImageUrl(message.loginId))
+                                        as ImageProvider
+                                    : AssetImage(
+                                        loginIdToImageUrl(message.loginId),
+                                      ),
+                          ),
                         ),
                       ],
                     ),
@@ -71,7 +79,7 @@ class Message extends StatelessWidget {
                                 horizontal: getProportionateScreenWidth(10),
                                 vertical: getProportionateScreenWidth(10),
                               ),
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 color: mainColor,
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(15),
@@ -80,12 +88,12 @@ class Message extends StatelessWidget {
                               ),
                               child: Text(
                                 message.text,
-                                style: TextStyle(color: mainColor),
+                                style: TextStyle(color: Colors.white),
                               )),
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 5,
                     ),
                     Column(

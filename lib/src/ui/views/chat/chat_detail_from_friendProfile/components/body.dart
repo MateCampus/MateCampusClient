@@ -10,35 +10,36 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      vm.busy
-          ? Container(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: const SizedBox(
-                  height: 20,
-                  width: 20,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  )),
-            )
-          : Container(),
-      Expanded(
-        child: Container(
-          alignment: Alignment.bottomCenter,
-          padding:
-              const EdgeInsets.symmetric(horizontal: kDefaultPadding / 1.5),
-          child: ListView.builder(
-              reverse: true,
-              controller: vm.scrollController,
-              shrinkWrap: true,
-              itemCount: vm.chatMessages.length,
-              itemBuilder: (BuildContext context, int index) {
-                /// 공통으로 사용
-                return Message(message: vm.chatMessages[index], vm: vm);
-              }),
-        ),
-      ),
-      ChatInputField(roomId: vm.chatRoom.roomId, roomType: vm.chatRoom.type)
-    ]);
+    return vm.busy
+        ? Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.only(top: 10.0),
+            child: const SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 4,
+                )),
+          )
+        : Column(mainAxisSize: MainAxisSize.min, children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                padding: const EdgeInsets.symmetric(
+                    horizontal: kDefaultPadding / 1.5),
+                child: ListView.builder(
+                    reverse: true,
+                    controller: vm.scrollController,
+                    shrinkWrap: true,
+                    itemCount: vm.chatMessages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      /// 공통으로 사용
+                      return Message(message: vm.chatMessages[index], vm: vm);
+                    }),
+              ),
+            ),
+            ChatInputField(
+                roomId: vm.chatRoom.roomId, roomType: vm.chatRoom.type)
+          ]);
   }
 }

@@ -32,7 +32,7 @@ class StompObject {
           print('stomp 연결 중 ...');
         },
         onWebSocketError: (dynamic error) => print(error.toString()),
-        // stompConnectHeaders: AuthService.get_auth_header(),
+        stompConnectHeaders: AuthService.get_auth_header(),
         webSocketConnectHeaders: AuthService.get_auth_header(),
       ),
     );
@@ -70,6 +70,7 @@ class StompObject {
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
     stompClient.subscribe(
+      headers: AuthService.get_auth_header(),
       destination: '/sub/chat/room/$roomId',
       callback: (frame) {
         // ** 메시지 도착 시점
@@ -218,17 +219,22 @@ class StompObject {
           res["memberInfos"].forEach((memberInfo) {
             ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(memberInfo);
             ChatRoomMemberInfo chatRoomMemberInfo = ChatRoomMemberInfo(
-                roomId: memberInfo["roomId"], loginId: memberInfo["loginId"]);
+                roomId: chatRoom.roomId, loginId: memberInfo["loginId"]);
             _chatService.insertOrUpdateMemberInfoOne(chatMemberInfo);
             _chatService.insertChatRoomMemberInfoOne(chatRoomMemberInfo);
           });
 
           // /* 3. chatsScreen 수정 */
-          // ChatController.to.insertItem(chatRoom);
+          chatViewModel.insertItem(chatRoom);
         }
       },
     );
     print('구독성공: $roomId번 방 ');
+  }
+
+  static void deactivateStomp() {
+    /// stomp 연결 제거하기 -> 로그아웃 시 활용
+    stompClient.deactivate();
   }
 
   static void sendMessage(

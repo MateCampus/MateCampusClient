@@ -4,6 +4,8 @@ import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 
+import '../object/firebase_object.dart';
+
 /// 삭제 예정 (채팅 테스트 용도)
 class DummyScreen extends StatelessWidget {
   DummyScreen({Key? key}) : super(key: key);
@@ -133,6 +135,18 @@ class DummyScreen extends StatelessWidget {
                 SqfliteObject.dropTableIfExistsThenReCreate();
               },
               child: Text("db 삭제하고 다시 만들기"),
+            ),
+            TextButton(
+              onPressed: () async {
+                print(await PrefsObject.getToken());
+              },
+              child: Text("print token"),
+            ),
+            TextButton(
+              onPressed: () {
+                print(FirebaseObject.deviceFcmToken);
+              },
+              child: Text("print deviceFcmToken"),
             ),
           ],
         ),

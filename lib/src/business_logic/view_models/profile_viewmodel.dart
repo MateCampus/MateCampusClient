@@ -30,7 +30,7 @@ class ProfileViewModel extends BaseModel {
 
   void loadProfile(int friendId) async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 300)); // 딜레이
+    // await Future.delayed(const Duration(milliseconds: 300)); // 딜레이
     // 여기서에서 유저의 정보 더 가져올 것!
     Friend friend = await _friendService.fetchFriend(friendId);
     _profile = ProfilePresentation(
