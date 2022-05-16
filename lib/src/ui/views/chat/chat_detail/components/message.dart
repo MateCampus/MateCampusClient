@@ -52,9 +52,8 @@ class Message extends StatelessWidget {
                                     ? CachedNetworkImageProvider(
                                             loginIdToImageUrl(message.loginId))
                                         as ImageProvider
-                                    : AssetImage(
-                                        loginIdToImageUrl(message.loginId),
-                                      ),
+                                    : const AssetImage(
+                                        'assets/images/user/general_user.png'),
                           ),
                         ),
                       ],
