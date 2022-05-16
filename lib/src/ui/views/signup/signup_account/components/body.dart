@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_disable_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
-import 'package:zamongcampus/src/ui/views/voice/private_voice_create/components/title_input.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_account/components/user_id_input.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_account/components/user_password_input.dart';
 
 class Body extends StatelessWidget {
-  final VoiceCreateViewModel vm;
+  final SignUpViewModel vm;
   const Body({Key? key, required this.vm}) : super(key: key);
 
   @override
@@ -24,7 +25,8 @@ class Body extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TitleInput(vm: vm),
+                  UserIdInput(vm: vm),
+                  UserPasswordInput(vm: vm),
                 ],
               ),
             ),
@@ -33,14 +35,14 @@ class Body extends StatelessWidget {
         DefaultShadowBox(
           child: Padding(
             padding: defaultPadding,
-            child: DefaultBtn(
-              text: '다음',
-              press: () {
-                Navigator.pushNamed(context, "/voiceCreateFriend",
-                    arguments: VoiceCreateFriendScreenArgs(subColor));
-              },
-              btnColor: subColor,
-            ),
+            child: (vm.isValidId && vm.isValidPW)
+                ? DefaultBtn(
+                    text: '다음',
+                    press: () {
+                      Navigator.pushNamed(context, "/signUpCollege");
+                    },
+                  )
+                : const DefaultDisalbeBtn(text: '다음'), //비활성화 버튼
           ),
         ),
       ],

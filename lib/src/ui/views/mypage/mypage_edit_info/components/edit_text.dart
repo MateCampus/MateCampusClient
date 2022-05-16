@@ -32,7 +32,7 @@ class _EditTextState extends State<EditText> {
             padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenHeight(10)),
             child: TextFormField(
-              //닉네임같은 경우엔 중복되면 안되니까 textformfield 사용
+              //validation위해 textformfield 사용
               keyboardType: TextInputType.multiline,
               style: const TextStyle(fontSize: 14),
               controller: widget.nicknameController,

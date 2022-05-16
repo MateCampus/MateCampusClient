@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart'
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
@@ -18,6 +19,9 @@ import 'package:zamongcampus/src/services/login/login_service_implementation.dar
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/post/post_service_fake.dart';
 import 'package:zamongcampus/src/services/post/post_service_implementation.dart';
+import 'package:zamongcampus/src/services/signup/signup_service.dart';
+import 'package:zamongcampus/src/services/signup/signup_service_fake.dart';
+import 'package:zamongcampus/src/services/signup/signup_service_implementation.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/user/user_service_fake.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
@@ -27,9 +31,7 @@ import '../services/chat/chat_service.dart';
 import '../services/chat/chat_service_implementation.dart';
 import '../services/voice/voice_service_fake.dart';
 
-/** GetIt: service Locator 
- * 
-*/
+/** GetIt: service Locator **/
 GetIt serviceLocator = GetIt.instance;
 
 void setupServiceLocator() {
@@ -41,6 +43,9 @@ void setupServiceLocator() {
   serviceLocator
       .registerLazySingleton<FriendService>(() => FakeFriendService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
+
+  serviceLocator
+      .registerLazySingleton<SignUpService>(() => SignUpServiceFake());
 
   /* You can replace the actual services above with fake implementations during development.*/
   /* 아래 impl를 주석하면 위에 fake를 풀어야한다. */
@@ -72,4 +77,7 @@ void setupServiceLocator() {
       .registerLazySingleton<MypageViewModel>(() => MypageViewModel());
   serviceLocator
       .registerLazySingleton<FriendListViewModel>(() => FriendListViewModel());
+
+  serviceLocator
+      .registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
 }

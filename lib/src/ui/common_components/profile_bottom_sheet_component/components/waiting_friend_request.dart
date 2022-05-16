@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 
@@ -15,11 +15,7 @@ class _WaitingFriendRequestState extends State<WaitingFriendRequest> {
   Widget build(BuildContext context) {
     return DefaultShadowBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-            getProportionateScreenWidth(20),
-            getProportionateScreenHeight(10),
-            getProportionateScreenWidth(20),
-            getProportionateScreenHeight(25)),
+        padding: defaultPadding,
         child: DefaultBtn(
           text: '수락 대기중',
           btnColor: Colors.grey.withOpacity(0.3),

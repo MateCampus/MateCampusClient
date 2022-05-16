@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -18,11 +19,7 @@ class _FriendRequestBtnState extends State<FriendRequestBtn> {
   Widget build(BuildContext context) {
     return DefaultShadowBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-            getProportionateScreenWidth(20),
-            getProportionateScreenHeight(10),
-            getProportionateScreenWidth(20),
-            getProportionateScreenHeight(25)),
+        padding: defaultPadding,
         child: DefaultBtn(
           text: '친구 신청',
           press: () {
