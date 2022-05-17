@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 
 class SelectCollege extends StatefulWidget {
   final SignUpViewModel vm;
@@ -14,33 +14,14 @@ class SelectCollege extends StatefulWidget {
 }
 
 class _SelectCollegeState extends State<SelectCollege> {
-  //드롭다운 리스트
-  final _collegeList = collegeList
-      .map((college) => CollegeData.korNameOf(college.name))
-      .toList();
-//드롭다운 선택값
-  //String _selectedCollege = '학교를 선택해주세요';
+  final _collegeList = collegeList;
 
-  // 드롭박스.
+  // 드롭박스관련 변수
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   final double _dropdownWidth =
       SizeConfig.screenWidth! - getProportionateScreenWidth(40);
   final double _dropdownHeight = getProportionateScreenHeight(48);
-
-  // 드롭다운 생성.
-  void _createOverlay() {
-    if (_overlayEntry == null) {
-      _overlayEntry = _customDropdown();
-      Overlay.of(context)?.insert(_overlayEntry!);
-    }
-  }
-
-  // 드롭다운 해제.
-  void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
 
   @override
   void dispose() {
@@ -65,35 +46,41 @@ class _SelectCollegeState extends State<SelectCollege> {
           ),
           InkWell(
             onTap: () {
-              _createOverlay();
+              if (_overlayEntry == null) {
+                _createOverlay();
+              } else {
+                _removeOverlay();
+              }
             },
             child: CompositedTransformTarget(
               link: _layerLink,
               child: Container(
                 width: _dropdownWidth,
                 height: _dropdownHeight,
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportionateScreenWidth(20)),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+                  color: const Color(0xfff8f8f8),
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     // 선택값.
-                    Text(
-                      widget.vm.selectedCollege,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 22 / 16,
-                        color: Colors.black,
-                      ),
-                    ),
-
-                    // 아이콘.
+                    (widget.vm.selectedCollege == '')
+                        ? const Text(
+                            '학교를 선택해주세요',
+                            style: TextStyle(
+                                color: Color(0xFFADADAD), fontSize: 14),
+                          )
+                        : Text(
+                            widget.vm.selectedCollege,
+                            style: const TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
                     const Icon(
-                      Icons.arrow_downward,
-                      size: 16,
+                      Icons.arrow_drop_down,
                     ),
                   ],
                 ),
@@ -105,6 +92,21 @@ class _SelectCollegeState extends State<SelectCollege> {
     );
   }
 
+  // 드롭다운 생성.
+  void _createOverlay() {
+    if (_overlayEntry == null) {
+      _overlayEntry = _customDropdown();
+      Overlay.of(context)?.insert(_overlayEntry!);
+    }
+  }
+
+  // 드롭다운 해제.
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  //드롭다운 모양
   OverlayEntry _customDropdown() {
     return OverlayEntry(
       maintainState: true,
@@ -112,50 +114,47 @@ class _SelectCollegeState extends State<SelectCollege> {
         width: _dropdownWidth,
         child: CompositedTransformFollower(
           link: _layerLink,
-          offset: Offset(0, _dropdownHeight + 1),
+          offset: Offset(0, _dropdownHeight + getProportionateScreenHeight(5)),
           child: Material(
-            color: Colors.white,
             child: Container(
               height: getProportionateScreenHeight(200),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
+                color: const Color(0xfff8f8f8),
+                //border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),
               child: ListView.separated(
                 physics: const ClampingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(
+                    vertical: getProportionateScreenHeight(0)),
                 itemCount: _collegeList.length,
                 itemBuilder: (context, index) {
-                  return CupertinoButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    pressedOpacity: 1,
-                    minSize: 0,
-                    onPressed: () {
-                      //이게 뷰모델이랑 연관.
+                  return InkWell(
+                    onTap: () {
                       widget.vm.selectCollege(_collegeList.elementAt(index));
-
                       _removeOverlay();
                     },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        _collegeList.elementAt(index),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          height: 22 / 16,
-                          color: Colors.black,
+                    child: Container(
+                      height: _dropdownHeight,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(20)),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          CollegeData.korNameOf(
+                              _collegeList.elementAt(index).name),
+                          //_collegeList.elementAt(index),
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Divider(
-                      color: Colors.grey,
-                      height: 20,
-                    ),
+                  return const HorizontalDividerCustom(
+                    color: Colors.white,
                   );
                 },
               ),

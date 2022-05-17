@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -77,4 +78,24 @@ const majorList = [
   Major.major0005,
   Major.major0006,
   Major.major0007
+];
+
+//관심사 리스트
+const interestList = [
+  InterestCode.i0001,
+  InterestCode.i0002,
+  InterestCode.i0003,
+  InterestCode.i0004,
+  InterestCode.i0005,
+  InterestCode.i0006,
+  InterestCode.i0007,
+  InterestCode.i0008,
+  InterestCode.i0009,
+  InterestCode.i0010,
+  InterestCode.i0011,
+  InterestCode.i0012,
+  InterestCode.i0013,
+  InterestCode.i0014,
+  InterestCode.i0015,
+  InterestCode.i0016,
 ];

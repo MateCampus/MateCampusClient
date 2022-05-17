@@ -53,7 +53,7 @@ void setupServiceLocator() {
   // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
 
   /* view models */
-  serviceLocator.registerFactory(() => LoginMainScreenViewModel());
+  serviceLocator.registerLazySingleton(() => LoginMainScreenViewModel());
 
   serviceLocator.registerFactory<PostMainScreenViewModel>(
       () => PostMainScreenViewModel());

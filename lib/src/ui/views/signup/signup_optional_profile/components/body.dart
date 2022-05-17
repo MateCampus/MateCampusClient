@@ -3,8 +3,9 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
-import 'package:zamongcampus/src/ui/common_widgets/default_disable_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/select_profile_image.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/user_introduce_input.dart';
 
 class Body extends StatelessWidget {
   final SignUpViewModel vm;
@@ -22,25 +23,34 @@ class Body extends StatelessWidget {
                   vertical: getProportionateScreenHeight(10)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
+                children: [
+                  SelectProfileImage(vm: vm),
+                  UserIntroduceInput(vm: vm)
+                ],
               ),
             ),
           ),
         ),
         DefaultShadowBox(
           child: Padding(
-            padding: defaultPadding,
-            child: (vm.isValidId && vm.isValidPW) //여기 바꾸기
-                ? DefaultBtn(
-                    //여기를 완료로 바꾸고
-                    text: '다음',
-                    press: () {
-                      Navigator.pushNamed(context, '');
-                    },
-                  )
-                : const DefaultDisalbeBtn(
-                    text: '다음'), //비활성화 버튼이 아니라 건너뛰기 버튼으로 해야할듯?
-          ),
+              padding: defaultPadding,
+              child: (vm.userImgPath != '' &&
+                      vm.userIntroduceController.text != '')
+                  ? DefaultBtn(
+                      text: '설정 완료',
+                      press: () {
+                        vm.createUser();
+                        Navigator.pushNamed(context, '/login');
+                      },
+                    )
+                  : DefaultBtn(
+                      text: '건너뛰기',
+                      btnColor: Colors.grey.withOpacity(0.3),
+                      press: () {
+                        vm.createUser();
+                        Navigator.pushNamed(context, '/login');
+                      },
+                    )),
         ),
       ],
     );

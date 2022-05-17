@@ -37,7 +37,9 @@ class Body extends StatelessWidget {
         DefaultShadowBox(
           child: Padding(
             padding: defaultPadding,
-            child: (vm.isValidId && vm.isValidPW) //여기 바꾸기
+            child: (vm.selectedCollege != '' &&
+                    vm.selectedMajor != '' &&
+                    vm.studentIdImgPath != '')
                 ? DefaultBtn(
                     text: '다음',
                     press: () {

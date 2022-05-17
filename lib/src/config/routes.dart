@@ -10,7 +10,7 @@ import 'package:zamongcampus/src/ui/views/signup/signup_account/signup_account_s
 import 'package:zamongcampus/src/ui/views/signup/signup_authentication/signup_authentication_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/signup_college_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/signup_optional_profile_screen.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/signup_default_profile_screen.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/signup_required_profile_screen.dart';
 import 'package:zamongcampus/src/ui/views/splash.dart';
 import 'package:zamongcampus/src/ui/views/voice/private_voice_create/private_voice_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/public_voice_create/public_voice_create_screen.dart';
