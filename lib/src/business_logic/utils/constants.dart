@@ -43,6 +43,7 @@ final devServer =
 
 const dankookEmail = "@dankook.ac.kr";
 
-const appId = "1db42f592687465e9ad1564ae4b55221";
-var token =
+const appIdForAgora = "1db42f592687465e9ad1564ae4b55221";
+// 아래 token은 서버에서 주어질것. (삭제예정)
+var tokenForAgora =
     "0061db42f592687465e9ad1564ae4b55221IAAgLYU6hd31ueZLHDAYTtKXBPmAoCySl+IrUk4FaqHxLei/5GcAAAAAEAAg4mLWC7RDYgEAAQALtENi";

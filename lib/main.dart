@@ -13,7 +13,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(); // 여기에 option을 달아서 click_action을 하는듯?
-  print('Handling a background message ${message.messageId}');
+  print('Handling a background message ${message.data}');
 }
 
 Future<void> main() async {

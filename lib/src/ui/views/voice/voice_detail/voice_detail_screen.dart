@@ -46,13 +46,13 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
     await [Permission.microphone].request();
 
     // create the engine
-    _engine = await RtcEngine.create(appId);
+    _engine = await RtcEngine.create(appIdForAgora);
 
     // await _engine.enableVideo();
     await _engine.enableAudio();
     _engine.enableAudioVolumeIndication(200, 3, true);
     // 2번: register 후 join하기. 이 방식이 1번보다 빠르다.
-    _engine.registerLocalUserAccount(appId, "닉네임인건가?");
+    _engine.registerLocalUserAccount(appIdForAgora, "닉네임인건가?");
     _engine.setEventHandler(
       RtcEngineEventHandler(
           joinChannelSuccess: (String channel, int uid, int elapsed) {
@@ -81,10 +81,11 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
       }),
     );
 
-    await _engine.joinChannel(token, "room001", null, 0);
+    await _engine.joinChannel(tokenForAgora, "room001", null, 0);
     // + server로 참여자 uid 와 loginId 추가. // chatmemberInfo를 줘야할까?
     // 1번: 이 아래걸로만 연결하기.
-    await _engine.joinChannelWithUserAccount(token, "room0001", "닉네임으로?");
+    await _engine.joinChannelWithUserAccount(
+        tokenForAgora, "room0001", "닉네임으로?");
   }
 
   Future<void> leaveChannel() async {
