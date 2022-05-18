@@ -8,8 +8,8 @@ import 'package:zamongcampus/src/ui/views/post/post_detail/component/post_body.d
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/post_head.dart';
 
 class Body extends StatelessWidget {
-  PostDetailScreenViewModel vm;
-  Body({Key? key, required this.vm}) : super(key: key);
+  final PostDetailScreenViewModel vm;
+  const Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

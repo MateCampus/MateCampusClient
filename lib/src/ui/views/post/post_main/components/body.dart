@@ -41,12 +41,10 @@ class Body extends StatelessWidget {
           pinned: false,
           floating: true,
         ),
-        //PostTabBtns2(vm: vm),
         SliverPersistentHeader(
           delegate: PostTabBtns(vm: vm),
           pinned: true,
         ),
-
         vm.busy
             ? SliverList(
                 // Use a delegate to build items as they're scrolled on screen.
