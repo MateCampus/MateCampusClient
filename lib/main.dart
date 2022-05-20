@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/init/main_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/route_generators.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/config/routes.dart';
@@ -13,7 +14,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(); // 여기에 option을 달아서 click_action을 하는듯?
-  print('Handling a background message ${message.data}');
+  print('백그라운드 메세지 ${message.data}');
 }
 
 Future<void> main() async {
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
           routes: routes,
           initialRoute: "/splash",
           onGenerateRoute: RouteGenerator.generateRoute,
+          navigatorKey: NavigationService().navigationKey,
         ));
   }
 }

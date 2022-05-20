@@ -1,4 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:zamongcampus/src/object/local_notification_object.dart';
 
 class FirebaseObject {
   static final FirebaseMessaging _messaging = FirebaseMessaging.instance;
@@ -16,8 +19,7 @@ class FirebaseObject {
     try {
       String? token = await _messaging.getToken();
       // TODO: 여기에 vapidKey 필요. => 없어도 token를 가져오긴함.
-      print(token);
-      print("토큰 값 위치!");
+      print("토큰 값 위치: " + token.toString());
       return token;
     } catch (e) {
       print("getToken error ");
@@ -36,18 +38,21 @@ class FirebaseObject {
       sound: true,
     );
 
+    // permission 물어보는거인듯. 확인 필요(android 특히.)
+    // FirebaseMessaging.instance.requestPermission();
     // print('User granted permission: ${settings.authorizationStatus}');
 
     /* 사용하고 있는 상태(Foreground messages) */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // 눌렀을 떄 navigate하도록
-      // 1. local message로 알림을 띄워야한다는 점.
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      print('foreground으로 메세지 받기 완료 Message data: ${message.data}');
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        LocalNotificationObject.showNotification2(message);
       }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('background 클릭했을 때 오는 곳! ');
     });
   }
 }
