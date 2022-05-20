@@ -29,11 +29,14 @@ class LocalNotificationObject {
   }
 
   static void showNotification2(RemoteMessage message) async {
-    NotificationDetails notificationDetails = const NotificationDetails(
+    // fcm_default_channel, fcm_ads_channel, fcm_message_channel
+    NotificationDetails notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails(
-            "sample_channel_id", "Notification Test",
-            importance: Importance.max, priority: Priority.high),
-        iOS: IOSNotificationDetails());
+            message.notification?.android?.channelId ?? "fcm_default_channel",
+            korNameOfChannelId(message.notification?.android?.channelId),
+            importance: Importance.max,
+            priority: Priority.high),
+        iOS: const IOSNotificationDetails());
     if (message.notification != null) {
       await _flutterLocalNotificationsPlugin.show(
         0,
@@ -44,4 +47,14 @@ class LocalNotificationObject {
       );
     }
   }
+
+  static korNameOfChannelId(String? channelId) {
+    return channelData[channelId] ?? "일반";
+  }
+
+  static final Map<String, String> channelData = {
+    "fcm_default_channel": "일반",
+    "fcm_ads_channel": "광고",
+    "fcm_message_channel": "메세지 전체",
+  };
 }

@@ -54,5 +54,11 @@ class FirebaseObject {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('background 클릭했을 때 오는 곳! ');
     });
+
+    /* 새로운 토큰 만들어질 때 사용되는 함수. */
+    FirebaseMessaging.instance.onTokenRefresh.listen((event) {
+      print("새로운 토큰이 발행되었을 때! ");
+      print("이 경우에 서버와 통신해서 토큰을 바꿔주도록?");
+    });
   }
 }
