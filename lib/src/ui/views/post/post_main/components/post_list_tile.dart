@@ -16,7 +16,7 @@ class PostListTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, PostDetailScreen.routeName,
-            arguments: PostDetailScreenArgs(post.id));
+            arguments: PostDetailScreenArgs(post.id, post.likedCount));
       },
       child: Card(
         shape: RoundedRectangleBorder(
