@@ -16,39 +16,47 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       height: getProportionateScreenHeight(246),
+      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(25)),
       color: mainColor,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(20),
-            getProportionateScreenHeight(25), 0, 0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              '새로운 친구들을 만나보세요!',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
-            ),
-            const Text(
-              '나와 같은 학교 혹은 관심사가 같은 친구를 추천합니다',
-              style: TextStyle(fontSize: 12, color: Colors.white),
-            ),
-            const VerticalSpacing(
-              of: 10,
-            ),
-            vm.busy
-                ? const IsLoading()
-                : (vm.recommendUsers.isEmpty)
-                    ? const CenterSentence(
-                        sentence:
-                            "추천 상대가 존재하지 않습니다.", //추후 대화방 최신순 정렬으로 보여주게끔 바꾸기
-                        verticalSpace: 50,
-                      )
-                    : RecommendUserList(vm: vm)
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _headerText(),
+          vm.busy
+              ? const Expanded(child: IsLoading())
+              : (vm.recommendUsers.isEmpty)
+                  ? const CenterSentence(
+                      sentence: "추천 상대가 존재하지 않습니다.", //추후 대화방 최신순 정렬으로 보여주게끔 바꾸기
+                      verticalSpace: 50,
+                    )
+                  : Expanded(child: RecommendUserList(vm: vm))
+        ],
+      ),
+    );
+  }
+
+  Widget _headerText() {
+    return Padding(
+      padding:
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '새로운 친구들을 만나보세요!',
+            style: TextStyle(
+                fontSize: getProportionateScreenHeight(18),
+                fontWeight: FontWeight.bold,
+                color: Colors.white),
+          ),
+          const VerticalSpacing(of: 5),
+          Text(
+            '나와 같은 학교 혹은 관심사가 같은 친구를 추천합니다',
+            style: TextStyle(
+                fontSize: getProportionateScreenHeight(13),
+                color: Colors.white),
+          ),
+        ],
       ),
     );
   }

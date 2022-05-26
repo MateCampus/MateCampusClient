@@ -44,5 +44,5 @@ final devServer =
 const dankookEmail = "@dankook.ac.kr";
 
 const appId = "1db42f592687465e9ad1564ae4b55221";
-var token =
-    "0061db42f592687465e9ad1564ae4b55221IAAgLYU6hd31ueZLHDAYTtKXBPmAoCySl+IrUk4FaqHxLei/5GcAAAAAEAAg4mLWC7RDYgEAAQALtENi";
+// var token =
+//     "0061db42f592687465e9ad1564ae4b55221IAAgLYU6hd31ueZLHDAYTtKXBPmAoCySl+IrUk4FaqHxLei/5GcAAAAAEAAg4mLWC7RDYgEAAQALtENi";
