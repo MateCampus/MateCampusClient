@@ -12,6 +12,9 @@ import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmod
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/services/comment/comment_service.dart';
+import 'package:zamongcampus/src/services/comment/comment_service_fake.dart';
+import 'package:zamongcampus/src/services/comment/comment_service_implementation.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_fake.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_implementation.dart';
@@ -41,6 +44,8 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
   serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   serviceLocator
+      .registerLazySingleton<CommentService>(() => FakeCommentService());
+  serviceLocator
       .registerLazySingleton<FriendService>(() => FakeFriendService());
   /* 2. 실제 불가능한 services */
   serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
@@ -50,6 +55,8 @@ void setupServiceLocator() {
   /* 3. 실제 services */
   // serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
   // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  // serviceLocator
+  //     .registerLazySingleton<CommentService>(() => CommentServiceImpl());
   // serviceLocator
   //     .registerLazySingleton<FriendService>(() => FriendServiceImpl());
 
