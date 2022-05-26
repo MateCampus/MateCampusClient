@@ -28,7 +28,10 @@ class RouteGenerator {
       case "/postDetail":
         final args = settings.arguments as PostDetailScreenArgs;
         return MaterialPageRoute(
-            builder: (_) => PostDetailScreen(postId: args.postId));
+            builder: (_) => PostDetailScreen(
+                  postId: args.postId,
+                  likedCount: args.likedCount,
+                ));
       case "/voiceDetail":
         final args = settings.arguments as VoiceDetailScreenArgs;
         return MaterialPageRoute(
