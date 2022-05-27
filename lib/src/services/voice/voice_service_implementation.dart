@@ -9,11 +9,7 @@ import 'dart:convert';
 class VoiceServiceImpl implements VoiceService {
   @override
   Future<List<VoiceRoom>> fetchVoiceRooms({required int nextPageToken}) async {
-    final response = await http.get(
-        Uri.parse(devServer +
-            "/api/voiceRoom/" +
-            "?nextPageToken=" +
-            nextPageToken.toString()),
+    final response = await http.get(Uri.parse(devServer + "/api/voiceRoom"),
         headers: AuthService.get_auth_header());
 
     if (response.statusCode == 200) {
@@ -28,9 +24,9 @@ class VoiceServiceImpl implements VoiceService {
   }
 
   @override
-  Future<VoiceRoom> fetchVoiceRoom({required int voiceRoomId}) async {
+  Future<VoiceRoom> fetchVoiceRoom({required int id}) async {
     final response = await http.get(
-        Uri.parse(devServer + "/api/voiceRoom/" + voiceRoomId.toString()),
+        Uri.parse(devServer + "/api/voiceRoom/" + id.toString()),
         headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
       VoiceRoom voiceRoom =
@@ -42,12 +38,25 @@ class VoiceServiceImpl implements VoiceService {
   }
 
   @override
-  Future<bool> createVoiceRoom({required String title}) async {
+  Future<VoiceRoom> createVoiceRoom({required String title}) async {
+    // String voiceRoomJson = jsonEncode({
+    //   "title": title,
+    //   "collegeOnly": collegeOnly,
+    //   "majorOnly": majorOnly,
+    //   "categories": categories.toList(),
+    //   "type": type,
+    //   "members": members.toList(),  //리스트 인코딩하는법 알아야함
+    // });
     String voiceRoomJson = json.encode({"title": title});
     final response = await http.post(Uri.parse(devServer + "/api/voiceRoom"),
         headers: AuthService.get_auth_header(), body: voiceRoomJson);
     if (response.statusCode == 200) {
-      return true;
+      print(response.body);
+      var res = await jsonDecode(utf8.decode(response.bodyBytes));
+      VoiceRoom createdVoiceRoom = VoiceRoom.fromJson(res);
+      // VoiceRoom createdVoiceRoom =
+      //     VoiceRoom.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
+      return createdVoiceRoom;
     } else {
       print('보이스룸 생성 실패');
       throw Exception();

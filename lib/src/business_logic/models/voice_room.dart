@@ -1,44 +1,65 @@
-import 'package:zamongcampus/src/business_logic/models/voice_room_info.dart';
+import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
-
-import 'chatMessage.dart';
-import 'user.dart';
 
 enum VoiceRoomType { PUBLIC, PRIVATE }
 
 class VoiceRoom {
-  final VoiceRoomInfo voiceRoomAndTokenInfo;
-
-  List<dynamic> membersInfo;
-  DateTime createdAt;
-  VoiceRoomType? type;
-  List<ChatMessage>? chatMessages;
+  final int id;
+  final String title;
+  String? roomId;
+  String? token;
+  int? uid;
+  String? ownerLoginId;
+  List<dynamic>? userImageUrls;
+  List<dynamic>? memberInfos;
+  // DateTime createdAt;
+  //VoiceRoomType? type;
   List<Category>? categories;
-  bool? collegeOnly;
-  bool? majorOnly;
+  //bool? collegeOnly;
+  //bool? majorOnly;
 
-  VoiceRoom(
-      {required this.voiceRoomAndTokenInfo,
-      required this.membersInfo,
-      this.chatMessages,
-      required this.categories,
-      required this.createdAt,
-      this.type,
-      this.collegeOnly,
-      this.majorOnly});
+  VoiceRoom({
+    required this.id,
+    required this.title,
+    this.roomId,
+    this.token,
+    this.uid,
+    this.ownerLoginId,
+    this.userImageUrls,
+    this.memberInfos,
+    this.categories,
+    //required this.createdAt,
+    // this.type,
+    // this.collegeOnly,
+    // this.majorOnly
+  });
 
   factory VoiceRoom.fromJson(Map<String, dynamic> json) {
-    return VoiceRoom(
-        voiceRoomAndTokenInfo: json['voiceRoomAndTokenInfo']
-            .map((item) => VoiceRoomInfo.fromJson(item))
-            .toList(),
-        membersInfo:
-            json['membersInfo'].map((member) => User.fromJosn(member)).toList(),
-        chatMessages: json['chatMessages'],
-        categories: json['categories'],
-        createdAt: DateTime.parse(json['createdAt']),
-        type: VoiceRoomType.values.byName(json['type']),
-        collegeOnly: json['collegeOnly'],
-        majorOnly: json['majorOnly']);
+    return json.containsKey('voiceRoomAndTokenInfo')
+        ? VoiceRoom(
+            id: json['voiceRoomAndTokenInfo']['id'],
+            title: json['voiceRoomAndTokenInfo']['title'],
+            roomId: json['voiceRoomAndTokenInfo']['roomId'],
+            token: json['voiceRoomAndTokenInfo']['token'],
+            uid: json['voiceRoomAndTokenInfo']['uid'],
+            ownerLoginId: json['voiceRoomAndTokenInfo']['ownerLoginId'],
+            // voiceRoomAndTokenInfo: json['voiceRoomAndTokenInfo']
+            //     .map((item) => VoiceRoomInfo.fromJson(item))
+            //     .toList(),
+            memberInfos: json['memberInfos']
+                ?.map((member) => ChatMemberInfo.fromJson(member))
+                .toList(),
+            categories: json['categories']?.toList(),
+            //createdAt: DateTime?.parse(json['createdAt']),
+            // type: VoiceRoomType.values.byName(json['type']),
+            // collegeOnly: json['collegeOnly'],
+            // majorOnly: json['majorOnly']
+          )
+        : VoiceRoom(
+            id: json['id'],
+            title: json['title'],
+            userImageUrls: json['userImageUrls'].toList(),
+            //createdAt: DateTime?.parse(json['createdAt']),
+          );
   }
 }

@@ -1,42 +1,60 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
+
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
+import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
-import 'package:agora_rtm/agora_rtm.dart';
 
 class VoiceDetailViewModel extends BaseModel {
   final VoiceService _voiceService = serviceLocator<VoiceService>();
-  VoiceRoomPresentation _voiceRoom = defaultVoiceRoom;
-  static final VoiceRoomPresentation defaultVoiceRoom = VoiceRoomPresentation(
+  VoiceRoomPresentation _voiceRoom = VoiceRoomPresentation(
       id: -1,
       title: '',
-      members: [],
       categories: [],
       createdAt: '',
       type: VoiceRoomType.PUBLIC);
 
-  RtcEngine? _engine;
-  int localuid = -1;
-  final chatMessageController = TextEditingController();
-  VoiceRoomPresentation get voiceRoom => _voiceRoom;
+  List<MemberPresentation> _voiceRoomMembers = List.empty(growable: true);
 
-  Future<void> initAgoraRtcEngine() async {
+  List<ChatMessage> _chatMessages = List.empty(growable: true);
+  RtcEngine? _engine;
+
+  String _ownerLoginId = ''; //방장 아이디
+  //int localuid = -1;
+
+  VoiceRoomPresentation get voiceRoom => _voiceRoom;
+  List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
+
+  voiceDetailInit(int voiceRoomId) async {
+    setBusy(true);
+    VoiceRoom voiceRoom = await loadVoiceRoom(voiceRoomId);
+    await initAgoraRtcEngine(voiceRoom);
+    addAgoraEventHandlers();
+    StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
+    setBusy(false);
+  }
+
+  Future<void> initAgoraRtcEngine(VoiceRoom voiceRoom) async {
     await [Permission.microphone].request();
     _engine = await RtcEngine.create(appId);
     await _engine!.enableAudio();
     await _engine!.setChannelProfile(ChannelProfile
         .Communication); // 이게 정확히 어떤 역할인지는 모르겠음.. 무조건 channel join전에만 설정가능
-
     await _engine!.enableAudioVolumeIndication(200, 3, true); //말하는 사람 구분하기 위함
-    addAgoraEventHandlers();
+    await _engine!.joinChannel(voiceRoom.token, voiceRoom.roomId!, null,
+        voiceRoom.uid!); //서버에서 받아온 토큰과 roomId로 채널 입장.
   }
 
   void addAgoraEventHandlers() {
@@ -44,78 +62,45 @@ class VoiceDetailViewModel extends BaseModel {
       print("error code : $code");
     }, joinChannelSuccess: (String channel, int uid, int elapsed) {
       print(channel);
-      print('join 성공! uid : $uid');
-      localuid = uid;
-      _voiceRoom.members.add(MemberPresentation(
-          id: localuid,
-          loginId: myInfo.loginId,
-          nickname: myInfo.nickname,
-          imageUrl: 'assets/images/user/general_user.png',
-          isSpeaking: false,
-          isHost: false));
-      notifyListeners();
+      print('join 성공! 내 uid : $uid');
     }, userJoined: (int uid, int elapsed) {
-      _voiceRoom.members.add(MemberPresentation(
-          id: uid,
-          loginId: 'remoteUser',
-          nickname: '나아님',
-          imageUrl: 'assets/images/user/general_user.png',
-          isSpeaking: false,
-          isHost: false));
-      print('join 성공! uid : $uid');
-      notifyListeners();
+      //테스트 후 삭제 ->테스트 완료. 감지됨
+      print('uid : $uid 가 들어옴');
     }, userOffline: (int uid, elapsed) {
-      for (MemberPresentation member in _voiceRoom.members) {
-        if (member.id == uid) {
-          _voiceRoom.members.remove(member);
-          print(member.nickname +
-              member.id.toString() +
-              ' ' +
-              uid.toString() +
-              '나감');
-          notifyListeners();
-        }
-      }
+      //테스트 후 삭제
+      print('uid : $uid 가 나감');
+    }, leaveChannel: (status) {
+      //테스트 후 삭제
+      print('setEventHandler의 leaveChannel 작동');
     }, audioVolumeIndication: (List<AudioVolumeInfo> speakers, int volume) {
       speakers.forEach((speaker) {
         if (speaker.volume > 5) {
           try {
-            for (MemberPresentation member in _voiceRoom.members) {
-              if (speaker.uid == 0 && member.id == localuid) {
+            for (MemberPresentation member in _voiceRoomMembers) {
+              if (speaker.uid == 0 && member.loginId == AuthService.loginId) {
                 member.isSpeaking = true;
                 notifyListeners();
-                print(member.id.toString() +
+                print(member.uid.toString() +
                     '  ' +
                     speaker.uid.toString() +
-                    '말하고 있음');
-              } else if (member.id == speaker.uid) {
+                    '가 volume $volume로 말하고 있음. 그게 나야');
+              } else if (member.uid == speaker.uid) {
                 member.isSpeaking = true;
                 notifyListeners();
-                print(member.id.toString() +
+                print(member.uid.toString() +
                     '  ' +
                     speaker.uid.toString() +
-                    '말하고 있음');
+                    '가 volume $volume로 말하고 있음');
               }
-              // else {
-              //   testnum = 0;
-              //   member.isSpeaking = false;
-              //   notifyListeners();
-              //   print(testnum.toString() + 'tesetnum');
-              // }
             }
           } catch (error) {
             print('Error:${error.toString()}');
           }
         } else if (speaker.volume < 5) {
           try {
-            for (MemberPresentation member in _voiceRoom.members) {
-              if (speaker.uid == 0 && member.id == localuid) {
-                member.isSpeaking = false;
-                notifyListeners();
-              } else if (member.id == speaker.uid) {
-                member.isSpeaking = false;
-                notifyListeners();
-              }
+            for (MemberPresentation member in _voiceRoomMembers) {
+              member.isSpeaking = false;
+              notifyListeners();
             }
           } catch (error) {
             print('Error:${error.toString()}');
@@ -123,83 +108,102 @@ class VoiceDetailViewModel extends BaseModel {
         }
       });
     }));
-    // notifyListeners();
   }
 
   Future<void> leaveChannel() async {
-    print("leave channel");
     await _engine!.leaveChannel();
-    _voiceRoom.members.clear();
-    //notifyListeners();
+    print("leave channel");
+    _voiceRoomMembers.clear();
   }
 
-  void _initAgoraRtm() async {
-    //일단 보류
-  }
+  Future<VoiceRoom> loadVoiceRoom(int id) async {
+    //이 때 보이스룸 정보 맵핑, 이미 존재하는(나를 포함) 멤버 정보 맵핑해서 리스트에 넣기
 
-  void loadVoiceRoom(int voiceRoomId) async {
-    setBusy(true);
+    VoiceRoom voiceRoomResult = await _voiceService.fetchVoiceRoom(id: id);
 
-    await initAgoraRtcEngine();
-    addAgoraEventHandlers();
-
-    VoiceRoom voiceRoomResult =
-        await _voiceService.fetchVoiceRoom(voiceRoomId: voiceRoomId);
-
+    //뷰에 필요한 룸 정보 맵핑
     _voiceRoom = VoiceRoomPresentation(
-        id: voiceRoomResult.voiceRoomAndTokenInfo.id,
-        title: voiceRoomResult.voiceRoomAndTokenInfo.title,
-        members: voiceRoomResult.membersInfo
-            .map((member) => MemberPresentation(
-                id: member.id ?? -1,
-                loginId: member.loginId,
-                nickname: member.nickname,
-                imageUrl:
-                    member.imageUrl ?? 'assets/images/user/general_user.png',
-                isHost: voiceRoomResult.voiceRoomAndTokenInfo.ownerLoginId ==
-                        member.loginId
-                    ? true
-                    : false,
-                isSpeaking: false))
-            .toList(),
-        categories: voiceRoomResult.categories!
+        id: voiceRoomResult.id,
+        title: voiceRoomResult.title,
+        categories: categoryDummy[Random().nextInt(2)]
             .map((category) =>
                 CategoryData.iconOf(category.name) +
                 " " +
                 CategoryData.korNameOf(category.name))
             .toList(),
-        createdAt: dateToPastTime(voiceRoomResult.createdAt),
-        type: voiceRoomResult.type ?? defaultVoiceRoom.type);
+        createdAt: dateToPastTime(DateTime(2022, 2, 3)),
+        type: VoiceRoomType.PUBLIC);
 
-    await _engine!.joinChannel(
-        voiceRoomResult.voiceRoomAndTokenInfo.token,
-        voiceRoomResult.voiceRoomAndTokenInfo.roomId,
-        null,
-        0); //서버에서 받아온 토큰과 roomId로 채널 입장. //여기에 0을 uid로 넣으면 될 것 같기두.. 확인해봐야함.
+    //이미 존재하고 있는 멤버 정보 맵핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
+    _ownerLoginId = voiceRoomResult.ownerLoginId!;
+    _voiceRoomMembers.addAll(voiceRoomResult.memberInfos!.map((memberInfo) =>
+        MemberPresentation(
+            uid: memberInfo.id ?? -1,
+            loginId: memberInfo.loginId,
+            nickname: memberInfo.loginId == AuthService.loginId
+                ? memberInfo.nickname + '(나)'
+                : memberInfo.nickname,
+            imageUrl: memberInfo.imageUrl.isNotEmpty
+                ? memberInfo.imageUrl
+                : 'assets/images/user/general_user.png',
+            isSpeaking: false,
+            isHost: memberInfo.loginId == _ownerLoginId ? true : false)));
 
-    setBusy(false);
+    return voiceRoomResult;
+  }
+
+  //stomp_object의 subscribeVoiceRoomChat안에서 쓴다. 새로운 멤버가 들어오면 그 멤버의 정보를 맵핑해주고 멤버리스트에 추가
+  void addChatMemberInfo(ChatMemberInfo chatMemberInfo) {
+    _voiceRoomMembers.add(MemberPresentation(
+        uid: chatMemberInfo.id ?? -1,
+        loginId: chatMemberInfo.loginId,
+        nickname: chatMemberInfo.nickname,
+        imageUrl: chatMemberInfo.imageUrl.isNotEmpty
+            ? chatMemberInfo.imageUrl
+            : 'assets/images/user/general_user.png',
+        isSpeaking: false,
+        isHost: false));
+    notifyListeners();
+  }
+
+  void setVoiceFilter1() {
+    _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
+    _engine!.setLocalVoicePitch(2.0);
+  }
+
+  void setVoiceFilter2() {
+    _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
+    _engine!.setLocalVoicePitch(0.5);
+  }
+
+  void setVoiceFilter3() {
+    _engine!.setAudioEffectPreset(
+        AudioEffectPreset.VoiceChangerEffectSister); //별로 목소리 차이가 안남..
+  }
+
+  void setOriginalVoice() {
+    _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
+    _engine!.setLocalVoicePitch(1.0);
   }
 }
 
 class VoiceRoomPresentation {
   final int id;
   final String title;
-  final List<MemberPresentation> members;
-  final List<dynamic> categories;
-  String createdAt;
+  final List<dynamic> categories; //일단은 뷰모델에서 지정해두자. 서버에서는 아직 안넘어옴
+  String createdAt; //얘도 서버에서 아직 안넘어옴
   VoiceRoomType type;
 
   VoiceRoomPresentation(
       {required this.id,
       required this.title,
-      required this.members,
       required this.categories,
       required this.createdAt,
       required this.type});
 }
 
 class MemberPresentation {
-  int id;
+  int uid;
   String loginId;
   String nickname;
   String imageUrl;
@@ -207,7 +211,7 @@ class MemberPresentation {
   bool isHost;
 
   MemberPresentation(
-      {required this.id,
+      {required this.uid,
       required this.loginId,
       required this.nickname,
       required this.imageUrl,

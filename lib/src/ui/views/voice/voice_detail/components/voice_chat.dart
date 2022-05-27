@@ -24,7 +24,7 @@ class _VoiceChatState extends State<VoiceChat> {
         spacing: getProportionateScreenWidth(23),
         runSpacing: getProportionateScreenHeight(20),
         children: [
-          ...widget.vm.voiceRoom.members.map(
+          ...widget.vm.voiceRoomMembers.map(
               (member) => VoiceChatMemberChip(vm: widget.vm, member: member))
         ],
       ),

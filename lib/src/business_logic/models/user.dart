@@ -35,7 +35,7 @@ class User {
       this.introduction,
       this.interests});
 
-  factory User.fromJosn(Map<String, dynamic> json) {
+  factory User.fromJson(Map<String, dynamic> json) {
     return User(
         id: json['id'],
         loginId: json['loginId'],

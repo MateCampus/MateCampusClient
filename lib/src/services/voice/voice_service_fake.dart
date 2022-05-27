@@ -4,13 +4,13 @@ import 'voice_service.dart';
 
 class FakeVoiceService implements VoiceService {
   @override
-  Future<bool> createVoiceRoom({required String title}) async {
+  Future<VoiceRoom> createVoiceRoom({required String title}) async {
     // TODO: implement createVoiceRoom
     throw UnimplementedError();
   }
 
   @override
-  Future<VoiceRoom> fetchVoiceRoom({required int voiceRoomId}) async {
+  Future<VoiceRoom> fetchVoiceRoom({required int id}) async {
     return voiceRoomDummy[1];
   }
 
