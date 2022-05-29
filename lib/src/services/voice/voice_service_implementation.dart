@@ -43,22 +43,20 @@ class VoiceServiceImpl implements VoiceService {
     //   "title": title,
     //   "collegeOnly": collegeOnly,
     //   "majorOnly": majorOnly,
-    //   "categories": categories.toList(),
+    //   "categories": categories.toList(),s
     //   "type": type,
     //   "members": members.toList(),  //리스트 인코딩하는법 알아야함
     // });
-    String voiceRoomJson = json.encode({"title": title});
+    String voiceRoomJson = jsonEncode({"title": title});
     final response = await http.post(Uri.parse(devServer + "/api/voiceRoom"),
         headers: AuthService.get_auth_header(), body: voiceRoomJson);
-    if (response.statusCode == 200) {
-      print(response.body);
-      var res = await jsonDecode(utf8.decode(response.bodyBytes));
-      VoiceRoom createdVoiceRoom = VoiceRoom.fromJson(res);
-      // VoiceRoom createdVoiceRoom =
-      //     VoiceRoom.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
+    if (response.statusCode == 201) {
+      VoiceRoom createdVoiceRoom =
+          VoiceRoom.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
       return createdVoiceRoom;
     } else {
       print('보이스룸 생성 실패');
+      print(response.reasonPhrase);
       throw Exception();
     }
   }
