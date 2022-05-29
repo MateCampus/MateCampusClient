@@ -25,11 +25,13 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   vm.leaveChannel();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    print('dispose voice detail');
+    vm.leaveChannel();
+    serviceLocator.resetLazySingleton<VoiceDetailViewModel>(instance: vm);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +49,9 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   icon: const Icon(Icons.expand_more_outlined),
                   color: Colors.black,
                   onPressed: () {
-                    vm.leaveChannel();
-                    Navigator.of(context).pop(); //일단은 뒤로가기로
+                    Navigator.popAndPushNamed(
+                        context, '/'); //뒤로가면서 home으로 navigate하기때문에 refresh된다.
+                    Navigator.of(context).pop(); //일단은 뒤로가기로 -> 뒤로가면서 refresh안됨
                   },
                 ),
                 actions: [
@@ -59,8 +62,8 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      vm.leaveChannel();
-                      Navigator.popAndPushNamed(context, '/');
+                      Navigator.of(context)
+                          .pop(); //일단은 뒤로가기로 -> 뒤로가면서 refresh안됨
                     },
                     icon: const Icon(Icons.logout_outlined),
                     color: Colors.black,
