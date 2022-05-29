@@ -32,8 +32,8 @@ class AuthService extends ChangeNotifier {
     _token = token;
 
     /// 아래 2개는 서버 킬 때만 사용 가능.
-    // updateUserDeviceToken(); // 추후 삭제될 수도 있음.
-    // await StompObject.connectStomp();
+    updateUserDeviceToken(); // 추후 삭제될 수도 있음.
+    await StompObject.connectStomp();
 
     /** 
       * initstate에서 load를 하는게 맞는지,

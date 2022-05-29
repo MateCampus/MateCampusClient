@@ -1,13 +1,12 @@
 import 'dart:math';
 
+import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
-import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
-import 'package:zamongcampus/src/business_logic/models/voice_room_info.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
@@ -165,48 +164,49 @@ List<List<Category>> categoryDummy = [
   [Category.c0005, Category.c0007]
 ];
 
+List<ChatMemberInfo> chatMemberInfo = [
+  ChatMemberInfo(loginId: 'hi1', nickname: 'nickname', imageUrl: "")
+];
+
 List<VoiceRoom> voiceRoomDummy = [
   VoiceRoom(
-      voiceRoomAndTokenInfo: VoiceRoomInfo(
-        id: 1,
-        ownerLoginId: "zm10",
-        roomId: '',
-        title: "단국대 20학번 산업디자인과 드루왕!!",
-        token: '',
-        uid: 4,
-      ),
-      membersInfo: userDummy2,
-      categories: categoryDummy[Random().nextInt(2)],
-      createdAt: DateTime(2022, 2, 3),
-      type: VoiceRoomType.PUBLIC),
+    id: 1,
+    ownerLoginId: "zm10",
+    roomId: '',
+    title: "단국대 20학번 산업디자인과 드루왕!!",
+    token: '',
+    uid: 4,
+    memberInfos: chatMemberInfo,
+    categories: categoryDummy[Random().nextInt(2)],
+    //createdAt: DateTime(2022, 2, 3),
+    //type: VoiceRoomType.PUBLIC
+  ),
   VoiceRoom(
-      //voiceDetail의 dummy로 사용중
-      voiceRoomAndTokenInfo: VoiceRoomInfo(
-        id: 2,
-        ownerLoginId: "zm11",
-        roomId: '0525zamong',
-        title: "고정팟 구함!! 배틀그라운드 컴온",
-        token:
-            '0061db42f592687465e9ad1564ae4b55221IABJCnKGlfUjZNgQ3vRhjYc+RyYkebLyXF0471Ao3YbG3G3Q6H4AAAAAEAAPZcnS5z6PYgEAAQDmPo9i',
-        uid: 4,
-      ),
-      membersInfo: userDummy3,
-      categories: categoryDummy[Random().nextInt(2)],
-      createdAt: DateTime(2022, 2, 3),
-      type: VoiceRoomType.PUBLIC),
+    //voiceDetail의 dummy로 사용중
+    id: 2,
+    ownerLoginId: "zm11",
+    roomId: '0525zamong',
+    title: "고정팟 구함!! 배틀그라운드 컴온",
+    token:
+        '0061db42f592687465e9ad1564ae4b55221IABJCnKGlfUjZNgQ3vRhjYc+RyYkebLyXF0471Ao3YbG3G3Q6H4AAAAAEAAPZcnS5z6PYgEAAQDmPo9i',
+    uid: 4,
+    memberInfos: chatMemberInfo,
+    categories: categoryDummy[Random().nextInt(2)],
+    //createdAt: DateTime(2022, 2, 3),
+    //type: VoiceRoomType.PUBLIC
+  ),
   VoiceRoom(
-      voiceRoomAndTokenInfo: VoiceRoomInfo(
-        id: 3,
-        ownerLoginId: "zm11",
-        roomId: '',
-        title: "프로자취러들의 모임~ 각자 꿀팁공유행",
-        token: '',
-        uid: 4,
-      ),
-      membersInfo: userDummy2,
-      categories: categoryDummy[Random().nextInt(2)],
-      createdAt: DateTime(2022, 2, 3),
-      type: VoiceRoomType.PUBLIC),
+    id: 3,
+    ownerLoginId: "zm11",
+    roomId: '',
+    title: "프로자취러들의 모임~ 각자 꿀팁공유행",
+    token: '',
+    uid: 4,
+    memberInfos: chatMemberInfo,
+    categories: categoryDummy[Random().nextInt(2)],
+    //createdAt: DateTime(2022, 2, 3),
+    //type: VoiceRoomType.PUBLIC
+  ),
 ];
 
 List<ChatMessage> chatMessageDummy = [
