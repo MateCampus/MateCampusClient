@@ -27,7 +27,7 @@ class RecommendUserListTile extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(8),
+                vertical: getProportionateScreenHeight(15),
                 horizontal: getProportionateScreenWidth(8)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -36,8 +36,7 @@ class RecommendUserListTile extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: getProportionateScreenHeight(25),
-                      backgroundImage:
-                          AssetImage(recommendUser.userImageUrls.first),
+                      backgroundImage: AssetImage(recommendUser.imageUrl),
                     ),
                     Positioned(
                       bottom: 1,
@@ -58,7 +57,7 @@ class RecommendUserListTile extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: getProportionateScreenHeight(10)),
+                const Spacer(),
                 Text(
                   "#" + recommendUser.majorName,
                   maxLines: 1,

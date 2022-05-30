@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
@@ -8,6 +6,7 @@ import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
+import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:zamongcampus/src/ui/common_components/select_cateory_dialog_component/select_category_dialog.dart';
 
 import 'base_model.dart';
@@ -15,6 +14,7 @@ import 'base_model.dart';
 class VoiceCreateViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
   final FriendService _friendService = serviceLocator<FriendService>();
+  final VoiceService _voiceService = serviceLocator<VoiceService>();
 
   final List<UserPresentation> _recentTalkUsers = [];
   final List<UserPresentation> _friendUsers = [];
@@ -47,7 +47,7 @@ class VoiceCreateViewModel extends BaseModel {
     _recentTalkUsers.addAll(recentTalkUserResult.map((recentTalkUser) =>
         UserPresentation(
             loginId: recentTalkUser.loginId,
-            userImageUrl: recentTalkUser.imageUrls?.first ??
+            userImageUrl: recentTalkUser.imageUrl ??
                 "assets/images/user/general_user.png",
             userNickname: recentTalkUser.nickname,
             isChecked: false)));
@@ -137,16 +137,18 @@ class VoiceCreateViewModel extends BaseModel {
   }
 
 //대화방 만들기
-  void createVoiceRoom() async {
-    final createVoiceRoomJson = jsonEncode({
-      "title": titleController.text,
-      "collegeOnly": _collegeOnlyChecked,
-      "majorOnly": _majorOnlyChecked,
-      "categories": _categoryResult,
-      "type": _type.name,
-      "members": _members,
-    });
-    print(createVoiceRoomJson);
+  Future<VoiceRoom> createVoiceRoom() async {
+    VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
+        title: titleController.text); //일단은 서버에 title만 보냄
+    return voiceRoom;
+    // final createVoiceRoomJson = jsonEncode({
+    //   "title": titleController.text,
+    //   "collegeOnly": _collegeOnlyChecked,
+    //   "majorOnly": _majorOnlyChecked,
+    //   "categories": _categoryResult,
+    //   "type": _type.name,
+    //   "members": _members,
+    // });
   }
 }
 

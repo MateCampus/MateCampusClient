@@ -10,7 +10,7 @@ class CommentServiceImpl implements CommentService {
   @override
   Future<bool> createComment(
       {required int postId, required String body}) async {
-    String commentJson = json.encode({
+    String commentJson = jsonEncode({
       "body": body,
     });
     final response = await http.post(
@@ -30,8 +30,7 @@ class CommentServiceImpl implements CommentService {
       {required int postId,
       required int parentId,
       required String body}) async {
-    String nestedCommentJson =
-        json.encode({"body": body, "parentId": parentId});
+    String nestedCommentJson = jsonEncode({"body": body, "parentId": parentId});
 
     final response = await http.post(
         Uri.parse(devServer + "/api/post/" + postId.toString() + "/comment"),

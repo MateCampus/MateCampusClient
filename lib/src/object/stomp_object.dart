@@ -14,6 +14,7 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -315,5 +316,19 @@ class StompObject {
         chatViewModel.replaceItem(chatRoom, index);
       }
     });
+  }
+
+  static void subscribeVoiceRoomChat(String roomId) {
+    stompClient.subscribe(
+        headers: AuthService.get_auth_header(),
+        destination: '/sub/chat/room/$roomId',
+        callback: (frame) {
+          VoiceDetailViewModel voiceDetailViewModel =
+              serviceLocator<VoiceDetailViewModel>();
+          print("----- 새로운 멤버 도착 -----");
+          var res = json.decode(frame.body ?? "");
+          ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(res);
+          voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
+        });
   }
 }

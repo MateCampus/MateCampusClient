@@ -28,6 +28,7 @@ import 'package:zamongcampus/src/services/post/post_service_implementation.dart'
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/user/user_service_fake.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
+import 'package:zamongcampus/src/services/voice/voice_service_implementation.dart';
 
 import '../business_logic/view_models/post_main_screen_viewmodel.dart';
 import '../services/chat/chat_service.dart';
@@ -46,10 +47,11 @@ void setupServiceLocator() {
   // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   // serviceLocator
   //     .registerLazySingleton<CommentService>(() => FakeCommentService());
-  // serviceLocator
-  //     .registerLazySingleton<FriendService>(() => FakeFriendService());
+  serviceLocator
+      .registerLazySingleton<FriendService>(() => FakeFriendService());
+
   /* 2. 실제 불가능한 services */
-  serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
+  //serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
 
@@ -58,30 +60,29 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
   serviceLocator
       .registerLazySingleton<CommentService>(() => CommentServiceImpl());
-  serviceLocator
-      .registerLazySingleton<FriendService>(() => FriendServiceImpl());
+  // serviceLocator
+  //     .registerLazySingleton<FriendService>(() => FriendServiceImpl());
+  serviceLocator.registerLazySingleton<VoiceService>(() => VoiceServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
-
   serviceLocator.registerFactory<PostMainScreenViewModel>(
       () => PostMainScreenViewModel());
   serviceLocator.registerFactory<PostCreateScreenViewModel>(
       () => PostCreateScreenViewModel());
-  serviceLocator.registerLazySingleton<VoiceMainScreenViewModel>(
+  serviceLocator.registerFactory<VoiceMainScreenViewModel>(
       () => VoiceMainScreenViewModel());
   serviceLocator.registerLazySingleton<ChatViewModel>(() => ChatViewModel());
   serviceLocator
       .registerLazySingleton<ChatDetailViewModel>(() => ChatDetailViewModel());
   serviceLocator.registerLazySingleton<ChatDetailFromFriendProfileViewModel>(
       () => ChatDetailFromFriendProfileViewModel());
-  serviceLocator.registerFactory<PostDetailScreenViewModel>(
+  serviceLocator.registerLazySingleton<PostDetailScreenViewModel>(
       () => PostDetailScreenViewModel());
-
   serviceLocator.registerLazySingleton<VoiceCreateViewModel>(
       () => VoiceCreateViewModel());
-  serviceLocator
-      .registerFactory<VoiceDetailViewModel>(() => VoiceDetailViewModel());
+  serviceLocator.registerLazySingleton<VoiceDetailViewModel>(
+      () => VoiceDetailViewModel());
 
   serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());
   serviceLocator
