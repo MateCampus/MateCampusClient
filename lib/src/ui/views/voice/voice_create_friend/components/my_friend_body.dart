@@ -41,7 +41,8 @@ class MyFriendBody extends StatelessWidget {
               text: '시작하기!',
               press: () async {
                 VoiceRoom voiceRoom = await vm.createVoiceRoom();
-                Navigator.pushNamed(context, VoiceDetailScreen.routeName,
+                Navigator.pushNamedAndRemoveUntil(context,
+                    VoiceDetailScreen.routeName, ModalRoute.withName('/'),
                     arguments: VoiceDetailScreenArgs(voiceRoom: voiceRoom));
               },
               btnColor: color,

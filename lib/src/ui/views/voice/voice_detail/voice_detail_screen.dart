@@ -52,8 +52,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   icon: const Icon(Icons.expand_more_outlined),
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.pushNamed(
-                        context, '/'); //나중에 pushNamedAndRemoveUntil로 바꿔야할수도
+                    Navigator.pop(context);
                   },
                 ),
                 actions: [
@@ -64,8 +63,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(
-                          context, '/'); //나중에 pushNamedAndRemoveUntil로 바꿔야할수도
+                      Navigator.pop(context);
                     },
                     icon: const Icon(Icons.logout_outlined),
                     color: Colors.black,
