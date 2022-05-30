@@ -39,8 +39,8 @@ const kDefaultShadow = BoxShadow(
 //     ? "https://febf-211-198-109-254.ngrok.io"
 //     : "https://a0fa-175-223-33-165.ngrok.io";
 final devServer = Platform.isAndroid
-    ? "https://b1f3-211-198-109-254.ngrok.io"
-    : "https://b1f3-211-198-109-254.ngrok.io";
+    ? "https://09a9-211-198-109-254.ngrok.io"
+    : "https://09a9-211-198-109-254.ngrok.io";
 
 const dankookEmail = "@dankook.ac.kr";
 

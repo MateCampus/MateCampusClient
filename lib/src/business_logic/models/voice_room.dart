@@ -43,9 +43,6 @@ class VoiceRoom {
             token: json['voiceRoomAndTokenInfo']['token'],
             uid: json['voiceRoomAndTokenInfo']['uid'],
             ownerLoginId: json['voiceRoomAndTokenInfo']['ownerLoginId'],
-            // voiceRoomAndTokenInfo: json['voiceRoomAndTokenInfo']
-            //     .map((item) => VoiceRoomInfo.fromJson(item))
-            //     .toList(),
             memberInfos: json['memberInfos']
                 ?.map((member) => ChatMemberInfo.fromJson(member))
                 .toList(),
