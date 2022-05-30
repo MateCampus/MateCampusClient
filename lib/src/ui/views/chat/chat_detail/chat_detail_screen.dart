@@ -34,7 +34,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
 
   @override
   void dispose() {
+    print('chatdetail dispose 시작한다잉');
     vm.resetData();
+    ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+    chatViewModel.changeInsideRoomId("0");
     super.dispose();
   }
 

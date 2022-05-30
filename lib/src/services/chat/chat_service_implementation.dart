@@ -130,6 +130,11 @@ class ChatServiceImpl implements ChatService {
   }
 
   @override
+  getChatRoomByRoomId(String roomId) async {
+    return await chatRoomDBHelper.getChatRoomByRoomId(roomId);
+  }
+
+  @override
   deleteChatRoomByRoomId(String roomId) {
     return chatRoomDBHelper.deleteChatRoomByRoomId(roomId);
   }

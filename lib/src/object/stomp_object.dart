@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
@@ -13,6 +15,8 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_fri
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
+import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
@@ -28,7 +32,7 @@ class StompObject {
     _stompClient = StompClient(
       config: StompConfig.SockJS(
         url: devServer + '/ws-stomp',
-        onConnect: _onConnect,
+        onConnect: onConnect,
         beforeConnect: () async {
           print('stomp 연결 중 ...');
         },
@@ -42,7 +46,7 @@ class StompObject {
   }
 
   // connect 성공
-  static dynamic _onConnect(StompFrame frame) async {
+  static dynamic onConnect(StompFrame frame) async {
     print('stomp 연결 완료');
     if (AuthService.loginId != null && AuthService.token != null) {
       /// 1. 채팅방 불러오고
@@ -51,12 +55,40 @@ class StompObject {
       /// 4. 밀린 메세지 불러와서 재세팅
       /// 5. 다시 채팅방 불러오기
       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-      await chatViewModel.loadChatRooms();
       for (ChatRoom chatRoom in chatViewModel.chatRooms) {
         subscribeChatRoom(chatRoom.roomId);
       }
-      subscribeChatRoom(FirebaseObject.deviceFcmToken);
+
+      /// *** 이 친구를 먼저 해버려야했다!>!>! 먼저해서 합쳐야할 듯..
       await chatViewModel.setChatRoomByNewMessages();
+
+      // terminated된 앱의 알림 클릭해서 들어갈 때.
+      RemoteMessage? remoteMessage =
+          await FirebaseMessaging.instance.getInitialMessage();
+      if (remoteMessage != null) {
+        print(remoteMessage.data);
+        if (remoteMessage.data["navigate"] == "/chatDetail") {
+          HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+          homeViewModel.changeCurrentIndex(2);
+
+          /// 1. load local 값 or 새로운 값 생성
+          ChatService chatService = serviceLocator<ChatService>();
+          ChatRoom chatRoom = await chatService
+                  .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
+              ChatRoom(
+                  roomId: remoteMessage.data["roomId"],
+                  title: remoteMessage.data["title"],
+                  type: remoteMessage.data["type"],
+                  lastMessage: "",
+                  lastMsgCreatedAt: DateTime(2021, 05, 05),
+                  imageUrl: remoteMessage.data["imageUrl"],
+                  unreadCount: 0);
+
+          NavigationService().pushNamedAndRemoveUntil(
+              "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+        }
+      }
+      subscribeChatRoom(FirebaseObject.deviceFcmToken);
       await chatViewModel.loadChatRooms();
     }
   }

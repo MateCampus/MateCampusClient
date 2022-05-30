@@ -30,7 +30,6 @@ class UserProfileViewModel extends BaseModel {
 
   void loadUserProfile(String loginId) async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 300)); // 딜레이
     // 여기서에서 유저의 정보 더 가져올 것!
     User recommendUser =
         await _userService.fetchUserProfile(userLoginId: "test");
