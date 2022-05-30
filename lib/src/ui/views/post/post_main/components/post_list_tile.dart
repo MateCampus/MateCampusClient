@@ -86,16 +86,18 @@ class PostListTile extends StatelessWidget {
               children: [
                 Text(
                   post.title,
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(15),
+                      fontWeight: FontWeight.bold),
                 ),
                 const VerticalSpacing(of: 5),
                 Text(
                   post.body,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style:
-                      const TextStyle(fontSize: 13, color: Color(0xff818181)),
+                  style: TextStyle(
+                      fontSize: getProportionateScreenHeight(13),
+                      color: Color(0xff818181)),
                 )
               ]),
         ),
@@ -122,14 +124,18 @@ class PostListTile extends StatelessWidget {
         children: [
           Text(
             post.title,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: getProportionateScreenHeight(15),
+                fontWeight: FontWeight.bold),
           ),
           const VerticalSpacing(of: 5),
           Text(
             post.body,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 13, color: Color(0xff818181)),
+            style: TextStyle(
+                fontSize: getProportionateScreenHeight(13),
+                color: Color(0xff818181)),
           )
         ],
       ),

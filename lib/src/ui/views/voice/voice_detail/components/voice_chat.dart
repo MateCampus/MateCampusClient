@@ -13,14 +13,6 @@ class VoiceChat extends StatefulWidget {
 
 class _VoiceChatState extends State<VoiceChat> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      widget.vm.setHost();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Container(
       width: SizeConfig.screenWidth,
@@ -32,7 +24,7 @@ class _VoiceChatState extends State<VoiceChat> {
         spacing: getProportionateScreenWidth(23),
         runSpacing: getProportionateScreenHeight(20),
         children: [
-          ...widget.vm.voiceRoom.members.map(
+          ...widget.vm.voiceRoomMembers.map(
               (member) => VoiceChatMemberChip(vm: widget.vm, member: member))
         ],
       ),

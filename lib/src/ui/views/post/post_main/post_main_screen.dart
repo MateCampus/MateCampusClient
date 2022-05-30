@@ -18,7 +18,10 @@ class _PostMainScreenState extends State<PostMainScreen> {
 
   @override
   void initState() {
-    vm.loadPost();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.loadPost();
+    });
+
     super.initState();
   }
 

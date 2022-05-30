@@ -28,6 +28,12 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   }
 
   @override
+  void dispose() {
+    serviceLocator.resetLazySingleton<PostDetailScreenViewModel>(instance: vm);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<PostDetailScreenViewModel>(

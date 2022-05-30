@@ -36,6 +36,7 @@ class _ChatDetailFromFriendProfileScreenState
   void dispose() {
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     chatViewModel.changeFromFriendProfile(false);
+    chatViewModel.changeInsideRoomId("0");
     vm.resetData();
     super.dispose();
   }

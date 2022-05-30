@@ -1,6 +1,7 @@
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
+import 'package:zamongcampus/src/object/local_notification_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
@@ -16,6 +17,7 @@ class Init {
     await PrefsObject.init();
     await SqfliteObject.database;
     await FirebaseObject.init();
+    await LocalNotificationObject.init();
     String? loginId = await PrefsObject.getLoginId();
     String? token = await PrefsObject.getToken();
     if (loginId == null || token == null) {

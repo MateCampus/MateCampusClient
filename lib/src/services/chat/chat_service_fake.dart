@@ -187,4 +187,10 @@ class FakeChatService implements ChatService {
     // TODO: implement updateUnreadCount
     throw UnimplementedError();
   }
+
+  @override
+  getChatRoomByRoomId(String roomId) {
+    // TODO: implement getChatRoomByRoomId
+    throw UnimplementedError();
+  }
 }
