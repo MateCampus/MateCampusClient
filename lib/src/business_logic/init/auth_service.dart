@@ -36,7 +36,8 @@ class AuthService extends ChangeNotifier {
       {required String token, required String loginId}) async {
     _loginId = loginId;
     _token = token;
-
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    homeViewModel.changeCurrentIndex(0);
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     await chatViewModel.loadChatRooms();
     await StompObject.connectStomp();
@@ -74,8 +75,6 @@ class AuthService extends ChangeNotifier {
   static Future<void> logout(BuildContext context) async {
     PrefsObject.removeLoginIdAndToken();
     StompObject.deactivateStomp();
-    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-    homeViewModel.changeCurrentIndex(0);
     Navigator.pushReplacementNamed(context, "/login");
     toastMessage("로그아웃하셨습니다!");
   }

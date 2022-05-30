@@ -53,7 +53,7 @@ void setupServiceLocator() {
   //     .registerLazySingleton<FriendService>(() => FakeFriendService());
   // serviceLocator
   //     .registerLazySingleton<SignUpService>(() => FakeSignUpService());
-  //serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
+  // serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
 
   /* 2. 실제 불가능한 services */
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());

@@ -171,43 +171,43 @@ List<ChatMemberInfo> chatMemberInfo = [
 
 List<VoiceRoom> voiceRoomDummy = [
   VoiceRoom(
-    id: 1,
-    ownerLoginId: "zm10",
-    roomId: '',
-    title: "단국대 20학번 산업디자인과 드루왕!!",
-    token: '',
-    uid: 4,
-    memberInfos: chatMemberInfo,
-    categories: categoryDummy[Random().nextInt(2)],
-    //createdAt: DateTime(2022, 2, 3),
-    //type: VoiceRoomType.PUBLIC
-  ),
+      id: 1,
+      ownerLoginId: "zm10",
+      roomId: '',
+      title: "단국대 20학번 산업디자인과 드루왕!!",
+      token: '',
+      uid: 4,
+      memberInfos: chatMemberInfo,
+      categories: categoryDummy[Random().nextInt(2)],
+      //createdAt: DateTime(2022, 2, 3),
+      //type: VoiceRoomType.PUBLIC
+      userImageUrls: []),
   VoiceRoom(
-    //voiceDetail의 dummy로 사용중
-    id: 2,
-    ownerLoginId: "zm11",
-    roomId: '0525zamong',
-    title: "고정팟 구함!! 배틀그라운드 컴온",
-    token:
-        '0061db42f592687465e9ad1564ae4b55221IABJCnKGlfUjZNgQ3vRhjYc+RyYkebLyXF0471Ao3YbG3G3Q6H4AAAAAEAAPZcnS5z6PYgEAAQDmPo9i',
-    uid: 4,
-    memberInfos: chatMemberInfo,
-    categories: categoryDummy[Random().nextInt(2)],
-    //createdAt: DateTime(2022, 2, 3),
-    //type: VoiceRoomType.PUBLIC
-  ),
+      //voiceDetail의 dummy로 사용중
+      id: 2,
+      ownerLoginId: "zm11",
+      roomId: '0525zamong',
+      title: "고정팟 구함!! 배틀그라운드 컴온",
+      token:
+          '0061db42f592687465e9ad1564ae4b55221IABJCnKGlfUjZNgQ3vRhjYc+RyYkebLyXF0471Ao3YbG3G3Q6H4AAAAAEAAPZcnS5z6PYgEAAQDmPo9i',
+      uid: 4,
+      memberInfos: chatMemberInfo,
+      categories: categoryDummy[Random().nextInt(2)],
+      //createdAt: DateTime(2022, 2, 3),
+      //type: VoiceRoomType.PUBLIC
+      userImageUrls: []),
   VoiceRoom(
-    id: 3,
-    ownerLoginId: "zm11",
-    roomId: '',
-    title: "프로자취러들의 모임~ 각자 꿀팁공유행",
-    token: '',
-    uid: 4,
-    memberInfos: chatMemberInfo,
-    categories: categoryDummy[Random().nextInt(2)],
-    //createdAt: DateTime(2022, 2, 3),
-    //type: VoiceRoomType.PUBLIC
-  ),
+      id: 3,
+      ownerLoginId: "zm11",
+      roomId: '',
+      title: "프로자취러들의 모임~ 각자 꿀팁공유행",
+      token: '',
+      uid: 4,
+      memberInfos: chatMemberInfo,
+      categories: categoryDummy[Random().nextInt(2)],
+      //createdAt: DateTime(2022, 2, 3),
+      //type: VoiceRoomType.PUBLIC
+      userImageUrls: []),
 ];
 
 List<ChatMessage> chatMessageDummy = [

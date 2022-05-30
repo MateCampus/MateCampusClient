@@ -11,7 +11,7 @@ class FakeLoginService implements LoginService {
     body.putIfAbsent("loginId", () => id);
     body.putIfAbsent(
         "password", () => sha256.convert(utf8.encode(password)).toString());
-
+    print("fake login");
     return FakeRes(
         statusCode: 200, headers: {"authorization": "fakeauthtoken"});
   }
