@@ -21,6 +21,7 @@ abstract class ChatService {
   insertChatRoom(ChatRoom chatRoom) {}
   getAllChatRoom() async {}
   getChatRoomsByMemberLoginId(String loginId) async {}
+  getChatRoomByRoomId(String roomId) async {}
   deleteChatRoomByRoomId(String roomId) {}
   deleteAllChatRoom() async {}
   isExistRoom(String roomId) {}

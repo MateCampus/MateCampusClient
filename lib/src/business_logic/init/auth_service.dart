@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
@@ -32,8 +34,8 @@ class AuthService extends ChangeNotifier {
     _token = token;
 
     /// 아래 2개는 서버 킬 때만 사용 가능.
-    // updateUserDeviceToken(); // 추후 삭제될 수도 있음.
-    // await StompObject.connectStomp();
+    updateUserDeviceToken(); // 추후 삭제될 수도 있음.
+    await StompObject.connectStomp();
 
     /** 
       * initstate에서 load를 하는게 맞는지,
@@ -43,6 +45,14 @@ class AuthService extends ChangeNotifier {
     voicemainvm.loadRecommendUsers();
     voicemainvm.loadVoiceRooms();
     */
+
+    // terminated된 앱의 알림 클릭해서 들어갈 때.
+    RemoteMessage? remoteMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (remoteMessage != null) {
+      // remoteMessage.data[""]
+
+    }
   }
 
   static updateUserDeviceToken() async {
@@ -66,6 +76,8 @@ class AuthService extends ChangeNotifier {
   static Future<void> logout(BuildContext context) async {
     PrefsObject.removeLoginIdAndToken();
     StompObject.deactivateStomp();
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    homeViewModel.changeCurrentIndex(0);
     Navigator.pushReplacementNamed(context, "/login");
     toastMessage("로그아웃하셨습니다!");
   }

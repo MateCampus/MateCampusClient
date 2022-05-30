@@ -37,6 +37,12 @@ class NavigationService {
         ),
       );
 
+  Future<dynamic> pushNamedAndRemoveUntil(
+          String page, String untilPage, var arguments) async =>
+      navigationKey.currentState!.pushNamedAndRemoveUntil(
+          page, ModalRoute.withName(untilPage),
+          arguments: arguments);
+
   /// Allows you to pop to the first screen to when the app first launched.
   /// This is useful when you need to log out a user,
   /// and also remove all the screens on the navigation stack.

@@ -53,6 +53,16 @@ class ChatRoomDBHelper {
     return chatRooms;
   }
 
+  Future<ChatRoom?> getChatRoomByRoomId(String roomId) async {
+    final db = await SqfliteObject.database;
+    List res = await db!.rawQuery(
+        'SELECT roomId, title, type, lastMessage, lastMsgCreatedAt, imageUrl, unreadCount FROM $tableName WHERE roomId = ?',
+        [roomId]);
+    return res.isNotEmpty
+        ? res.map((c) => ChatRoom.fromJson(c)).toList().first
+        : null;
+  }
+
   // DELETE: 채팅방 삭제 (대화방 나갈 때)
   void deleteChatRoomByRoomId(String roomId) async {
     final db = await SqfliteObject.database;

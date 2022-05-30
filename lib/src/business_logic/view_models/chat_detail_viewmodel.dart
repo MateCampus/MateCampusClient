@@ -10,6 +10,8 @@ import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'base_model.dart';
 
 class ChatDetailViewModel extends BaseModel {
+  bool _loadMoreBusy = false;
+  bool get loadMoreBusy => _loadMoreBusy;
   ChatService chatService = serviceLocator<ChatService>();
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
@@ -32,6 +34,7 @@ class ChatDetailViewModel extends BaseModel {
   chatDetailInit(ChatRoom chatRoom) async {
     print('chatDetailInit 시작');
     setBusy(true);
+    resetData();
     scrollInit();
     await setChatRoom(chatRoom);
     await loadFirstChatMessagesAndMember(chatRoom.roomId);
@@ -79,27 +82,26 @@ class ChatDetailViewModel extends BaseModel {
 
   Future<void> loadMoreChatMessages() async {
     /// local storage에 있는 메세지 더 불러오기
-    setBusy(true);
+    changeLoadMoreBusy(true);
     List<ChatMessage> result =
         await chatService.getMessages(chatRoom.roomId, nextPageToken);
-    await Future.delayed(Duration(milliseconds: 500));
     chatMessages.insertAll(chatMessages.length, result); // ** 맨마지막에 더하기
     nextPageToken++;
-    setBusy(false);
+    changeLoadMoreBusy(false);
   }
 
   void scrollInit() {
-    scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        print("위 도착");
-        loadMoreChatMessages();
-      } else if (scrollController.position.pixels == 0) {
-        print("아래 도착 reload");
-      } else {
-        print(scrollController.position.pixels);
-      }
-    });
+    scrollController.addListener(_onScrollEvent);
+  }
+
+  void _onScrollEvent() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      print("위 도착 load morez");
+      loadMoreChatMessages();
+    } else if (scrollController.position.pixels == 0) {
+      print("아래 도착");
+    } else {}
   }
 
   void changeScrollToLowest() {
@@ -116,5 +118,11 @@ class ChatDetailViewModel extends BaseModel {
     _chatMessages.clear();
     chatMemberInfos.clear();
     nextPageToken = 1;
+    scrollController.removeListener(_onScrollEvent);
+  }
+
+  void changeLoadMoreBusy(bool value) {
+    _loadMoreBusy = value;
+    notifyListeners();
   }
 }

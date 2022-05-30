@@ -3,6 +3,16 @@ import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'dart:convert';
+
+import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
+import 'package:zamongcampus/src/config/navigation_service.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/sqflite_object.dart';
+import 'package:zamongcampus/src/services/chat/chat_service.dart';
 
 class LocalNotificationObject {
   static final _flutterLocalNotificationsPlugin =
@@ -26,6 +36,28 @@ class LocalNotificationObject {
   static void selectNotification(String? payload) async {
     print('foreground 클릭했을 때 오는 곳! ');
     print("$payload");
+    if (payload == null) return;
+    var res = await jsonDecode(payload);
+
+    if (res["navigate"] == "/chatDetail") {
+      /// load data 할 필요 없다. 왜냐하면 이미 다 구독하고 있는 상태이기 때문.
+      /// 1. load local 값 or 새로운 값 생성
+      ChatService chatService = serviceLocator<ChatService>();
+      ChatRoom chatRoom =
+          await chatService.getChatRoomByRoomId(res["roomId"]) ??
+              ChatRoom(
+                  roomId: res["roomId"],
+                  title: res["title"],
+                  type: res["type"],
+                  lastMessage: "",
+                  lastMsgCreatedAt: DateTime(2021, 05, 05),
+                  imageUrl: res["imageUrl"],
+                  unreadCount: 0);
+      HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+      homeViewModel.changeCurrentIndex(2);
+      NavigationService().pushNamedAndRemoveUntil(
+          "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+    }
   }
 
   static void showNotification2(RemoteMessage message) async {
@@ -38,6 +70,10 @@ class LocalNotificationObject {
             priority: Priority.high),
         iOS: const IOSNotificationDetails());
     if (message.notification != null) {
+      if (message.data["navigate"] == "/chatDetail") {
+        ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+        if (message.data["roomId"] == chatViewModel.insideRoomId) return;
+      }
       await _flutterLocalNotificationsPlugin.show(
         0,
         message.notification?.title,
