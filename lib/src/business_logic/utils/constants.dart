@@ -1,5 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 
 // 상수
 
@@ -15,9 +19,16 @@ const kBackgroundColor = Color(0xFFFFF9F7); // 옅은 회색
 // 기본 padding 값
 const kDefaultPadding = 20.0;
 
+//새로운 padding 값 (사용중)
+EdgeInsetsGeometry defaultPadding = EdgeInsets.fromLTRB(
+    getProportionateScreenWidth(20),
+    getProportionateScreenHeight(10),
+    getProportionateScreenWidth(20),
+    getProportionateScreenHeight(25));
+
 // 새로운 컬러
-const mainColor = Color(0xFFFF6F5E);
-const subColor = Color(0xFFFFC45E);
+const mainColor = Color(0xFFFF6F5E); //사용중
+const subColor = Color(0xFFFFC45E); //사용중
 const containerBackColor = Color(0xFFF7F4F4);
 const normaltextColor = Color(0xFF363636);
 
@@ -44,4 +55,45 @@ final devServer = Platform.isAndroid
 
 const dankookEmail = "@dankook.ac.kr";
 
+//대학교 리스트
+const collegeList = [
+  College.college0001,
+  College.college0002,
+  College.college0003,
+  College.college0004,
+  College.college0005,
+  College.college0006,
+  College.college0007
+];
+
+//학과 리스트
+const majorList = [
+  Major.major0001,
+  Major.major0002,
+  Major.major0003,
+  Major.major0004,
+  Major.major0005,
+  Major.major0006,
+  Major.major0007
+];
+
+//관심사 리스트
+const interestList = [
+  InterestCode.i0001,
+  InterestCode.i0002,
+  InterestCode.i0003,
+  InterestCode.i0004,
+  InterestCode.i0005,
+  InterestCode.i0006,
+  InterestCode.i0007,
+  InterestCode.i0008,
+  InterestCode.i0009,
+  InterestCode.i0010,
+  InterestCode.i0011,
+  InterestCode.i0012,
+  InterestCode.i0013,
+  InterestCode.i0014,
+  InterestCode.i0015,
+  InterestCode.i0016,
+];
 const appIdForAgora = "1db42f592687465e9ad1564ae4b55221";

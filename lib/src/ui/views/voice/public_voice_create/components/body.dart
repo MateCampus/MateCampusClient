@@ -39,11 +39,7 @@ class Body extends StatelessWidget {
         ),
         DefaultShadowBox(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(10),
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(25)),
+            padding: defaultPadding,
             child: DefaultBtn(
               text: '다음',
               press: () {

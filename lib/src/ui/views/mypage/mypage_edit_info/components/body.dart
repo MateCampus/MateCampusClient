@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_disable_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/components/edit_image.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/components/edit_text.dart';
@@ -65,19 +67,11 @@ class BodyState extends State<Body> {
         ),
         DefaultShadowBox(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(10),
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(25)),
+            padding: defaultPadding,
             child: (_nicknameController.text == defaultNickname &&
                     _introductionController.text == defaultIntroduction &&
                     pickedImgPath == '')
-                ? DefaultBtn(
-                    //비활성화 버튼
-                    text: '설정 완료',
-                    btnColor: Colors.grey.withOpacity(0.3),
-                  )
+                ? const DefaultDisalbeBtn(text: '설정 완료') //비활성화 버튼
                 : DefaultBtn(
                     //활성화 버튼
                     text: '설정 완료',

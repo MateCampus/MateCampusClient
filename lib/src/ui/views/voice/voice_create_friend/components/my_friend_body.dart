@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
@@ -32,11 +33,7 @@ class MyFriendBody extends StatelessWidget {
                 })),
         DefaultShadowBox(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(10),
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(25)),
+            padding: defaultPadding,
             child: DefaultBtn(
               //누르면 보이스룸이 생성되면서 입장도 해야함. Navigate to voice_detail
               text: '시작하기!',

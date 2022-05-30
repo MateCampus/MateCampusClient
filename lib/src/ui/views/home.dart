@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
               ),
               backgroundColor: mainColor,
               onPressed: () {
-                showCustomModalBottomSheet(context, const VoiceBottomSheet());
+                showCustomModalBottomSheet(context, const VoiceBottomSheet(), true);
               },
             ),
             floatingActionButtonLocation:

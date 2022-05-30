@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
@@ -76,11 +77,7 @@ class _EditInterestState extends State<EditInterest> {
       ),
       DefaultShadowBox(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(
-              getProportionateScreenWidth(20),
-              getProportionateScreenHeight(10),
-              getProportionateScreenWidth(20),
-              getProportionateScreenHeight(25)),
+          padding: defaultPadding,
           child: DefaultBtn(
             text: widget.vm.selectedInterests.length.toString() + '개 선택됨',
             press: () {

@@ -181,6 +181,7 @@ class VoiceCreateViewModel extends BaseModel {
   }
 
 //대화방 만들기
+
   Future<VoiceRoom> createVoiceRoom() async {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
         title: titleController.text); //일단은 서버에 title만 보냄

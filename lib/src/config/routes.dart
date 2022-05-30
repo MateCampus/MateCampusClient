@@ -7,6 +7,11 @@ import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/mypage_edit_in
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/mypage_edit_interest_screen.dart';
 import 'package:zamongcampus/src/ui/views/mypage/settings/settings_screen.dart';
 import 'package:zamongcampus/src/ui/views/error.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_account/signup_account_screen.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_authentication/signup_authentication_screen.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_college/signup_college_screen.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/signup_optional_profile_screen.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/signup_required_profile_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_create/post_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/splash.dart';
 import 'package:zamongcampus/src/ui/views/voice/private_voice_create/private_voice_create_screen.dart';
@@ -29,6 +34,14 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/friend": (BuildContext context) => const FriendMainScreen(),
   "/splash": (BuildContext context) => const SplashScreen(),
   "/error": (BuildContext context) => const ErrorScreen(),
+  "/signUpAccount": (BuildContext context) => const SignUpAccountScreen(),
+  "/signUpCollege": (BuildContext context) => const SignUpCollegeScreen(),
+  "/signUpAuthentication": (BuildContext context) =>
+      const SignUpAuthenticationScreen(),
+  "/signUpRequiredProfile": (BuildContext context) =>
+      const SignUpRequiredProfileScreen(),
+  "/signUpOptionalProfile": (BuildContext context) =>
+      const SignUpOptionalProfileScreen(),
   "/dummy": (BuildContext context) => DummyScreen(),
   "/postCreate": (BuildContext context) => const PostCreateScreen(),
 };

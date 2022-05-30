@@ -22,5 +22,6 @@ class MajorData {
     'major0004': {'name': '컴퓨터공학과', 'icon': '\u{2708}'},
     'major0005': {'name': '화학공학과', 'icon': '\u{2600}'},
     'major0006': {'name': '전자전기과', 'icon': '\u{1F308}'},
+    'major0007': {'name': '기계공학과', 'icon': '\u{1F308}'},
   };
 }

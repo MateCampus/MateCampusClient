@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_friendProfile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -20,11 +21,7 @@ class _GoToChatRoomBtnState extends State<GoToChatRoomBtn> {
   Widget build(BuildContext context) {
     return DefaultShadowBox(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(
-            getProportionateScreenWidth(20),
-            getProportionateScreenHeight(10),
-            getProportionateScreenWidth(20),
-            getProportionateScreenHeight(25)),
+        padding: defaultPadding,
         child: DefaultBtn(
           text: '대화 하기',
           press: () {

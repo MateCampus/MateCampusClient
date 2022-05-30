@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -59,26 +60,26 @@ class MypageViewModel extends BaseModel {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       List<Interest> selectedInterests = fakeMyInfo.interests!;
 
-      for (Interest systemInterest in systemInterests) {
+      for (InterestCode systemInterest in interestList) {
         //이중 포문 안쓰는 방법 찾아보기
         bool hasData = false;
         for (Interest selectedInterest in selectedInterests) {
-          if (systemInterest.codeNum == selectedInterest.codeNum) {
+          if (systemInterest == selectedInterest.codeNum) {
             hasData = true;
             break;
           }
         }
         if (hasData == true) {
           _myInterests.add(InterestPresentation(
-              codeNum: systemInterest.codeNum,
-              title: InterestData.korNameOf(systemInterest.codeNum.name),
-              icon: InterestData.iconOf(systemInterest.codeNum.name),
+              codeNum: systemInterest,
+              title: InterestData.korNameOf(systemInterest.name),
+              icon: InterestData.iconOf(systemInterest.name),
               isSelected: hasData));
         } else if (hasData == false) {
           _myInterests.add(InterestPresentation(
-              codeNum: systemInterest.codeNum,
-              title: InterestData.korNameOf(systemInterest.codeNum.name),
-              icon: InterestData.iconOf(systemInterest.codeNum.name),
+              codeNum: systemInterest,
+              title: InterestData.korNameOf(systemInterest.name),
+              icon: InterestData.iconOf(systemInterest.name),
               isSelected: hasData));
         }
       }
@@ -194,22 +195,3 @@ User fakeMyInfo = User(
       Interest(codeNum: InterestCode.i0010),
       Interest(codeNum: InterestCode.i0016),
     ]);
-
-List<Interest> systemInterests = [
-  Interest(codeNum: InterestCode.i0001),
-  Interest(codeNum: InterestCode.i0002),
-  Interest(codeNum: InterestCode.i0003),
-  Interest(codeNum: InterestCode.i0004),
-  Interest(codeNum: InterestCode.i0005),
-  Interest(codeNum: InterestCode.i0006),
-  Interest(codeNum: InterestCode.i0007),
-  Interest(codeNum: InterestCode.i0008),
-  Interest(codeNum: InterestCode.i0009),
-  Interest(codeNum: InterestCode.i0010),
-  Interest(codeNum: InterestCode.i0011),
-  Interest(codeNum: InterestCode.i0012),
-  Interest(codeNum: InterestCode.i0013),
-  Interest(codeNum: InterestCode.i0014),
-  Interest(codeNum: InterestCode.i0015),
-  Interest(codeNum: InterestCode.i0016),
-];

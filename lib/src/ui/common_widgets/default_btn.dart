@@ -10,6 +10,7 @@ class DefaultBtn extends StatelessWidget {
   final double? fontsize;
   final Color? btnColor;
   final Color? textColor;
+  final Color? borderColor;
 
   const DefaultBtn(
       {Key? key,
@@ -19,7 +20,8 @@ class DefaultBtn extends StatelessWidget {
       this.height,
       this.fontsize,
       this.btnColor,
-      this.textColor})
+      this.textColor,
+      this.borderColor})
       : super(key: key);
 
   @override
@@ -32,8 +34,10 @@ class DefaultBtn extends StatelessWidget {
           minimumSize: Size(width ?? getProportionateScreenWidth(335),
               height ?? getProportionateScreenHeight(56)),
           backgroundColor: btnColor ?? mainColor,
+          side: (borderColor != null) ? BorderSide(color: borderColor!) : null,
           textStyle: TextStyle(
-              fontSize: fontsize ?? 14.0, fontWeight: FontWeight.bold)),
+              fontSize: fontsize ?? getProportionateScreenHeight(14.0),
+              fontWeight: FontWeight.bold)),
     );
   }
 }
