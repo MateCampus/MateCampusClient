@@ -137,11 +137,10 @@ class VoiceCreateViewModel extends BaseModel {
   }
 
 //대화방 만들기
-  Future<int> createVoiceRoom() async {
-    VoiceRoom createdVoiceRoom = await _voiceService.createVoiceRoom(
+  Future<VoiceRoom> createVoiceRoom() async {
+    VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
         title: titleController.text); //일단은 서버에 title만 보냄
-    int id = createdVoiceRoom.id;
-    return id;
+    return voiceRoom;
     // final createVoiceRoomJson = jsonEncode({
     //   "title": titleController.text,
     //   "collegeOnly": _collegeOnlyChecked,

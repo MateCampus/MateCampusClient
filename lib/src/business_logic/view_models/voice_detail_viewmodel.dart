@@ -37,12 +37,17 @@ class VoiceDetailViewModel extends BaseModel {
   VoiceRoomPresentation get voiceRoom => _voiceRoom;
   List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
 
-  voiceDetailInit(int voiceRoomId) async {
+  voiceDetailInit({int? id, VoiceRoom? createdVoiceRoom}) async {
     setBusy(true);
-    VoiceRoom voiceRoom = await loadVoiceRoom(voiceRoomId);
+
+    VoiceRoom voiceRoom = (createdVoiceRoom == null && id != null)
+        ? await _voiceService.fetchVoiceRoom(id: id)
+        : createdVoiceRoom!;
+    presentVoiceRoom(voiceRoom);
     await initAgoraRtcEngine(voiceRoom);
-    addAgoraEventHandlers();
+    addAgoraEventHandlers(_engine!);
     StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
+
     setBusy(false);
   }
 
@@ -53,12 +58,12 @@ class VoiceDetailViewModel extends BaseModel {
     await _engine!.setChannelProfile(ChannelProfile
         .Communication); // 이게 정확히 어떤 역할인지는 모르겠음.. 무조건 channel join전에만 설정가능
     await _engine!.enableAudioVolumeIndication(200, 3, true); //말하는 사람 구분하기 위함
-    await _engine!.joinChannel(voiceRoom.token, voiceRoom.roomId!, null,
-        voiceRoom.uid!); //서버에서 받아온 토큰과 roomId로 채널 입장.
+    await _engine!
+        .joinChannel(voiceRoom.token, voiceRoom.roomId!, null, voiceRoom.uid!);
   }
 
-  void addAgoraEventHandlers() {
-    _engine!.setEventHandler(RtcEngineEventHandler(error: (code) {
+  void addAgoraEventHandlers(RtcEngine engine) {
+    engine.setEventHandler(RtcEngineEventHandler(error: (code) {
       print("error code : $code");
     }, joinChannelSuccess: (String channel, int uid, int elapsed) {
       print(channel);
@@ -116,15 +121,11 @@ class VoiceDetailViewModel extends BaseModel {
     _voiceRoomMembers.clear();
   }
 
-  Future<VoiceRoom> loadVoiceRoom(int id) async {
-    //이 때 보이스룸 정보 맵핑, 이미 존재하는(나를 포함) 멤버 정보 맵핑해서 리스트에 넣기
-
-    VoiceRoom voiceRoomResult = await _voiceService.fetchVoiceRoom(id: id);
-
-    //뷰에 필요한 룸 정보 맵핑
+  void presentVoiceRoom(VoiceRoom voiceRoom) {
+    //뷰에 필요한 룸 정보 매핑
     _voiceRoom = VoiceRoomPresentation(
-        id: voiceRoomResult.id,
-        title: voiceRoomResult.title,
+        id: voiceRoom.id,
+        title: voiceRoom.title,
         categories: categoryDummy[Random().nextInt(2)]
             .map((category) =>
                 CategoryData.iconOf(category.name) +
@@ -134,9 +135,9 @@ class VoiceDetailViewModel extends BaseModel {
         createdAt: dateToPastTime(DateTime(2022, 2, 3)),
         type: VoiceRoomType.PUBLIC);
 
-    //이미 존재하고 있는 멤버 정보 맵핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
-    _ownerLoginId = voiceRoomResult.ownerLoginId!;
-    _voiceRoomMembers.addAll(voiceRoomResult.memberInfos!.map((memberInfo) =>
+    //이미 존재하고 있는 멤버 정보 매핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
+    _ownerLoginId = voiceRoom.ownerLoginId!;
+    _voiceRoomMembers.addAll(voiceRoom.memberInfos!.map((memberInfo) =>
         MemberPresentation(
             uid: memberInfo.id ?? -1,
             loginId: memberInfo.loginId,
@@ -148,8 +149,6 @@ class VoiceDetailViewModel extends BaseModel {
                 : 'assets/images/user/general_user.png',
             isSpeaking: false,
             isHost: memberInfo.loginId == _ownerLoginId ? true : false)));
-
-    return voiceRoomResult;
   }
 
   //stomp_object의 subscribeVoiceRoomChat안에서 쓴다. 새로운 멤버가 들어오면 그 멤버의 정보를 맵핑해주고 멤버리스트에 추가
@@ -220,5 +219,3 @@ class MemberPresentation {
 }
 
 class TextChatPresentation {}
-
-User myInfo = User(loginId: 'seoyun', nickname: "잇츠미");

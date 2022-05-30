@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -9,8 +10,10 @@ import 'components/body.dart';
 
 class VoiceDetailScreen extends StatefulWidget {
   static const routeName = '/voiceDetail';
-  final int id;
-  const VoiceDetailScreen({Key? key, required this.id}) : super(key: key);
+  int? id;
+  VoiceRoom? voiceRoom;
+  VoiceDetailScreen({Key? key, required this.id, this.voiceRoom})
+      : super(key: key);
 
   @override
   _VoiceDetailScreenState createState() => _VoiceDetailScreenState();
@@ -21,7 +24,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
 
   @override
   void initState() {
-    vm.voiceDetailInit(widget.id);
+    vm.voiceDetailInit(id: widget.id, createdVoiceRoom: widget.voiceRoom);
     super.initState();
   }
 
@@ -49,9 +52,8 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   icon: const Icon(Icons.expand_more_outlined),
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.popAndPushNamed(
-                        context, '/'); //뒤로가면서 home으로 navigate하기때문에 refresh된다.
-                    Navigator.of(context).pop(); //일단은 뒤로가기로 -> 뒤로가면서 refresh안됨
+                    Navigator.pushNamed(
+                        context, '/'); //나중에 pushNamedAndRemoveUntil로 바꿔야할수도
                   },
                 ),
                 actions: [
@@ -62,8 +64,8 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   ),
                   IconButton(
                     onPressed: () {
-                      Navigator.of(context)
-                          .pop(); //일단은 뒤로가기로 -> 뒤로가면서 refresh안됨
+                      Navigator.pushNamed(
+                          context, '/'); //나중에 pushNamedAndRemoveUntil로 바꿔야할수도
                     },
                     icon: const Icon(Icons.logout_outlined),
                     color: Colors.black,

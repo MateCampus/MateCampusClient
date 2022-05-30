@@ -17,7 +17,7 @@ class VoiceRoomListTile extends StatelessWidget {
     return GestureDetector(
       onTap: (() {
         Navigator.pushNamed(context, VoiceDetailScreen.routeName,
-            arguments: VoiceDetailScreenArgs(voiceRoom.id));
+            arguments: VoiceDetailScreenArgs(id: voiceRoom.id));
       }),
       child: Card(
         shape: RoundedRectangleBorder(

@@ -35,7 +35,10 @@ class RouteGenerator {
       case "/voiceDetail":
         final args = settings.arguments as VoiceDetailScreenArgs;
         return MaterialPageRoute(
-            builder: (_) => VoiceDetailScreen(id: args.voiceRoomId));
+            builder: (_) => VoiceDetailScreen(
+                  id: args.id,
+                  voiceRoom: args.voiceRoom,
+                ));
       case "/chatDetail":
         final args = settings.arguments as ChatDetailScreenArgs;
         return MaterialPageRoute(

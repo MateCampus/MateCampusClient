@@ -17,16 +17,22 @@ class VoiceMainScreenViewModel extends BaseModel {
   final VoiceService _voiceService = serviceLocator<VoiceService>();
   final UserService _userService = serviceLocator<UserService>();
 
-  final List<VoiceRoomPresentation> _voiceRooms = [];
-  final List<UserPresentation> _recommendUsers = [];
+  final List<VoiceRoomPresentation> _voiceRooms = List.empty(growable: true);
+  final List<UserPresentation> _recommendUsers = List.empty(growable: true);
   int _nextPageToken = 0;
 
   List<VoiceRoomPresentation> get voiceRooms => _voiceRooms;
   List<UserPresentation> get recommendUsers => _recommendUsers;
 
-  void loadVoiceRooms() async {
+  // voiceMainInit() async {
+  //   setBusy(true);
+  //   await loadRecommendUsers();
+  //   await loadVoiceRooms();
+  //   setBusy(false);
+  // }
+
+  loadVoiceRooms() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
     List<VoiceRoom> voiceRoomsResult =
         await _voiceService.fetchVoiceRooms(nextPageToken: _nextPageToken);
     _voiceRooms
@@ -51,9 +57,8 @@ class VoiceMainScreenViewModel extends BaseModel {
     setBusy(false);
   }
 
-  void loadRecommendUsers() async {
+  loadRecommendUsers() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
     List<User> userResult =
         await _userService.fetchRecommendUsers(nextPageToken: _nextPageToken);
     recommendUsers.addAll(userResult.map((user) => UserPresentation(

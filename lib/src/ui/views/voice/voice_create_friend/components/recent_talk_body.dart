@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
@@ -39,9 +40,9 @@ class RecentTalkBody extends StatelessWidget {
               //누르면 보이스룸이 생성되면서 입장도 해야함. Navigate to voice_detail
               text: '시작하기!',
               press: () async {
-                int id = await vm.createVoiceRoom();
+                VoiceRoom voiceRoom = await vm.createVoiceRoom();
                 Navigator.pushNamed(context, VoiceDetailScreen.routeName,
-                    arguments: VoiceDetailScreenArgs(id));
+                    arguments: VoiceDetailScreenArgs(voiceRoom: voiceRoom));
               },
               btnColor: color,
             ),
