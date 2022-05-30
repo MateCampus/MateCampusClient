@@ -53,7 +53,7 @@ class VoiceDetailViewModel extends BaseModel {
 
   Future<void> initAgoraRtcEngine(VoiceRoom voiceRoom) async {
     await [Permission.microphone].request();
-    _engine = await RtcEngine.create(appId);
+    _engine = await RtcEngine.create(appIdForAgora);
     await _engine!.enableAudio();
     await _engine!.setChannelProfile(ChannelProfile
         .Communication); // 이게 정확히 어떤 역할인지는 모르겠음.. 무조건 channel join전에만 설정가능

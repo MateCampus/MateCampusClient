@@ -2,11 +2,7 @@ PODS:
   - agora_rtc_engine (5.1.0):
     - AgoraIrisRTC_iOS (~> 3.6.2)
     - Flutter
-  - agora_rtm (1.1.0):
-    - AgoraRtm_iOS (= 1.4.10)
-    - Flutter
   - AgoraIrisRTC_iOS (3.6.2)
-  - AgoraRtm_iOS (1.4.10)
   - Firebase/CoreOnly (8.15.0):
     - FirebaseCore (= 8.15.0)
   - Firebase/Messaging (8.15.0):
@@ -93,7 +89,6 @@ PODS:
 
 DEPENDENCIES:
   - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
-  - agora_rtm (from `.symlinks/plugins/agora_rtm/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
@@ -108,7 +103,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AgoraIrisRTC_iOS
-    - AgoraRtm_iOS
     - Firebase
     - FirebaseCore
     - FirebaseCoreDiagnostics
@@ -124,8 +118,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   agora_rtc_engine:
     :path: ".symlinks/plugins/agora_rtc_engine/ios"
-  agora_rtm:
-    :path: ".symlinks/plugins/agora_rtm/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_messaging:
@@ -149,9 +141,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   agora_rtc_engine: fb0e823adb228eda4433fabed56d72d64ff87771
-  agora_rtm: ca73e1399d7803dd046a8bd7cf0335ff4e0e44e3
   AgoraIrisRTC_iOS: c789bb65875b54d2b6b02dc278850dc70515b226
-  AgoraRtm_iOS: 95e7070466f42a6494435a7f39fd2b13fc143cbf
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   firebase_core: aa1b92020533f5c23955e388c347c58fd64f8627
   firebase_messaging: 08eee0ce7775b7f901ad6cf3646241e23348261e
