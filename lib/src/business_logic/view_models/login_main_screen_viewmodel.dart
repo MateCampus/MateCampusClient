@@ -29,7 +29,6 @@ class LoginMainScreenViewModel extends BaseModel {
     AuthService.setGlobalLoginIdTokenAndInitUserData(token: token, loginId: id)
         .then((value) => {
               Future.delayed(const Duration(milliseconds: 1000), () {
-                // Navigator.pushReplacementNamed(context, "/");
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     '/', (Route<dynamic> route) => false);
               }),
