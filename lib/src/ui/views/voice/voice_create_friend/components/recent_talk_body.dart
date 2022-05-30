@@ -18,7 +18,7 @@ class RecentTalkBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SearchBar(),
+        SearchBar(vm: vm),
         Expanded(
             child: ListView.builder(
                 shrinkWrap: true,

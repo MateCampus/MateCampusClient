@@ -16,11 +16,14 @@ class VoiceCreateViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
   final FriendService _friendService = serviceLocator<FriendService>();
 
-  final List<UserPresentation> _recentTalkUsers = [];
-  final List<UserPresentation> _friendUsers = [];
+  final List<UserPresentation> _recentTalkUsers = List.empty(growable: true);
+  final List<UserPresentation> _friendUsers = List.empty(growable: true);
+  List<UserPresentation> resultUsers = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
   final TextEditingController _titleController = TextEditingController();
+
+  final TextEditingController _searchFriendController = TextEditingController();
 
   List<Category> _categories = [];
   final List<CategoryPresentation> _selectedCategories = []; //view에서 사용
@@ -34,6 +37,7 @@ class VoiceCreateViewModel extends BaseModel {
   List<UserPresentation> get recentTalkUsers => _recentTalkUsers;
   List<UserPresentation> get friendUsers => _friendUsers;
   TextEditingController get titleController => _titleController;
+  TextEditingController get searchFriendController => _searchFriendController;
   List<CategoryPresentation> get selectedCategories => _selectedCategories;
   bool get collegeOnlyChecked => _collegeOnlyChecked;
   bool get majorOnlyChecked => _majorOnlyChecked;
@@ -53,6 +57,30 @@ class VoiceCreateViewModel extends BaseModel {
             isChecked: false)));
 
     setBusy(false);
+  }
+
+  void searchRecentUsers(String input) {
+    List<String> userNames = [];
+    //List<UserPresentation> tempRecentUsers = _recentTalkUsers;
+    for (UserPresentation user in _recentTalkUsers) {
+      userNames.add(user.userNickname);
+    }
+    resultUsers = _recentTalkUsers.where((user) {
+      return user.userNickname.startsWith(input);
+    }).toList();
+    // List<String> resultList = userNames.where((user) {
+    //   return user.startsWith(input);
+    // }).toList();
+    //print(resultUsers);
+    // for (UserPresentation user in _recentTalkUsers) {
+    //   for (String name in resultList) {
+    //     if (user.userNickname == name) {
+    //       tempRecentUsers.clear();
+    //       tempRecentUsers.add(user);
+    //     }
+    //   }
+    // }
+    notifyListeners();
   }
 
 //친구 로드 함수

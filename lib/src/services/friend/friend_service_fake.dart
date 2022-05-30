@@ -10,9 +10,8 @@ class FakeFriendService implements FriendService {
   }
 
   @override
-  Future<List<Friend>> fetchAcceptedTypeFriends() {
-    // TODO: implement fetchAcceptedTypeFriends
-    throw UnimplementedError();
+  Future<List<Friend>> fetchAcceptedTypeFriends() async {
+    return acceptedOnlyfriendDummy;
   }
 
   @override
