@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
-class SearchBar extends StatefulWidget {
-  final FriendListViewModel vm;
-  const SearchBar({Key? key, required this.vm}) : super(key: key);
+class RecentTalkSearchBar extends StatefulWidget {
+  final VoiceCreateViewModel vm;
+  const RecentTalkSearchBar({Key? key, required this.vm}) : super(key: key);
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<RecentTalkSearchBar> createState() => _RecentTalkSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _RecentTalkSearchBarState extends State<RecentTalkSearchBar> {
   @override
   void initState() {
-    widget.vm.friendSearchController.addListener(() {
-      widget.vm.searchFriends();
+    widget.vm.recentTalkSearchController.addListener(() {
+      widget.vm.searchRecentTalkUsers();
     });
     super.initState();
   }
@@ -28,7 +28,10 @@ class _SearchBarState extends State<SearchBar> {
       child: TextField(
         keyboardType: TextInputType.multiline,
         style: const TextStyle(fontSize: 14),
-        controller: widget.vm.friendSearchController,
+        controller: widget.vm.recentTalkSearchController,
+        // onChanged: (text) {
+        //   widget.vm.searchRecentTalkUsers(text);
+        // },
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -36,7 +39,7 @@ class _SearchBarState extends State<SearchBar> {
             color: const Color(0xff707070),
             size: getProportionateScreenHeight(20),
           ),
-          suffixIcon: widget.vm.friendSearchController.text.isNotEmpty
+          suffixIcon: widget.vm.recentTalkSearchController.text.isNotEmpty
               ? _clearTextFieldBtn()
               : const SizedBox(),
           contentPadding: EdgeInsets.zero,
@@ -55,7 +58,7 @@ class _SearchBarState extends State<SearchBar> {
   Widget _clearTextFieldBtn() {
     return InkWell(
       onTap: () {
-        widget.vm.clearSearchTextField(widget.vm.friendSearchController);
+        widget.vm.clearSearchTextField(widget.vm.recentTalkSearchController);
       },
       child: Icon(
         Icons.close,

@@ -27,6 +27,12 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
   }
 
   @override
+  void dispose() {
+    serviceLocator.resetLazySingleton<VoiceMainScreenViewModel>(instance: vm);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider.value(

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
-class SearchBar extends StatefulWidget {
-  final FriendListViewModel vm;
-  const SearchBar({Key? key, required this.vm}) : super(key: key);
+class MyFriendSearchBar extends StatefulWidget {
+  final VoiceCreateViewModel vm;
+  const MyFriendSearchBar({Key? key, required this.vm}) : super(key: key);
 
   @override
-  State<SearchBar> createState() => _SearchBarState();
+  State<MyFriendSearchBar> createState() => _MyFriendSearchBarState();
 }
 
-class _SearchBarState extends State<SearchBar> {
+class _MyFriendSearchBarState extends State<MyFriendSearchBar> {
   @override
   void initState() {
     widget.vm.friendSearchController.addListener(() {
-      widget.vm.searchFriends();
+      widget.vm.searchFriendUsers();
     });
     super.initState();
   }
@@ -29,6 +29,9 @@ class _SearchBarState extends State<SearchBar> {
         keyboardType: TextInputType.multiline,
         style: const TextStyle(fontSize: 14),
         controller: widget.vm.friendSearchController,
+        // onChanged: (text) {
+        //   widget.vm.searchFriendUsers(text);
+        // },
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(

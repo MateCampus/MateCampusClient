@@ -11,7 +11,7 @@ class FakeFriendService implements FriendService {
 
   @override
   Future<List<Friend>> fetchAcceptedTypeFriends() async {
-    return friendDummy;
+    return acceptedOnlyfriendDummy;
   }
 
   @override
@@ -39,6 +39,14 @@ List<Friend> friendDummy = [
       nickname: "hello2",
       friendRequestStatus: FriendRequestStatus.ACCEPTED,
       requestorLoginId: 'test'),
+  Friend(
+      id: 4,
+      loginId: "hello4",
+      imageUrl: "assets/images/user/user2.jpg",
+      nickname: "hihi",
+      friendRequestStatus: FriendRequestStatus.ACCEPTED,
+      requestorLoginId: 'test'),
+
   Friend(
       id: 3,
       loginId: "hello3",

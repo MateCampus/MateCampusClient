@@ -79,11 +79,10 @@ void setupServiceLocator() {
       () => ChatDetailFromFriendProfileViewModel());
   serviceLocator.registerLazySingleton<PostDetailScreenViewModel>(
       () => PostDetailScreenViewModel());
-  serviceLocator.registerLazySingleton<VoiceCreateViewModel>(
-      () => VoiceCreateViewModel());
+  serviceLocator
+      .registerFactory<VoiceCreateViewModel>(() => VoiceCreateViewModel());
   serviceLocator.registerLazySingleton<VoiceDetailViewModel>(
       () => VoiceDetailViewModel());
-
   serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());
   serviceLocator
       .registerFactory<UserProfileViewModel>(() => UserProfileViewModel());
@@ -91,6 +90,5 @@ void setupServiceLocator() {
       .registerLazySingleton<MypageViewModel>(() => MypageViewModel());
   serviceLocator
       .registerFactory<FriendListViewModel>(() => FriendListViewModel());
-
   serviceLocator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
 }

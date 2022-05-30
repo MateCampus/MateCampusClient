@@ -16,8 +16,10 @@ class VoiceCreateViewModel extends BaseModel {
   final FriendService _friendService = serviceLocator<FriendService>();
   final VoiceService _voiceService = serviceLocator<VoiceService>();
 
-  final List<UserPresentation> _recentTalkUsers = [];
-  final List<UserPresentation> _friendUsers = [];
+  final List<UserPresentation> _recentTalkUsers = List.empty(growable: true);
+  final List<UserPresentation> _friendUsers = List.empty(growable: true);
+  List<UserPresentation> _searchedRecentUsers = List.empty(growable: true);
+  List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
   final TextEditingController _titleController = TextEditingController();
@@ -28,12 +30,22 @@ class VoiceCreateViewModel extends BaseModel {
 
   bool _collegeOnlyChecked = false;
   bool _majorOnlyChecked = false;
+
+  final TextEditingController _recentTalkSearchController =
+      TextEditingController();
+  final TextEditingController _friendSearchController = TextEditingController();
   final List<String> _members = [];
 
   //뷰에서 접근이 필요한 변수
   List<UserPresentation> get recentTalkUsers => _recentTalkUsers;
   List<UserPresentation> get friendUsers => _friendUsers;
   TextEditingController get titleController => _titleController;
+  TextEditingController get recentTalkSearchController =>
+      _recentTalkSearchController;
+  TextEditingController get friendSearchController => _friendSearchController;
+  List<UserPresentation> get searchedRecentUsers => _searchedRecentUsers;
+  List<UserPresentation> get searchedFriendUsers => _searchedFriendUsers;
+
   List<CategoryPresentation> get selectedCategories => _selectedCategories;
   bool get collegeOnlyChecked => _collegeOnlyChecked;
   bool get majorOnlyChecked => _majorOnlyChecked;
@@ -128,11 +140,43 @@ class VoiceCreateViewModel extends BaseModel {
     notifyListeners();
   }
 
+  //최근 대화친구 검색
+  void searchRecentTalkUsers() {
+    List<String> userNames = [];
+    for (UserPresentation user in _recentTalkUsers) {
+      userNames.add(user.userNickname);
+    }
+    _searchedRecentUsers = _recentTalkUsers.where((user) {
+      return user.userNickname.startsWith(_recentTalkSearchController.text);
+    }).toList();
+
+    notifyListeners();
+  }
+
+//친구 검색
+  void searchFriendUsers() {
+    List<String> userNames = [];
+    for (UserPresentation user in _friendUsers) {
+      userNames.add(user.userNickname);
+    }
+    _searchedFriendUsers = _friendUsers.where((user) {
+      return user.userNickname.startsWith(_friendSearchController.text);
+    }).toList();
+
+    notifyListeners();
+  }
+
 //대화친구설정
   void setMembers(UserPresentation user, bool value, String loginId) {
     user.isChecked = value;
     user.isChecked ? _members.add(loginId) : _members.remove(loginId);
 
+    notifyListeners();
+  }
+
+  //검색텍스트필드 clear
+  void clearSearchTextField(TextEditingController controller) {
+    controller.clear();
     notifyListeners();
   }
 

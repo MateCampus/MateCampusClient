@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -27,8 +28,13 @@ class RequestListTile extends StatelessWidget {
           leading: Stack(
             children: [
               CircleAvatar(
-                radius: getProportionateScreenHeight(30),
-                backgroundImage: AssetImage(friend.userImageUrl),
+                radius: getProportionateScreenHeight(27),
+                backgroundImage: friend.imageUrl.startsWith('https')
+                    ? CachedNetworkImageProvider(friend.imageUrl)
+                        as ImageProvider
+                    : AssetImage(
+                        friend.imageUrl,
+                      ),
               ),
               /* isOnline 로직 구현 후  */
               // Positioned(
@@ -51,7 +57,7 @@ class RequestListTile extends StatelessWidget {
             ],
           ),
           title: Text(
-            friend.userNickname,
+            friend.nickname,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           trailing: Wrap(

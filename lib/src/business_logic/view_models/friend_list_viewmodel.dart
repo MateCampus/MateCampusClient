@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
-import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
@@ -8,12 +8,19 @@ import 'package:zamongcampus/src/services/friend/friend_service.dart';
 class FriendListViewModel extends BaseModel {
   final FriendService _friendService = serviceLocator<FriendService>();
 
-  final List<FriendPresentation> _friendsIReceived = [];
-  final List<FriendPresentation> _friendsIRequestAndAceepted = [];
+  final List<FriendPresentation> _friendsIReceived = List.empty(growable: true);
+  final List<FriendPresentation> _friendsIRequestAndAceepted =
+      List.empty(growable: true);
+
+  List<FriendPresentation> _searchedFriends = List.empty(growable: true);
+  final TextEditingController _friendSearchController = TextEditingController();
 
   List<FriendPresentation> get friendsIReceived => _friendsIReceived;
   List<FriendPresentation> get friendsIRequestAndAceepted =>
       _friendsIRequestAndAceepted;
+
+  List<FriendPresentation> get searchedFriends => _searchedFriends;
+  TextEditingController get friendSearchController => _friendSearchController;
 
   void loadFriends() async {
     setBusy(true);
@@ -24,9 +31,8 @@ class FriendListViewModel extends BaseModel {
       FriendPresentation friendPresentation = FriendPresentation(
           id: friend.id,
           loginId: friend.loginId,
-          userImageUrl:
-              friend.imageUrl ?? "assets/images/user/general_user.png",
-          userNickname: friend.nickname,
+          imageUrl: friend.imageUrl ?? "assets/images/user/general_user.png",
+          nickname: friend.nickname,
           friendRequestStatus: friend.friendRequestStatus);
 
       /// unaccepted의 경우 2가지 케이스 존재
@@ -65,19 +71,38 @@ class FriendListViewModel extends BaseModel {
   void gotoChatroom(String loginId) {
     //대화하기
   }
+
+  //친구 검색
+  void searchFriends() {
+    List<String> friendNames = [];
+    for (FriendPresentation friend in _friendsIRequestAndAceepted) {
+      friendNames.add(friend.nickname);
+    }
+    _searchedFriends = _friendsIRequestAndAceepted.where((friend) {
+      return friend.nickname.startsWith(_friendSearchController.text);
+    }).toList();
+
+    notifyListeners();
+  }
+
+  //검색 필드 clear
+  void clearSearchTextField(TextEditingController controller) {
+    controller.clear();
+    notifyListeners();
+  }
 }
 
 class FriendPresentation {
   final int id;
   final String loginId;
-  final String userImageUrl;
-  final String userNickname;
+  final String imageUrl;
+  final String nickname;
   FriendRequestStatus friendRequestStatus;
 
   FriendPresentation(
       {required this.id,
       required this.loginId,
-      required this.userImageUrl,
-      required this.userNickname,
+      required this.imageUrl,
+      required this.nickname,
       required this.friendRequestStatus});
 }
