@@ -1,6 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,13 +9,15 @@ class SignUpServiceImpl implements SignUpService {
   @override
   Future<bool> checkIdRedundancy({required String id}) async {
     // TODO: implement checkIdRedundancy
-    throw UnimplementedError();
+    bool value = true;
+    return value;
   }
 
   @override
   Future<bool> checkNicknameRedundancy({required String nickname}) async {
     // TODO: implement checkNicknameRedundancy
-    throw UnimplementedError();
+    bool value = true;
+    return value;
   }
 
   @override
@@ -29,16 +32,17 @@ class SignUpServiceImpl implements SignUpService {
       XFile? profileImg,
       String? introduce}) async {
     var request =
-        http.MultipartRequest("SIGNUP", Uri.parse(devServer + "api/signup"))
-          ..headers.addAll(AuthService.get_auth_header());
+        http.MultipartRequest("POST", Uri.parse(devServer + "/api/signup"));
 
-    request.fields['id'] = id;
-    request.fields['pw'] = pw;
+    request.fields['loginId'] = id;
+    request.fields['password'] = pw;
+    request.fields['nickname'] = nickname;
+    request.fields['deviceToken'] =
+        FirebaseObject.deviceFcmToken ?? "fake token";
     request.fields['collegeCode'] = collegeCode;
     request.fields['majorCode'] = majorCode;
     request.files.add(await http.MultipartFile.fromPath(
         'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
-    request.fields['nickname'] = nickname;
 
     //리스트 넘기는 법
     for (String interestCode in interestCodes) {
@@ -55,7 +59,7 @@ class SignUpServiceImpl implements SignUpService {
     }
 
     var response = await request.send();
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print('회원가입 성공');
       return true;
     } else {

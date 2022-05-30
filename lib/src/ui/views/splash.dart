@@ -31,7 +31,7 @@ class SplashScreen extends StatelessWidget {
       Navigator.of(context)
           .pushNamedAndRemoveUntil(firstRoute, (Route<dynamic> route) => false);
     } else if (firstRoute == "/login") {
-      showCustomModalBottomSheet(context, SignUpBottomSheet());
+      showCustomModalBottomSheet(context, SignUpBottomSheet(), false);
     } else {
       Navigator.of(context)
           .pushNamedAndRemoveUntil("/error", (Route<dynamic> route) => false);

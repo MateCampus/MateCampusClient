@@ -46,6 +46,8 @@ void setupServiceLocator() {
 
   serviceLocator
       .registerLazySingleton<SignUpService>(() => SignUpServiceFake());
+  // serviceLocator
+  //     .registerLazySingleton<SignUpService>(() => SignUpServiceImpl());
 
   /* You can replace the actual services above with fake implementations during development.*/
   /* 아래 impl를 주석하면 위에 fake를 풀어야한다. */

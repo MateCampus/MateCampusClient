@@ -39,16 +39,14 @@ class Body extends StatelessWidget {
                   ? DefaultBtn(
                       text: '설정 완료',
                       press: () {
-                        vm.createUser();
-                        Navigator.pushNamed(context, '/login');
+                        vm.createUser(context);
                       },
                     )
                   : DefaultBtn(
                       text: '건너뛰기',
-                      btnColor: Colors.grey.withOpacity(0.3),
+                      // btnColor: Colors.grey.withOpacity(0.3),
                       press: () {
-                        vm.createUser();
-                        Navigator.pushNamed(context, '/login');
+                        vm.createUser(context);
                       },
                     )),
         ),

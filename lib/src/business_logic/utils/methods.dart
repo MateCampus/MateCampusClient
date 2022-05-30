@@ -32,14 +32,27 @@ void backWithToast(message, BuildContext context) {
   toastMessage(message);
 }
 
-void showCustomModalBottomSheet(BuildContext context, Widget widget) {
+void showCustomModalBottomSheet(
+    BuildContext context, Widget widget, bool isScrollControlled) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
-      isScrollControlled: true,
+      isScrollControlled: isScrollControlled,
+      isDismissible: isScrollControlled,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) {
         return widget;
+      });
+}
+
+void buildShowDialog(BuildContext context) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       });
 }

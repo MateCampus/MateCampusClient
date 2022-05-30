@@ -208,7 +208,8 @@ class SignUpViewModel extends BaseModel {
   }
 
   //유저 생성
-  void createUser() async {
+  Future<void> createUser(BuildContext context) async {
+    buildShowDialog(context);
     bool isCreated = await _signUpService.createUser(
         id: _userIdController.text,
         pw: _userPwController.text,
@@ -224,6 +225,7 @@ class SignUpViewModel extends BaseModel {
 
     if (isCreated) {
       toastMessage('회원 가입이 완료되었습니다');
+      Navigator.pushNamed(context, '/login');
     } else {
       toastMessage('회원가입 오류');
     }
