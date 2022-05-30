@@ -4,7 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/friend_list_tile.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/search_bar.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/my_friend_search_bar.dart';
 
 class MyFriendBody extends StatelessWidget {
   final VoiceCreateViewModel vm;
@@ -18,7 +18,7 @@ class MyFriendBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchBar(vm: vm),
+        MyFriendSearchBar(vm: vm),
         Expanded(
             child: ListView.builder(
                 shrinkWrap: true,

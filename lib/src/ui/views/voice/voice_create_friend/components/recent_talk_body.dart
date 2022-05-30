@@ -4,7 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/friend_list_tile.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/search_bar.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/recent_talk_search_bar.dart';
 
 class RecentTalkBody extends StatelessWidget {
   final VoiceCreateViewModel vm;
@@ -18,7 +18,7 @@ class RecentTalkBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchBar(vm: vm),
+        RecentTalkSearchBar(vm: vm),
         Expanded(
             child: ListView.builder(
                 shrinkWrap: true,

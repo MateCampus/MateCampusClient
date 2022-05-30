@@ -18,12 +18,11 @@ class VoiceCreateViewModel extends BaseModel {
 
   final List<UserPresentation> _recentTalkUsers = List.empty(growable: true);
   final List<UserPresentation> _friendUsers = List.empty(growable: true);
-  List<UserPresentation> resultUsers = List.empty(growable: true);
+  List<UserPresentation> _searchedRecentUsers = List.empty(growable: true);
+  List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
   final TextEditingController _titleController = TextEditingController();
-
-  final TextEditingController _searchFriendController = TextEditingController();
 
   List<Category> _categories = [];
   final List<CategoryPresentation> _selectedCategories = []; //view에서 사용
@@ -31,13 +30,22 @@ class VoiceCreateViewModel extends BaseModel {
 
   bool _collegeOnlyChecked = false;
   bool _majorOnlyChecked = false;
+
+  final TextEditingController _recentTalkSearchController =
+      TextEditingController();
+  final TextEditingController _friendSearchController = TextEditingController();
   final List<String> _members = [];
 
   //뷰에서 접근이 필요한 변수
   List<UserPresentation> get recentTalkUsers => _recentTalkUsers;
   List<UserPresentation> get friendUsers => _friendUsers;
   TextEditingController get titleController => _titleController;
-  TextEditingController get searchFriendController => _searchFriendController;
+  TextEditingController get recentTalkSearchController =>
+      _recentTalkSearchController;
+  TextEditingController get friendSearchController => _friendSearchController;
+  List<UserPresentation> get searchedRecentUsers => _searchedRecentUsers;
+  List<UserPresentation> get searchedFriendUsers => _searchedFriendUsers;
+
   List<CategoryPresentation> get selectedCategories => _selectedCategories;
   bool get collegeOnlyChecked => _collegeOnlyChecked;
   bool get majorOnlyChecked => _majorOnlyChecked;
@@ -57,30 +65,6 @@ class VoiceCreateViewModel extends BaseModel {
             isChecked: false)));
 
     setBusy(false);
-  }
-
-  void searchRecentUsers(String input) {
-    List<String> userNames = [];
-    //List<UserPresentation> tempRecentUsers = _recentTalkUsers;
-    for (UserPresentation user in _recentTalkUsers) {
-      userNames.add(user.userNickname);
-    }
-    resultUsers = _recentTalkUsers.where((user) {
-      return user.userNickname.startsWith(input);
-    }).toList();
-    // List<String> resultList = userNames.where((user) {
-    //   return user.startsWith(input);
-    // }).toList();
-    //print(resultUsers);
-    // for (UserPresentation user in _recentTalkUsers) {
-    //   for (String name in resultList) {
-    //     if (user.userNickname == name) {
-    //       tempRecentUsers.clear();
-    //       tempRecentUsers.add(user);
-    //     }
-    //   }
-    // }
-    notifyListeners();
   }
 
 //친구 로드 함수
@@ -153,6 +137,47 @@ class VoiceCreateViewModel extends BaseModel {
 //같은 학과만 만나기
   void setMajorOption(bool value) {
     _majorOnlyChecked = value;
+    notifyListeners();
+  }
+
+//최근 대화친구 검색
+  void searchRecentTalkUsers(String input) {
+    List<String> userNames = [];
+    for (UserPresentation user in _recentTalkUsers) {
+      userNames.add(user.userNickname);
+    }
+    _searchedRecentUsers = _recentTalkUsers.where((user) {
+      return user.userNickname.startsWith(input);
+    }).toList();
+
+    notifyListeners();
+  }
+
+  //최근 대화친구 검색
+  // void searchRecentTalkUsers1() {
+  //   _recentTalkSearchController.addListener(() {
+  //     List<String> userNames = [];
+  //     for (UserPresentation user in _recentTalkUsers) {
+  //       userNames.add(user.userNickname);
+  //     }
+  //     _searchedRecentUsers = _recentTalkUsers.where((user) {
+  //       return user.userNickname.startsWith(_recentTalkSearchController.text);
+  //     }).toList();
+  //   });
+
+  //   notifyListeners();
+  // }
+
+//친구 검색
+  void searchFriendUsers(String input) {
+    List<String> userNames = [];
+    for (UserPresentation user in _friendUsers) {
+      userNames.add(user.userNickname);
+    }
+    _searchedFriendUsers = _friendUsers.where((user) {
+      return user.userNickname.startsWith(input);
+    }).toList();
+
     notifyListeners();
   }
 
