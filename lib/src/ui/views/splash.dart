@@ -20,7 +20,7 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future<void> splashInit(BuildContext context) async {
-    await Future.delayed(const Duration(milliseconds: 1000));
+    // await Future.delayed(const Duration(milliseconds: 1000));
     String firstRoute = await Init.initialize();
     print(firstRoute + " 로 이동!");
     if (firstRoute == "/" || firstRoute == "/login") {

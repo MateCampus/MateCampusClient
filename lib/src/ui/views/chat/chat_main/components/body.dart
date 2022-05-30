@@ -49,9 +49,8 @@ class Body extends StatelessWidget {
               animation: animation,
               onClicked: () {
                 Navigator.pushNamed(context, "/chatDetail",
-                        arguments:
-                            ChatDetailScreenArgs(vm.chatRooms[index], index))
-                    .then((value) => vm.changeInsideRoomId("0"));
+                    arguments:
+                        ChatDetailScreenArgs(vm.chatRooms[index], index));
               },
               onDeleted: () {
                 vm.removeItem(index, vm.chatRooms[index].roomId);

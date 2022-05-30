@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
@@ -41,24 +42,24 @@ GetIt serviceLocator = GetIt.instance;
 void setupServiceLocator() {
   /* services */
   /* 1. 실제 가능한 services */
-  serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
-  serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
-  serviceLocator
-      .registerLazySingleton<CommentService>(() => FakeCommentService());
-  serviceLocator
-      .registerLazySingleton<FriendService>(() => FakeFriendService());
+  // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
+  // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
+  // serviceLocator
+  //     .registerLazySingleton<CommentService>(() => FakeCommentService());
+  // serviceLocator
+  //     .registerLazySingleton<FriendService>(() => FakeFriendService());
   /* 2. 실제 불가능한 services */
   serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
 
   /* 3. 실제 services */
-  // serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
-  // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
-  // serviceLocator
-  //     .registerLazySingleton<CommentService>(() => CommentServiceImpl());
-  // serviceLocator
-  //     .registerLazySingleton<FriendService>(() => FriendServiceImpl());
+  serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
+  serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  serviceLocator
+      .registerLazySingleton<CommentService>(() => CommentServiceImpl());
+  serviceLocator
+      .registerLazySingleton<FriendService>(() => FriendServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
@@ -89,4 +90,6 @@ void setupServiceLocator() {
       .registerLazySingleton<MypageViewModel>(() => MypageViewModel());
   serviceLocator
       .registerFactory<FriendListViewModel>(() => FriendListViewModel());
+
+  serviceLocator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
 }

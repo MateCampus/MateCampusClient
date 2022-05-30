@@ -35,14 +35,15 @@ const kDefaultShadow = BoxShadow(
 );
 
 // server
-// final devServer = Platform.isAndroid
-//     ? "https://febf-211-198-109-254.ngrok.io"
-//     : "https://a0fa-175-223-33-165.ngrok.io";
-final devServer =
-    Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
+final devServer = Platform.isAndroid
+    ? "https://1a01-211-198-109-254.ngrok.io"
+    : "https://1a01-211-198-109-254.ngrok.io";
+// final devServer =
+//     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
 const dankookEmail = "@dankook.ac.kr";
 
-const appId = "1db42f592687465e9ad1564ae4b55221";
-var token =
+const appIdForAgora = "1db42f592687465e9ad1564ae4b55221";
+// 아래 token은 서버에서 주어질것. (삭제예정)
+var tokenForAgora =
     "0061db42f592687465e9ad1564ae4b55221IAAgLYU6hd31ueZLHDAYTtKXBPmAoCySl+IrUk4FaqHxLei/5GcAAAAAEAAg4mLWC7RDYgEAAQALtENi";

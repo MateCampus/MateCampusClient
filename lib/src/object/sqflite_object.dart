@@ -6,7 +6,6 @@ class SqfliteObject {
 
   // prefs와 비슷하게 만들려다가 일단 뒀음. (4/6)
   static Future<Database?> get database async {
-    print("sqflite init start");
     if (_database != null) return _database;
 
     _database = await initChatRoomsDB();

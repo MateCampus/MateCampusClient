@@ -1,14 +1,20 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:http/http.dart' as http;
+import 'package:zamongcampus/src/services/chat/chat_service.dart';
 
 import '../utils/constants.dart';
 
@@ -31,9 +37,11 @@ class AuthService extends ChangeNotifier {
     _loginId = loginId;
     _token = token;
 
-    /// 아래 2개는 서버 킬 때만 사용 가능.
-    // updateUserDeviceToken(); // 추후 삭제될 수도 있음.
-    // await StompObject.connectStomp();
+    ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+    await chatViewModel.loadChatRooms();
+    await StompObject.connectStomp();
+
+    updateUserDeviceToken(); // 추후 삭제될 수도 있음.
 
     /** 
       * initstate에서 load를 하는게 맞는지,
@@ -66,6 +74,8 @@ class AuthService extends ChangeNotifier {
   static Future<void> logout(BuildContext context) async {
     PrefsObject.removeLoginIdAndToken();
     StompObject.deactivateStomp();
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    homeViewModel.changeCurrentIndex(0);
     Navigator.pushReplacementNamed(context, "/login");
     toastMessage("로그아웃하셨습니다!");
   }
