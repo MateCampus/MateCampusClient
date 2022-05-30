@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_detail/components/change_voice_button_temp.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/components/voice_chat.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/components/voice_room_head.dart';
 
@@ -13,6 +14,8 @@ class Body extends StatelessWidget {
       children: [
         VoiceRoomHead(voiceRoom: vm.voiceRoom),
         VoiceChat(vm: vm),
+        const Spacer(),
+        ChangeVoiceBtn(vm: vm)
       ],
     );
   }

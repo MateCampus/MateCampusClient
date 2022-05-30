@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
@@ -15,7 +17,7 @@ class VoiceRoomListTile extends StatelessWidget {
     return GestureDetector(
       onTap: (() {
         Navigator.pushNamed(context, VoiceDetailScreen.routeName,
-            arguments: VoiceDetailScreenArgs(voiceRoom.id));
+            arguments: VoiceDetailScreenArgs(id: voiceRoom.id));
       }),
       child: Card(
         shape: RoundedRectangleBorder(
@@ -30,9 +32,8 @@ class VoiceRoomListTile extends StatelessWidget {
             getProportionateScreenWidth(20),
             0),
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: EdgeInsets.all(getProportionateScreenWidth(15)),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
@@ -56,19 +57,23 @@ class VoiceRoomListTile extends StatelessWidget {
               ),
               const VerticalSpacing(of: 10),
               Row(
-                //대화방 참여자 나열
+                //대화방 참여자 나열 -> 참여자가 많아졌을 때 overflow되는거 고쳐야함. listview? 아니면 Text overflow처럼 처리할 수 없나?
                 children: [
-                  ...voiceRoom.memberImageUrls.map((imageUrl) => Container(
-                        width: 25.0,
-                        height: 25.0,
-                        margin: const EdgeInsets.only(right: 3),
+                  ...voiceRoom.memberImgUrls.map((imageUrl) => Container(
+                        width: getProportionateScreenWidth(25),
+                        height: getProportionateScreenHeight(25),
+                        margin: EdgeInsets.only(
+                            right: getProportionateScreenWidth(3)),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(imageUrl))),
+                                image: imageUrl.startsWith('https')
+                                    ? CachedNetworkImageProvider(imageUrl)
+                                        as ImageProvider
+                                    : AssetImage(imageUrl))),
                       )),
-                  const Spacer(),
+                  const HorizontalSpacing(of: 10),
                   Text(voiceRoom.createdAt),
                 ],
               ),

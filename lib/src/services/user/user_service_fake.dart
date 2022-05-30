@@ -6,7 +6,7 @@ class FakeUserService implements UserService {
   @override
   Future<List<User>> fetchRecommendUsers({required int nextPageToken}) async {
     List<User> list = [];
-    list.addAll(userDummy);
+    list.addAll(userDummy2);
     return list;
   }
 
@@ -18,7 +18,7 @@ class FakeUserService implements UserService {
   }
 
   @override
-  Future<User> fetchUserProfile({required String userId}) async {
+  Future<User> fetchUserProfile({required String userLoginId}) async {
     User userProfile;
     userProfile = userDummy.first;
 

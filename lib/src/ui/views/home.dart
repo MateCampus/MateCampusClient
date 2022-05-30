@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/ui/common_components/voice_bottom_sheet_component/voice_bottom_sheet.dart';
 
 import '../../business_logic/utils/constants.dart';
@@ -16,7 +19,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int currentTab = 0;
   final List<Widget> screens = [
     const VoiceMainScreen(),
     const PostMainScreen(),
@@ -25,134 +27,143 @@ class _HomeState extends State<Home> {
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = VoiceMainScreen();
+  HomeViewModel vm = serviceLocator<HomeViewModel>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageStorage(
-        child: currentScreen,
-        bucket: bucket,
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(
-          Icons.add,
-        ),
-        backgroundColor: mainColor,
-        onPressed: () {
-          showCustomModalBottomSheet(context, const VoiceBottomSheet(), true);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 10,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = screens[0];
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.home,
-                          color: currentTab == 0 ? mainColor : Colors.grey,
-                        ),
-                        Text(
-                          'Home',
-                          style: TextStyle(
-                              color: currentTab == 0 ? mainColor : Colors.grey),
-                        )
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = screens[1];
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.article,
-                          color: currentTab == 1 ? mainColor : Colors.grey,
-                        ),
-                        Text(
-                          '게시판',
-                          style: TextStyle(
-                              color: currentTab == 1 ? mainColor : Colors.grey),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+    return ChangeNotifierProvider.value(
+        value: vm,
+        child: Consumer<HomeViewModel>(builder: (context, vm, child) {
+          return Scaffold(
+            body: PageStorage(
+              child: vm.currentScreen,
+              bucket: bucket,
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(
+                Icons.add,
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = screens[2];
-                        currentTab = 2;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+              backgroundColor: mainColor,
+              onPressed: () {
+                showCustomModalBottomSheet(context, const VoiceBottomSheet(), true);
+              },
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: BottomAppBar(
+              shape: CircularNotchedRectangle(),
+              notchMargin: 10,
+              child: Container(
+                height: 60,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.chat_rounded,
-                          color: currentTab == 2 ? mainColor : Colors.grey,
+                        MaterialButton(
+                          onPressed: () {
+                            vm.changeCurrentIndex(0);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.home,
+                                color: vm.currentTab == 0
+                                    ? mainColor
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                'Home',
+                                style: TextStyle(
+                                    color: vm.currentTab == 0
+                                        ? mainColor
+                                        : Colors.grey),
+                              )
+                            ],
+                          ),
                         ),
-                        Text(
-                          '채팅',
-                          style: TextStyle(
-                              color: currentTab == 2 ? mainColor : Colors.grey),
-                        )
+                        MaterialButton(
+                          onPressed: () {
+                            vm.changeCurrentIndex(1);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.article,
+                                color: vm.currentTab == 1
+                                    ? mainColor
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                '게시판',
+                                style: TextStyle(
+                                    color: vm.currentTab == 1
+                                        ? mainColor
+                                        : Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      setState(() {
-                        currentScreen = screens[3];
-                        currentTab = 3;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.person,
-                          color: currentTab == 3 ? mainColor : Colors.grey,
+                        MaterialButton(
+                          onPressed: () {
+                            vm.changeCurrentIndex(2);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.chat_rounded,
+                                color: vm.currentTab == 2
+                                    ? mainColor
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                '채팅',
+                                style: TextStyle(
+                                    color: vm.currentTab == 2
+                                        ? mainColor
+                                        : Colors.grey),
+                              )
+                            ],
+                          ),
                         ),
-                        Text(
-                          '마이페이지',
-                          style: TextStyle(
-                              color: currentTab == 3 ? mainColor : Colors.grey),
-                        )
+                        MaterialButton(
+                          onPressed: () {
+                            vm.changeCurrentIndex(3);
+                          },
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.person,
+                                color: vm.currentTab == 3
+                                    ? mainColor
+                                    : Colors.grey,
+                              ),
+                              Text(
+                                '마이페이지',
+                                style: TextStyle(
+                                    color: vm.currentTab == 3
+                                        ? mainColor
+                                        : Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        }));
   }
 }

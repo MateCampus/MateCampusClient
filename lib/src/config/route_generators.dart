@@ -13,10 +13,12 @@ onGenerateRoute: (settings) {
   */
 
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_friendProfile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/chat_detail_screen.dart';
+import 'package:zamongcampus/src/ui/views/chat/chat_detail_from_friendProfile/chat_detail_from_friendProfile_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
@@ -26,16 +28,29 @@ class RouteGenerator {
       case "/postDetail":
         final args = settings.arguments as PostDetailScreenArgs;
         return MaterialPageRoute(
-            builder: (_) => PostDetailScreen(postId: args.postId));
+            builder: (_) => PostDetailScreen(
+                  postId: args.postId,
+                  likedCount: args.likedCount,
+                ));
       case "/voiceDetail":
         final args = settings.arguments as VoiceDetailScreenArgs;
         return MaterialPageRoute(
-            builder: (_) => VoiceDetailScreen(voiceRoomId: args.voiceRoomId));
+            builder: (_) => VoiceDetailScreen(
+                  id: args.id,
+                  voiceRoom: args.voiceRoom,
+                ));
       case "/chatDetail":
         final args = settings.arguments as ChatDetailScreenArgs;
         return MaterialPageRoute(
             builder: (_) =>
                 ChatDetailScreen(chatRoom: args.chatRoom, index: args.index));
+      case "/chatDetailFromFriendProfile":
+        final args =
+            settings.arguments as ChatDetailFromFriendProfileScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) => ChatDetailFromFriendProfileScreen(
+                  profileLoginId: args.profileLoginId,
+                ));
       default:
         return _errorRoute();
     }

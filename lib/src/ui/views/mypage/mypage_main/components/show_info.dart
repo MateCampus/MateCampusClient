@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -22,7 +23,7 @@ class ShowInfo extends StatelessWidget {
                 CircleAvatar(
                   radius: getProportionateScreenHeight(50),
                   backgroundImage: AssetImage(
-                      vm.myInfo.imageUrls.first), //추후 누르면 전체화면으로 프사볼수있도록 변경하기
+                      vm.myInfo.imageUrl), //추후 누르면 전체화면으로 프사볼수있도록 변경하기
                 ),
                 Positioned(
                   bottom: 1,
@@ -35,7 +36,8 @@ class ShowInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: getProportionateScreenHeight(3)),
             child: Text(
-              vm.myInfo.nickname,
+              // vm.myInfo.nickname,
+              AuthService.loginId ?? "닉넴오류",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
             ),
           ),

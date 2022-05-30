@@ -17,19 +17,23 @@ class VoiceMainScreen extends StatefulWidget {
 class _VoiceMainScreenState extends State<VoiceMainScreen> {
   VoiceMainScreenViewModel vm = serviceLocator<VoiceMainScreenViewModel>();
 
-  // @override
-  // void initState() {
-  //   vm.loadVoiceRooms();
-  //   vm.loadRecommendUsers();
-  //   super.initState();
-  // }
-
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       vm.loadVoiceRooms();
       vm.loadRecommendUsers();
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    serviceLocator.resetLazySingleton<VoiceMainScreenViewModel>(instance: vm);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider.value(
         value: vm,
@@ -41,7 +45,9 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
                   centerTitle: false,
                   actions: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, "/dummy");
+                        },
                         icon: const Icon(Icons.notifications_outlined))
                   ],
                   backgroundColor: mainColor,

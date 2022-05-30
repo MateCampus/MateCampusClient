@@ -19,7 +19,7 @@ class PostMainScreenViewModel extends BaseModel {
 
   void loadPost() async {
     setBusy(true);
-    await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
+    //await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
     List<Post> postResult = await _postService.fetchPosts(
         type: _sortType, nextPageToken: _nextPageToken);
     posts.addAll(postResult.map((post) => PostPresentation(
@@ -38,8 +38,8 @@ class PostMainScreenViewModel extends BaseModel {
           createdAt: dateToPastTime(post.createdAt),
           likedCount: post.likedCount.toString(),
           viewCount: post.viewCount.toString(),
-          commentCount: post.commentCount?.toString() ?? "0",
-          imageUrl: post.imageUrls!.isEmpty ? null : post.imageUrls?.first,
+          commentCount: post.commentCount.toString(),
+          imageUrl: post.imageUrls.isEmpty ? null : post.imageUrls.first,
         )));
     _nextPageToken++;
 

@@ -6,7 +6,7 @@ class IsLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      height: 150,
+      //height: 150,
       child: Center(child: CircularProgressIndicator()),
     );
   }

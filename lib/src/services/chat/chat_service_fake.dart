@@ -10,8 +10,8 @@ import 'chat_service.dart';
 
 class FakeChatService implements ChatService {
   @override
-  fetchUnReceivedMessages() {
-    // TODO: implement fetchUnReceivedMessages
+  createOrGetChatRoom({required String otherLoginId}) {
+    // TODO: implement createChatRoom
     throw UnimplementedError();
   }
 
@@ -19,6 +19,12 @@ class FakeChatService implements ChatService {
   sendMessage(String roomId, String loginId, String text, String type,
       String title, String chatRoomType) {
     // TODO: implement sendMessage
+    throw UnimplementedError();
+  }
+
+  @override
+  fetchUnReceivedMessages() {
+    // TODO: implement fetchUnReceivedMessages
     throw UnimplementedError();
   }
 
@@ -179,6 +185,12 @@ class FakeChatService implements ChatService {
   @override
   updateUnreadCount(int unreadCount, String roomId) {
     // TODO: implement updateUnreadCount
+    throw UnimplementedError();
+  }
+
+  @override
+  getChatRoomByRoomId(String roomId) {
+    // TODO: implement getChatRoomByRoomId
     throw UnimplementedError();
   }
 }

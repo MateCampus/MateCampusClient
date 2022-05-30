@@ -4,9 +4,9 @@ import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
 
 abstract class ChatService {
+  createOrGetChatRoom({required String otherLoginId}) {}
   sendMessage(String roomId, String loginId, String text, String type,
       String title, String chatRoomType) {}
-
   fetchUnReceivedMessages() {}
 
   // chatMessageDB 시작
@@ -21,6 +21,7 @@ abstract class ChatService {
   insertChatRoom(ChatRoom chatRoom) {}
   getAllChatRoom() async {}
   getChatRoomsByMemberLoginId(String loginId) async {}
+  getChatRoomByRoomId(String roomId) async {}
   deleteChatRoomByRoomId(String roomId) {}
   deleteAllChatRoom() async {}
   isExistRoom(String roomId) {}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/ui/dummy_screen.dart';
 import 'package:zamongcampus/src/ui/views/Friend/friend_main_screen.dart';
 import 'package:zamongcampus/src/ui/views/home.dart';
 import 'package:zamongcampus/src/ui/views/login/login_main/login_main_screen.dart';
@@ -11,11 +12,11 @@ import 'package:zamongcampus/src/ui/views/signup/signup_authentication/signup_au
 import 'package:zamongcampus/src/ui/views/signup/signup_college/signup_college_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/signup_optional_profile_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/signup_required_profile_screen.dart';
+import 'package:zamongcampus/src/ui/views/post/post_create/post_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/splash.dart';
 import 'package:zamongcampus/src/ui/views/voice/private_voice_create/private_voice_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/public_voice_create/public_voice_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/voice_create_friend_screen.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/": (BuildContext context) => const Home(),
@@ -41,4 +42,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
       const SignUpRequiredProfileScreen(),
   "/signUpOptionalProfile": (BuildContext context) =>
       const SignUpOptionalProfileScreen(),
+  "/dummy": (BuildContext context) => DummyScreen(),
+  "/postCreate": (BuildContext context) => const PostCreateScreen(),
 };

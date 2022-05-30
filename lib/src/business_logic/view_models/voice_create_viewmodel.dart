@@ -1,12 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
+import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:zamongcampus/src/ui/common_components/select_cateory_dialog_component/select_category_dialog.dart';
 
 import 'base_model.dart';
@@ -14,9 +14,12 @@ import 'base_model.dart';
 class VoiceCreateViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
   final FriendService _friendService = serviceLocator<FriendService>();
+  final VoiceService _voiceService = serviceLocator<VoiceService>();
 
-  final List<UserPresentation> _recentTalkUsers = [];
-  final List<UserPresentation> _friendUsers = [];
+  final List<UserPresentation> _recentTalkUsers = List.empty(growable: true);
+  final List<UserPresentation> _friendUsers = List.empty(growable: true);
+  List<UserPresentation> _searchedRecentUsers = List.empty(growable: true);
+  List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
   final TextEditingController _titleController = TextEditingController();
@@ -27,12 +30,22 @@ class VoiceCreateViewModel extends BaseModel {
 
   bool _collegeOnlyChecked = false;
   bool _majorOnlyChecked = false;
+
+  final TextEditingController _recentTalkSearchController =
+      TextEditingController();
+  final TextEditingController _friendSearchController = TextEditingController();
   final List<String> _members = [];
 
   //뷰에서 접근이 필요한 변수
   List<UserPresentation> get recentTalkUsers => _recentTalkUsers;
   List<UserPresentation> get friendUsers => _friendUsers;
   TextEditingController get titleController => _titleController;
+  TextEditingController get recentTalkSearchController =>
+      _recentTalkSearchController;
+  TextEditingController get friendSearchController => _friendSearchController;
+  List<UserPresentation> get searchedRecentUsers => _searchedRecentUsers;
+  List<UserPresentation> get searchedFriendUsers => _searchedFriendUsers;
+
   List<CategoryPresentation> get selectedCategories => _selectedCategories;
   bool get collegeOnlyChecked => _collegeOnlyChecked;
   bool get majorOnlyChecked => _majorOnlyChecked;
@@ -46,10 +59,9 @@ class VoiceCreateViewModel extends BaseModel {
     _recentTalkUsers.addAll(recentTalkUserResult.map((recentTalkUser) =>
         UserPresentation(
             loginId: recentTalkUser.loginId,
-            userImageUrl: recentTalkUser.imageUrls?.first ??
+            userImageUrl: recentTalkUser.imageUrl ??
                 "assets/images/user/general_user.png",
             userNickname: recentTalkUser.nickname,
-            isOnline: recentTalkUser.isOnline ?? false,
             isChecked: false)));
 
     setBusy(false);
@@ -58,14 +70,14 @@ class VoiceCreateViewModel extends BaseModel {
 //친구 로드 함수
   void loadFriendUsers() async {
     setBusy(true);
-    List<User> friendUserResult = await _friendService.fetchFriendUsers();
+    List<Friend> friendUserResult =
+        await _friendService.fetchAcceptedTypeFriends();
 
     _friendUsers.addAll(friendUserResult.map((friendUser) => UserPresentation(
         loginId: friendUser.loginId,
-        userImageUrl: friendUser.imageUrls?.first ??
-            "assets/images/user/general_user.png",
+        userImageUrl:
+            friendUser.imageUrl ?? "assets/images/user/general_user.png",
         userNickname: friendUser.nickname,
-        isOnline: friendUser.isOnline ?? false,
         isChecked: false)));
     setBusy(false);
   }
@@ -128,6 +140,32 @@ class VoiceCreateViewModel extends BaseModel {
     notifyListeners();
   }
 
+  //최근 대화친구 검색
+  void searchRecentTalkUsers() {
+    List<String> userNames = [];
+    for (UserPresentation user in _recentTalkUsers) {
+      userNames.add(user.userNickname);
+    }
+    _searchedRecentUsers = _recentTalkUsers.where((user) {
+      return user.userNickname.startsWith(_recentTalkSearchController.text);
+    }).toList();
+
+    notifyListeners();
+  }
+
+//친구 검색
+  void searchFriendUsers() {
+    List<String> userNames = [];
+    for (UserPresentation user in _friendUsers) {
+      userNames.add(user.userNickname);
+    }
+    _searchedFriendUsers = _friendUsers.where((user) {
+      return user.userNickname.startsWith(_friendSearchController.text);
+    }).toList();
+
+    notifyListeners();
+  }
+
 //대화친구설정
   void setMembers(UserPresentation user, bool value, String loginId) {
     user.isChecked = value;
@@ -136,18 +174,26 @@ class VoiceCreateViewModel extends BaseModel {
     notifyListeners();
   }
 
+  //검색텍스트필드 clear
+  void clearSearchTextField(TextEditingController controller) {
+    controller.clear();
+    notifyListeners();
+  }
+
 //대화방 만들기
-  void createVoiceRoom() async {
-    final createVoiceRoomJson = jsonEncode({
-      // 사실은 이 부분이 voice_service_impl에 가야함.
-      "title": titleController.text,
-      "collegeOnly": _collegeOnlyChecked,
-      "majorOnly": _majorOnlyChecked,
-      "categories": _categoryResult,
-      "type": _type.name,
-      "members": _members,
-    });
-    print(createVoiceRoomJson);
+
+  Future<VoiceRoom> createVoiceRoom() async {
+    VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
+        title: titleController.text); //일단은 서버에 title만 보냄
+    return voiceRoom;
+    // final createVoiceRoomJson = jsonEncode({
+    //   "title": titleController.text,
+    //   "collegeOnly": _collegeOnlyChecked,
+    //   "majorOnly": _majorOnlyChecked,
+    //   "categories": _categoryResult,
+    //   "type": _type.name,
+    //   "members": _members,
+    // });
   }
 }
 
@@ -155,14 +201,12 @@ class UserPresentation {
   final String loginId;
   final String userImageUrl;
   final String userNickname;
-  final bool isOnline;
   bool isChecked;
 
   UserPresentation(
       {required this.loginId,
       required this.userImageUrl,
       required this.userNickname,
-      required this.isOnline,
       required this.isChecked});
 }
 

@@ -85,12 +85,16 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                 body: TabBarView(children: [
                   RecentTalkBody(
                     vm: vm,
-                    users: vm.recentTalkUsers,
+                    users: vm.searchedRecentUsers.isEmpty
+                        ? vm.recentTalkUsers
+                        : vm.searchedRecentUsers,
                     color: args.color,
                   ),
                   MyFriendBody(
                     vm: vm,
-                    users: vm.friendUsers,
+                    users: vm.searchedFriendUsers.isEmpty
+                        ? vm.friendUsers
+                        : vm.searchedFriendUsers,
                     color: args.color,
                   )
                 ]),

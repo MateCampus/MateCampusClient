@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
@@ -21,10 +22,7 @@ List<User> userDummy = [
       loginId: "zm1",
       nickname: "가나초코릿",
       collegeCode: College.college0001,
-      imageUrls: [
-        "assets/images/user/user1.jpg",
-        "assets/images/user/user2.jpg"
-      ],
+      imageUrl: "assets/images/user/user1.jpg",
       majorCode: Major.major0001,
       introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
       isOnline: true,
@@ -37,7 +35,7 @@ List<User> userDummy = [
       loginId: "zm2",
       nickname: "나비야훨훨",
       collegeCode: College.college0002,
-      imageUrls: null,
+      imageUrl: null,
       majorCode: Major.major0002,
       isOnline: false,
       interests: []),
@@ -45,7 +43,7 @@ List<User> userDummy = [
       loginId: "zm3",
       nickname: "다부지",
       collegeCode: College.college0003,
-      imageUrls: ["assets/images/user/user3.jpg"],
+      imageUrl: "assets/images/user/user3.jpg",
       majorCode: Major.major0003,
       isOnline: null,
       interests: []),
@@ -53,7 +51,7 @@ List<User> userDummy = [
       loginId: "zm4",
       nickname: "라디오꾼",
       collegeCode: College.college0004,
-      imageUrls: ["assets/images/user/user4.jpg"],
+      imageUrl: "assets/images/user/user4.jpg",
       majorCode: Major.major0004,
       isOnline: false,
       interests: []),
@@ -61,7 +59,7 @@ List<User> userDummy = [
       loginId: "zm5",
       nickname: "마라탕궈",
       collegeCode: College.college0005,
-      imageUrls: ["assets/images/user/user5.jpg"],
+      imageUrl: "assets/images/user/user5.jpg",
       majorCode: Major.major0005,
       isOnline: false,
       interests: []),
@@ -69,7 +67,7 @@ List<User> userDummy = [
       loginId: "zm6",
       nickname: "나비야훨훨",
       collegeCode: College.college0002,
-      imageUrls: null,
+      imageUrl: null,
       majorCode: Major.major0002,
       isOnline: false,
       interests: []),
@@ -77,7 +75,7 @@ List<User> userDummy = [
       loginId: "zm7",
       nickname: "다부지",
       collegeCode: College.college0003,
-      imageUrls: ["assets/images/user/user3.jpg"],
+      imageUrl: "assets/images/user/user1.jpg",
       majorCode: Major.major0003,
       isOnline: null,
       interests: []),
@@ -85,7 +83,7 @@ List<User> userDummy = [
       loginId: "zm8",
       nickname: "라디오꾼",
       collegeCode: College.college0004,
-      imageUrls: ["assets/images/user/user4.jpg"],
+      imageUrl: "assets/images/user/user4.jpg",
       majorCode: Major.major0004,
       isOnline: false,
       interests: []),
@@ -93,7 +91,7 @@ List<User> userDummy = [
       loginId: "zm9",
       nickname: "마라탕궈",
       collegeCode: College.college0005,
-      imageUrls: ["assets/images/user/user5.jpg"],
+      imageUrl: "assets/images/user/user5.jpg",
       majorCode: Major.major0005,
       isOnline: false,
       interests: []),
@@ -104,10 +102,7 @@ List<User> userDummy2 = [
       loginId: "zm10",
       nickname: "바나나2",
       collegeCode: College.college0001,
-      imageUrls: [
-        "assets/images/user/user1.jpg",
-        "assets/images/user/user2.jpg"
-      ],
+      imageUrl: "assets/images/user/user1.jpg",
       majorCode: Major.major0001,
       isOnline: true,
       interests: []),
@@ -115,7 +110,7 @@ List<User> userDummy2 = [
       loginId: "zm11",
       nickname: "사이다",
       collegeCode: College.college0002,
-      imageUrls: ["assets/images/user/user2.jpg"],
+      imageUrl: "assets/images/user/user2.jpg",
       majorCode: Major.major0002,
       isOnline: true,
       interests: []),
@@ -126,10 +121,7 @@ List<User> userDummy3 = [
       loginId: "zm10",
       nickname: "바나나2",
       collegeCode: College.college0001,
-      imageUrls: [
-        "assets/images/user/user1.jpg",
-        "assets/images/user/user2.jpg"
-      ],
+      imageUrl: "assets/images/user/user1.jpg",
       majorCode: Major.major0001,
       isOnline: true,
       interests: []),
@@ -137,7 +129,7 @@ List<User> userDummy3 = [
       loginId: "zm11",
       nickname: "나랑드사이다",
       collegeCode: College.college0002,
-      imageUrls: ["assets/images/user/user2.jpg"],
+      imageUrl: "assets/images/user/user2.jpg",
       majorCode: Major.major0002,
       isOnline: true,
       interests: []),
@@ -145,7 +137,7 @@ List<User> userDummy3 = [
       loginId: "zm3",
       nickname: "삼부지",
       collegeCode: College.college0003,
-      imageUrls: ["assets/images/user/user3.jpg"],
+      imageUrl: "assets/images/user/user3.jpg",
       majorCode: Major.major0003,
       isOnline: null,
       interests: []),
@@ -153,7 +145,7 @@ List<User> userDummy3 = [
       loginId: "zm4",
       nickname: "라디오꾼",
       collegeCode: College.college0004,
-      imageUrls: ["assets/images/user/user4.jpg"],
+      imageUrl: "assets/images/user/user4.jpg",
       majorCode: Major.major0004,
       isOnline: false,
       interests: []),
@@ -161,7 +153,7 @@ List<User> userDummy3 = [
       loginId: "zm5",
       nickname: "마라탕궈",
       collegeCode: College.college0005,
-      imageUrls: ["assets/images/user/user5.jpg"],
+      imageUrl: "assets/images/user/user5.jpg",
       majorCode: Major.major0005,
       isOnline: false,
       interests: []),
@@ -173,47 +165,49 @@ List<List<Category>> categoryDummy = [
   [Category.c0005, Category.c0007]
 ];
 
+List<ChatMemberInfo> chatMemberInfo = [
+  ChatMemberInfo(loginId: 'hi1', nickname: 'nickname', imageUrl: "")
+];
+
 List<VoiceRoom> voiceRoomDummy = [
   VoiceRoom(
-      id: 1,
-      title: "단국대 20학번 산업디자인과 드루왕!!",
-      members: userDummy3,
-      chatMessages: chatMessageDummy,
-      createdAt: DateTime(2022, 2, 3),
-      categories: categoryDummy[Random().nextInt(2)],
-      type: VoiceRoomType.PUBLIC),
+    id: 1,
+    ownerLoginId: "zm10",
+    roomId: '',
+    title: "단국대 20학번 산업디자인과 드루왕!!",
+    token: '',
+    uid: 4,
+    memberInfos: chatMemberInfo,
+    categories: categoryDummy[Random().nextInt(2)],
+    //createdAt: DateTime(2022, 2, 3),
+    //type: VoiceRoomType.PUBLIC
+  ),
   VoiceRoom(
-      id: 2,
-      title: "고정팟 구함!! 배틀그라운드 컴온",
-      members: userDummy2,
-      chatMessages: chatMessageDummy,
-      createdAt: DateTime(2022, 2, 3),
-      categories: categoryDummy[Random().nextInt(2)],
-      type: VoiceRoomType.PUBLIC),
+    //voiceDetail의 dummy로 사용중
+    id: 2,
+    ownerLoginId: "zm11",
+    roomId: '0525zamong',
+    title: "고정팟 구함!! 배틀그라운드 컴온",
+    token:
+        '0061db42f592687465e9ad1564ae4b55221IABJCnKGlfUjZNgQ3vRhjYc+RyYkebLyXF0471Ao3YbG3G3Q6H4AAAAAEAAPZcnS5z6PYgEAAQDmPo9i',
+    uid: 4,
+    memberInfos: chatMemberInfo,
+    categories: categoryDummy[Random().nextInt(2)],
+    //createdAt: DateTime(2022, 2, 3),
+    //type: VoiceRoomType.PUBLIC
+  ),
   VoiceRoom(
-      id: 3,
-      title: "프로자취러들의 모임~ 각자 꿀팁공유행",
-      members: userDummy2,
-      chatMessages: chatMessageDummy,
-      createdAt: DateTime(2022, 2, 3),
-      categories: categoryDummy[Random().nextInt(2)],
-      type: VoiceRoomType.PUBLIC),
-  VoiceRoom(
-      id: 4,
-      title: "경기대 새내기 손!!",
-      members: userDummy2,
-      chatMessages: chatMessageDummy,
-      createdAt: DateTime(2022, 2, 3),
-      categories: categoryDummy[Random().nextInt(2)],
-      type: VoiceRoomType.PUBLIC),
-  VoiceRoom(
-      id: 5,
-      title: "즐겁게 대화할사람 들어와주세요~~~컨셉질환영 과몰입환영 그냥 다 환영 드루와드루와",
-      members: userDummy2,
-      chatMessages: chatMessageDummy,
-      createdAt: DateTime(2022, 2, 3),
-      categories: categoryDummy[Random().nextInt(2)],
-      type: VoiceRoomType.PUBLIC)
+    id: 3,
+    ownerLoginId: "zm11",
+    roomId: '',
+    title: "프로자취러들의 모임~ 각자 꿀팁공유행",
+    token: '',
+    uid: 4,
+    memberInfos: chatMemberInfo,
+    categories: categoryDummy[Random().nextInt(2)],
+    //createdAt: DateTime(2022, 2, 3),
+    //type: VoiceRoomType.PUBLIC
+  ),
 ];
 
 List<ChatMessage> chatMessageDummy = [
@@ -221,19 +215,19 @@ List<ChatMessage> chatMessageDummy = [
       roomId: "1",
       loginId: "zm1",
       text: "하이루~",
-      type: MessageType.talk,
+      type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 15)),
   ChatMessage(
       roomId: "1",
       loginId: "zm2",
       text: "방가방가",
-      type: MessageType.talk,
+      type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 16)),
   ChatMessage(
       roomId: "1",
       loginId: "zm3",
       text: "헬로우",
-      type: MessageType.talk,
+      type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 17)),
 ];
 
@@ -295,6 +289,7 @@ List<Post> postDummy1 = [
     viewCount: 897,
     commentCount: 156,
     imageUrls: [],
+    comments: [],
   ),
   Post(
     id: 4,
@@ -310,6 +305,7 @@ List<Post> postDummy1 = [
     viewCount: 897,
     commentCount: 156,
     imageUrls: [],
+    comments: [],
   ),
   Post(
     id: 5,
@@ -325,6 +321,7 @@ List<Post> postDummy1 = [
     viewCount: 897,
     commentCount: 156,
     imageUrls: [],
+    comments: [],
   ),
   Post(
     id: 6,
@@ -340,6 +337,7 @@ List<Post> postDummy1 = [
     viewCount: 897,
     commentCount: 156,
     imageUrls: [],
+    comments: [],
   ),
 ];
 
@@ -353,13 +351,19 @@ List<Comment> commentDummy = [
         "assets/images/user/user4.jpg"
       ],
       body: "와 댓글 일빠다.이게 과연 줄이 넘어가면 어떻게 될까 제발 그냥 좀 됐으면 좋겠다 근데 얼마나 더 길게 써야할까?",
-      createdAt: DateTime(2022, 3, 28)),
+      createdAt: DateTime(2022, 3, 28),
+      deleted: false,
+      parentId: 0,
+      children: nestedCommentDummy),
   Comment(
       id: 2,
       loginId: "hithere",
       userNickname: "댓글러2",
       body: "두번째 댓글~",
-      createdAt: DateTime(2022, 3, 28)),
+      createdAt: DateTime(2022, 3, 28),
+      deleted: false,
+      parentId: 0,
+      children: []),
   Comment(
       id: 3,
       loginId: "lilly",
@@ -369,5 +373,45 @@ List<Comment> commentDummy = [
         "assets/images/user/user4.jpg"
       ],
       body: "세번째 메롱",
-      createdAt: DateTime(2022, 3, 28))
+      createdAt: DateTime(2022, 3, 28),
+      deleted: false,
+      parentId: 0,
+      children: [])
+];
+
+List<Comment> nestedCommentDummy = [
+  Comment(
+      id: 4,
+      loginId: "asd",
+      userNickname: "대댓글러1",
+      userImageUrls: [
+        "assets/images/user/user3.jpg",
+      ],
+      body: "와 대댓글 일빠다. 제발 됐으면 좋겠다",
+      createdAt: DateTime(2022, 3, 28),
+      deleted: false,
+      parentId: 1,
+      children: []),
+  Comment(
+      id: 5,
+      loginId: "ohoh",
+      userNickname: "대댓글러2",
+      body: "두번째 대댓글~",
+      createdAt: DateTime(2022, 3, 28),
+      deleted: false,
+      parentId: 1,
+      children: []),
+  Comment(
+      id: 6,
+      loginId: "li",
+      userNickname: "대댓글러3",
+      userImageUrls: [
+        "assets/images/user/user1.jpg",
+        "assets/images/user/user4.jpg"
+      ],
+      body: "세번째 메롱",
+      createdAt: DateTime(2022, 3, 28),
+      deleted: false,
+      parentId: 1,
+      children: [])
 ];

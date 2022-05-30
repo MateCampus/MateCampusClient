@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
@@ -5,7 +6,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 class VoiceChatMemberChip extends StatefulWidget {
   VoiceDetailViewModel vm;
-  UserPresentation member;
+  MemberPresentation member;
   VoiceChatMemberChip({Key? key, required this.vm, required this.member})
       : super(key: key);
 
@@ -23,6 +24,7 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                 Container(
                   padding: EdgeInsets.all(getProportionateScreenWidth(3)),
                   decoration: BoxDecoration(
+                      color: Colors.white, //이미지 문제 고쳐지면 삭제
                       border: Border.all(
                           color: widget.member.isSpeaking
                               ? mainColor
@@ -32,7 +34,10 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                       shape: BoxShape.circle),
                   child: CircleAvatar(
                     radius: getProportionateScreenWidth(28),
-                    backgroundImage: AssetImage(widget.member.imageUrl),
+                    backgroundImage: widget.member.imageUrl.startsWith('https')
+                        ? CachedNetworkImageProvider(widget.member.imageUrl)
+                            as ImageProvider
+                        : AssetImage(widget.member.imageUrl),
                   ),
                 ),
                 Positioned(
@@ -58,7 +63,6 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                 padding: EdgeInsets.symmetric(
                     vertical: getProportionateScreenHeight(10)),
                 child: Text(
-                  //여기서 만약에 본인이면 (나)라고 표기해주는 분기
                   widget.member.nickname,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -82,7 +86,10 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                     shape: BoxShape.circle),
                 child: CircleAvatar(
                   radius: getProportionateScreenWidth(28),
-                  backgroundImage: AssetImage(widget.member.imageUrl),
+                  backgroundImage: widget.member.imageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(widget.member.imageUrl)
+                          as ImageProvider
+                      : AssetImage(widget.member.imageUrl),
                 ),
               ),
               Container(

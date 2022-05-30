@@ -18,7 +18,10 @@ class _PostMainScreenState extends State<PostMainScreen> {
 
   @override
   void initState() {
-    vm.loadPost();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.loadPost();
+    });
+
     super.initState();
   }
 
@@ -29,7 +32,8 @@ class _PostMainScreenState extends State<PostMainScreen> {
         create: (context) => vm,
         child: Consumer<PostMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
-              backgroundColor: const Color(0xfff8f8f8), body: Body(vm: vm));
+              backgroundColor: const Color(0xfff8f8f8),
+              body: SafeArea(child: Body(vm: vm)));
         }));
   }
 }

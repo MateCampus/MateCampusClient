@@ -10,10 +10,11 @@ class RecommendUserList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //width: getProportionateScreenWidth(116),
-      height: getProportionateScreenHeight(133),
-      margin: EdgeInsets.fromLTRB(0, getProportionateScreenHeight(10), 0,
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          getProportionateScreenWidth(20),
+          getProportionateScreenHeight(10),
+          0,
           getProportionateScreenHeight(10)),
       child: ListView.builder(
           shrinkWrap: true,

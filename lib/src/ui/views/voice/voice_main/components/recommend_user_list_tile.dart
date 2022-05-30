@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/profile_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_components/user_profile_bottom_sheet_component/user_profile_bottom_sheet.dart';
 
 class RecommendUserListTile extends StatelessWidget {
   UserPresentation recommendUser;
@@ -14,7 +14,7 @@ class RecommendUserListTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         showCustomModalBottomSheet(
-            context, ProfileBottomSheet(userId: recommendUser.loginId), true);
+            context, UserProfileBottomSheet(loginId: recommendUser.loginId), true);
       },
       child: Container(
         width: getProportionateScreenWidth(116),
@@ -27,7 +27,7 @@ class RecommendUserListTile extends StatelessWidget {
           ),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(8),
+                vertical: getProportionateScreenHeight(15),
                 horizontal: getProportionateScreenWidth(8)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -35,9 +35,8 @@ class RecommendUserListTile extends StatelessWidget {
                 Stack(
                   children: [
                     CircleAvatar(
-                      radius: getProportionateScreenHeight(30),
-                      backgroundImage:
-                          AssetImage(recommendUser.userImageUrls.first),
+                      radius: getProportionateScreenHeight(25),
+                      backgroundImage: AssetImage(recommendUser.imageUrl),
                     ),
                     Positioned(
                       bottom: 1,
@@ -58,7 +57,7 @@ class RecommendUserListTile extends StatelessWidget {
                     )
                   ],
                 ),
-                SizedBox(height: getProportionateScreenHeight(10)),
+                const Spacer(),
                 Text(
                   "#" + recommendUser.majorName,
                   maxLines: 1,
