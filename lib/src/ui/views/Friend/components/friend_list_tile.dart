@@ -15,8 +15,9 @@ class FriendListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(20), 0,
-          getProportionateScreenWidth(20), getProportionateScreenHeight(20)),
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(10)),
       child: InkWell(
         onTap: () {
           showCustomModalBottomSheet(
@@ -27,12 +28,12 @@ class FriendListTile extends StatelessWidget {
             leading: Stack(
               children: [
                 CircleAvatar(
-                  radius: getProportionateScreenHeight(30),
-                  backgroundImage: friend.userImageUrl.startsWith('https')
-                      ? CachedNetworkImageProvider(friend.userImageUrl)
+                  radius: getProportionateScreenHeight(27),
+                  backgroundImage: friend.imageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(friend.imageUrl)
                           as ImageProvider
                       : AssetImage(
-                          friend.userImageUrl,
+                          friend.imageUrl,
                         ),
                 ),
                 /* isOnlined 추후 개발 */
@@ -56,7 +57,7 @@ class FriendListTile extends StatelessWidget {
               ],
             ),
             title: Text(
-              friend.userNickname,
+              friend.nickname,
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             trailing: friend.friendRequestStatus == FriendRequestStatus.ACCEPTED
@@ -64,8 +65,10 @@ class FriendListTile extends StatelessWidget {
                     onPressed: () {
                       vm.gotoChatroom(friend.loginId);
                     },
-                    icon: Icon(Icons.more_horiz_outlined),
+                    icon: const Icon(Icons.more_horiz_outlined),
+                    iconSize: getProportionateScreenWidth(20),
                     color: Colors.black,
+                    splashRadius: getProportionateScreenWidth(20),
                   )
                 : TextButton(
                     onPressed: null,

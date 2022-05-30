@@ -13,7 +13,7 @@ class FriendListBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SearchBar(),
+        SearchBar(vm: vm),
         vm.busy
             ? Container(
                 alignment: Alignment.center,

@@ -88,7 +88,10 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
                 backgroundColor: Colors.white, //배경색
                 body: TabBarView(children: [
                   FriendListBody(
-                      vm: vm, friends: vm.friendsIRequestAndAceepted),
+                      vm: vm,
+                      friends: vm.searchedFriends.isEmpty
+                          ? vm.friendsIRequestAndAceepted
+                          : vm.searchedFriends),
                   RequestListBody(vm: vm, friends: vm.friendsIReceived)
                 ]),
               ),

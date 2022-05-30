@@ -40,6 +40,14 @@ List<Friend> friendDummy = [
       friendRequestStatus: FriendRequestStatus.ACCEPTED,
       requestorLoginId: 'test'),
   Friend(
+      id: 4,
+      loginId: "hello4",
+      imageUrl: "assets/images/user/user2.jpg",
+      nickname: "hihi",
+      friendRequestStatus: FriendRequestStatus.ACCEPTED,
+      requestorLoginId: 'test'),
+
+  Friend(
       id: 3,
       loginId: "hello3",
       imageUrl: "assets/images/user/user4.jpg",

@@ -12,6 +12,14 @@ class MyFriendSearchBar extends StatefulWidget {
 
 class _MyFriendSearchBarState extends State<MyFriendSearchBar> {
   @override
+  void initState() {
+    widget.vm.friendSearchController.addListener(() {
+      widget.vm.searchFriendUsers();
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -20,31 +28,42 @@ class _MyFriendSearchBarState extends State<MyFriendSearchBar> {
       child: TextField(
         keyboardType: TextInputType.multiline,
         style: const TextStyle(fontSize: 14),
-        //controller: widget.vm.friendSearchController,
-        onChanged: (text) {
-          widget.vm.searchFriendUsers(text);
-        },
+        controller: widget.vm.friendSearchController,
+        // onChanged: (text) {
+        //   widget.vm.searchFriendUsers(text);
+        // },
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
-            color: Color(0xff707070),
+            color: const Color(0xff707070),
             size: getProportionateScreenHeight(20),
           ),
-          // suffixIcon: Icon(
-          //   Icons.close,
-          //   color: Color(0xff707070),
-          //   size: getProportionateScreenHeight(20),
-          // ),
+          suffixIcon: widget.vm.friendSearchController.text.isNotEmpty
+              ? _clearTextFieldBtn()
+              : const SizedBox(),
           contentPadding: EdgeInsets.zero,
           hintText: "친구 검색",
-          hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-          fillColor: Color(0xfff8f8f8),
+          hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+          fillColor: const Color(0xfff8f8f8),
           filled: true,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(5))),
         ),
+      ),
+    );
+  }
+
+  Widget _clearTextFieldBtn() {
+    return InkWell(
+      onTap: () {
+        widget.vm.clearSearchTextField(widget.vm.friendSearchController);
+      },
+      child: Icon(
+        Icons.close,
+        color: const Color(0xff707070),
+        size: getProportionateScreenHeight(15),
       ),
     );
   }

@@ -140,42 +140,27 @@ class VoiceCreateViewModel extends BaseModel {
     notifyListeners();
   }
 
-//최근 대화친구 검색
-  void searchRecentTalkUsers(String input) {
+  //최근 대화친구 검색
+  void searchRecentTalkUsers() {
     List<String> userNames = [];
     for (UserPresentation user in _recentTalkUsers) {
       userNames.add(user.userNickname);
     }
     _searchedRecentUsers = _recentTalkUsers.where((user) {
-      return user.userNickname.startsWith(input);
+      return user.userNickname.startsWith(_recentTalkSearchController.text);
     }).toList();
 
     notifyListeners();
   }
 
-  //최근 대화친구 검색
-  // void searchRecentTalkUsers1() {
-  //   _recentTalkSearchController.addListener(() {
-  //     List<String> userNames = [];
-  //     for (UserPresentation user in _recentTalkUsers) {
-  //       userNames.add(user.userNickname);
-  //     }
-  //     _searchedRecentUsers = _recentTalkUsers.where((user) {
-  //       return user.userNickname.startsWith(_recentTalkSearchController.text);
-  //     }).toList();
-  //   });
-
-  //   notifyListeners();
-  // }
-
 //친구 검색
-  void searchFriendUsers(String input) {
+  void searchFriendUsers() {
     List<String> userNames = [];
     for (UserPresentation user in _friendUsers) {
       userNames.add(user.userNickname);
     }
     _searchedFriendUsers = _friendUsers.where((user) {
-      return user.userNickname.startsWith(input);
+      return user.userNickname.startsWith(_friendSearchController.text);
     }).toList();
 
     notifyListeners();
@@ -186,6 +171,12 @@ class VoiceCreateViewModel extends BaseModel {
     user.isChecked = value;
     user.isChecked ? _members.add(loginId) : _members.remove(loginId);
 
+    notifyListeners();
+  }
+
+  //검색텍스트필드 clear
+  void clearSearchTextField(TextEditingController controller) {
+    controller.clear();
     notifyListeners();
   }
 

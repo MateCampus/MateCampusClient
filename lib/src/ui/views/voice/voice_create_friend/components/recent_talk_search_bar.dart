@@ -11,13 +11,13 @@ class RecentTalkSearchBar extends StatefulWidget {
 }
 
 class _RecentTalkSearchBarState extends State<RecentTalkSearchBar> {
-  // @override
-  // void initSate() {
-  //   widget.vm.recentTalkSearchController.addListener(() {
-  //     widget.vm.searchRecentTalkUsers1();
-  //   });
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    widget.vm.recentTalkSearchController.addListener(() {
+      widget.vm.searchRecentTalkUsers();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +28,42 @@ class _RecentTalkSearchBarState extends State<RecentTalkSearchBar> {
       child: TextField(
         keyboardType: TextInputType.multiline,
         style: const TextStyle(fontSize: 14),
-        //controller: widget.vm.recentTalkSearchController,
-        onChanged: (text) {
-          widget.vm.searchRecentTalkUsers(text);
-        },
+        controller: widget.vm.recentTalkSearchController,
+        // onChanged: (text) {
+        //   widget.vm.searchRecentTalkUsers(text);
+        // },
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,
-            color: Color(0xff707070),
+            color: const Color(0xff707070),
             size: getProportionateScreenHeight(20),
           ),
+          suffixIcon: widget.vm.recentTalkSearchController.text.isNotEmpty
+              ? _clearTextFieldBtn()
+              : const SizedBox(),
           contentPadding: EdgeInsets.zero,
           hintText: "친구 검색",
-          hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-          fillColor: Color(0xfff8f8f8),
+          hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+          fillColor: const Color(0xfff8f8f8),
           filled: true,
-          border: OutlineInputBorder(
+          border: const OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.all(Radius.circular(5))),
         ),
+      ),
+    );
+  }
+
+  Widget _clearTextFieldBtn() {
+    return InkWell(
+      onTap: () {
+        widget.vm.clearSearchTextField(widget.vm.recentTalkSearchController);
+      },
+      child: Icon(
+        Icons.close,
+        color: const Color(0xff707070),
+        size: getProportionateScreenHeight(15),
       ),
     );
   }
