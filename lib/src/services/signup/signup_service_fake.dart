@@ -2,7 +2,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 
-class SignUpServiceFake implements SignUpService {
+class FakeSignUpService implements SignUpService {
   @override
   Future<bool> checkIdRedundancy({required String id}) async {
     bool value = true;

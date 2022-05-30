@@ -49,29 +49,26 @@ void setupServiceLocator() {
   // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
   // serviceLocator
   //     .registerLazySingleton<CommentService>(() => FakeCommentService());
-  serviceLocator
-      .registerLazySingleton<FriendService>(() => FakeFriendService());
-  serviceLocator
-      .registerLazySingleton<SignUpService>(() => SignUpServiceFake());
+  // serviceLocator
+  //     .registerLazySingleton<FriendService>(() => FakeFriendService());
+  // serviceLocator
+  //     .registerLazySingleton<SignUpService>(() => FakeSignUpService());
+  //serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
 
   /* 2. 실제 불가능한 services */
-  //serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
-
-  /* view models */
-  serviceLocator.registerLazySingleton(() => LoginMainScreenViewModel());
 
   /* 3. 실제 services */
   serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
   serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
   serviceLocator
       .registerLazySingleton<CommentService>(() => CommentServiceImpl());
-  // serviceLocator
-  //     .registerLazySingleton<FriendService>(() => FriendServiceImpl());
+  serviceLocator
+      .registerLazySingleton<FriendService>(() => FriendServiceImpl());
   serviceLocator.registerLazySingleton<VoiceService>(() => VoiceServiceImpl());
-  // serviceLocator
-  //     .registerLazySingleton<SignUpService>(() => SignUpServiceImpl());
+  serviceLocator
+      .registerLazySingleton<SignUpService>(() => SignUpServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
