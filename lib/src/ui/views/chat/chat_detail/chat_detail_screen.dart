@@ -54,36 +54,34 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             behavior: HitTestBehavior.translucent,
             child: Scaffold(
               appBar: AppBar(
-                flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [subColor, mainColor],
-                      stops: [0.5, 1.0],
-                    ),
-                  ),
+                elevation: 0.0,
+                backgroundColor: mainColor,
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_outlined),
+                  iconSize: getProportionateScreenHeight(20),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
-                leading: const BackButton(),
                 centerTitle: true,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      vm.chatRoom.title,
-                      style: TextStyle(
-                          fontFamily: "SCDream5",
-                          fontSize: getProportionateScreenWidth(15)),
-                    ),
-                  ],
+                title: Text(
+                  vm.chatRoom.title,
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(16),
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5),
                 ),
                 actions: [
                   IconButton(
-                      icon: const Icon(Icons.more_horiz_outlined,
-                          color: Colors.white),
-                      onPressed: () {})
+                    icon: const Icon(Icons.more_horiz_outlined),
+                    iconSize: getProportionateScreenHeight(20),
+                    color: Colors.white,
+                    onPressed: () {},
+                  ),
                 ],
               ),
+              backgroundColor: Colors.white,
               body: Body(vm: vm),
             ),
           );

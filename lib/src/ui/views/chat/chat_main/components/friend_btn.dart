@@ -53,8 +53,10 @@ class FriendBtn extends StatelessWidget {
                 trailing: const Icon(
                   Icons.chevron_right_outlined,
                 ),
+                minVerticalPadding: 0,
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(10)),
+                    horizontal: getProportionateScreenWidth(10),
+                    vertical: getProportionateScreenHeight(5)),
                 onTap: () {
                   Navigator.pushNamed(context, "/friend");
                 },

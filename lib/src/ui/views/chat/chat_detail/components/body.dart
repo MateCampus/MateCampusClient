@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
@@ -14,18 +16,9 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return vm.busy
-        ? Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(top: 10.0),
-            child: const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 4,
-                )),
-          )
+        ? const CircularProgressIndicator()
         : Column(
-            mainAxisSize: MainAxisSize.min,
+            //mainAxisSize: MainAxisSize.min,
             children: [
               vm.loadMoreBusy
                   ? const HorizontalDividerCustom(
@@ -38,8 +31,9 @@ class Body extends StatelessWidget {
                     thickness: 3,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kDefaultPadding / 1.5),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getProportionateScreenWidth(15),
+                          vertical: getProportionateScreenHeight(5)),
                       child: ListView.builder(
                           controller: vm.scrollController,
                           reverse: true,
@@ -51,9 +45,14 @@ class Body extends StatelessWidget {
                           }),
                     )),
               ),
-              ChatInputField(
-                roomId: vm.chatRoom.roomId,
-                roomType: vm.chatRoom.type,
+              DefaultShadowBox(
+                child: Padding(
+                  padding: defaultPadding,
+                  child: ChatInputField(
+                    roomId: vm.chatRoom.roomId,
+                    roomType: vm.chatRoom.type,
+                  ),
+                ),
               )
             ],
           );

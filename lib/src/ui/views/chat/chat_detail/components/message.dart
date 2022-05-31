@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/round_chip.dart';
 
 class Message extends StatelessWidget {
@@ -16,7 +17,7 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: kDefaultPadding / 3),
+      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(5)),
       child: (message.type == "ENTER" || message.text == "EXIT")
           ? Container(
               alignment: Alignment.center,
@@ -58,7 +59,7 @@ class Message extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(width: kDefaultPadding / 2),
+                    const HorizontalSpacing(of: 10),
                     IntrinsicWidth(
                       child: Column(
                         children: [
@@ -71,23 +72,26 @@ class Message extends StatelessWidget {
                                 style: TextStyle(fontSize: 14),
                               )),
                           Container(
-                              width: message.text.length > 27
-                                  ? getProportionateScreenWidth(250)
-                                  : null,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: getProportionateScreenWidth(10),
-                                vertical: getProportionateScreenWidth(10),
-                              ),
+                              constraints: BoxConstraints(
+                                  maxWidth: SizeConfig.screenWidth! * 0.7),
+                              // width: message.text.length > 27
+                              //     ? getProportionateScreenWidth(250)
+                              //     : null,
+                              padding: EdgeInsets.all(
+                                  getProportionateScreenWidth(10)),
                               decoration: const BoxDecoration(
-                                color: mainColor,
+                                color: mainColor, //컬러바꾸기
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(15),
-                                    topRight: Radius.circular(15),
-                                    bottomRight: Radius.circular(15)),
+                                    topLeft: Radius.circular(10),
+                                    topRight: Radius.circular(10),
+                                    bottomRight: Radius.circular(10)),
                               ),
                               child: Text(
                                 message.text,
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: getProportionateScreenWidth(14),
+                                    height: 1.2),
                               )),
                         ],
                       ),
@@ -106,38 +110,38 @@ class Message extends StatelessWidget {
                     ),
                   ],
                   if (message.loginId == AuthService.loginId) ...[
+                    //내 메세지
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
                           dateToTime(message.createdAt),
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(
+                              fontSize: getProportionateScreenWidth(12),
+                              color: Colors.grey),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
+                    const HorizontalSpacing(of: 5),
                     Container(
-                      width: message.text.length > 30
-                          ? getProportionateScreenWidth(280)
-                          : null,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: getProportionateScreenWidth(13),
-                        vertical: getProportionateScreenWidth(10),
-                      ),
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
+                      constraints: BoxConstraints(
+                          maxWidth: SizeConfig.screenWidth! * 0.7),
+                      // width: message.text.length > 30
+                      //     ? getProportionateScreenWidth(280)
+                      //     : null,
+                      padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+                      decoration: const BoxDecoration(
+                          color: Color(0xffFFE8D8), //컬러체인지해야함
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15))),
-                      child: FittedBox(
-                        fit: BoxFit.contain,
-                        child: Text(
-                          this.message.text,
-                          style: TextStyle(color: Colors.white),
-                        ),
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10))),
+                      child: Text(
+                        this.message.text,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: getProportionateScreenWidth(14),
+                            height: 1.2),
                       ),
                     )
                   ],

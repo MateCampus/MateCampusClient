@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -44,7 +45,7 @@ class _ChatTileState extends State<ChatTile> {
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.2),
-                blurRadius: 10,
+                blurRadius: 3,
                 spreadRadius: 1,
               )
             ],
@@ -53,6 +54,7 @@ class _ChatTileState extends State<ChatTile> {
               onTap: widget.onClicked,
               contentPadding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(10)),
+              minVerticalPadding: 0,
               leading: CircleAvatar(
                 radius: getProportionateScreenWidth(25),
                 // TODO: aws 이미지 403이면 일반 이미지 보여주도록 구현해야함.
@@ -70,28 +72,17 @@ class _ChatTileState extends State<ChatTile> {
               title: Text(
                 widget.chatRoom.title,
                 style: TextStyle(
-                    fontSize: getProportionateScreenHeight(14),
-                    fontWeight: FontWeight.w700),
+                    fontSize: getProportionateScreenHeight(15),
+                    fontWeight: FontWeight.w700,
+                    overflow: TextOverflow.ellipsis),
               ),
-
-              // RichText(
-              //   overflow: TextOverflow.ellipsis,
-              //   maxLines: 1,
-              //   text: TextSpan(
-              //       text: widget.chatRoom.title,
-              //       style: const TextStyle(
-              //           color: Colors.black,
-              //           fontSize: 15,
-              //           fontWeight: FontWeight.bold),
-              //       children: const <TextSpan>[]),
-              // ),
-              subtitle: Container(
-                //padding: EdgeInsets.only(top: 5),
-                child: Text(
-                  widget.chatRoom.lastMessage,
-                  maxLines: 1,
+              subtitle: Text(
+                widget.chatRoom.lastMessage,
+                maxLines: 1,
+                style: TextStyle(
+                  fontSize: getProportionateScreenHeight(14),
+                  color: Colors.grey,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 13, color: Colors.grey),
                 ),
               ),
               trailing: Column(
@@ -100,25 +91,39 @@ class _ChatTileState extends State<ChatTile> {
                     Text(
                       timeago.format(widget.chatRoom.lastMsgCreatedAt,
                           locale: 'ko'),
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      style: TextStyle(
+                          fontSize: getProportionateScreenHeight(13),
+                          color: Colors.grey),
                     ),
-                    const VerticalSpacing(of: 10),
                     // ** TODO: unread 부분 수정
                     widget.chatRoom.unreadCount == 0
-                        ? Container(
-                            width: 0,
-                            height: 0,
-                          )
-                        : CircleAvatar(
-                            radius: 10,
-                            backgroundColor: Colors.redAccent,
+                        ? const SizedBox()
+                        : Container(
+                            width: getProportionateScreenHeight(20),
+                            height: getProportionateScreenWidth(20),
+                            padding: EdgeInsets.only(
+                                top: getProportionateScreenHeight(10)),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: mainColor),
                             child: Text(
                               widget.chatRoom.unreadCount.toString(),
                               style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold),
-                            )),
+                            ),
+                          )
+
+                    // CircleAvatar(
+                    //     radius: 10,
+                    //     backgroundColor: Colors.redAccent,
+                    //     child: Text(
+                    //       widget.chatRoom.unreadCount.toString(),
+                    //       style: const TextStyle(
+                    //           color: Colors.white,
+                    //           fontSize: 11,
+                    //           fontWeight: FontWeight.bold),
+                    //     )),
                   ])),
         ),
       );
