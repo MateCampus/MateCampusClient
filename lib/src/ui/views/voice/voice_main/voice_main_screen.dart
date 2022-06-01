@@ -19,10 +19,8 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      vm.loadVoiceRooms();
-      vm.loadRecommendUsers();
-    });
+    vm.loadVoiceRooms();
+    vm.loadRecommendUsers();
     super.initState();
   }
 
@@ -34,8 +32,8 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider(
-        create: (context) => vm,
+    return ChangeNotifierProvider.value(
+        value: vm,
         child:
             Consumer<VoiceMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(

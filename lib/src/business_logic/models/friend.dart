@@ -32,10 +32,10 @@ class Friend {
         friendRequestStatus: FriendRequestStatus.values.byName(json['status']),
         imageUrl: json['imageUrl'],
         collegeCode: json['collegeCode'] != null
-            ? College.values.byName(json['collegeCode'])
+            ? College.values.byName(json['collegeCode'].toLowerCase())
             : null,
         majorCode: json['majorCode'] != null
-            ? Major.values.byName(json['majorCode'])
+            ? Major.values.byName(json['majorCode'].toLowerCase())
             : null,
         introduction: json['introduction']);
   }

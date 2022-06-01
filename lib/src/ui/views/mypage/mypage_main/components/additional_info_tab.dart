@@ -29,7 +29,7 @@ class AdditionalInfoTab extends StatelessWidget {
               children: [
                 _tabBtn(text: '친구', count: myInfo.friendCount, onTap: () {}),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
-                _tabBtn(text: '저장', count: myInfo.bookmarkCount, onTap: () {}),
+                _tabBtn(text: '저장', count: myInfo.bookMarkCount, onTap: () {}),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
                 _tabBtn(text: '내 피드', count: myInfo.feedCount, onTap: () {}),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),

@@ -48,8 +48,8 @@ const kDefaultShadow = BoxShadow(
 // server
 
 final devServer = Platform.isAndroid
-    ? "https://5c27-211-198-109-254.ngrok.io"
-    : "https://5c27-211-198-109-254.ngrok.io";
+    ? "https://bbf9-211-198-109-254.ngrok.io"
+    : "https://bbf9-211-198-109-254.ngrok.io";
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
@@ -78,22 +78,22 @@ const majorList = [
 ];
 
 //관심사 리스트
-const interestList = [
-  InterestCode.i0001,
-  InterestCode.i0002,
-  InterestCode.i0003,
-  InterestCode.i0004,
-  InterestCode.i0005,
-  InterestCode.i0006,
-  InterestCode.i0007,
-  InterestCode.i0008,
-  InterestCode.i0009,
-  InterestCode.i0010,
-  InterestCode.i0011,
-  InterestCode.i0012,
-  InterestCode.i0013,
-  InterestCode.i0014,
-  InterestCode.i0015,
-  InterestCode.i0016,
+const allInterestList = [
+  InterestCode.interest0001,
+  InterestCode.interest0002,
+  InterestCode.interest0003,
+  InterestCode.interest0004,
+  InterestCode.interest0005,
+  InterestCode.interest0006,
+  InterestCode.interest0007,
+  InterestCode.interest0008,
+  InterestCode.interest0009,
+  InterestCode.interest0010,
+  InterestCode.interest0011,
+  InterestCode.interest0012,
+  InterestCode.interest0013,
+  InterestCode.interest0014,
+  InterestCode.interest0015,
+  InterestCode.interest0016,
 ];
 const appIdForAgora = "1db42f592687465e9ad1564ae4b55221";

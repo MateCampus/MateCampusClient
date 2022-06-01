@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
@@ -22,8 +23,11 @@ class ShowInfo extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: getProportionateScreenHeight(50),
-                  backgroundImage: AssetImage(
-                      vm.myInfo.imageUrl), //추후 누르면 전체화면으로 프사볼수있도록 변경하기
+                  backgroundImage: vm.myInfo.imageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(vm.myInfo.imageUrl)
+                          as ImageProvider
+                      : const AssetImage(
+                          'assets/images/user/general_user.png'), //추후 누르면 전체화면으로 프사볼수있도록 변경하기
                 ),
                 Positioned(
                   bottom: 1,
@@ -36,8 +40,8 @@ class ShowInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: getProportionateScreenHeight(3)),
             child: Text(
-              // vm.myInfo.nickname,
-              AuthService.loginId ?? "닉넴오류",
+              /// 나중에 LoginId는 삭제할 것.
+              vm.myInfo.nickname + " | " + (AuthService.loginId ?? "닉넴오류"),
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
             ),
           ),
