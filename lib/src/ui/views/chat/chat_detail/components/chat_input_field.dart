@@ -17,6 +17,12 @@ class ChatInputField extends StatefulWidget {
 class _ChatInputFieldState extends State<ChatInputField> {
   final _textController = TextEditingController();
 
+  // @override
+  // void initState() {
+  //   _textController.addListener(() {});
+  //   super.initState();
+  // }
+
   @override
   void dispose() {
     _textController.dispose();
@@ -25,7 +31,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
 
   // 메세지 보내기
   void _sendMessage(String text) {
-    if (text != "") {
+    if (text.isNotEmpty) {
       print("메시지 전송 => 방번호: ${widget.roomId}");
       StompObject.sendMessage(widget.roomId, text, "TALK", widget.roomType);
       setState(() {
@@ -37,52 +43,60 @@ class _ChatInputFieldState extends State<ChatInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenHeight(70),
-      padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(12),
-          vertical: getProportionateScreenHeight(12)),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [subColor, mainColor],
-          stops: [0.5, 1.0],
-        ),
-      ),
+      width: getProportionateScreenHeight(335),
+      height: getProportionateScreenHeight(56),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Row(
         children: [
-          Container(
-            width: getProportionateScreenWidth(300),
-            height: getProportionateScreenHeight(50),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: TextField(
-              keyboardType: TextInputType.multiline,
-              textAlign: TextAlign.left,
-              controller: _textController,
-              onSubmitted: _sendMessage,
-              decoration: const InputDecoration(
-                contentPadding: EdgeInsets.fromLTRB(15, 0, 15, 10),
-                hintText: "메세지를 입력하세요",
-                hintStyle: TextStyle(),
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          Expanded(child: Container()),
-          IconButton(
-            icon: Icon(Icons.send),
-            padding: EdgeInsets.zero,
-            color: Colors.white,
-            iconSize: getProportionateScreenWidth(30),
-            onPressed: () {
-              _sendMessage(_textController.text);
-            },
-          ),
+          _messageInputField(),
+          _sendBtn(),
         ],
       ),
     );
   }
+
+  Widget _messageInputField() {
+    return SizedBox(
+        width: getProportionateScreenWidth(275),
+        child: TextField(
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          controller: _textController,
+          onSubmitted: _sendMessage,
+          decoration: InputDecoration(
+            hintText: '메세지를 입력하세요',
+            hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            contentPadding: EdgeInsets.all(getProportionateScreenHeight(10)),
+            isDense: true,
+          ),
+          cursorColor: mainColor,
+        ));
+  }
+
+  Widget _sendBtn() {
+    return TextButton(
+      onPressed: () {
+        _sendMessage(_textController.text);
+      },
+      child: const Text('전송'),
+      style: TextButton.styleFrom(
+          minimumSize: Size(getProportionateScreenWidth(44),
+              getProportionateScreenHeight(36)),
+          backgroundColor: mainColor,
+          primary: Colors.white),
+    );
+  }
+
+  // Widget _sendBtnDisable() {
+  //   return TextButton(
+  //       onPressed: null,
+  //       child: const Text('전송'),
+  //       style: TextButton.styleFrom(
+  //         minimumSize: Size(getProportionateScreenWidth(44),
+  //             getProportionateScreenHeight(36)),
+  //         //backgroundColor: Colors.grey
+  //       ));
+  // }
 }

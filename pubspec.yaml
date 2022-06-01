@@ -94,6 +94,7 @@ flutter:
     - assets/images/user/
     - assets/images/event/
     - assets/images/splash/
+    - assets/images/temp/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -6,7 +6,6 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart'
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
-import '../../../../business_logic/utils/constants.dart';
 import 'components/body.dart';
 
 class ChatDetailScreen extends StatefulWidget {
@@ -38,12 +37,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
     vm.resetData();
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     chatViewModel.changeInsideRoomId("0");
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
+
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<ChatDetailViewModel>(builder: (context, vm, child) {
@@ -53,37 +54,37 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             },
             behavior: HitTestBehavior.translucent,
             child: Scaffold(
+              extendBodyBehindAppBar: true,
               appBar: AppBar(
-                flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [subColor, mainColor],
-                      stops: [0.5, 1.0],
-                    ),
-                  ),
+                elevation: 0.0,
+                backgroundColor: const Color(0xfffff8f3).withOpacity(0.9),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back_ios_outlined),
+                  iconSize: getProportionateScreenHeight(20),
+                  color: Colors.black,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
-                leading: const BackButton(),
                 centerTitle: true,
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      vm.chatRoom.title,
-                      style: TextStyle(
-                          fontFamily: "SCDream5",
-                          fontSize: getProportionateScreenWidth(15)),
-                    ),
-                  ],
+                title: Text(
+                  vm.chatRoom.title,
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(16),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.5),
                 ),
                 actions: [
                   IconButton(
-                      icon: const Icon(Icons.more_horiz_outlined,
-                          color: Colors.white),
-                      onPressed: () {})
+                    icon: const Icon(Icons.more_horiz_outlined),
+                    iconSize: getProportionateScreenHeight(20),
+                    color: Colors.black,
+                    onPressed: () {},
+                  ),
                 ],
               ),
+              backgroundColor: const Color(0xfffff8f3),
               body: Body(vm: vm),
             ),
           );

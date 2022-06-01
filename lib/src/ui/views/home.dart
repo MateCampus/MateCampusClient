@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/voice_bottom_sheet_component/voice_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 import '../../business_logic/utils/constants.dart';
 import 'chat/chat_main/chat_main_screen.dart';
@@ -30,6 +34,8 @@ class _HomeState extends State<Home> {
   HomeViewModel vm = serviceLocator<HomeViewModel>();
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context: context);
+
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<HomeViewModel>(builder: (context, vm, child) {
@@ -44,16 +50,17 @@ class _HomeState extends State<Home> {
               ),
               backgroundColor: mainColor,
               onPressed: () {
-                showCustomModalBottomSheet(context, const VoiceBottomSheet(), true);
+                showCustomModalBottomSheet(
+                    context, const VoiceBottomSheet(), true);
               },
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             bottomNavigationBar: BottomAppBar(
               shape: CircularNotchedRectangle(),
-              notchMargin: 10,
+              notchMargin: getProportionateScreenWidth(5),
               child: Container(
-                height: 60,
+                height: getProportionateScreenHeight(60),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -61,6 +68,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MaterialButton(
+                          //minWidth: getProportionateScreenWidth(40),
                           onPressed: () {
                             vm.changeCurrentIndex(0);
                           },
@@ -68,22 +76,25 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.home,
+                                Icons.keyboard_voice,
+                                size: getProportionateScreenWidth(25),
                                 color: vm.currentTab == 0
                                     ? mainColor
                                     : Colors.grey,
                               ),
                               Text(
-                                'Home',
+                                '대화',
                                 style: TextStyle(
                                     color: vm.currentTab == 0
                                         ? mainColor
-                                        : Colors.grey),
+                                        : Colors.grey,
+                                    fontSize: getProportionateScreenHeight(13)),
                               )
                             ],
                           ),
                         ),
                         MaterialButton(
+                          //minWidth: getProportionateScreenWidth(40),
                           onPressed: () {
                             vm.changeCurrentIndex(1);
                           },
@@ -91,7 +102,8 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.article,
+                                Icons.dashboard,
+                                size: getProportionateScreenWidth(25),
                                 color: vm.currentTab == 1
                                     ? mainColor
                                     : Colors.grey,
@@ -101,7 +113,8 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                     color: vm.currentTab == 1
                                         ? mainColor
-                                        : Colors.grey),
+                                        : Colors.grey,
+                                    fontSize: getProportionateScreenHeight(13)),
                               )
                             ],
                           ),
@@ -112,6 +125,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         MaterialButton(
+                          // minWidth: getProportionateScreenWidth(40),
                           onPressed: () {
                             vm.changeCurrentIndex(2);
                           },
@@ -120,6 +134,7 @@ class _HomeState extends State<Home> {
                             children: [
                               Icon(
                                 Icons.chat_rounded,
+                                size: getProportionateScreenWidth(25),
                                 color: vm.currentTab == 2
                                     ? mainColor
                                     : Colors.grey,
@@ -129,12 +144,14 @@ class _HomeState extends State<Home> {
                                 style: TextStyle(
                                     color: vm.currentTab == 2
                                         ? mainColor
-                                        : Colors.grey),
+                                        : Colors.grey,
+                                    fontSize: getProportionateScreenHeight(13)),
                               )
                             ],
                           ),
                         ),
                         MaterialButton(
+                          // minWidth: getProportionateScreenWidth(40),
                           onPressed: () {
                             vm.changeCurrentIndex(3);
                           },
@@ -143,16 +160,18 @@ class _HomeState extends State<Home> {
                             children: [
                               Icon(
                                 Icons.person,
+                                size: getProportionateScreenWidth(25),
                                 color: vm.currentTab == 3
                                     ? mainColor
                                     : Colors.grey,
                               ),
                               Text(
-                                '마이페이지',
+                                '내 정보',
                                 style: TextStyle(
                                     color: vm.currentTab == 3
                                         ? mainColor
-                                        : Colors.grey),
+                                        : Colors.grey,
+                                    fontSize: getProportionateScreenHeight(13)),
                               )
                             ],
                           ),
