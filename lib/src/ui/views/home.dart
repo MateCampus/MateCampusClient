@@ -34,6 +34,8 @@ class _HomeState extends State<Home> {
   HomeViewModel vm = serviceLocator<HomeViewModel>();
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context: context);
+
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<HomeViewModel>(builder: (context, vm, child) {

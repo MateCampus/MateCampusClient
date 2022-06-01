@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/components/chat_input_field.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/components/message.dart';
@@ -12,16 +13,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return vm.busy
-        ? Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(top: 10.0),
-            child: const SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                  strokeWidth: 4,
-                )),
-          )
+        ? const CircularProgressIndicator()
         : Column(mainAxisSize: MainAxisSize.min, children: [
             vm.loadMoreBusy
                 ? const HorizontalDividerCustom(
@@ -29,13 +21,12 @@ class Body extends StatelessWidget {
                   )
                 : Container(),
             Expanded(
+              //이거 때문에 자꾸 채팅방 키보드 내려갔을 때 젤 밑에 공간생김.. 근데 expanded없이는 하단에 채팅입력바를 고정시킬 수 없음(아직 방법 못찾음..)
               child: Scrollbar(
                   controller: vm.scrollController,
                   thickness: 3,
                   child: Container(
                     alignment: Alignment.bottomCenter,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kDefaultPadding / 1.5),
                     child: ListView.builder(
                         controller: vm.scrollController,
                         reverse: true,
@@ -47,8 +38,16 @@ class Body extends StatelessWidget {
                         }),
                   )),
             ),
-            ChatInputField(
-                roomId: vm.chatRoom.roomId, roomType: vm.chatRoom.type)
+            DefaultShadowBox(
+              backgroundColor: const Color(0xfffff8f3),
+              child: Padding(
+                padding: defaultPadding,
+                child: ChatInputField(
+                  roomId: vm.chatRoom.roomId,
+                  roomType: vm.chatRoom.type,
+                ),
+              ),
+            )
           ]);
   }
 }

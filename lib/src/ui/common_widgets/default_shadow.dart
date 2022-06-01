@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 
 class DefaultShadowBox extends StatelessWidget {
   final Widget child;
+  Color? backgroundColor;
 
-  const DefaultShadowBox({Key? key, required this.child}) : super(key: key);
+  DefaultShadowBox({Key? key, required this.child, this.backgroundColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: backgroundColor ?? Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.1),

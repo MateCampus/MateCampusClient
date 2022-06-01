@@ -22,23 +22,6 @@ class Body extends StatelessWidget {
         FriendBtn(),
         const VerticalSpacing(of: 15),
         ChatList(vm: vm)
-        // AnimatedList(
-        //   physics: NeverScrollableScrollPhysics(),
-        //   shrinkWrap: true,
-        //   key: vm.listKey,
-        //   initialItemCount: vm.chatRooms.length,
-        //   itemBuilder: (context, index, animation) => ChatTile(
-        //       chatRoom: vm.chatRooms[index],
-        //       animation: animation,
-        //       onClicked: () {
-        //         Navigator.pushNamed(context, "/chatDetail",
-        //             arguments:
-        //                 ChatDetailScreenArgs(vm.chatRooms[index], index));
-        //       },
-        //       onDeleted: () {
-        //         vm.removeItem(index, vm.chatRooms[index].roomId);
-        //       }),
-        // )
       ],
     ));
   }

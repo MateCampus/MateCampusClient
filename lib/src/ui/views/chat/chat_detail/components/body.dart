@@ -18,7 +18,7 @@ class Body extends StatelessWidget {
     return vm.busy
         ? const CircularProgressIndicator()
         : Column(
-            //mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             children: [
               vm.loadMoreBusy
                   ? const HorizontalDividerCustom(
@@ -26,14 +26,12 @@ class Body extends StatelessWidget {
                     )
                   : Container(),
               Expanded(
+                //이거 때문에 자꾸 채팅방 키보드 내려갔을 때 젤 밑에 공간생김.. 근데 expanded없이는 하단에 채팅입력바를 고정시킬 수 없음(아직 방법 못찾음..)
                 child: Scrollbar(
                     controller: vm.scrollController,
                     thickness: 3,
                     child: Container(
                       alignment: Alignment.bottomCenter,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: getProportionateScreenWidth(15),
-                          vertical: getProportionateScreenHeight(5)),
                       child: ListView.builder(
                           controller: vm.scrollController,
                           reverse: true,
@@ -46,6 +44,7 @@ class Body extends StatelessWidget {
                     )),
               ),
               DefaultShadowBox(
+                backgroundColor: const Color(0xfffff8f3),
                 child: Padding(
                   padding: defaultPadding,
                   child: ChatInputField(

@@ -17,6 +17,12 @@ class ChatInputField extends StatefulWidget {
 class _ChatInputFieldState extends State<ChatInputField> {
   final _textController = TextEditingController();
 
+  // @override
+  // void initState() {
+  //   _textController.addListener(() {});
+  //   super.initState();
+  // }
+
   @override
   void dispose() {
     _textController.dispose();
@@ -25,7 +31,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
 
   // 메세지 보내기
   void _sendMessage(String text) {
-    if (text != "") {
+    if (text.isNotEmpty) {
       print("메시지 전송 => 방번호: ${widget.roomId}");
       StompObject.sendMessage(widget.roomId, text, "TALK", widget.roomType);
       setState(() {
@@ -40,8 +46,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
       width: getProportionateScreenHeight(335),
       height: getProportionateScreenHeight(56),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: const Color(0xfff8f8f8)),
+          borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Row(
         children: [
           _messageInputField(),
@@ -83,4 +88,15 @@ class _ChatInputFieldState extends State<ChatInputField> {
           primary: Colors.white),
     );
   }
+
+  // Widget _sendBtnDisable() {
+  //   return TextButton(
+  //       onPressed: null,
+  //       child: const Text('전송'),
+  //       style: TextButton.styleFrom(
+  //         minimumSize: Size(getProportionateScreenWidth(44),
+  //             getProportionateScreenHeight(36)),
+  //         //backgroundColor: Colors.grey
+  //       ));
+  // }
 }

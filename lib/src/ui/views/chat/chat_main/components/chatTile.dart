@@ -36,9 +36,6 @@ class _ChatTileState extends State<ChatTile> {
             horizontal: getProportionateScreenWidth(20),
             vertical: getProportionateScreenHeight(5)),
         child: Container(
-          //height: getProportionateScreenHeight(76),
-          //width: getProportionateScreenWidth(335),
-          // padding: const EdgeInsets.symmetric(horizontal: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
@@ -53,7 +50,8 @@ class _ChatTileState extends State<ChatTile> {
           child: ListTile(
               onTap: widget.onClicked,
               contentPadding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(10)),
+                  horizontal: getProportionateScreenWidth(10),
+                  vertical: getProportionateScreenHeight(5)),
               minVerticalPadding: 0,
               leading: CircleAvatar(
                 radius: getProportionateScreenWidth(25),
@@ -98,32 +96,25 @@ class _ChatTileState extends State<ChatTile> {
                     // ** TODO: unread 부분 수정
                     widget.chatRoom.unreadCount == 0
                         ? const SizedBox()
-                        : Container(
-                            width: getProportionateScreenHeight(20),
-                            height: getProportionateScreenWidth(20),
+                        : Padding(
                             padding: EdgeInsets.only(
-                                top: getProportionateScreenHeight(10)),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: mainColor),
-                            child: Text(
-                              widget.chatRoom.unreadCount.toString(),
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold),
+                                top: getProportionateScreenHeight(5)),
+                            child: Container(
+                              width: getProportionateScreenHeight(20),
+                              height: getProportionateScreenWidth(20),
+                              decoration: const BoxDecoration(
+                                  shape: BoxShape.circle, color: mainColor),
+                              child: Center(
+                                child: Text(
+                                  widget.chatRoom.unreadCount.toString(),
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
                             ),
                           )
-
-                    // CircleAvatar(
-                    //     radius: 10,
-                    //     backgroundColor: Colors.redAccent,
-                    //     child: Text(
-                    //       widget.chatRoom.unreadCount.toString(),
-                    //       style: const TextStyle(
-                    //           color: Colors.white,
-                    //           fontSize: 11,
-                    //           fontWeight: FontWeight.bold),
-                    //     )),
                   ])),
         ),
       );

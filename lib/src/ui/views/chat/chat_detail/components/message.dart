@@ -17,9 +17,12 @@ class Message extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(5)),
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(15),
+          vertical: getProportionateScreenHeight(5)),
       child: (message.type == "ENTER" || message.text == "EXIT")
           ? Container(
+              //얘는 뭔지 모르겟다
               alignment: Alignment.center,
               child: RoundChip(
                 text: message.text,
@@ -29,56 +32,58 @@ class Message extends StatelessWidget {
                 verticalPadding: kDefaultPadding / 6,
                 fontsize: 11,
               ))
-          : IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: message.loginId == AuthService.loginId
-                    ? MainAxisAlignment.end
-                    : MainAxisAlignment.start,
-                children: [
-                  if (message.loginId != AuthService.loginId) ...[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: getProportionateScreenHeight(2)),
-                          child: CircleAvatar(
-                            radius: 18,
-                            backgroundImage:
-                                // TODO: aws 적용 부분
-                                // Image.network(message.imageUrl).image,
-                                // loginIdToImageUrl(message.loginId),
-                                loginIdToImageUrl(message.loginId)
-                                        .startsWith('https')
-                                    ? CachedNetworkImageProvider(
-                                            loginIdToImageUrl(message.loginId))
-                                        as ImageProvider
-                                    : const AssetImage(
-                                        'assets/images/user/general_user.png'),
-                          ),
-                        ),
-                      ],
+          : Row(
+              crossAxisAlignment: message.loginId == AuthService.loginId
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              mainAxisAlignment: message.loginId == AuthService.loginId
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+              children: [
+                if (message.loginId != AuthService.loginId) ...[
+                  Padding(
+                    padding:
+                        EdgeInsets.only(top: getProportionateScreenHeight(3)),
+                    child: CircleAvatar(
+                      radius: getProportionateScreenWidth(17),
+                      backgroundImage:
+                          // TODO: aws 적용 부분
+                          // Image.network(message.imageUrl).image,
+                          // loginIdToImageUrl(message.loginId),
+                          loginIdToImageUrl(message.loginId).startsWith('https')
+                              ? CachedNetworkImageProvider(
+                                      loginIdToImageUrl(message.loginId))
+                                  as ImageProvider
+                              : const AssetImage(
+                                  'assets/images/user/general_user.png'),
                     ),
-                    const HorizontalSpacing(of: 10),
-                    IntrinsicWidth(
-                      child: Column(
+                  ),
+                  const HorizontalSpacing(of: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: getProportionateScreenHeight(5),
+                            left: getProportionateScreenWidth(3)),
+                        child: Text(
+                          // ** nickname으로 변경한 부분
+                          loginIdToNickname(message.loginId),
+                          style: TextStyle(
+                              fontSize: getProportionateScreenWidth(12),
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Container(
-                              alignment: Alignment.topLeft,
-                              padding: EdgeInsets.only(left: 5, bottom: 5),
-                              child: Text(
-                                // ** nickname으로 변경한 부분
-                                loginIdToNickname(message.loginId),
-                                style: TextStyle(fontSize: 14),
-                              )),
-                          Container(
                               constraints: BoxConstraints(
-                                  maxWidth: SizeConfig.screenWidth! * 0.7),
-                              // width: message.text.length > 27
-                              //     ? getProportionateScreenWidth(250)
-                              //     : null,
-                              padding: EdgeInsets.all(
-                                  getProportionateScreenWidth(10)),
+                                  maxWidth: SizeConfig.screenWidth! * 0.6),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: getProportionateScreenWidth(10),
+                                  vertical: getProportionateScreenHeight(8)),
                               decoration: const BoxDecoration(
                                 color: mainColor, //컬러바꾸기
                                 borderRadius: BorderRadius.only(
@@ -90,63 +95,52 @@ class Message extends StatelessWidget {
                                 message.text,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: getProportionateScreenWidth(14),
+                                    fontSize: getProportionateScreenWidth(15),
                                     height: 1.2),
                               )),
+                          const HorizontalSpacing(of: 5),
+                          Text(
+                            dateToTime(message.createdAt),
+                            style: TextStyle(
+                                fontSize: getProportionateScreenWidth(11),
+                                color: Colors.grey),
+                          ),
                         ],
                       ),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          dateToTime(message.createdAt),
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ],
-                  if (message.loginId == AuthService.loginId) ...[
-                    //내 메세지
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          dateToTime(message.createdAt),
-                          style: TextStyle(
-                              fontSize: getProportionateScreenWidth(12),
-                              color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                    const HorizontalSpacing(of: 5),
-                    Container(
-                      constraints: BoxConstraints(
-                          maxWidth: SizeConfig.screenWidth! * 0.7),
-                      // width: message.text.length > 30
-                      //     ? getProportionateScreenWidth(280)
-                      //     : null,
-                      padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-                      decoration: const BoxDecoration(
-                          color: Color(0xffFFE8D8), //컬러체인지해야함
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(10))),
-                      child: Text(
-                        this.message.text,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: getProportionateScreenWidth(14),
-                            height: 1.2),
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ],
-              ),
+                if (message.loginId == AuthService.loginId) ...[
+                  //내 메세지
+                  Text(
+                    dateToTime(message.createdAt),
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(11),
+                        color: Colors.grey),
+                  ),
+                  const HorizontalSpacing(of: 5),
+                  Container(
+                    constraints:
+                        BoxConstraints(maxWidth: SizeConfig.screenWidth! * 0.7),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: getProportionateScreenWidth(10),
+                        vertical: getProportionateScreenHeight(8)),
+                    decoration: const BoxDecoration(
+                        color: Color(0xffFFE8D8), //컬러체인지해야함
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                            bottomLeft: Radius.circular(10))),
+                    child: Text(
+                      this.message.text,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: getProportionateScreenWidth(15),
+                          height: 1.2),
+                    ),
+                  )
+                ],
+              ],
             ),
     );
   }
