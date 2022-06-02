@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
@@ -36,7 +37,13 @@ class RecommendUserListTile extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: getProportionateScreenHeight(25),
-                      backgroundImage: AssetImage(recommendUser.imageUrl),
+                      backgroundImage: recommendUser.imageUrl
+                              .startsWith('https')
+                          ? CachedNetworkImageProvider(recommendUser.imageUrl)
+                              as ImageProvider
+                          : AssetImage(
+                              recommendUser.imageUrl,
+                            ),
                     ),
                     Positioned(
                       bottom: 1,

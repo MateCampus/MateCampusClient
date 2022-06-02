@@ -27,9 +27,9 @@ List<User> userDummy = [
       introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
       isOnline: true,
       interests: [
-        Interest(codeNum: InterestCode.i0001),
-        Interest(codeNum: InterestCode.i0004),
-        Interest(codeNum: InterestCode.i0006)
+        Interest(codeNum: InterestCode.interest0001),
+        Interest(codeNum: InterestCode.interest0004),
+        Interest(codeNum: InterestCode.interest0006)
       ]),
   const User(
       loginId: "zm2",

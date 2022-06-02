@@ -23,6 +23,12 @@ class _MypageEditInterestScreenState extends State<MypageEditInterestScreen> {
   }
 
   @override
+  void dispose() {
+    vm.resetInterests();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<MypageViewModel>.value(

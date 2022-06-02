@@ -8,11 +8,19 @@ import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/interest_object.dart';
+import 'package:zamongcampus/src/services/user/user_service.dart';
+
+import '../../services/interest/interest_service.dart';
 
 class MypageViewModel extends BaseModel {
+  final UserService _userService = serviceLocator<UserService>();
+  final InterestService _interestService = serviceLocator<InterestService>();
   MypagePresentation _myInfo = defaultInfo;
-  final List<InterestPresentation> _myInterests = [];
-  final List<InterestPresentation> _selectedInterests = [];
+  final List<InterestPresentation> _allInterestsAfterLoad =
+      List.empty(growable: true);
+  List<InterestCode> _selectedInterestCodes = List.empty(growable: true);
 
   static final MypagePresentation defaultInfo = MypagePresentation(
     nickname: '',
@@ -20,21 +28,22 @@ class MypageViewModel extends BaseModel {
     collegeName: '',
     interestCount: '',
     friendCount: '17',
-    bookmarkCount: '2',
+    bookMarkCount: '2',
     feedCount: '21',
     commentCount: '5',
   );
 
   MypagePresentation get myInfo => _myInfo;
-  List<InterestPresentation> get myInterests => _myInterests;
-  List<InterestPresentation> get selectedInterests => _selectedInterests;
+  List<InterestPresentation> get allInterestsAfterLoad =>
+      _allInterestsAfterLoad;
+
+  List<InterestCode> get selectedInterestCodes => _selectedInterestCodes;
 
   void loadMyInfo(String loginId) async {
     setBusy(true);
 
-    //User myInfoResult = await _userService.fetchMyInfo(loginId: loginId);  // myInfoResult에 가져온 데이터를 담는다. 지금은 그냥 뷰모델 자체에 fake 유저 데이터 추가
+    User myInfoResult = await _userService.fetchMyInfo();
 
-    User myInfoResult = fakeMyInfo;
     _myInfo = MypagePresentation(
         nickname: myInfoResult.nickname,
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
@@ -43,63 +52,38 @@ class MypageViewModel extends BaseModel {
         majorName: MajorData.korNameOf(
             describeEnum(myInfoResult.majorCode ?? Major.major0000)),
         introduction: myInfoResult.introduction,
-        interestCount: myInfoResult.interests!.length.toString(),
-        friendCount: defaultInfo.friendCount,
-        bookmarkCount: defaultInfo.bookmarkCount,
-        feedCount: defaultInfo.feedCount,
-        commentCount: defaultInfo.commentCount);
+        interestCount: myInfoResult.interestCount.toString(),
+        friendCount: myInfoResult.friendCount.toString(),
+        bookMarkCount: myInfoResult.bookMarkCount.toString(),
+        feedCount: myInfoResult.myPostCount.toString(),
+        commentCount: myInfoResult.myCommentCount.toString());
     setBusy(false);
   }
 
   void loadMyInterest() async {
-    //List<Interest> selectedInterests = await _userService.fetchMyInterest(loginId: loginId); 유저의 관심사 데이터만 패치
-
-    _myInterests.clear();
-    _selectedInterests.clear();
-
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      List<Interest> selectedInterests = fakeMyInfo.interests!;
-
-      for (InterestCode systemInterest in interestList) {
-        //이중 포문 안쓰는 방법 찾아보기
-        bool hasData = false;
-        for (Interest selectedInterest in selectedInterests) {
-          if (systemInterest == selectedInterest.codeNum) {
-            hasData = true;
-            break;
-          }
-        }
-        if (hasData == true) {
-          _myInterests.add(InterestPresentation(
-              codeNum: systemInterest,
-              title: InterestData.korNameOf(systemInterest.name),
-              icon: InterestData.iconOf(systemInterest.name),
-              isSelected: hasData));
-        } else if (hasData == false) {
-          _myInterests.add(InterestPresentation(
-              codeNum: systemInterest,
-              title: InterestData.korNameOf(systemInterest.name),
-              icon: InterestData.iconOf(systemInterest.name),
-              isSelected: hasData));
-        }
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      setBusy(true);
+      List<Interest> selectedInterestResults = InterestObject.myInterests;
+      _selectedInterestCodes =
+          selectedInterestResults.map((interest) => interest.codeNum).toList();
+      for (InterestCode systemInterest in allInterestList) {
+        bool hasData = selectedInterestCodes.contains(systemInterest);
+        _allInterestsAfterLoad.add(InterestPresentation(
+            codeNum: systemInterest,
+            title: InterestData.korNameOf(systemInterest.name),
+            icon: InterestData.iconOf(systemInterest.name),
+            isSelected: hasData));
       }
-
-      for (InterestPresentation interest in _myInterests) {
-        if (interest.isSelected) {
-          _selectedInterests.add(interest);
-        }
-      }
-
-      notifyListeners();
+      setBusy(false);
     });
   }
 
   void changeInterestStatus(InterestPresentation interest, bool value) {
     interest.isSelected = value;
     if (interest.isSelected == false) {
-      _selectedInterests.remove(interest);
+      _selectedInterestCodes.remove(interest.codeNum);
     } else if (interest.isSelected == true) {
-      _selectedInterests.add(interest);
+      _selectedInterestCodes.add(interest.codeNum);
     }
     notifyListeners();
   }
@@ -124,19 +108,20 @@ class MypageViewModel extends BaseModel {
     toastMessage('프로필 변경 완료!');
   }
 
-  void updateInterests({required BuildContext context}) {
-    List<InterestCode> _result = []; //서버에 넘길 값. 선택된 관심사의 코드값만 넘김
+  void updateInterests({required BuildContext context}) async {
+    buildShowDialog(context);
+    List<Interest> updateInterests =
+        await _interestService.updateMyInterests(_selectedInterestCodes);
 
-    for (InterestPresentation interest in _selectedInterests) {
-      _result.add(interest.codeNum);
-    }
-    print(_result.length); //확인용
-    print(_result); //확인용
-
-    _myInfo.interestCount = _selectedInterests.length.toString();
+    _myInfo.interestCount = updateInterests.length.toString();
+    InterestObject.updateMyInterests(updateInterests);
     notifyListeners();
-    Navigator.pop(context);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
     toastMessage('관심사 변경 완료!');
+  }
+
+  void resetInterests() {
+    _allInterestsAfterLoad.clear();
   }
 }
 
@@ -149,7 +134,7 @@ class MypagePresentation {
 
   String interestCount;
   final String friendCount;
-  final String bookmarkCount;
+  final String bookMarkCount;
   final String feedCount;
   final String commentCount;
 
@@ -161,7 +146,7 @@ class MypagePresentation {
       this.introduction,
       required this.interestCount,
       required this.friendCount,
-      required this.bookmarkCount,
+      required this.bookMarkCount,
       required this.feedCount,
       required this.commentCount});
 }
@@ -178,20 +163,3 @@ class InterestPresentation {
       required this.icon,
       required this.isSelected});
 }
-
-User fakeMyInfo = User(
-    loginId: 'myLoginId',
-    nickname: '다노박러브',
-    collegeCode: College.college0001,
-    imageUrl: "assets/images/user/user3.jpg",
-    majorCode: Major.major0001,
-    introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
-    isOnline: true,
-    interests: [
-      Interest(codeNum: InterestCode.i0002),
-      Interest(codeNum: InterestCode.i0004),
-      Interest(codeNum: InterestCode.i0006),
-      Interest(codeNum: InterestCode.i0007),
-      Interest(codeNum: InterestCode.i0010),
-      Interest(codeNum: InterestCode.i0016),
-    ]);

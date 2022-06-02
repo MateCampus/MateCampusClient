@@ -187,11 +187,11 @@ class SignUpViewModel extends BaseModel {
 
   //시스템 자체에 저장되어 있는 관심사 리스트를 뷰에 보여주기 위해 매핑
   void setInterestList() {
-    for (InterestCode interest in interestList) {
+    for (InterestCode interestCode in allInterestList) {
       _systemInterests.add(InterestPresentation(
-          codeNum: interest,
-          title: InterestData.korNameOf(interest.name),
-          icon: InterestData.iconOf(interest.name),
+          interestCode: interestCode,
+          title: InterestData.korNameOf(interestCode.name),
+          icon: InterestData.iconOf(interestCode.name),
           isSelected: false));
     }
   }
@@ -213,12 +213,13 @@ class SignUpViewModel extends BaseModel {
     bool isCreated = await _signUpService.createUser(
         id: _userIdController.text,
         pw: _userPwController.text,
-        collegeCode: _selectedCollegeCode,
-        majorCode: _selectedMajorCode,
+        collegeCode: _selectedCollegeCode.toUpperCase(),
+        majorCode: _selectedMajorCode.toUpperCase(),
         studentIdImg: _studentIdImg!,
         nickname: _userNicknameController.text,
         interestCodes: _selectedInterests
-            .map((selectedInterest) => selectedInterest.codeNum.name)
+            .map((selectedInterest) =>
+                selectedInterest.interestCode.name.toUpperCase())
             .toList(),
         profileImg: _userImg,
         introduce: _userIntroduceController.text);
@@ -233,13 +234,13 @@ class SignUpViewModel extends BaseModel {
 }
 
 class InterestPresentation {
-  final InterestCode codeNum;
+  final InterestCode interestCode;
   final String title;
   final String icon;
   bool isSelected;
 
   InterestPresentation(
-      {required this.codeNum,
+      {required this.interestCode,
       required this.title,
       required this.icon,
       required this.isSelected});

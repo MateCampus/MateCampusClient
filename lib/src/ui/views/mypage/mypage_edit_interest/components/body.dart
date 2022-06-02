@@ -9,9 +9,14 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [const FixedText(), Expanded(child: EditInterest(vm: vm))],
-    );
+    return vm.busy
+        ? Center(child: CircularProgressIndicator())
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const FixedText(),
+              Expanded(child: EditInterest(vm: vm))
+            ],
+          );
   }
 }

@@ -28,8 +28,8 @@ class _PostMainScreenState extends State<PostMainScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<PostMainScreenViewModel>(
-        create: (context) => vm,
+    return ChangeNotifierProvider<PostMainScreenViewModel>.value(
+        value: vm,
         child: Consumer<PostMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
               backgroundColor: const Color(0xfff8f8f8),

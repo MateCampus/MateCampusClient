@@ -4,5 +4,6 @@ abstract class UserService {
   Future<List<User>> fetchRecommendUsers({required int nextPageToken});
   Future<List<User>> fetchRecentTalkUsers();
 
-  Future<User> fetchUserProfile({required String userLoginId});
+  Future<User> fetchMyInfo();
+  Future<User> fetchUserInfo({required String loginId});
 }

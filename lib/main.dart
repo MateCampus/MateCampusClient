@@ -3,7 +3,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
-import 'package:zamongcampus/src/business_logic/init/main_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/route_generators.dart';
