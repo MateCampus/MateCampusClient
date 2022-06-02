@@ -48,8 +48,8 @@ const kDefaultShadow = BoxShadow(
 // server
 
 final devServer = Platform.isAndroid
-    ? "https://bbf9-211-198-109-254.ngrok.io"
-    : "https://bbf9-211-198-109-254.ngrok.io";
+    ? "https://b7f6-211-198-109-254.ngrok.io"
+    : "https://b7f6-211-198-109-254.ngrok.io";
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 

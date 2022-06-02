@@ -1,5 +1,6 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 
 class User {
@@ -52,9 +53,13 @@ class User {
         name: json['name'],
         deviceToken: json['deviceToken'],
         password: json['password'],
-        isOnline: json['isOnline'],
+        isOnline: json['online'], // boolean은 is빼고 서버에서 넘어옴.
         introduction: json['introduction'],
-        interests: json['interests'],
+        interests: json['interests']
+            ?.map<Interest>((interestCode) => Interest(
+                codeNum:
+                    InterestCode.values.byName(interestCode.toLowerCase())))
+            .toList(),
         interestCount: json['interestCount'],
         friendCount: json['friendCount'],
         bookMarkCount: json['bookMarkCount'],

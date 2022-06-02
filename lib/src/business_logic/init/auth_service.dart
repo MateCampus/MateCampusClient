@@ -44,6 +44,8 @@ class AuthService extends ChangeNotifier {
 
     updateUserDeviceToken(); // 추후 삭제될 수도 있음.
 
+    // loadMyInitData();
+
     /** 
       * initstate에서 load를 하는게 맞는지,
       * 아님 하단탭 누를 때마다 load하는게 맞는지. 

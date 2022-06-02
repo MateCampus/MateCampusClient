@@ -5,4 +5,5 @@ abstract class UserService {
   Future<List<User>> fetchRecentTalkUsers();
 
   Future<User> fetchMyInfo();
+  Future<User> fetchUserInfo({required String loginId});
 }

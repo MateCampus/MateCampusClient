@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
+import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
@@ -31,7 +32,7 @@ class UserProfileViewModel extends BaseModel {
   void loadUserProfile(String loginId) async {
     setBusy(true);
     // 여기서에서 유저의 정보 더 가져올 것!
-    User recommendUser = await _userService.fetchMyInfo();
+    User recommendUser = await _userService.fetchUserInfo(loginId: loginId);
     _userProfile = UserProfilePresentation(
         loginId: recommendUser.loginId,
         nickname: recommendUser.nickname,
@@ -42,14 +43,27 @@ class UserProfileViewModel extends BaseModel {
             describeEnum(recommendUser.majorCode ?? Major.major0000)),
         introduction: recommendUser.introduction,
         friendRequestStatus: FriendRequestStatus.NONE);
-    _interests = interestDummy;
+    _interests = mapInterests(recommendUser.interests);
+    // interest를 map 돌면서 바꿔야한다.
+    // InterestPresentation(
+    //   title: InterestData.iconOf(Interest(codeNum: InterestCode.interest0001)
+    //           .codeNum
+    //           .name) + //이렇게하는게 맞음
+    //       " " +
+    //       InterestData.korNameOf('interest0001'),
+    //   status: InterestStatus.SAME),
 
     setBusy(false);
   }
 
-// void loadInterests() async {
-//     _interests = interestDummy;
-//   }
+  List<InterestPresentation> mapInterests(List<Interest>? interests) {
+    // 내 interest도 가져와야하고.
+    // 남의 Interest도 있어야한다.
+    //
+
+    return interestDummy;
+  }
+
   void requestFriend(String userId, String requestId) async {
     //userId: 친구신청 버튼을 누른 유저(본인)  requestId: 친구 신청 당하는 유저
     _userProfile.friendRequestStatus = FriendRequestStatus.UNACCEPTED;

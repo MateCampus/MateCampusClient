@@ -24,4 +24,12 @@ class FakeUserService implements UserService {
 
     return userProfile;
   }
+
+  @override
+  Future<User> fetchUserInfo({required String loginId}) async {
+    User userProfile;
+    userProfile = userDummy.first;
+
+    return userProfile;
+  }
 }
