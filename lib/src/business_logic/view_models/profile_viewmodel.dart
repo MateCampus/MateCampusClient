@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/dummy/interest_dummy.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 
 class ProfileViewModel extends BaseModel {
@@ -30,8 +31,6 @@ class ProfileViewModel extends BaseModel {
 
   void loadProfile(int friendId) async {
     setBusy(true);
-    // await Future.delayed(const Duration(milliseconds: 300)); // 딜레이
-    // 여기서에서 유저의 정보 더 가져올 것!
     Friend friend = await _friendService.fetchFriend(friendId);
     _profile = ProfilePresentation(
         loginId: friend.loginId,
@@ -43,10 +42,8 @@ class ProfileViewModel extends BaseModel {
             describeEnum(friend.majorCode ?? Major.major0000)),
         introduction: friend.introduction,
         friendRequestStatus: friend.friendRequestStatus);
-    _interests = interestDummy;
+    _interests = InterestObject.mapInterests(friend.interests);
 
-    // _interests= userProfileResult.interests.map((interest)=> )
-    /// 전체 관심사 수 만큼 map돌려서 status 지정 상대방과 내가 모두 가지고 있는 관심사는 same, 상대방은 있는데 나는 없으면 different 그외는 none
     setBusy(false);
   }
 

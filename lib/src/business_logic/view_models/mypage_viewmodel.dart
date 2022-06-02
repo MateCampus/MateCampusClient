@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 import '../../services/interest/interest_service.dart';
@@ -62,8 +63,7 @@ class MypageViewModel extends BaseModel {
   void loadMyInterest() async {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setBusy(true);
-      List<Interest> selectedInterestResults =
-          await _interestService.fetchMyInterests();
+      List<Interest> selectedInterestResults = InterestObject.myInterests;
       _selectedInterestCodes =
           selectedInterestResults.map((interest) => interest.codeNum).toList();
       for (InterestCode systemInterest in allInterestList) {
@@ -110,10 +110,11 @@ class MypageViewModel extends BaseModel {
 
   void updateInterests({required BuildContext context}) async {
     buildShowDialog(context);
-    int interestCount =
+    List<Interest> updateInterests =
         await _interestService.updateMyInterests(_selectedInterestCodes);
 
-    _myInfo.interestCount = interestCount.toString();
+    _myInfo.interestCount = updateInterests.length.toString();
+    InterestObject.updateMyInterests(updateInterests);
     notifyListeners();
     Navigator.popUntil(context, ModalRoute.withName('/'));
     toastMessage('관심사 변경 완료!');

@@ -3,12 +3,15 @@ import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/dummy/interest_dummy.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 class UserProfileViewModel extends BaseModel {
@@ -43,25 +46,8 @@ class UserProfileViewModel extends BaseModel {
             describeEnum(recommendUser.majorCode ?? Major.major0000)),
         introduction: recommendUser.introduction,
         friendRequestStatus: FriendRequestStatus.NONE);
-    _interests = mapInterests(recommendUser.interests);
-    // interest를 map 돌면서 바꿔야한다.
-    // InterestPresentation(
-    //   title: InterestData.iconOf(Interest(codeNum: InterestCode.interest0001)
-    //           .codeNum
-    //           .name) + //이렇게하는게 맞음
-    //       " " +
-    //       InterestData.korNameOf('interest0001'),
-    //   status: InterestStatus.SAME),
-
+    _interests = InterestObject.mapInterests(recommendUser.interests);
     setBusy(false);
-  }
-
-  List<InterestPresentation> mapInterests(List<Interest>? interests) {
-    // 내 interest도 가져와야하고.
-    // 남의 Interest도 있어야한다.
-    //
-
-    return interestDummy;
   }
 
   void requestFriend(String userId, String requestId) async {

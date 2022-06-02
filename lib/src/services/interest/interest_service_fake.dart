@@ -11,7 +11,8 @@ class FakeInterestService extends InterestService {
   }
 
   @override
-  Future<int> updateMyInterests(List<InterestCode> selectInterestCodes) {
+  Future<List<Interest>> updateMyInterests(
+      List<InterestCode> selectInterestCodes) {
     // TODO: implement updateMyInterests
     throw UnimplementedError();
   }

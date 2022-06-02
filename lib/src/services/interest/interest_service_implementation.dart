@@ -27,7 +27,8 @@ class InterestServiceImpl extends InterestService {
   }
 
   @override
-  Future<int> updateMyInterests(List<InterestCode> selectInterestCodes) async {
+  Future<List<Interest>> updateMyInterests(
+      List<InterestCode> selectInterestCodes) async {
     var json = jsonEncode(selectInterestCodes
         .map((code) => {"interestCode": code.name.toUpperCase()})
         .toList());
@@ -37,7 +38,9 @@ class InterestServiceImpl extends InterestService {
         body: json);
 
     if (response.statusCode == 200) {
-      return await jsonDecode(utf8.decode(response.bodyBytes));
+      return await jsonDecode(utf8.decode(response.bodyBytes))
+          .map<Interest>((json) => Interest.fromJson(json))
+          .toList();
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('오류');

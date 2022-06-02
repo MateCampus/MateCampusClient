@@ -11,6 +11,7 @@ import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_vi
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
+import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:http/http.dart' as http;
@@ -44,7 +45,7 @@ class AuthService extends ChangeNotifier {
 
     updateUserDeviceToken(); // 추후 삭제될 수도 있음.
 
-    // loadMyInitData();
+    InterestObject.loadMyInterests();
 
     /** 
       * initstate에서 load를 하는게 맞는지,

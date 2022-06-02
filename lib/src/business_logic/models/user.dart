@@ -57,8 +57,8 @@ class User {
         introduction: json['introduction'],
         interests: json['interests']
             ?.map<Interest>((interestCode) => Interest(
-                codeNum:
-                    InterestCode.values.byName(interestCode.toLowerCase())))
+                codeNum: InterestCode.values
+                    .byName(interestCode["interestCode"].toLowerCase())))
             .toList(),
         interestCount: json['interestCount'],
         friendCount: json['friendCount'],
