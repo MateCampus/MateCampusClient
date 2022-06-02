@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
@@ -45,15 +47,19 @@ class SignUpServiceImpl implements SignUpService {
         'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
 
     //리스트 넘기는 법
-    for (String interestCode in interestCodes) {
-      request.files
-          .add(http.MultipartFile.fromString('interestList', interestCode));
-    }
+    String interestCodesJson = "";
+    interestCodes.forEach((interestCode) {
+      interestCodesJson = interestCodesJson + interestCode + ",";
+    });
+    interestCodesJson =
+        interestCodesJson.substring(0, interestCodesJson.length - 1);
+    request.fields["interestCodes"] = interestCodesJson;
 
     if (profileImg != null) {
       request.files.add(
           await http.MultipartFile.fromPath('profileImg', profileImg.path));
     }
+
     if (introduce != null) {
       request.fields['introduce'] = introduce;
     }

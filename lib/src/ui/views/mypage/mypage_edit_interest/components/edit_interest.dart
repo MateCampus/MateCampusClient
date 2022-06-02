@@ -29,7 +29,8 @@ class _EditInterestState extends State<EditInterest> {
               //alignment: WrapAlignment.spaceBetween,
               spacing: getProportionateScreenWidth(25),
               children: [
-                ...widget.vm.myInterests.map((interest) => interest.isSelected
+                ...widget.vm.allInterestsAfterLoad.map((interest) => interest
+                        .isSelected
                     ? Column(
                         children: [
                           ChoiceChip(
@@ -79,7 +80,7 @@ class _EditInterestState extends State<EditInterest> {
         child: Padding(
           padding: defaultPadding,
           child: DefaultBtn(
-            text: widget.vm.selectedInterests.length.toString() + '개 선택됨',
+            text: widget.vm.selectedInterestCodes.length.toString() + '개 선택됨',
             press: () {
               widget.vm.updateInterests(context: context);
             },

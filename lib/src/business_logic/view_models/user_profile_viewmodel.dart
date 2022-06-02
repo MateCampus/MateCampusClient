@@ -1,13 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
+import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/dummy/interest_dummy.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 class UserProfileViewModel extends BaseModel {
@@ -31,8 +35,7 @@ class UserProfileViewModel extends BaseModel {
   void loadUserProfile(String loginId) async {
     setBusy(true);
     // 여기서에서 유저의 정보 더 가져올 것!
-    User recommendUser =
-        await _userService.fetchUserProfile(userLoginId: "test");
+    User recommendUser = await _userService.fetchUserInfo(loginId: loginId);
     _userProfile = UserProfilePresentation(
         loginId: recommendUser.loginId,
         nickname: recommendUser.nickname,
@@ -43,14 +46,10 @@ class UserProfileViewModel extends BaseModel {
             describeEnum(recommendUser.majorCode ?? Major.major0000)),
         introduction: recommendUser.introduction,
         friendRequestStatus: FriendRequestStatus.NONE);
-    _interests = interestDummy;
-
+    _interests = InterestObject.mapInterests(recommendUser.interests);
     setBusy(false);
   }
 
-// void loadInterests() async {
-//     _interests = interestDummy;
-//   }
   void requestFriend(String userId, String requestId) async {
     //userId: 친구신청 버튼을 누른 유저(본인)  requestId: 친구 신청 당하는 유저
     _userProfile.friendRequestStatus = FriendRequestStatus.UNACCEPTED;

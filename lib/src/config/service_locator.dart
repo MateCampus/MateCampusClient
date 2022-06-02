@@ -20,6 +20,7 @@ import 'package:zamongcampus/src/services/comment/comment_service_implementation
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_fake.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_implementation.dart';
+import 'package:zamongcampus/src/services/interest/interest_service.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
 import 'package:zamongcampus/src/services/login/login_service_fake.dart';
 import 'package:zamongcampus/src/services/login/login_service_implementation.dart';
@@ -31,12 +32,14 @@ import 'package:zamongcampus/src/services/signup/signup_service_fake.dart';
 import 'package:zamongcampus/src/services/signup/signup_service_implementation.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/user/user_service_fake.dart';
+import 'package:zamongcampus/src/services/user/user_service_implementation.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service_implementation.dart';
 
 import '../business_logic/view_models/post_main_screen_viewmodel.dart';
 import '../services/chat/chat_service.dart';
 import '../services/chat/chat_service_implementation.dart';
+import '../services/interest/interest_service_implementation.dart';
 import '../services/voice/voice_service_fake.dart';
 
 /** GetIt: service Locator **/
@@ -54,10 +57,12 @@ void setupServiceLocator() {
   // serviceLocator
   //     .registerLazySingleton<SignUpService>(() => FakeSignUpService());
   // serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
+  // serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
 
   /* 2. 실제 불가능한 services */
-  serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
+  serviceLocator
+      .registerLazySingleton<InterestService>(() => InterestServiceImpl());
 
   /* 3. 실제 services */
   serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
@@ -69,6 +74,7 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<VoiceService>(() => VoiceServiceImpl());
   serviceLocator
       .registerLazySingleton<SignUpService>(() => SignUpServiceImpl());
+  serviceLocator.registerLazySingleton<UserService>(() => UserServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
