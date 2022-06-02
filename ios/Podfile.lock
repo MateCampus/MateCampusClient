@@ -8,7 +8,7 @@ PODS:
   - Firebase/Messaging (8.15.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.15.0)
-  - firebase_core (1.17.0):
+  - firebase_core (1.17.1):
     - Firebase/CoreOnly (= 8.15.0)
     - Flutter
   - firebase_messaging (11.2.10):
@@ -143,7 +143,7 @@ SPEC CHECKSUMS:
   agora_rtc_engine: fb0e823adb228eda4433fabed56d72d64ff87771
   AgoraIrisRTC_iOS: c789bb65875b54d2b6b02dc278850dc70515b226
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
-  firebase_core: aa1b92020533f5c23955e388c347c58fd64f8627
+  firebase_core: 318de541b0e61d3f24262982a3f0b54afe72439b
   firebase_messaging: 08eee0ce7775b7f901ad6cf3646241e23348261e
   FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
@@ -164,6 +164,6 @@ SPEC CHECKSUMS:
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
 
-PODFILE CHECKSUM: d2c515e677c5670af6d5cb16ab43432e69b0f5a2
+PODFILE CHECKSUM: bfee312227c646b95389573f4b1834c809b6d2eb
 
 COCOAPODS: 1.11.2
