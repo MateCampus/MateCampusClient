@@ -32,13 +32,12 @@ void backWithToast(message, BuildContext context) {
   toastMessage(message);
 }
 
-void showCustomModalBottomSheet(
-    BuildContext context, Widget widget, bool isScrollControlled) {
+void showCustomModalBottomSheet(BuildContext context, Widget widget) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
-      isScrollControlled: isScrollControlled,
-      isDismissible: isScrollControlled,
+      //isScrollControlled: isScrollControlled,  //isScrollControlled는 ModalBottomSheet의 높이를 기본 높이보다 길게 하고 싶을 때 추가로 설정해야하는 프로퍼티
+      //isDismissible: isScrollControlled,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) {

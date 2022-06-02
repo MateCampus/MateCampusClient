@@ -14,8 +14,8 @@ class RecommendUserListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showCustomModalBottomSheet(context,
-            UserProfileBottomSheet(loginId: recommendUser.loginId), true);
+        showCustomModalBottomSheet(
+            context, UserProfileBottomSheet(loginId: recommendUser.loginId));
       },
       child: Container(
         width: getProportionateScreenWidth(116),

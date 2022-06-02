@@ -21,7 +21,7 @@ class RequestListTile extends StatelessWidget {
       child: InkWell(
         onTap: () {
           showCustomModalBottomSheet(
-              context, ProfileBottomSheet(friendId: friend.id), true);
+              context, ProfileBottomSheet(friendId: friend.id));
         },
         child: ListTile(
           contentPadding: const EdgeInsets.all(0),

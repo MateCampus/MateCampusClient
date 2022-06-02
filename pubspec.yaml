@@ -52,6 +52,7 @@ dependencies:
   agora_rtc_engine: 5.1.0
   permission_handler: ^9.2.0
   flutter_local_notifications: ^9.5.2
+  flutter_svg: ^1.0.3
 
   
 dependency_overrides:
