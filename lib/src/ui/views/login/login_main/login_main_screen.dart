@@ -10,13 +10,13 @@ class LoginMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginMainScreenViewModel model = serviceLocator<LoginMainScreenViewModel>();
+    LoginMainScreenViewModel vm = serviceLocator<LoginMainScreenViewModel>();
     SizeConfig().init(context: context);
     return GestureDetector(
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
         behavior: HitTestBehavior.translucent,
-        child: Scaffold(body: Body(model: model)));
+        child: Scaffold(backgroundColor: Colors.white, body: Body(vm: vm)));
   }
 }

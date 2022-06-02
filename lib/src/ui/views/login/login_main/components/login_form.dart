@@ -1,110 +1,112 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 
 // /*
 // * https://www.mobileframeworks.dev/flutter-login-signup/
 // * */
-class LoginForm extends StatelessWidget {
-  LoginMainScreenViewModel model;
-  LoginForm({Key? key, required this.model}) : super(key: key);
+class LoginForm extends StatefulWidget {
+  LoginMainScreenViewModel vm;
+  LoginForm({Key? key, required this.vm}) : super(key: key);
 
-  TextEditingController loginIdTxtCtrl = TextEditingController();
-  TextEditingController passwordTxtCtrl = TextEditingController();
+  @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final TextEditingController _loginIdTxtCtrl = TextEditingController();
+  final TextEditingController _passwordTxtCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: getProportionateScreenHeight(350),
-      child: Column(
-        children: <Widget>[
-          buildIDForm(),
-          const VerticalSpacing(of: 30),
-          buildPasswordForm(),
-          const VerticalSpacing(of: 30),
-          buildLoginButton(context: context),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        buildIDForm(),
+        buildPasswordForm(),
+        buildLoginButton(context: context),
+      ],
     );
   }
 
-  buildIDForm() {
-    return Container(
-      width: getProportionateScreenWidth(350),
-      height: getProportionateScreenHeight(50),
-      padding: const EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
+  Widget buildIDForm() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(10)),
       child: TextField(
-        controller: loginIdTxtCtrl,
+        keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.next,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(
+        autofocus: true,
+        controller: _loginIdTxtCtrl,
+        style: const TextStyle(fontSize: 14),
+        maxLines: 1,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
             Icons.person,
-            color: kPrimaryColor,
+            color: Colors.grey,
+            size: getProportionateScreenHeight(20),
           ),
-          hintText: 'ID',
+          contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
+          hintText: "아이디를 입력해주세요",
+          hintStyle: TextStyle(
+              color: Colors.grey, fontSize: getProportionateScreenHeight(13)),
+          fillColor: Colors.white,
+          filled: true,
+          border: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(5))),
         ),
       ),
     );
   }
 
-  buildPasswordForm() {
-    return Container(
-      width: getProportionateScreenWidth(350),
-      height: getProportionateScreenHeight(50),
-      padding: const EdgeInsets.only(top: 4, left: 16, right: 16, bottom: 4),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)]),
-      child: TextFormField(
-        obscureText: true,
-        controller: passwordTxtCtrl,
+  Widget buildPasswordForm() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(10)),
+      child: TextField(
+        keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.done,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          icon: Icon(
+        controller: _passwordTxtCtrl,
+        obscureText: true,
+        style: const TextStyle(fontSize: 14),
+        maxLines: 1,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
             Icons.vpn_key,
-            color: kPrimaryColor,
+            color: Colors.grey,
+            size: getProportionateScreenHeight(20),
           ),
-          hintText: 'Password',
+          contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
+          hintText: "비밀번호를 입력해주세요",
+          hintStyle: TextStyle(
+              color: Colors.grey, fontSize: getProportionateScreenHeight(13)),
+          fillColor: Colors.white,
+          filled: true,
+          border: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(Radius.circular(5))),
         ),
       ),
     );
   }
 
   buildLoginButton({required BuildContext context}) {
-    return InkWell(
-      onTap: () {
-        model.login(
-            id: loginIdTxtCtrl.text,
-            password: passwordTxtCtrl.text,
-            context: context);
-      },
-      child: Container(
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          vertical: getProportionateScreenHeight(10),
+          horizontal: getProportionateScreenWidth(20)),
+      child: DefaultBtn(
         height: getProportionateScreenHeight(50),
-        width: getProportionateScreenWidth(250),
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                kPrimaryColor,
-                kSecondaryColor,
-              ],
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(50))),
-        child: const Center(
-          child: Text(
-            "로그인",
-            style: TextStyle(
-                fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ),
+        text: '로그인',
+        press: () {
+          widget.vm.login(
+              id: _loginIdTxtCtrl.text,
+              password: _passwordTxtCtrl.text,
+              context: context);
+        },
       ),
     );
   }
