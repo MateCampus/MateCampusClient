@@ -53,6 +53,9 @@ final devServer = Platform.isAndroid
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
+// final devServer =
+//     Platform.isAndroid ? "http://3.36.41.198:8080" : "http://3.36.41.198:8080";
+
 const dankookEmail = "@dankook.ac.kr";
 
 //대학교 리스트

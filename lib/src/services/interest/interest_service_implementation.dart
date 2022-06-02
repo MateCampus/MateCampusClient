@@ -21,8 +21,7 @@ class InterestServiceImpl extends InterestService {
       return interests;
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
-      throw Exception(
-          '[오류]게시물을 가져오는데 실패했습니다. (Failed to load posts)'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
+      throw Exception('관심사 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
     }
   }
 
