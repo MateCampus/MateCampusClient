@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 
@@ -97,19 +98,26 @@ class PostListTile extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontSize: getProportionateScreenHeight(13),
-                      color: Color(0xff818181)),
+                      color: const Color(0xff818181)),
                 )
               ]),
         ),
         const Spacer(),
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            post.imageUrl!,
-            width: getProportionateScreenWidth(60),
-            height: getProportionateScreenHeight(60),
-            fit: BoxFit.cover,
-          ),
+          child: post.imageUrl!.startsWith('https')
+              ? Image.network(
+                  post.imageUrl!,
+                  width: getProportionateScreenWidth(60),
+                  height: getProportionateScreenHeight(60),
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  post.imageUrl!,
+                  width: getProportionateScreenWidth(60),
+                  height: getProportionateScreenHeight(60),
+                  fit: BoxFit.cover,
+                ),
         )
       ],
     );
