@@ -12,68 +12,72 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          title: const Text('피드',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              )),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/postCreate');
-              },
-              icon: const Icon(Icons.edit_outlined),
-              color: Colors.black,
-            ),
-            IconButton(
-              onPressed: () => {},
-              icon: const Icon(Icons.notifications_outlined),
-              color: Colors.black,
-            ),
-          ],
-          elevation: 0.0,
-          backgroundColor: const Color(0xfff8f8f8),
-          pinned: false,
-          floating: true,
-        ),
-        SliverPersistentHeader(
-          delegate: PostTabBtns(vm: vm),
-          pinned: true,
-        ),
-        vm.busy
-            ? SliverList(
-                // Use a delegate to build items as they're scrolled on screen.
-                delegate: SliverChildBuilderDelegate(
-                  // The builder function returns a ListTile with a title that
-                  // displays the index of the current item.
-                  (context, index) => const IsLoading(),
-                  // Builds 1000 ListTiles
-                  childCount: 1,
+    return RefreshIndicator(
+        displacement: 150,
+        onRefresh: () => vm.refreshPostAfterCreateUpdate(),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: const Text('피드',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  )),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/postCreate');
+                  },
+                  icon: const Icon(Icons.edit_outlined),
+                  color: Colors.black,
                 ),
-              )
-            : (vm.posts.isEmpty)
+                IconButton(
+                  onPressed: () => {},
+                  icon: const Icon(Icons.notifications_outlined),
+                  color: Colors.black,
+                ),
+              ],
+              elevation: 0.0,
+              backgroundColor: const Color(0xfff8f8f8),
+              pinned: false,
+              floating: true,
+            ),
+            SliverPersistentHeader(
+              delegate: PostTabBtns(vm: vm),
+              pinned: true,
+            ),
+            vm.busy
                 ? SliverList(
                     // Use a delegate to build items as they're scrolled on screen.
                     delegate: SliverChildBuilderDelegate(
                       // The builder function returns a ListTile with a title that
                       // displays the index of the current item.
-                      (context, index) => const CenterSentence(
-                        sentence: "등록된 게시글이 없습니다.",
-                        verticalSpace: 50,
-                      ),
+                      (context, index) => const IsLoading(),
                       // Builds 1000 ListTiles
                       childCount: 1,
                     ),
                   )
-                : SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (context, index) => PostListTile(post: vm.posts[index]),
-                        childCount: vm.posts.length),
-                  )
-      ],
-    );
+                : (vm.posts.isEmpty)
+                    ? SliverList(
+                        // Use a delegate to build items as they're scrolled on screen.
+                        delegate: SliverChildBuilderDelegate(
+                          // The builder function returns a ListTile with a title that
+                          // displays the index of the current item.
+                          (context, index) => const CenterSentence(
+                            sentence: "등록된 게시글이 없습니다.",
+                            verticalSpace: 50,
+                          ),
+                          // Builds 1000 ListTiles
+                          childCount: 1,
+                        ),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            (context, index) =>
+                                PostListTile(post: vm.posts[index]),
+                            childCount: vm.posts.length),
+                      )
+          ],
+        ));
   }
 }

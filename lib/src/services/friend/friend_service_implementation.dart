@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'dart:convert';
 import 'friend_service.dart';
+import 'friend_service_fake.dart';
 
 class FriendServiceImpl implements FriendService {
   @override
@@ -22,9 +23,8 @@ class FriendServiceImpl implements FriendService {
   }
 
   @override
-  Future<List<Friend>> fetchAcceptedTypeFriends() {
-    // TODO: implement fetchAcceptedTypeFriends
-    throw UnimplementedError();
+  Future<List<Friend>> fetchAcceptedTypeFriends() async {
+    return acceptedOnlyfriendDummy;
   }
 
   @override

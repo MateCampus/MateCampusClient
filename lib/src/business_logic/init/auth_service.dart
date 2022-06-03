@@ -1,21 +1,16 @@
 import 'dart:convert';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
-import 'package:zamongcampus/src/config/navigation_service.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:http/http.dart' as http;
-import 'package:zamongcampus/src/services/chat/chat_service.dart';
 
 import '../utils/constants.dart';
 
@@ -79,6 +74,12 @@ class AuthService extends ChangeNotifier {
     PrefsObject.removeLoginIdAndToken();
     StompObject.deactivateStomp();
     Navigator.pushReplacementNamed(context, "/login");
+    // postmainviewmodel 삭제 필요.
+    // 아마 채팅, 대화들도 필요하지 않을까?
+    // 일단 postmainviewmodel만
+    PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+    postMainScreenViewModel.resetData();
     toastMessage("로그아웃하셨습니다!");
   }
 
