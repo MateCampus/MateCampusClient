@@ -27,7 +27,7 @@ class PostBody extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  vm.likePost(vm.postDetail.loginId, vm.postDetail.id);
+                  vm.likePost(vm.postDetail.id);
                 },
                 child: vm.isliked
                     ? Padding(
@@ -72,14 +72,30 @@ class PostBody extends StatelessWidget {
               ),
               const Spacer(),
               InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                  child: Icon(
-                    Icons.bookmark_outline,
-                    size: getProportionateScreenWidth(25),
-                  ),
-                ),
+                onTap: () {
+                  vm.bookMarkPost(vm.postDetail.id);
+                },
+                // child: Padding(
+                //   padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                //   child: Icon(
+                //     Icons.bookmark_outline,
+                //     size: getProportionateScreenWidth(25),
+                //   ),
+                // ),
+                child: vm.isBookMarked
+                    ? Padding(
+                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                        child: Icon(
+                          Icons.bookmark,
+                          size: getProportionateScreenWidth(22),
+                          color: Colors.orangeAccent,
+                        ),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
+                        child: Icon(Icons.bookmark_outline,
+                            size: getProportionateScreenWidth(22)),
+                      ),
               ),
             ],
           )

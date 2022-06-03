@@ -9,10 +9,7 @@ import 'package:zamongcampus/src/ui/views/post/post_detail/component/body.dart';
 class PostDetailScreen extends StatefulWidget {
   static const routeName = '/postDetail';
   final int postId;
-  final String likedCount;
-  const PostDetailScreen(
-      {Key? key, required this.postId, required this.likedCount})
-      : super(key: key);
+  const PostDetailScreen({Key? key, required this.postId}) : super(key: key);
 
   @override
   State<PostDetailScreen> createState() => _PostDetailScreenState();
@@ -22,8 +19,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   PostDetailScreenViewModel vm = serviceLocator<PostDetailScreenViewModel>();
   @override
   void initState() {
-    vm.loadPostDetail(widget.postId);
-    vm.changeLikedCount(widget.likedCount);
+    vm.initData(widget.postId);
     super.initState();
   }
 

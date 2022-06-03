@@ -40,8 +40,7 @@ class ShowInfo extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: getProportionateScreenHeight(3)),
             child: Text(
-              /// 나중에 LoginId는 삭제할 것.
-              vm.myInfo.nickname + " | " + (AuthService.loginId ?? "닉넴오류"),
+              vm.myInfo.nickname,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
             ),
           ),

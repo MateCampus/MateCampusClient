@@ -7,9 +7,12 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 
 class PostMainScreenViewModel extends BaseModel {
+  bool isInit = false;
   final PostService _postService = serviceLocator<PostService>();
 
   List<PostPresentation> _posts = [];
+  List<int> likepostIds = [];
+  List<int> bookmarkpostIds = [];
   String _sortType = "popular";
   ScrollController scrollController = ScrollController();
   int _nextPageToken = 0;
@@ -17,9 +20,22 @@ class PostMainScreenViewModel extends BaseModel {
   List<PostPresentation> get posts => _posts;
   String get sortType => _sortType;
 
-  void loadPost() async {
+  void initData() async {
+    if (isInit) return;
+    await loadMyLikeBookmarkPostIds();
+    await loadPost();
+    isInit = true;
+  }
+
+  Future<void> loadMyLikeBookmarkPostIds() async {
+    Map<String, List<int>> ids =
+        await _postService.fetchMyLikeBookmarkPostIds();
+    likepostIds = ids["myLikePostIds"]!;
+    bookmarkpostIds = ids["myBookMarkIds"]!;
+  }
+
+  Future<void> loadPost() async {
     setBusy(true);
-    //await Future.delayed(const Duration(milliseconds: 500)); // 0.5초 딜레이
     List<Post> postResult = await _postService.fetchPosts(
         type: _sortType, nextPageToken: _nextPageToken);
     posts.addAll(postResult.map((post) => PostPresentation(
@@ -67,6 +83,18 @@ class PostMainScreenViewModel extends BaseModel {
     _nextPageToken = 0;
     changePostType(value);
     loadPost();
+  }
+
+  Future<void> refreshPostAfterCreateUpdate() async {
+    _posts = []; //포스트에 담았던거 다 비움
+    _nextPageToken = 0;
+    loadPost();
+  }
+
+  void resetData() {
+    isInit = false;
+    _posts = [];
+    _nextPageToken = 0;
   }
 }
 
