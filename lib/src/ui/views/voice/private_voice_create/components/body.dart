@@ -4,8 +4,9 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/default_disable_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
-import 'package:zamongcampus/src/ui/views/voice/private_voice_create/components/title_input.dart';
+import 'package:zamongcampus/src/ui/views/voice/public_voice_create/components/title_input.dart';
 
 class Body extends StatelessWidget {
   final VoiceCreateViewModel vm;
@@ -24,7 +25,7 @@ class Body extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TitleInput(vm: vm),
+                  TitleInput(vm: vm), //public_voice_create의 titleInput 사용
                 ],
               ),
             ),
@@ -33,14 +34,16 @@ class Body extends StatelessWidget {
         DefaultShadowBox(
           child: Padding(
             padding: defaultPadding,
-            child: DefaultBtn(
-              text: '다음',
-              press: () {
-                Navigator.pushNamed(context, "/voiceCreateFriend",
-                    arguments: VoiceCreateFriendScreenArgs(subColor));
-              },
-              btnColor: subColor,
-            ),
+            child: vm.isValidTitle
+                ? DefaultBtn(
+                    text: '다음',
+                    press: () {
+                      Navigator.pushNamed(context, "/voiceCreateFriend",
+                          arguments: VoiceCreateFriendScreenArgs(subColor));
+                    },
+                    btnColor: subColor,
+                  )
+                : const DefaultDisalbeBtn(text: '다음'),
           ),
         ),
       ],

@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
@@ -22,7 +23,9 @@ class VoiceCreateViewModel extends BaseModel {
   List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
+
   final TextEditingController _titleController = TextEditingController();
+  bool _isValidTitle = false;
 
   List<Category> _categories = [];
   final List<CategoryPresentation> _selectedCategories = []; //view에서 사용
@@ -40,6 +43,7 @@ class VoiceCreateViewModel extends BaseModel {
   List<UserPresentation> get recentTalkUsers => _recentTalkUsers;
   List<UserPresentation> get friendUsers => _friendUsers;
   TextEditingController get titleController => _titleController;
+  bool get isValidTitle => _isValidTitle;
   TextEditingController get recentTalkSearchController =>
       _recentTalkSearchController;
   TextEditingController get friendSearchController => _friendSearchController;
@@ -51,9 +55,13 @@ class VoiceCreateViewModel extends BaseModel {
   bool get majorOnlyChecked => _majorOnlyChecked;
   List<String> get members => _members;
 
-//최근 대화 유저 로드 함수
+//최근 대화 유저 로드 함수 -> 변경해야함.
   void loadRecentTalkUsers() async {
     setBusy(true);
+    //로컬db에 저장된 최근 대화 유저 로그인 아이디를 서버에 넘긴 후 유저 정보 받아와서 매핑
+    List<String> recentTalkUserLoginIds =
+        await PrefsObject.getRecentTalkUsers() ?? [];
+
     List<User> recentTalkUserResult = await _userService.fetchRecentTalkUsers();
 
     _recentTalkUsers.addAll(recentTalkUserResult.map((recentTalkUser) =>
@@ -82,22 +90,6 @@ class VoiceCreateViewModel extends BaseModel {
     setBusy(false);
   }
 
-//변수 초기화
-  void initializeField() {
-    _titleController.clear();
-    _selectedCategories.clear();
-    _collegeOnlyChecked = false;
-    _majorOnlyChecked = false;
-    _members.clear();
-    for (UserPresentation friendUser in _friendUsers) {
-      friendUser.isChecked = false;
-    }
-    for (UserPresentation recentTalkUser in _recentTalkUsers) {
-      recentTalkUser.isChecked = false;
-    }
-    notifyListeners();
-  }
-
 //대화방 타입 설정
   void setPublicVoiceRoom() {
     _type = VoiceRoomType.PUBLIC;
@@ -105,6 +97,25 @@ class VoiceCreateViewModel extends BaseModel {
 
   void setPrivateVoiceRoom() {
     _type = VoiceRoomType.PRIVATE;
+  }
+
+//대화방 제목 유효성 검사(5자이상이어야 생성됨)
+  String? titleValidator(String? value) {
+    if (value!.length < 5) {
+      _isValidTitle = false;
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        notifyListeners();
+      });
+
+      return '대화방 제목은 5자 이상이어야 합니다';
+    } else {
+      _isValidTitle = true;
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        notifyListeners();
+      });
+
+      return null;
+    }
   }
 
 //카테고리 설정(수정중)
@@ -184,7 +195,7 @@ class VoiceCreateViewModel extends BaseModel {
 
   Future<VoiceRoom> createVoiceRoom() async {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
-        title: titleController.text); //일단은 서버에 title만 보냄
+        title: _titleController.text); //일단은 서버에 title만 보냄
     return voiceRoom;
     // final createVoiceRoomJson = jsonEncode({
     //   "title": titleController.text,
