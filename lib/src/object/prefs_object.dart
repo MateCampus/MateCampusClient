@@ -8,6 +8,7 @@ class StorageKeys {
   static const String token = "TOKEN";
   static const String loginId = "LOGINID";
   static const String totalLastMsgCreatedAt = "TOTALLASTMSGCREATEDAT";
+  static const String recentTalkUsers = "RECENTTALKUSERS";
 }
 
 class PrefsObject {
@@ -51,5 +52,14 @@ class PrefsObject {
 
   static void removeTotalLastMsgCreatedAt() async {
     _prefs.remove(StorageKeys.totalLastMsgCreatedAt);
+  }
+
+  ///getter, setter for recentTalkUser
+  static Future<List<String>?> getRecentTalkUsers() async {
+    return _prefs.getStringList(StorageKeys.recentTalkUsers);
+  }
+
+  static void setRecentTalkUsers(List<String> recentTalkUsers) {
+    _prefs.setStringList(StorageKeys.recentTalkUsers, recentTalkUsers);
   }
 }

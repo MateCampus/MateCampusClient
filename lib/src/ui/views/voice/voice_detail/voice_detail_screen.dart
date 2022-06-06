@@ -30,17 +30,17 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
 
   @override
   void dispose() {
-    print('dispose voice detail');
     vm.leaveChannel();
     serviceLocator.resetLazySingleton<VoiceDetailViewModel>(instance: vm);
+    print('dispose voice detail');
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<VoiceDetailViewModel>(
-      create: (context) => vm,
+    return ChangeNotifierProvider.value(
+      value: vm,
       child: Consumer<VoiceDetailViewModel>(builder: ((context, vm, child) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

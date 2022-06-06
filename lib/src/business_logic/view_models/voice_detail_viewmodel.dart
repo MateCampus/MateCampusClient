@@ -10,6 +10,7 @@ import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -25,19 +26,19 @@ class VoiceDetailViewModel extends BaseModel {
       type: VoiceRoomType.PUBLIC);
 
   List<MemberPresentation> _voiceRoomMembers = List.empty(growable: true);
-
+  List<String> _recentTalkUserLoginIds = List.empty(growable: true);
   List<ChatMessage> _chatMessages = List.empty(growable: true);
   RtcEngine? _engine;
 
   String _ownerLoginId = ''; //방장 아이디
-  //int localuid = -1;
 
   VoiceRoomPresentation get voiceRoom => _voiceRoom;
   List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
 
+  ///init
   voiceDetailInit({int? id, VoiceRoom? createdVoiceRoom}) async {
     setBusy(true);
-
+    print('voiceDetailInit시작');
     VoiceRoom voiceRoom = (createdVoiceRoom == null && id != null)
         ? await _voiceService.fetchVoiceRoom(id: id)
         : createdVoiceRoom!;
@@ -45,7 +46,8 @@ class VoiceDetailViewModel extends BaseModel {
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
     StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
-
+    //local db
+    saveExistingUsersDB(voiceRoom.memberInfos!);
     setBusy(false);
   }
 
@@ -135,18 +137,19 @@ class VoiceDetailViewModel extends BaseModel {
 
     //이미 존재하고 있는 멤버 정보 매핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
     _ownerLoginId = voiceRoom.ownerLoginId!;
-    _voiceRoomMembers.addAll(voiceRoom.memberInfos!.map((memberInfo) =>
-        MemberPresentation(
-            uid: memberInfo.id ?? -1,
-            loginId: memberInfo.loginId,
-            nickname: memberInfo.loginId == AuthService.loginId
-                ? memberInfo.nickname + '(나)'
-                : memberInfo.nickname,
-            imageUrl: memberInfo.imageUrl.isNotEmpty
-                ? memberInfo.imageUrl
-                : 'assets/images/user/general_user.png',
-            isSpeaking: false,
-            isHost: memberInfo.loginId == _ownerLoginId ? true : false)));
+    _voiceRoomMembers.addAll(voiceRoom.memberInfos!.map(
+      (memberInfo) => MemberPresentation(
+          uid: memberInfo.id ?? -1,
+          loginId: memberInfo.loginId,
+          nickname: memberInfo.loginId == AuthService.loginId
+              ? memberInfo.nickname + '(나)'
+              : memberInfo.nickname,
+          imageUrl: memberInfo.imageUrl.isNotEmpty
+              ? memberInfo.imageUrl
+              : 'assets/images/user/general_user.png',
+          isSpeaking: false,
+          isHost: memberInfo.loginId == _ownerLoginId ? true : false),
+    ));
   }
 
   //stomp_object의 subscribeVoiceRoomChat안에서 쓴다. 새로운 멤버가 들어오면 그 멤버의 정보를 맵핑해주고 멤버리스트에 추가
@@ -160,7 +163,48 @@ class VoiceDetailViewModel extends BaseModel {
             : 'assets/images/user/general_user.png',
         isSpeaking: false,
         isHost: false));
+    //local db
+    saveAddUserDB(chatMemberInfo);
     notifyListeners();
+  }
+
+  //db에 이미 존재하는 사람들 저장
+  Future<void> saveExistingUsersDB(List<ChatMemberInfo> chatMemberInfos) async {
+    _recentTalkUserLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+    for (ChatMemberInfo chatMemberInfo in chatMemberInfos) {
+      //본인은 저장하지 않음
+      if (chatMemberInfo.loginId != AuthService.loginId) {
+        //이미 존재하는 유저면 remove 후 다시 add
+        if (_recentTalkUserLoginIds.contains(chatMemberInfo.loginId)) {
+          _recentTalkUserLoginIds.remove(chatMemberInfo.loginId);
+          _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
+        }
+        //본인도 아니고 db에 없는 유저 add
+        else {
+          _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
+        }
+      }
+    }
+    PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
+  }
+
+  //새롭게 들어오는 한사람의 정보 db에 저장
+  Future<void> saveAddUserDB(ChatMemberInfo chatMemberInfo) async {
+    _recentTalkUserLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+
+    //본인은 저장하지 않음
+    if (chatMemberInfo.loginId != AuthService.loginId) {
+      //이미 존재하는 유저면 remove 후 다시 add
+      if (_recentTalkUserLoginIds.contains(chatMemberInfo.loginId)) {
+        _recentTalkUserLoginIds.remove(chatMemberInfo.loginId);
+        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
+      }
+      //본인도 아니고 db에 없는 유저 add
+      else {
+        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
+      }
+    }
+    PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
   }
 
   void setVoiceFilter1() {
