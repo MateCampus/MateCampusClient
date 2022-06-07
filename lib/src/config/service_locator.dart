@@ -91,8 +91,8 @@ void setupServiceLocator() {
       () => ChatDetailFromFriendProfileViewModel());
   serviceLocator.registerLazySingleton<PostDetailScreenViewModel>(
       () => PostDetailScreenViewModel());
-  serviceLocator
-      .registerFactory<VoiceCreateViewModel>(() => VoiceCreateViewModel());
+  serviceLocator.registerLazySingleton<VoiceCreateViewModel>(
+      () => VoiceCreateViewModel());
   serviceLocator.registerLazySingleton<VoiceDetailViewModel>(
       () => VoiceDetailViewModel());
   serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());
