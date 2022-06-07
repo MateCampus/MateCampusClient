@@ -12,10 +12,12 @@ import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.da
 import 'package:zamongcampus/src/config/dummy/interest_dummy.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
+import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 class UserProfileViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
+  final FriendService _friendService = serviceLocator<FriendService>();
   UserProfilePresentation _userProfile = defaultUserProfile;
   List<InterestPresentation> _interests = [];
 
@@ -45,15 +47,17 @@ class UserProfileViewModel extends BaseModel {
         majorName: MajorData.korNameOf(
             describeEnum(recommendUser.majorCode ?? Major.major0000)),
         introduction: recommendUser.introduction,
-        friendRequestStatus: FriendRequestStatus.NONE);
+        friendRequestStatus:
+            recommendUser.friendRequestStatus ?? FriendRequestStatus.NONE);
     _interests = InterestObject.mapInterests(recommendUser.interests);
     setBusy(false);
   }
 
-  void requestFriend(String userId, String requestId) async {
+  void requestFriend(String targetLoginId) async {
     //userId: 친구신청 버튼을 누른 유저(본인)  requestId: 친구 신청 당하는 유저
     _userProfile.friendRequestStatus = FriendRequestStatus.UNACCEPTED;
     print(_userProfile.nickname + '님에게 친구를 요청합니다'); //테스트용
+    _friendService.requestFriend(targetLoginId: targetLoginId);
     toastMessage('친구 신청 완료!');
     notifyListeners();
   }

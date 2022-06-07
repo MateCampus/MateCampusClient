@@ -47,6 +47,7 @@ class SignUpServiceImpl implements SignUpService {
         'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
 
     //리스트 넘기는 법
+    // TODO: 바꿔야할지도? join으로
     String interestCodesJson = "";
     interestCodes.forEach((interestCode) {
       interestCodesJson = interestCodesJson + interestCode + ",";

@@ -4,7 +4,9 @@ import 'voice_service.dart';
 
 class FakeVoiceService implements VoiceService {
   @override
-  Future<VoiceRoom> createVoiceRoom({required String title}) async {
+  Future<VoiceRoom> createVoiceRoom(
+      {required String title,
+      required List<String> selectedMemberLoginIds}) async {
     // TODO: implement createVoiceRoom
     throw UnimplementedError();
   }

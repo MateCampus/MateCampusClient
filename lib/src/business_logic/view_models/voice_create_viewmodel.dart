@@ -16,8 +16,8 @@ class VoiceCreateViewModel extends BaseModel {
   final FriendService _friendService = serviceLocator<FriendService>();
   final VoiceService _voiceService = serviceLocator<VoiceService>();
 
-  final List<UserPresentation> _recentTalkUsers = List.empty(growable: true);
-  final List<UserPresentation> _friendUsers = List.empty(growable: true);
+  List<UserPresentation> _recentTalkUsers = List.empty(growable: true);
+  List<UserPresentation> _friendUsers = List.empty(growable: true);
   List<UserPresentation> _searchedRecentUsers = List.empty(growable: true);
   List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
 
@@ -34,7 +34,7 @@ class VoiceCreateViewModel extends BaseModel {
   final TextEditingController _recentTalkSearchController =
       TextEditingController();
   final TextEditingController _friendSearchController = TextEditingController();
-  final List<String> _members = [];
+  final List<String> _selectedMemberLoginIds = [];
 
   //뷰에서 접근이 필요한 변수
   List<UserPresentation> get recentTalkUsers => _recentTalkUsers;
@@ -49,20 +49,21 @@ class VoiceCreateViewModel extends BaseModel {
   List<CategoryPresentation> get selectedCategories => _selectedCategories;
   bool get collegeOnlyChecked => _collegeOnlyChecked;
   bool get majorOnlyChecked => _majorOnlyChecked;
-  List<String> get members => _members;
+  List<String> get selectedMemberLoginIds => _selectedMemberLoginIds;
 
 //최근 대화 유저 로드 함수
   void loadRecentTalkUsers() async {
     setBusy(true);
     List<User> recentTalkUserResult = await _userService.fetchRecentTalkUsers();
 
-    _recentTalkUsers.addAll(recentTalkUserResult.map((recentTalkUser) =>
-        UserPresentation(
+    _recentTalkUsers = recentTalkUserResult
+        .map((recentTalkUser) => UserPresentation(
             loginId: recentTalkUser.loginId,
             userImageUrl: recentTalkUser.imageUrl ??
                 "assets/images/user/general_user.png",
             userNickname: recentTalkUser.nickname,
-            isChecked: false)));
+            isChecked: false))
+        .toList();
 
     setBusy(false);
   }
@@ -71,14 +72,16 @@ class VoiceCreateViewModel extends BaseModel {
   void loadFriendUsers() async {
     setBusy(true);
     List<Friend> friendUserResult =
-        await _friendService.fetchAcceptedTypeFriends();
+        await _friendService.fetchApprovedTypeFriends();
 
-    _friendUsers.addAll(friendUserResult.map((friendUser) => UserPresentation(
-        loginId: friendUser.loginId,
-        userImageUrl:
-            friendUser.imageUrl ?? "assets/images/user/general_user.png",
-        userNickname: friendUser.nickname,
-        isChecked: false)));
+    _friendUsers = friendUserResult
+        .map((friendUser) => UserPresentation(
+            loginId: friendUser.loginId,
+            userImageUrl:
+                friendUser.imageUrl ?? "assets/images/user/general_user.png",
+            userNickname: friendUser.nickname,
+            isChecked: false))
+        .toList();
     setBusy(false);
   }
 
@@ -88,7 +91,7 @@ class VoiceCreateViewModel extends BaseModel {
     _selectedCategories.clear();
     _collegeOnlyChecked = false;
     _majorOnlyChecked = false;
-    _members.clear();
+    _selectedMemberLoginIds.clear();
     for (UserPresentation friendUser in _friendUsers) {
       friendUser.isChecked = false;
     }
@@ -169,7 +172,9 @@ class VoiceCreateViewModel extends BaseModel {
 //대화친구설정
   void setMembers(UserPresentation user, bool value, String loginId) {
     user.isChecked = value;
-    user.isChecked ? _members.add(loginId) : _members.remove(loginId);
+    user.isChecked
+        ? _selectedMemberLoginIds.add(loginId)
+        : _selectedMemberLoginIds.remove(loginId);
 
     notifyListeners();
   }
@@ -184,7 +189,8 @@ class VoiceCreateViewModel extends BaseModel {
 
   Future<VoiceRoom> createVoiceRoom() async {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
-        title: titleController.text); //일단은 서버에 title만 보냄
+        title: titleController.text,
+        selectedMemberLoginIds: selectedMemberLoginIds); //일단은 서버에 title만 보냄
     return voiceRoom;
     // final createVoiceRoomJson = jsonEncode({
     //   "title": titleController.text,
@@ -192,7 +198,7 @@ class VoiceCreateViewModel extends BaseModel {
     //   "majorOnly": _majorOnlyChecked,
     //   "categories": _categoryResult,
     //   "type": _type.name,
-    //   "members": _members,
+    //   "members": _selectedMemberLoginIds,
     // });
   }
 }

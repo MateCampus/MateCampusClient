@@ -92,5 +92,6 @@ class LocalNotificationObject {
     "fcm_default_channel": "일반",
     "fcm_ads_channel": "광고",
     "fcm_message_channel": "메세지 전체",
+    "fcm_voiceroom_invite_channel": "음성대화방 초대",
   };
 }

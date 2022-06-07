@@ -102,7 +102,7 @@ class StompObject {
         serviceLocator<ChatDetailViewModel>();
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
-    stompClient.subscribe(
+    dynamic unsubscribeFn = stompClient.subscribe(
       headers: AuthService.get_auth_header(),
       destination: '/sub/chat/room/$roomId',
       callback: (frame) {
