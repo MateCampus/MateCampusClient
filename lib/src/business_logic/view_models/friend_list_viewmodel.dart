@@ -54,16 +54,18 @@ class FriendListViewModel extends BaseModel {
     setBusy(false);
   }
 
-  void acceptRequest(FriendPresentation friendPresentation) async {
+  void approveRequest(FriendPresentation friendPresentation) async {
     //친구요청 수락
+    _friendService.approveFriend(targetLoginId: friendPresentation.loginId);
     _friendsIReceived.remove(friendPresentation); // 이거하기 전에 서버랑 접촉 먼저
     friendPresentation.friendRequestStatus = FriendRequestStatus.ACCEPTED;
     friendsIRequestAndAceepted.add(friendPresentation);
     notifyListeners();
   }
 
-  void rejectRequest(FriendPresentation friendPresentation) async {
+  void refuseRequest(FriendPresentation friendPresentation) async {
     //친구요청 거절
+    _friendService.refuseFriend(targetLoginId: friendPresentation.loginId);
     _friendsIReceived.remove(friendPresentation); // 이거하기 전에 서버랑 접촉 먼저
     notifyListeners();
   }

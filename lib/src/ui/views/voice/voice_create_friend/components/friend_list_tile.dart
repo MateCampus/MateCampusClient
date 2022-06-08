@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
@@ -34,7 +35,11 @@ class _FriendListTileState extends State<FriendListTile> {
           children: [
             CircleAvatar(
               radius: getProportionateScreenWidth(27),
-              backgroundImage: AssetImage(widget.user.userImageUrl),
+              // backgroundImage: AssetImage(widget.user.userImageUrl),
+              backgroundImage: widget.user.userImageUrl.startsWith('https')
+                  ? CachedNetworkImageProvider(widget.user.userImageUrl)
+                      as ImageProvider
+                  : AssetImage(widget.user.userImageUrl),
             ),
             /* isOnlined 추후 개발 */
             // Positioned(

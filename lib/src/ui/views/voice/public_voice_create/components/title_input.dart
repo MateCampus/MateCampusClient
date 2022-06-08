@@ -15,9 +15,7 @@ class _TitleInputState extends State<TitleInput> {
   void initState() {
     super.initState();
 
-    widget.vm.titleController.addListener(() {
-      //widget.vm.setTitle();
-    });
+    widget.vm.titleController.addListener(() {});
   }
 
   // @override
@@ -36,12 +34,16 @@ class _TitleInputState extends State<TitleInput> {
           style: TextStyle(fontSize: 12, color: Colors.black87),
         ),
         const VerticalSpacing(of: 10),
-        TextField(
+        TextFormField(
           //autofocus: true,
           keyboardType: TextInputType.multiline,
           style: const TextStyle(fontSize: 14),
           controller: widget.vm.titleController,
-          maxLines: 1, //제목 글자수 제한 미정
+          maxLines: 1,
+          autovalidateMode:
+              AutovalidateMode.onUserInteraction, //값이 들어오는 순간부터 자동 유효성 검사
+          validator: (value) => widget.vm.titleValidator(value),
+          autocorrect: false,
           decoration: const InputDecoration(
             hintText: "어떤 얘기를 나눠볼까요?",
             hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),

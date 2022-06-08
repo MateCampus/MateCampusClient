@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:stomp_dart_client/stomp.dart';
 import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
+import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
@@ -62,7 +63,7 @@ class StompObject {
       /// *** 이 친구를 먼저 해버려야했다!>!>! 먼저해서 합쳐야할 듯..
       await chatViewModel.setChatRoomByNewMessages();
 
-      // terminated된 앱의 알림 클릭해서 들어갈 때.
+      /* 백그라운드 상태 (Terminated messages) */
       RemoteMessage? remoteMessage =
           await FirebaseMessaging.instance.getInitialMessage();
       if (remoteMessage != null) {
@@ -102,7 +103,7 @@ class StompObject {
         serviceLocator<ChatDetailViewModel>();
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
-    stompClient.subscribe(
+    dynamic unsubscribeFn = stompClient.subscribe(
       headers: AuthService.get_auth_header(),
       destination: '/sub/chat/room/$roomId',
       callback: (frame) {
@@ -318,8 +319,8 @@ class StompObject {
     });
   }
 
-  static void subscribeVoiceRoomChat(String roomId) {
-    stompClient.subscribe(
+  static StompUnsubscribe subscribeVoiceRoomChat(String roomId) {
+    StompUnsubscribe unsubscribeFn = stompClient.subscribe(
         headers: AuthService.get_auth_header(),
         destination: '/sub/chat/room/$roomId',
         callback: (frame) {
@@ -327,8 +328,13 @@ class StompObject {
               serviceLocator<VoiceDetailViewModel>();
           print("----- 새로운 멤버 도착 -----");
           var res = json.decode(frame.body ?? "");
-          ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(res);
-          voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
+          if (res["type"] == "enter") {
+            ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(res);
+            voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
+          } else if (res["type"] == "exit") {
+            voiceDetailViewModel.removeChatMemberInfo(res["loginId"]);
+          }
         });
+    return unsubscribeFn;
   }
 }

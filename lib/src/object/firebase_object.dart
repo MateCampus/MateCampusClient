@@ -1,6 +1,4 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
@@ -51,6 +49,9 @@ class FirebaseObject {
     // FirebaseMessaging.instance.requestPermission();
     // print('User granted permission: ${settings.authorizationStatus}');
 
+    //*
+    // terminated된 상태는 stomp_object에서 stomp 연결완료 후 진행
+    // stomp_object.dart */
     /* 사용하고 있는 상태(Foreground messages) */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('foreground으로 메세지 받기 완료 Message data: ${message.data}');
