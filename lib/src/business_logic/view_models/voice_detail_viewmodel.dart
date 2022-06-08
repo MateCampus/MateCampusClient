@@ -48,7 +48,7 @@ class VoiceDetailViewModel extends BaseModel {
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
     unsubscribeFn = StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
-        //local db
+    //local db
     saveExistingUsersDB(voiceRoom.memberInfos!);
     setBusy(false);
   }
@@ -207,6 +207,8 @@ class VoiceDetailViewModel extends BaseModel {
       }
     }
     PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
+  }
+
   void removeChatMemberInfo(String exitMemberLoginId) {
     _voiceRoomMembers
         .removeWhere((member) => member.loginId == exitMemberLoginId);
