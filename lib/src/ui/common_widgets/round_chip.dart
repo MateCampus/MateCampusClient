@@ -1,3 +1,5 @@
+//chat의 message에서 쓰던데..
+
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 

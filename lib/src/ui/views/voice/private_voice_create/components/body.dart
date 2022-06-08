@@ -3,8 +3,8 @@ import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_sc
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
-import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/views/voice/private_voice_create/components/title_input.dart';
 
 class Body extends StatelessWidget {
@@ -30,9 +30,8 @@ class Body extends StatelessWidget {
             ),
           ),
         ),
-        DefaultShadowBox(
-          child: Padding(
-            padding: defaultPadding,
+        SafeArea(
+          child: BottomFixedBtnDecoBox(
             child: DefaultBtn(
               text: '다음',
               press: () {

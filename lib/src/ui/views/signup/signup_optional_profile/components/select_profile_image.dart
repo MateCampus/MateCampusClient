@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
@@ -20,7 +21,10 @@ class SelectProfileImage extends StatelessWidget {
                   radius: getProportionateScreenHeight(50),
                   backgroundImage: (vm.userImgPath == '')
                       ? const AssetImage('assets/images/user/general_user.png')
-                      : AssetImage(vm.userImgPath)),
+                      : vm.userImgPath.startsWith('https')
+                          ? CachedNetworkImageProvider(vm.userImgPath)
+                              as ImageProvider
+                          : AssetImage(vm.userImgPath)),
               Positioned(
                   bottom: 1,
                   right: -1,

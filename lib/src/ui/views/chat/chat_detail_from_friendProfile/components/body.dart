@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
-import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
+import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/components/chat_input_field.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/components/message.dart';
@@ -38,10 +37,9 @@ class Body extends StatelessWidget {
                         }),
                   )),
             ),
-            DefaultShadowBox(
-              backgroundColor: const Color(0xfffff8f3),
-              child: Padding(
-                padding: defaultPadding,
+            SafeArea(
+              child: BottomFixedBtnDecoBox(
+                backgroundColor: const Color(0xfffff8f3),
                 child: ChatInputField(
                   roomId: vm.chatRoom.roomId,
                   roomType: vm.chatRoom.type,
