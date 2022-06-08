@@ -1,9 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/components/body.dart';
 
 class EditImage extends StatefulWidget {
   MypageViewModel vm;
@@ -14,13 +13,8 @@ class EditImage extends StatefulWidget {
 }
 
 class _EditImageState extends State<EditImage> {
-  final ImagePicker _picker = ImagePicker();
-  XFile? _pickedImg;
-
   @override
   Widget build(BuildContext context) {
-    BodyState? body = context.findAncestorStateOfType<
-        BodyState>(); //부모state 접근 가능. 여기서는 body의 pickedImgPath에 접근하기 위해 사용.
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical: getProportionateScreenHeight(10),
@@ -29,24 +23,21 @@ class _EditImageState extends State<EditImage> {
         children: [
           CircleAvatar(
               radius: getProportionateScreenHeight(50),
-              backgroundImage: (_pickedImg == null)
-                  ? AssetImage(widget.vm.myInfo.imageUrl)
-                  : AssetImage(_pickedImg!.path)),
+              backgroundImage: (widget.vm.changedProfileImgPath.isEmpty)
+                  ? widget.vm.myInfo.imageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(widget.vm.myInfo.imageUrl)
+                          as ImageProvider
+                      : AssetImage(widget.vm.myInfo.imageUrl)
+                  : widget.vm.changedProfileImgPath.startsWith('https')
+                      ? CachedNetworkImageProvider(
+                          widget.vm.changedProfileImgPath) as ImageProvider
+                      : AssetImage(widget.vm.changedProfileImgPath)),
           Positioned(
               bottom: 1,
               right: -1,
               child: InkWell(
-                onTap: () async {
-                  final XFile? image =
-                      await _picker.pickImage(source: ImageSource.gallery);
-                  if (image != null) {
-                    setState(() {
-                      _pickedImg = image;
-                    });
-                    body!.setState(() {
-                      body.pickedImgPath = image.path;
-                    });
-                  }
+                onTap: () {
+                  widget.vm.getProfileImgFromGallery();
                 },
                 child: Container(
                   width: getProportionateScreenWidth(30),

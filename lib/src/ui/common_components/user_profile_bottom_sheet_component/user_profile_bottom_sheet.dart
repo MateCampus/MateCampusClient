@@ -72,7 +72,7 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
                                                 profileInterests: vm.interests),
                                           ],
                                         ),
-                                        _bottomFixedBtn()
+                                        SafeArea(child: _bottomFixedBtn())
                                       ]),
                                 ),
                               ],
@@ -96,7 +96,7 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
       case FriendRequestStatus.ACCEPTED:
         return GoToChatRoomBtn(profileLoginId: vm.userProfile.loginId);
       case FriendRequestStatus.UNACCEPTED:
-        return WaitingFriendRequest();
+        return const WaitingFriendRequest();
       default:
         return FriendRequestBtn(
           vm: vm,

@@ -16,7 +16,7 @@ class SignUp extends StatelessWidget {
         text: '자몽캠퍼스 회원가입',
         press: () {
           Navigator.of(context).pushNamedAndRemoveUntil(
-              '/signUpAccount', (Route<dynamic> route) => false);
+              '/signUpAccount', ModalRoute.withName('/login'));
         },
         btnColor: Colors.white,
         textColor: mainColor,

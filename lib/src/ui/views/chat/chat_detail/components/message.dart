@@ -20,16 +20,15 @@ class Message extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           horizontal: getProportionateScreenWidth(15),
           vertical: getProportionateScreenHeight(5)),
-      child: (message.type == "ENTER" || message.text == "EXIT")
+      child: (message.type == "ENTER" || message.text == "EXIT") //얘는 뭔지 모르겟다
           ? Container(
-              //얘는 뭔지 모르겟다
               alignment: Alignment.center,
               child: RoundChip(
                 text: message.text,
                 textColor: Colors.white,
                 backgroundColor: Colors.black38,
-                horizontalPadding: kDefaultPadding / 2,
-                verticalPadding: kDefaultPadding / 6,
+                horizontalPadding: 10,
+                verticalPadding: 3.5,
                 fontsize: 11,
               ))
           : Row(

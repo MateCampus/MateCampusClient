@@ -63,8 +63,16 @@ class SignUpViewModel extends BaseModel {
   bool get isValidNickname => _isValidNickname;
 
   //관심사 관련 변수
-  final List<InterestPresentation> _systemInterests = [];
-  final List<InterestPresentation> _selectedInterests = [];
+  //_systemInterests => 전체관심사 매핑한 리스트.
+  static final List<InterestPresentation> _systemInterests = allInterestList
+      .map((interestCode) => InterestPresentation(
+          interestCode: interestCode,
+          title: InterestData.korNameOf(interestCode.name),
+          icon: InterestData.iconOf(interestCode.name),
+          isSelected: false))
+      .toList();
+  final List<InterestPresentation> _selectedInterests =
+      List.empty(growable: true);
 
   List<InterestPresentation> get systemInterests => _systemInterests;
   List<InterestPresentation> get selectedInterests => _selectedInterests;
@@ -185,17 +193,6 @@ class SignUpViewModel extends BaseModel {
     }
   }
 
-  //시스템 자체에 저장되어 있는 관심사 리스트를 뷰에 보여주기 위해 매핑
-  void setInterestList() {
-    for (InterestCode interestCode in allInterestList) {
-      _systemInterests.add(InterestPresentation(
-          interestCode: interestCode,
-          title: InterestData.korNameOf(interestCode.name),
-          icon: InterestData.iconOf(interestCode.name),
-          isSelected: false));
-    }
-  }
-
   //관심사 선택
   void selectInterest(InterestPresentation interest, bool value) {
     interest.isSelected = value;
@@ -226,7 +223,7 @@ class SignUpViewModel extends BaseModel {
 
     if (isCreated) {
       toastMessage('회원 가입이 완료되었습니다');
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     } else {
       toastMessage('회원가입 오류');
     }

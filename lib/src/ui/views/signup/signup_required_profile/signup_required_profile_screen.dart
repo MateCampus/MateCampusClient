@@ -18,12 +18,6 @@ class _SignUpRequiredProfileScreenState
   SignUpViewModel vm = serviceLocator<SignUpViewModel>();
 
   @override
-  void initState() {
-    vm.setInterestList();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<SignUpViewModel>.value(
