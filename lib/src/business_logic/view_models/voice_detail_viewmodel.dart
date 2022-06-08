@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
@@ -17,6 +18,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 
 class VoiceDetailViewModel extends BaseModel {
   final VoiceService _voiceService = serviceLocator<VoiceService>();
+  StompUnsubscribe? unsubscribeFn;
   VoiceRoomPresentation _voiceRoom = VoiceRoomPresentation(
       id: -1,
       title: '',
@@ -44,8 +46,7 @@ class VoiceDetailViewModel extends BaseModel {
     presentVoiceRoom(voiceRoom);
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
-    StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
-
+    unsubscribeFn = StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
     setBusy(false);
   }
 
@@ -163,6 +164,12 @@ class VoiceDetailViewModel extends BaseModel {
     notifyListeners();
   }
 
+  void removeChatMemberInfo(String exitMemberLoginId) {
+    _voiceRoomMembers
+        .removeWhere((member) => member.loginId == exitMemberLoginId);
+    notifyListeners();
+  }
+
   void setVoiceFilter1() {
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
     _engine!.setLocalVoicePitch(2.0);
@@ -181,6 +188,13 @@ class VoiceDetailViewModel extends BaseModel {
   void setOriginalVoice() {
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
     _engine!.setLocalVoicePitch(1.0);
+  }
+
+  void resetData() {
+    // 1. agora 해제 2. stomp unsubscribe 3. server participant에서 제거
+    leaveChannel();
+    unsubscribeFn!(unsubscribeHeaders: AuthService.get_auth_header());
+    _voiceService.exitVoiceRoom(id: voiceRoom.id);
   }
 }
 

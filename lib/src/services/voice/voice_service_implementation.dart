@@ -66,4 +66,16 @@ class VoiceServiceImpl implements VoiceService {
       throw Exception();
     }
   }
+
+  @override
+  Future<void> exitVoiceRoom({required int id}) async {
+    final response = await http.put(
+        Uri.parse(devServer + "/api/voiceRoom/exit/" + id.toString()),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      print('나가기 성공');
+    } else {
+      print('나가기 실패');
+    }
+  }
 }

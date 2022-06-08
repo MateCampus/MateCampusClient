@@ -7,4 +7,6 @@ abstract class VoiceService {
 
   Future<VoiceRoom> createVoiceRoom(
       {required String title, required List<String> selectedMemberLoginIds});
+
+  Future<void> exitVoiceRoom({required int id});
 }

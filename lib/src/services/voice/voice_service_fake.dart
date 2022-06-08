@@ -22,4 +22,10 @@ class FakeVoiceService implements VoiceService {
     voiceRooms.addAll(voiceRoomDummy);
     return voiceRooms;
   }
+
+  @override
+  Future<void> exitVoiceRoom({required int id}) {
+    // TODO: implement exitVoiceRoom
+    throw UnimplementedError();
+  }
 }
