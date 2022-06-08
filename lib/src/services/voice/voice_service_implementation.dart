@@ -39,7 +39,9 @@ class VoiceServiceImpl implements VoiceService {
   }
 
   @override
-  Future<VoiceRoom> createVoiceRoom({required String title}) async {
+  Future<VoiceRoom> createVoiceRoom(
+      {required String title,
+      required List<String> selectedMemberLoginIds}) async {
     // String voiceRoomJson = jsonEncode({
     //   "title": title,
     //   "collegeOnly": collegeOnly,
@@ -48,7 +50,10 @@ class VoiceServiceImpl implements VoiceService {
     //   "type": type,
     //   "members": members.toList(),  //리스트 인코딩하는법 알아야함
     // });
-    String voiceRoomJson = jsonEncode({"title": title});
+    // String loginIdsJson = selectedMemberLoginIds.join(",");
+    String voiceRoomJson = jsonEncode(
+        {"title": title, "selectedMemberLoginIds": selectedMemberLoginIds});
+
     final response = await http.post(Uri.parse(devServer + "/api/voiceRoom"),
         headers: AuthService.get_auth_header(), body: voiceRoomJson);
     if (response.statusCode == 201) {
@@ -59,6 +64,18 @@ class VoiceServiceImpl implements VoiceService {
       print('보이스룸 생성 실패');
       print(response.reasonPhrase);
       throw Exception();
+    }
+  }
+
+  @override
+  Future<void> exitVoiceRoom({required int id}) async {
+    final response = await http.put(
+        Uri.parse(devServer + "/api/voiceRoom/exit/" + id.toString()),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      print('나가기 성공');
+    } else {
+      print('나가기 실패');
     }
   }
 }

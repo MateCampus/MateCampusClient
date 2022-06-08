@@ -46,14 +46,6 @@ class ProfileViewModel extends BaseModel {
 
     setBusy(false);
   }
-
-  void requestFriend(String userId, String requestId) async {
-    //userId: 친구신청 버튼을 누른 유저(본인)  requestId: 친구 신청 당하는 유저
-    _profile.friendRequestStatus = FriendRequestStatus.UNACCEPTED;
-    print(_profile.nickname + '님에게 친구를 요청합니다'); //테스트용
-    toastMessage('친구 신청 완료!');
-    notifyListeners();
-  }
 }
 
 class ProfilePresentation {

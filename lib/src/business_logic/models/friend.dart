@@ -52,8 +52,4 @@ class Friend {
   }
 }
 
-enum FriendRequestStatus {
-  NONE,
-  UNACCEPTED,
-  ACCEPTED,
-}
+enum FriendRequestStatus { NONE, UNACCEPTED, ACCEPTED, REFUSED }

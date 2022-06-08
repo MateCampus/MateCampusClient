@@ -19,6 +19,7 @@ class MainActivity: FlutterActivity() {
         createNotificationChannel("fcm_default_channel", "일반", "전체 알림입니다.")
         createNotificationChannel("fcm_ads_channel", "광고", "광고 관련 알림입니다.")
         createNotificationChannel("fcm_message_channel", "메세지 전체", "메세지 전체 관련 알림입니다.")
+        createNotificationChannel("fcm_voiceroom_invite_channel", "음성대화방 초대", "음성 대화방 초대 관련 알림입니다.")
     }
 
     private fun createNotificationChannel(channelId: String, name: String, channelDescription: String) {

@@ -65,7 +65,7 @@ class RequestListTile extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  vm.acceptRequest(friend);
+                  vm.approveRequest(friend);
                 },
                 child: Text('수락'),
                 style: TextButton.styleFrom(
@@ -75,9 +75,9 @@ class RequestListTile extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    vm.rejectRequest(friend);
+                    vm.refuseRequest(friend);
                   },
-                  child: Text('삭제'),
+                  child: Text('거절'),
                   style: TextButton.styleFrom(
                       primary: mainColor, side: BorderSide(color: mainColor))),
             ],

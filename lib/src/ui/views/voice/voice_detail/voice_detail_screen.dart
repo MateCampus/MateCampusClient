@@ -31,7 +31,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
   @override
   void dispose() {
     print('dispose voice detail');
-    vm.leaveChannel();
+    vm.resetData();
     serviceLocator.resetLazySingleton<VoiceDetailViewModel>(instance: vm);
     super.dispose();
   }

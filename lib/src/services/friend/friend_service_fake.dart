@@ -5,12 +5,17 @@ import 'package:zamongcampus/src/services/friend/friend_service.dart';
 
 class FakeFriendService implements FriendService {
   @override
+  Future<void> requestFriend({required String targetLoginId}) async {
+    print('친구 신청');
+  }
+
+  @override
   Future<List<Friend>> fetchFriends() async {
     return friendDummy;
   }
 
   @override
-  Future<List<Friend>> fetchAcceptedTypeFriends() async {
+  Future<List<Friend>> fetchApprovedTypeFriends() async {
     return acceptedOnlyfriendDummy;
   }
 
@@ -18,6 +23,18 @@ class FakeFriendService implements FriendService {
   Future<Friend> fetchFriend(int friendId) async {
     // TODO: implement fetchFriend
     return friendDetailDummy;
+  }
+
+  @override
+  Future<void> approveFriend({required String targetLoginId}) async {
+    // TODO: implement approveFriend
+    print('친구 수락');
+  }
+
+  @override
+  Future<void> refuseFriend({required String targetLoginId}) async {
+    // TODO: implement refuseFriend
+    print('친구 거절');
   }
 }
 
