@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 
@@ -9,8 +10,8 @@ class MenuList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: getProportionateScreenHeight(20),
-          horizontal: getProportionateScreenWidth(20)),
+          vertical: getProportionateScreenHeight(10),
+          horizontal: kHorizontalPadding),
       child: Card(
         shape: RoundedRectangleBorder(
           //모서리를 둥글게 하기 위해 사용

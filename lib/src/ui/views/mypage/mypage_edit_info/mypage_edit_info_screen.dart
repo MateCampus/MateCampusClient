@@ -16,11 +16,6 @@ class _MypageEditInfoScreenState extends State<MypageEditInfoScreen> {
   MypageViewModel vm = serviceLocator<MypageViewModel>();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<MypageViewModel>.value(

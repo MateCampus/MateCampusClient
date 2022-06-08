@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
-import 'package:zamongcampus/src/ui/common_widgets/default_shadow.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/select_profile_image.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/user_introduce_input.dart';
 
@@ -31,24 +30,24 @@ class Body extends StatelessWidget {
             ),
           ),
         ),
-        DefaultShadowBox(
-          child: Padding(
-              padding: defaultPadding,
-              child: (vm.userImgPath != '' &&
-                      vm.userIntroduceController.text != '')
-                  ? DefaultBtn(
-                      text: '설정 완료',
-                      press: () {
-                        vm.createUser(context);
-                      },
-                    )
-                  : DefaultBtn(
-                      text: '건너뛰기',
-                      // btnColor: Colors.grey.withOpacity(0.3),
-                      press: () {
-                        vm.createUser(context);
-                      },
-                    )),
+        SafeArea(
+          child: BottomFixedBtnDecoBox(
+            child:
+                (vm.userImgPath != '' && vm.userIntroduceController.text != '')
+                    ? DefaultBtn(
+                        text: '설정 완료',
+                        press: () {
+                          vm.createUser(context);
+                        },
+                      )
+                    : DefaultBtn(
+                        text: '건너뛰기',
+                        btnColor: Colors.grey.withOpacity(0.5),
+                        press: () {
+                          vm.createUser(context);
+                        },
+                      ),
+          ),
         ),
       ],
     );

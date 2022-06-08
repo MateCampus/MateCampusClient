@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
@@ -55,6 +56,39 @@ class UserServiceImpl implements UserService {
       return user;
     } else {
       throw Exception('fetchMyInfo 서버 오류');
+    }
+  }
+
+  @override
+  Future<bool> checkNicknameRedundancy({required String nickname}) async {
+    // TODO: implement checkNicknameRedundancy
+    bool value = true;
+    return value;
+  }
+
+  @override
+  Future<bool> updateMyInfo(
+      {String? nickname, String? introduction, XFile? profileImg}) async {
+    var request =
+        http.MultipartRequest("PUT", Uri.parse(devServer + "/api/user/mypage"))
+          ..headers.addAll(AuthService.get_auth_header());
+    if (nickname != null) {
+      request.fields['nickname'] = nickname;
+    }
+    if (introduction != null) {
+      request.fields['introduction'] = introduction;
+    }
+    if (profileImg != null) {
+      request.files
+          .add(await http.MultipartFile.fromPath('imageUrl', profileImg.path));
+    }
+
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print('내정보 업데이트 성공');
+      return true;
+    } else {
+      throw Exception('업데이트 오류');
     }
   }
 }

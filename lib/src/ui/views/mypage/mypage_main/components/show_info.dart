@@ -1,34 +1,39 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class ShowInfo extends StatelessWidget {
-  MypageViewModel vm;
-  ShowInfo({Key? key, required this.vm}) : super(key: key);
+  final MypageViewModel vm;
+  const ShowInfo({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: getProportionateScreenHeight(10),
-          horizontal: getProportionateScreenWidth(20)),
+          vertical: getProportionateScreenHeight(5),
+          horizontal: kHorizontalPadding),
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: getProportionateScreenHeight(15)),
+            padding: EdgeInsets.symmetric(
+                vertical: getProportionateScreenHeight(15)),
             child: Stack(
               children: [
                 CircleAvatar(
-                  radius: getProportionateScreenHeight(50),
-                  backgroundImage: vm.myInfo.imageUrl.startsWith('https')
-                      ? CachedNetworkImageProvider(vm.myInfo.imageUrl)
-                          as ImageProvider
-                      : const AssetImage(
-                          'assets/images/user/general_user.png'), //추후 누르면 전체화면으로 프사볼수있도록 변경하기
-                ),
+                    radius: getProportionateScreenHeight(50),
+                    backgroundImage: (vm.changedProfileImgPath.isEmpty)
+                        ? vm.myInfo.imageUrl.startsWith('https')
+                            ? CachedNetworkImageProvider(vm.myInfo.imageUrl)
+                                as ImageProvider
+                            : AssetImage(vm.myInfo.imageUrl)
+                        : vm.changedProfileImgPath.startsWith('https')
+                            ? CachedNetworkImageProvider(
+                                vm.changedProfileImgPath) as ImageProvider
+                            : AssetImage(vm
+                                .changedProfileImgPath) //추후 누르면 전체화면으로 프사볼수있도록 변경하기
+                    ),
                 Positioned(
                   bottom: 1,
                   right: -1,
@@ -41,26 +46,29 @@ class ShowInfo extends StatelessWidget {
             padding: EdgeInsets.only(bottom: getProportionateScreenHeight(3)),
             child: Text(
               vm.myInfo.nickname,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+              style: TextStyle(
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.w800),
             ),
           ),
-          vm.myInfo.majorName == null
+          vm.myInfo.majorName.isEmpty
               ? Padding(
                   padding:
                       EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
                   child: Text(
                     vm.myInfo.collegeName,
                     style: TextStyle(
-                        fontSize: 13, color: Colors.black.withOpacity(0.5)),
+                        fontSize: getProportionateScreenWidth(13),
+                        color: Colors.black.withOpacity(0.5)),
                   ),
                 )
               : Padding(
                   padding:
                       EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
                   child: Text(
-                    vm.myInfo.collegeName + ' / ' + vm.myInfo.majorName!,
+                    vm.myInfo.collegeName + ' / ' + vm.myInfo.majorName,
                     style: TextStyle(
-                        fontSize: 13,
+                        fontSize: getProportionateScreenWidth(13),
                         color: Colors.black.withOpacity(0.5),
                         letterSpacing: 0.5),
                   ),
@@ -107,8 +115,9 @@ class ShowInfo extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
             ),
             backgroundColor: mainColor,
-            textStyle:
-                const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold)),
+            textStyle: TextStyle(
+                fontSize: getProportionateScreenWidth(14),
+                fontWeight: FontWeight.bold)),
         child: Stack(
           alignment: Alignment.center,
           children: [

@@ -32,8 +32,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<PostDetailScreenViewModel>(
-      create: (context) => vm,
+    return ChangeNotifierProvider<PostDetailScreenViewModel>.value(
+      value: vm,
       child: Consumer<PostDetailScreenViewModel>(
         builder: (context, vm, child) {
           return GestureDetector(

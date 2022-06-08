@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
-import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
@@ -16,11 +15,10 @@ class MypageMainScreen extends StatefulWidget {
 
 class _MypageMainScreenState extends State<MypageMainScreen> {
   MypageViewModel vm = serviceLocator<MypageViewModel>();
-  final String _loginId = 'temp';
 
   @override
   void initState() {
-    vm.loadMyInfo(_loginId);
+    vm.loadMyInfo();
     super.initState();
   }
 
