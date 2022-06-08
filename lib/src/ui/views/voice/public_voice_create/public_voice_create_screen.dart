@@ -18,11 +18,14 @@ class _PublicVoiceCreateState extends State<PublicVoiceCreateScreen> {
   @override
   void initState() {
     vm.setPublicVoiceRoom();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      vm.initializeField();
-    });
-
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    serviceLocator.resetLazySingleton<VoiceCreateViewModel>(instance: vm);
+    print('dispose public voice create');
+    super.dispose();
   }
 
   @override

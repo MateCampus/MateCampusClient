@@ -1,8 +1,8 @@
-import 'package:http/http.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/services/friend/friend_service_fake.dart';
 import 'dart:convert';
 import 'friend_service.dart';
 import 'friend_service_fake.dart';

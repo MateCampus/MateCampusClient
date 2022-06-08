@@ -39,8 +39,8 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<VoiceDetailViewModel>(
-      create: (context) => vm,
+    return ChangeNotifierProvider.value(
+      value: vm,
       child: Consumer<VoiceDetailViewModel>(builder: ((context, vm, child) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

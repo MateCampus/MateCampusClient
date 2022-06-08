@@ -17,7 +17,6 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
     super.initState();
 
     widget.vm.userPwController.addListener(() {});
-    //widget.vm.checkPwController.addListener(() {});
   }
 
   @override

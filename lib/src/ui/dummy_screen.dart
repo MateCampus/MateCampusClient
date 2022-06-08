@@ -152,6 +152,12 @@ class DummyScreen extends StatelessWidget {
                 },
                 child: Text("print deviceFcmToken"),
               ),
+              TextButton(
+                onPressed: () async {
+                  print(await PrefsObject.getRecentTalkUsers());
+                },
+                child: Text("recentTalkUser 리스트 출력"),
+              ),
               buildActivateButton()
             ],
           ),

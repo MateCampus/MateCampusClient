@@ -11,7 +11,7 @@ class VoiceRoom {
   int? uid;
   String? ownerLoginId;
   List<dynamic>? userImageUrls;
-  List<dynamic>? memberInfos;
+  List<ChatMemberInfo>? memberInfos;
   // DateTime createdAt;
   //VoiceRoomType? type;
   List<Category>? categories;
@@ -44,7 +44,8 @@ class VoiceRoom {
             uid: json['voiceRoomAndTokenInfo']['uid'],
             ownerLoginId: json['voiceRoomAndTokenInfo']['ownerLoginId'],
             memberInfos: json['memberInfos']
-                ?.map((member) => ChatMemberInfo.fromJson(member))
+                ?.map<ChatMemberInfo>(
+                    (member) => ChatMemberInfo.fromJson(member))
                 .toList(),
             categories: json['categories']?.toList(),
             //createdAt: DateTime?.parse(json['createdAt']),

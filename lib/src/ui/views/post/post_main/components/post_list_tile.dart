@@ -106,8 +106,8 @@ class PostListTile extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: post.imageUrl!.startsWith('https')
-              ? Image.network(
-                  post.imageUrl!,
+              ? CachedNetworkImage(
+                  imageUrl: post.imageUrl!,
                   width: getProportionateScreenWidth(60),
                   height: getProportionateScreenHeight(60),
                   fit: BoxFit.cover,
