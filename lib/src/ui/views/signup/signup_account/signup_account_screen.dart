@@ -33,7 +33,10 @@ class _SignUpAccountScreenState extends State<SignUpAccountScreen> {
                   icon: const Icon(Icons.chevron_left_outlined),
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    serviceLocator.resetLazySingleton<SignUpViewModel>(
+                        instance: vm);
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, '/login', (route) => false);
                   },
                 ),
                 elevation: 0.0,
