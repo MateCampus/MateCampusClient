@@ -9,6 +9,33 @@ import 'dart:convert';
 
 class PostServiceImpl implements PostService {
   @override
+  Future<bool> createPost(
+      {required String title,
+      required String body,
+      List<XFile>? imageFileList}) async {
+    var request =
+        http.MultipartRequest("POST", Uri.parse(devServer + "/api/post"))
+          ..headers.addAll(AuthService.get_auth_header());
+
+    request.fields['body'] = body;
+    request.fields['title'] = title;
+    if (imageFileList != null) {
+      for (var imageFile in imageFileList) {
+        request.files
+            .add(await http.MultipartFile.fromPath('files', imageFile.path));
+      }
+    }
+
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      print("post 생성 성공");
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   Future<List<Post>> fetchPosts(
       {required String type, required int nextPageToken}) async {
     final response = await http.get(
@@ -48,35 +75,48 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<int> likePost({required String loginId, required int postId}) {
-    // TODO: implement likePost
-    throw UnimplementedError();
+  Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() async {
+    final response = await http.get(
+        Uri.parse(devServer + "/api/post/myLikeBookMarkIds"),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      var json = await jsonDecode(utf8.decode(response.bodyBytes));
+      Map<String, List<int>> ids = {};
+      ids.addAll({
+        "myLikePostIds": json["myLikePostIds"].cast<int>(),
+        "myBookMarkIds": json["myBookMarkIds"].cast<int>()
+      });
+      return ids;
+    } else {
+      throw Exception('게시물 좋아요, 북마크 Ids 가져오기 오류');
+    }
   }
 
   @override
-  Future<bool> createPost(
-      {required String title,
-      required String body,
-      List<XFile>? imageFileList}) async {
-    var request =
-        http.MultipartRequest("POST", Uri.parse(devServer + "/api/post"))
-          ..headers.addAll(AuthService.get_auth_header());
-
-    request.fields['body'] = body;
-    request.fields['title'] = title;
-    if (imageFileList != null) {
-      for (var imageFile in imageFileList) {
-        request.files
-            .add(await http.MultipartFile.fromPath('files', imageFile.path));
-      }
-    }
-
-    var response = await request.send();
+  Future<Map<String, int>> likePost({required int postId}) async {
+    final response = await http.post(
+        Uri.parse(devServer + "/api/post/like/" + postId.toString()),
+        headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
-      print("post 생성 성공");
-      return true;
+      var json = await jsonDecode(utf8.decode(response.bodyBytes));
+      Map<String, int> result = {};
+      result.addAll({"postId": json["postId"], "likeCount": json["likeCount"]});
+      return result;
     } else {
-      return false;
+      throw Exception('게시물 좋아요 오류');
+    }
+  }
+
+  @override
+  Future<int> bookMarkPost({required int postId}) async {
+    final response = await http.post(
+        Uri.parse(devServer + "/api/post/bookmark/" + postId.toString()),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      var postId = await jsonDecode(utf8.decode(response.bodyBytes));
+      return postId;
+    } else {
+      throw Exception('게시물 좋아요 오류');
     }
   }
 }

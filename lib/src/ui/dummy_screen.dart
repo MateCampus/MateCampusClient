@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
-
+import 'package:http/http.dart' as http;
 import '../object/firebase_object.dart';
 
 /// 삭제 예정 (채팅 테스트 용도)
@@ -155,10 +158,50 @@ class DummyScreen extends StatelessWidget {
                 },
                 child: Text("recentTalkUser 리스트 출력"),
               ),
+              buildActivateButton()
             ],
           ),
         ),
       ),
     );
+  }
+
+  final _textController = TextEditingController();
+  Widget buildActivateButton() {
+    if (AuthService.loginId == "admin") {
+      return Column(
+        children: [
+          TextField(
+            controller: _textController,
+            decoration: const InputDecoration(
+              hintText: '활성화시킬 유저 loginId',
+              hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              _activateUser(_textController.text);
+            },
+            child: Text("유저 활성화"),
+          ),
+        ],
+      );
+    }
+    return Container();
+  }
+
+  void _activateUser(String text) async {
+    print(text + " 유저 활성화 시작!");
+    final response = await http.post(
+        Uri.parse(devServer + "/api/user/activate?loginId=" + text),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      print("활성화 완료");
+      toastMessage("활성화 완료: " + _textController.text.toString());
+    } else {
+      toastMessage("활성화 오류");
+    }
   }
 }

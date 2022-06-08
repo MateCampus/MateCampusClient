@@ -78,7 +78,7 @@ void setupServiceLocator() {
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
-  serviceLocator.registerFactory<PostMainScreenViewModel>(
+  serviceLocator.registerLazySingleton<PostMainScreenViewModel>(
       () => PostMainScreenViewModel());
   serviceLocator.registerFactory<PostCreateScreenViewModel>(
       () => PostCreateScreenViewModel());

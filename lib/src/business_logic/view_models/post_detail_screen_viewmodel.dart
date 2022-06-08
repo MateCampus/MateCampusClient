@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
@@ -19,7 +20,8 @@ class PostDetailScreenViewModel extends BaseModel {
   final List<CommentPresentation> _comments = [];
   int _currentPostId = -1;
   int _parentId = -1; //대댓글 생성할 때 쓰는용도
-  bool _isliked = false; //좋아요 기능 관련 -> 수정 필요할수도 있음
+  bool _isliked = false;
+  bool _isBookMarked = false;
 
   final _commentTextController = TextEditingController();
   final _nestedCommentTextController = TextEditingController();
@@ -47,9 +49,16 @@ class PostDetailScreenViewModel extends BaseModel {
   PostDetailPresentation get postDetail => _postDetail;
   List<CommentPresentation> get comments => _comments;
   bool get isliked => _isliked;
+  bool get isBookMarked => _isBookMarked;
 
-  void loadPostDetail(int postId) async {
+  void initData(int postId) async {
     setBusy(true);
+    await loadPostDetail(postId);
+    await changeLikedBookMarked(postId);
+    setBusy(false);
+  }
+
+  Future<void> loadPostDetail(int postId) async {
     Post postDetailResult = await _postService.fetchPostDetail(postId: postId);
 
     _comments.addAll(postDetailResult.comments!.map((comment) =>
@@ -78,28 +87,6 @@ class PostDetailScreenViewModel extends BaseModel {
                 'assets/images/user/general_user.png',
             createdAt: dateToPastTime(comment.createdAt))));
 
-    int _commentCount = 0;
-
-    //총 댓글 수 카운트 -> 삭제한거는 제외하고 카운트..
-    // for (CommentPresentation comment in _comments) {
-    //   if (!comment.deleted) {
-    //     _commentCount++;
-    //   }
-    //   if (comment.children != []) {
-    //     for (dynamic nestedComment in comment.children) {
-    //       if (!nestedComment.deleted) {
-    //         _commentCount += comment.children.length;
-    //       }
-    //     }
-    //   }
-    // }
-
-    //총 댓글 수 카운트 -> 삭제한거도 포함
-    for (CommentPresentation comment in _comments) {
-      _commentCount++;
-      _commentCount += comment.children.length;
-    }
-
     _postDetail = PostDetailPresentation(
       id: postDetailResult.id,
       loginId: postDetailResult.loginId,
@@ -115,28 +102,44 @@ class PostDetailScreenViewModel extends BaseModel {
           postDetailResult.userImageUrls?.first ?? _postDetail.userImageUrl,
       body: postDetailResult.body,
       createdAt: dateToPastTime(postDetailResult.createdAt),
-      likedCount: '0',
-      commentCount: _commentCount.toString(),
+      likedCount: postDetailResult.likedCount.toString(),
+      commentCount: postDetailResult.commentCount.toString(),
       imageUrls: postDetailResult.imageUrls.toList(),
     );
 
     _currentPostId = postId;
-
-    setBusy(false);
   }
 
-  void likePost(String loginId, int postId) async {
+  Future<void> changeLikedBookMarked(int postId) async {
+    PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+    _isliked = postMainScreenViewModel.likepostIds.contains(postId);
+    _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
+  }
+
+  void likePost(int postId) async {
     setBusy(true);
+    Map<String, int> result = await _postService.likePost(postId: postId);
     _isliked = !_isliked;
-    int likecount =
-        await _postService.likePost(loginId: loginId, postId: postId);
-    _postDetail.likedCount = likecount.toString();
+    PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+    isliked
+        ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
+        : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+    _postDetail.likedCount = result["likeCount"].toString();
     setBusy(false);
   }
 
-  void changeLikedCount(String likedCount) {
-    _postDetail.likedCount = likedCount;
-    notifyListeners();
+  void bookMarkPost(int postId) async {
+    setBusy(true);
+    int newPostId = await _postService.bookMarkPost(postId: postId);
+    _isBookMarked = !_isBookMarked;
+    PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+    isBookMarked
+        ? postMainScreenViewModel.bookmarkpostIds.add(newPostId)
+        : postMainScreenViewModel.bookmarkpostIds.remove(newPostId);
+    setBusy(false);
   }
 
   void createComment() async {

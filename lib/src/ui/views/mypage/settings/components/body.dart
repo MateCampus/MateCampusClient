@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 
@@ -18,7 +19,11 @@ class Body extends StatelessWidget {
         const HorizontalDividerCustom(),
         _tabBtn(text: '알림 설정', onTap: () {}),
         const HorizontalDividerCustom(),
-        _tabBtn(text: '로그아웃', onTap: () {}),
+        _tabBtn(
+            text: '로그아웃',
+            onTap: () {
+              AuthService.logout(context);
+            }),
         const HorizontalDividerCustom(),
       ]),
     );

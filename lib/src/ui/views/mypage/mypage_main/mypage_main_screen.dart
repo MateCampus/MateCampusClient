@@ -46,8 +46,7 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
                   color: Colors.black,
                 ),
                 IconButton(
-                  //알림버튼 -> 로그아웃으로 해둠
-                  onPressed: () => {AuthService.logout(context)},
+                  onPressed: () {},
                   icon: const Icon(Icons.notifications_outlined),
                   color: Colors.black,
                 ),

@@ -30,7 +30,6 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => PostDetailScreen(
                   postId: args.postId,
-                  likedCount: args.likedCount,
                 ));
       case "/voiceDetail":
         final args = settings.arguments as VoiceDetailScreenArgs;

@@ -3,6 +3,8 @@ import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 
+import 'friend.dart';
+
 class User {
   final int? id;
   final String loginId;
@@ -21,6 +23,7 @@ class User {
   final int? bookMarkCount;
   final int? myPostCount;
   final int? myCommentCount;
+  final FriendRequestStatus? friendRequestStatus;
 
   const User({
     this.id,
@@ -40,6 +43,7 @@ class User {
     this.bookMarkCount,
     this.myPostCount,
     this.myCommentCount,
+    this.friendRequestStatus,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -64,6 +68,8 @@ class User {
         friendCount: json['friendCount'],
         bookMarkCount: json['bookMarkCount'],
         myPostCount: json['myPostCount'],
-        myCommentCount: json['myCommentCount']);
+        myCommentCount: json['myCommentCount'],
+        friendRequestStatus:
+            FriendRequestStatus.values.byName(json['friendStatus'] ?? 'NONE'));
   }
 }

@@ -20,15 +20,14 @@ class FakePostService implements PostService {
   Future<Post> fetchPostDetail({required int postId}) async {
     Post post;
     post = postDummy1[1];
-
     return post;
   }
 
   @override
-  Future<int> likePost({required String loginId, required int postId}) async {
-    // TODO: implement likePost
-    int likecount = Random().nextInt(100);
-    return likecount;
+  Future<Map<String, int>> likePost({required int postId}) async {
+    Map<String, int> result = {};
+    result.addAll({"postId": 1, "likeCount": Random().nextInt(100)});
+    return result;
   }
 
   @override
@@ -37,6 +36,18 @@ class FakePostService implements PostService {
       required String body,
       List<XFile>? imageFileList}) {
     // TODO: implement createPost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() {
+    // TODO: implement fetchMyLikeBookmarkPostIds
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> bookMarkPost({required int postId}) {
+    // TODO: implement bookMarkPost
     throw UnimplementedError();
   }
 }

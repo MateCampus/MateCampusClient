@@ -4,7 +4,9 @@ import 'voice_service.dart';
 
 class FakeVoiceService implements VoiceService {
   @override
-  Future<VoiceRoom> createVoiceRoom({required String title}) async {
+  Future<VoiceRoom> createVoiceRoom(
+      {required String title,
+      required List<String> selectedMemberLoginIds}) async {
     // TODO: implement createVoiceRoom
     throw UnimplementedError();
   }
@@ -19,5 +21,11 @@ class FakeVoiceService implements VoiceService {
     List<VoiceRoom> voiceRooms = [];
     voiceRooms.addAll(voiceRoomDummy);
     return voiceRooms;
+  }
+
+  @override
+  Future<void> exitVoiceRoom({required int id}) {
+    // TODO: implement exitVoiceRoom
+    throw UnimplementedError();
   }
 }
