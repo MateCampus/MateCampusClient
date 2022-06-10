@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 
 class PostImageItemThumbnail extends StatelessWidget {
   const PostImageItemThumbnail(
@@ -23,42 +24,39 @@ class PostImageItemThumbnail extends StatelessWidget {
         tag: postImageItem.id,
         child: hasMoreImg
             ? Stack(
-                fit: StackFit.expand,
+                alignment: AlignmentDirectional.center,
                 children: [
                   postImageItem.resource.startsWith('https')
                       ? CachedNetworkImage(
-                          width: 60,
-                          height: 60,
                           imageUrl: postImageItem.resource,
-                          colorBlendMode: BlendMode.dstATop,
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.6),
                               image: DecorationImage(
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.4),
+                                    BlendMode.darken),
                                 image: imageProvider,
                                 fit: BoxFit.cover,
                               ),
                             ),
                           ),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
+                          // placeholder: (context, url) => CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                              const Icon(Icons.error),
                         )
                       : Image.asset(
                           postImageItem.resource,
                           fit: BoxFit.cover,
-                          color: Colors.grey.withOpacity(0.6),
-                          colorBlendMode: BlendMode.dstATop,
+                          color: Colors.black.withOpacity(0.4),
+                          colorBlendMode: BlendMode.darken,
                         ),
-                  Center(
-                    child: Text(
-                      '+' + restImg.toString(),
-                      style: const TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    '+' + restImg.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: getProportionateScreenHeight(30),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   )
                 ],
               )
@@ -73,8 +71,9 @@ class PostImageItemThumbnail extends StatelessWidget {
                         ),
                       ),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    // placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   )
                 : Image.asset(
                     postImageItem.resource,
