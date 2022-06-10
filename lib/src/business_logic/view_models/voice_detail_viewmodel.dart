@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
@@ -8,6 +9,7 @@ import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -20,6 +22,7 @@ import 'package:agora_rtc_engine/rtc_engine.dart';
 class VoiceDetailViewModel extends BaseModel {
   final VoiceService _voiceService = serviceLocator<VoiceService>();
   StompUnsubscribe? unsubscribeFn;
+  bool isFull = false;
   VoiceRoomPresentation _voiceRoom = VoiceRoomPresentation(
       id: -1,
       title: '',
@@ -38,13 +41,23 @@ class VoiceDetailViewModel extends BaseModel {
   List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
 
   ///init
-  voiceDetailInit({int? id, VoiceRoom? createdVoiceRoom}) async {
+  voiceDetailInit(
+      {int? id,
+      VoiceRoom? createdVoiceRoom,
+      required BuildContext context}) async {
     setBusy(true);
     print('voiceDetailInit시작');
     VoiceRoom voiceRoom = (createdVoiceRoom == null && id != null)
         ? await _voiceService.fetchVoiceRoom(id: id)
         : createdVoiceRoom!;
-    presentVoiceRoom(voiceRoom);
+    // TODO: 이 부분 checkIsFull 함수로 Future로 만들어서 await 해야할수도.(아래 presentVoiceRoom이 먼저 시작할지도)
+    if (voiceRoom.isFull!) {
+      isFull = true;
+      toastMessage("최대인원을 초과했습니다.");
+      Navigator.pop(context);
+      return;
+    }
+    await presentVoiceRoom(voiceRoom);
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
     unsubscribeFn = StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
@@ -123,11 +136,12 @@ class VoiceDetailViewModel extends BaseModel {
     _voiceRoomMembers.clear();
   }
 
-  void presentVoiceRoom(VoiceRoom voiceRoom) {
+  Future<void> presentVoiceRoom(VoiceRoom voiceRoom) async {
     //뷰에 필요한 룸 정보 매핑
+    print('presentVoiceRoom 시작');
     _voiceRoom = VoiceRoomPresentation(
         id: voiceRoom.id,
-        title: voiceRoom.title,
+        title: voiceRoom.title ?? '제목 오류',
         categories: categoryDummy[Random().nextInt(2)]
             .map((category) =>
                 CategoryData.iconOf(category.name) +
@@ -237,9 +251,11 @@ class VoiceDetailViewModel extends BaseModel {
 
   void resetData() {
     // 1. agora 해제 2. stomp unsubscribe 3. server participant에서 제거
-    leaveChannel();
-    unsubscribeFn!(unsubscribeHeaders: AuthService.get_auth_header());
-    _voiceService.exitVoiceRoom(id: voiceRoom.id);
+    if (!isFull) {
+      leaveChannel();
+      unsubscribeFn!(unsubscribeHeaders: AuthService.get_auth_header());
+      _voiceService.exitVoiceRoom(id: voiceRoom.id);
+    }
   }
 }
 

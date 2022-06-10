@@ -38,7 +38,7 @@ class VoiceMainScreenViewModel extends BaseModel {
     _voiceRooms
         .addAll(voiceRoomsResult.map((voiceRoom) => VoiceRoomPresentation(
               id: voiceRoom.id,
-              title: voiceRoom.title,
+              title: voiceRoom.title ?? "제목 오류",
               memberImgUrls: voiceRoom.userImageUrls!
                   .map((image) => image.isEmpty
                       ? "assets/images/user/general_user.png"

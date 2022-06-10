@@ -24,7 +24,8 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
 
   @override
   void initState() {
-    vm.voiceDetailInit(id: widget.id, createdVoiceRoom: widget.voiceRoom);
+    vm.voiceDetailInit(
+        id: widget.id, createdVoiceRoom: widget.voiceRoom, context: context);
     super.initState();
   }
 
