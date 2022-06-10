@@ -13,11 +13,14 @@ class PostCreateScreenViewModel extends BaseModel {
   final titleTextController = TextEditingController();
   final bodyTextController = TextEditingController();
 
-  bool isShowOnlySameUniv = false;
-  List<XFile> pickedImgs = [];
+  final postFocusNode = FocusNode();
+
+  List<XFile> pickedImgs = List.empty(growable: true);
   final ImagePicker picker = ImagePicker();
 
   void createPost(BuildContext context) async {
+    postFocusNode.unfocus();
+    buildShowDialogForLoading(context);
     if (titleTextController.text.length < 5 &&
         bodyTextController.text.length < 5) {
       toastMessage("글자수가 적습니다");
@@ -32,32 +35,46 @@ class PostCreateScreenViewModel extends BaseModel {
     } else {
       toastMessage("오류");
     }
-    Navigator.pop(context);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
     PostMainScreenViewModel postMainScreenViewModel =
         serviceLocator<PostMainScreenViewModel>();
     postMainScreenViewModel.refreshPostAfterCreateUpdate();
   }
 
-  void changeIsShowOnlySameUniv() {
-    isShowOnlySameUniv = !isShowOnlySameUniv;
-  }
-
   //갤러리에서 이미지 가져오는 함수
-  void getImageFromGallery() async {
-    final List<XFile>? images = await picker.pickMultiImage();
-    if (images != null) {
-      pickedImgs = images;
-      notifyListeners();
+  void getImageFromGallery(BuildContext context) async {
+    if (pickedImgs.length >= 10) {
+      buildShowDialogForNotice(
+          context: context, description: '사진은 최대 10장까지 올릴 수 있어요');
+    } else {
+      final List<XFile>? images = await picker.pickMultiImage();
+      if (images != null) {
+        if (images.length + pickedImgs.length > 10) {
+          int remain = 10 - pickedImgs.length;
+          pickedImgs.addAll(images.getRange(0, remain));
+          buildShowDialogForNotice(
+              context: context, description: '사진은 최대 10장까지 올릴 수 있어요');
+        } else if (images.length + pickedImgs.length <= 10) {
+          pickedImgs.addAll(images);
+        }
+      }
     }
+
+    notifyListeners();
   }
 
   //카메라에서 이미지 가져오는 함수
-  void getImageFromCamera() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      pickedImgs.add(image);
-      notifyListeners();
+  void getImageFromCamera(BuildContext context) async {
+    if (pickedImgs.length >= 10) {
+      buildShowDialogForNotice(
+          context: context, description: '사진은 최대 10장까지 올릴 수 있어요');
+    } else {
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
+      if (image != null) {
+        pickedImgs.add(image);
+      }
     }
+    notifyListeners();
   }
 
   //이미지 삭제 함수

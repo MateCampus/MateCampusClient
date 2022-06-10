@@ -4,7 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 class DefaultBtn extends StatelessWidget {
   final String text;
-  final GestureTapCallback? press;
+  final GestureTapCallback press;
   final double? width;
   final double? height;
   final double? fontsize;
@@ -15,7 +15,7 @@ class DefaultBtn extends StatelessWidget {
   const DefaultBtn(
       {Key? key,
       required this.text,
-      this.press,
+      required this.press,
       this.width,
       this.height,
       this.fontsize,
