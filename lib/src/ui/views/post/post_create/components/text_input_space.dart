@@ -27,10 +27,12 @@ class _TextInputSpaceState extends State<TextInputSpace> {
           ),
           const VerticalSpacing(of: 10),
           TextField(
-            //autofocus: true,
+            autofocus: true,
             keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.next,
             style: const TextStyle(fontSize: 14),
             controller: widget.vm.titleTextController,
+            focusNode: widget.vm.postFocusNode,
             maxLines: 1, //제목 글자수 제한 미정
             decoration: const InputDecoration(
               hintText: "게시물 제목을 입력해주세요",
@@ -56,7 +58,9 @@ class _TextInputSpaceState extends State<TextInputSpace> {
               children: [
                 TextField(
                   keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.done,
                   controller: widget.vm.bodyTextController,
+
                   maxLines: null,
                   minLines: 5, //이걸로 사이즈 조절
                   //style: TextStyle(fontSize: 150),  //테스트용

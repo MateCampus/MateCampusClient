@@ -36,7 +36,7 @@ class SplashScreen extends StatelessWidget {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
           builder: (context) {
-            return SignUpBottomSheet();
+            return const SignUpBottomSheet();
           }).whenComplete(() => Navigator.of(
               context)
           .pushNamedAndRemoveUntil(firstRoute, (route) => false));
