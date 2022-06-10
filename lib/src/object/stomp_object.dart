@@ -6,6 +6,7 @@ import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
@@ -87,6 +88,12 @@ class StompObject {
 
           NavigationService().pushNamedAndRemoveUntil(
               "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+        } else if (remoteMessage.data["navigate"] == "/voiceDetail") {
+          NavigationService().pushNamedAndRemoveUntil(
+              "/voiceDetail",
+              "/",
+              VoiceDetailScreenArgs(
+                  id: int.parse(remoteMessage.data["voiceRoomId"])));
         }
       }
       subscribeChatRoom(FirebaseObject.deviceFcmToken);

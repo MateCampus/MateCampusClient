@@ -38,7 +38,7 @@ class ChatDetailViewModel extends BaseModel {
     resetData();
     scrollInit();
     await setChatRoom(chatRoom);
-    await loadFirstChatMessagesAndMember(chatRoom.roomId);
+    await firstLoadForChatMessagesAndMember(chatRoom.roomId);
     await changeUnreadCount(chatRoom.roomId);
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     chatvm.changeInsideRoomId(chatRoom.roomId);
@@ -50,7 +50,7 @@ class ChatDetailViewModel extends BaseModel {
     this.chatRoom = chatRoom;
   }
 
-  loadFirstChatMessagesAndMember(String roomId) async {
+  firstLoadForChatMessagesAndMember(String roomId) async {
     _chatMessages.addAll(await chatService.getMessages(roomId, 0));
     List<ChatMemberInfo> chatMemberInfos =
         await chatService.getMemberInfoes(roomId);
