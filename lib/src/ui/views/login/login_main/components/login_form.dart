@@ -68,7 +68,13 @@ class _LoginFormState extends State<LoginForm> {
           vertical: getProportionateScreenHeight(10)),
       child: TextField(
         keyboardType: TextInputType.multiline,
-        textInputAction: TextInputAction.done,
+        textInputAction: TextInputAction.go,
+        onSubmitted: (value) {
+          widget.vm.login(
+              id: _loginIdTxtCtrl.text,
+              password: _passwordTxtCtrl.text,
+              context: context);
+        },
         controller: _passwordTxtCtrl,
         obscureText: true,
         style: const TextStyle(fontSize: 14),
