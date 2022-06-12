@@ -28,4 +28,11 @@ class FakeVoiceService implements VoiceService {
     // TODO: implement exitVoiceRoom
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> inviteUsers(
+      {required int id, required List<String> selectedMemberLoginIds}) {
+    // TODO: implement inviteUsers
+    throw UnimplementedError();
+  }
 }

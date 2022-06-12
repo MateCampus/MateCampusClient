@@ -5,7 +5,7 @@ import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmod
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class FriendListTile extends StatefulWidget {
-  final VoiceCreateViewModel vm;
+  final dynamic vm;
   final UserPresentation user;
   const FriendListTile({Key? key, required this.vm, required this.user})
       : super(key: key);

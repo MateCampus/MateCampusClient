@@ -9,11 +9,16 @@ import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/m
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 class MyFriendBody extends StatelessWidget {
-  final VoiceCreateViewModel vm;
-  final List<UserPresentation> users;
+  final dynamic vm;
+  final List<dynamic> users;
   final Color color;
+  final String isFrom;
   const MyFriendBody(
-      {Key? key, required this.vm, required this.users, required this.color})
+      {Key? key,
+      required this.vm,
+      required this.users,
+      required this.color,
+      required this.isFrom})
       : super(key: key);
 
   @override
@@ -33,12 +38,16 @@ class MyFriendBody extends StatelessWidget {
           child: BottomFixedBtnDecoBox(
             child: DefaultBtn(
               //누르면 보이스룸이 생성되면서 입장도 해야함. Navigate to voice_detail
-              text: '시작하기!',
+              text: isFrom == "create" ? '시작하기!' : "초대하기",
               press: () async {
-                VoiceRoom voiceRoom = await vm.createVoiceRoom();
-                Navigator.pushNamedAndRemoveUntil(context,
-                    VoiceDetailScreen.routeName, ModalRoute.withName('/'),
-                    arguments: VoiceDetailScreenArgs(voiceRoom: voiceRoom));
+                if (isFrom == "create") {
+                  VoiceRoom voiceRoom = await vm.createVoiceRoom();
+                  Navigator.pushNamedAndRemoveUntil(context,
+                      VoiceDetailScreen.routeName, ModalRoute.withName('/'),
+                      arguments: VoiceDetailScreenArgs(voiceRoom: voiceRoom));
+                } else {
+                  await vm.inviteUsers(context);
+                }
               },
               btnColor: color,
             ),

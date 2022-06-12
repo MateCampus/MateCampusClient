@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'dart:convert';
 
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
@@ -43,6 +44,8 @@ class LocalNotificationObject {
       /// load data 할 필요 없다. 왜냐하면 이미 다 구독하고 있는 상태이기 때문.
       /// 1. load local 값 or 새로운 값 생성
       ChatService chatService = serviceLocator<ChatService>();
+      // TODO: chatroom을 다시 만드는 것이 아니라, roomId로 해당 값을 local이든,server에서 불러야함.
+      // 그게 맞는 로직인 듯. fcm의 용도는 오직 클릭 시 어디로 가야하는지와 그를 위한 id 정도만 있도록 한다.
       ChatRoom chatRoom =
           await chatService.getChatRoomByRoomId(res["roomId"]) ??
               ChatRoom(
@@ -57,6 +60,11 @@ class LocalNotificationObject {
       homeViewModel.changeCurrentIndex(2);
       NavigationService().pushNamedAndRemoveUntil(
           "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+    } else if (res["navigate"] == "/voiceDetail") {
+      NavigationService().pushNamedAndRemoveUntil("/voiceDetail", "/",
+          VoiceDetailScreenArgs(id: int.parse(res["voiceRoomId"])));
+      HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+      homeViewModel.changeCurrentIndex(0);
     }
   }
 

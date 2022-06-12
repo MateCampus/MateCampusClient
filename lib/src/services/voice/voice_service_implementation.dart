@@ -42,15 +42,10 @@ class VoiceServiceImpl implements VoiceService {
   Future<VoiceRoom> createVoiceRoom(
       {required String title,
       required List<String> selectedMemberLoginIds}) async {
-    // String voiceRoomJson = jsonEncode({
-    //   "title": title,
-    //   "collegeOnly": collegeOnly,
-    //   "majorOnly": majorOnly,
-    //   "categories": categories.toList(),s
-    //   "type": type,
-    //   "members": members.toList(),  //리스트 인코딩하는법 알아야함
-    // });
-    // String loginIdsJson = selectedMemberLoginIds.join(",");
+    // 중복제거
+    selectedMemberLoginIds = [
+      ...{...selectedMemberLoginIds}
+    ];
     String voiceRoomJson = jsonEncode(
         {"title": title, "selectedMemberLoginIds": selectedMemberLoginIds});
 
@@ -76,6 +71,29 @@ class VoiceServiceImpl implements VoiceService {
       print('나가기 성공');
     } else {
       print('나가기 실패');
+    }
+  }
+
+  @override
+  Future<bool> inviteUsers(
+      {required int id, required List<String> selectedMemberLoginIds}) async {
+    // 중복제거
+    selectedMemberLoginIds = [
+      ...{...selectedMemberLoginIds}
+    ];
+    String voiceRoomJson =
+        jsonEncode({"selectedMemberLoginIds": selectedMemberLoginIds});
+
+    final response = await http.put(
+        Uri.parse(devServer + "/api/voiceRoom/" + id.toString() + "/invite"),
+        headers: AuthService.get_auth_header(),
+        body: voiceRoomJson);
+    if (response.statusCode == 204) {
+      print("초대 성공");
+      return true;
+    } else {
+      print('초대 실패');
+      return false;
     }
   }
 }

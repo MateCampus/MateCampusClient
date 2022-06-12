@@ -55,41 +55,32 @@ class VoiceCreateViewModel extends BaseModel {
   bool get majorOnlyChecked => _majorOnlyChecked;
   List<String> get selectedMemberLoginIds => _selectedMemberLoginIds;
 
-//최근 대화 유저 로드 함수 -> 변경해야함.
-  void loadRecentTalkUsers() async {
+  void loadRecentTalkUsersAndFriends() async {
     setBusy(true);
     //로컬db에 저장된 최근 대화 유저 로그인 아이디를 서버에 넘긴 후 유저 정보 받아와서 매핑
-    List<String> recentTalkUserLoginIds =
-        await PrefsObject.getRecentTalkUsers() ?? [];
+    Map<String, List<User>> usersResult =
+        await _userService.fetchRecentTalkUsersAndFriends();
 
-    List<User> recentTalkUserResult = await _userService.fetchRecentTalkUsers();
-
-    _recentTalkUsers = recentTalkUserResult
+    _recentTalkUsers = usersResult["recentTalkUsers"]!
         .map((recentTalkUser) => UserPresentation(
             loginId: recentTalkUser.loginId,
             userImageUrl: recentTalkUser.imageUrl ??
                 "assets/images/user/general_user.png",
             userNickname: recentTalkUser.nickname,
+            isOnlined: true,
             isChecked: false))
         .toList();
 
-    setBusy(false);
-  }
-
-//친구 로드 함수
-  void loadFriendUsers() async {
-    setBusy(true);
-    List<Friend> friendUserResult =
-        await _friendService.fetchApprovedTypeFriends();
-
-    _friendUsers = friendUserResult
+    _friendUsers = usersResult["approveFriends"]!
         .map((friendUser) => UserPresentation(
             loginId: friendUser.loginId,
             userImageUrl:
                 friendUser.imageUrl ?? "assets/images/user/general_user.png",
             userNickname: friendUser.nickname,
+            isOnlined: true,
             isChecked: false))
         .toList();
+
     setBusy(false);
   }
 
@@ -217,16 +208,8 @@ class VoiceCreateViewModel extends BaseModel {
   Future<VoiceRoom> createVoiceRoom() async {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
         title: titleController.text,
-        selectedMemberLoginIds: selectedMemberLoginIds); //일단은 서버에 title만 보냄
+        selectedMemberLoginIds: selectedMemberLoginIds);
     return voiceRoom;
-    // final createVoiceRoomJson = jsonEncode({
-    //   "title": titleController.text,
-    //   "collegeOnly": _collegeOnlyChecked,
-    //   "majorOnly": _majorOnlyChecked,
-    //   "categories": _categoryResult,
-    //   "type": _type.name,
-    //   "members": _selectedMemberLoginIds,
-    // });
   }
 }
 
@@ -234,12 +217,14 @@ class UserPresentation {
   final String loginId;
   final String userImageUrl;
   final String userNickname;
+  final bool isOnlined;
   bool isChecked;
 
   UserPresentation(
       {required this.loginId,
       required this.userImageUrl,
       required this.userNickname,
+      required this.isOnlined,
       required this.isChecked});
 }
 

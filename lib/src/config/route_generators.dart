@@ -17,10 +17,12 @@ import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_frien
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_invite_friend_screen_args.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/chat_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail_from_friendProfile/chat_detail_from_friendProfile_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_invite_friend/voice_invite_friend_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -37,6 +39,12 @@ class RouteGenerator {
             builder: (_) => VoiceDetailScreen(
                   id: args.id,
                   voiceRoom: args.voiceRoom,
+                ));
+      case "/voiceInviteFriend":
+        final args = settings.arguments as VoiceInviteFriendScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) => VoiceInviteFriendScreen(
+                  voiceRoomId: args.voiceRoomId,
                 ));
       case "/chatDetail":
         final args = settings.arguments as ChatDetailScreenArgs;

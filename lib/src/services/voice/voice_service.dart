@@ -9,4 +9,6 @@ abstract class VoiceService {
       {required String title, required List<String> selectedMemberLoginIds});
 
   Future<void> exitVoiceRoom({required int id});
+  Future<bool> inviteUsers(
+      {required int id, required List<String> selectedMemberLoginIds});
 }
