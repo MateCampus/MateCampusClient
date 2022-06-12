@@ -13,6 +13,7 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_invite_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
 import 'package:zamongcampus/src/services/comment/comment_service_fake.dart';
@@ -93,6 +94,8 @@ void setupServiceLocator() {
       () => PostDetailScreenViewModel());
   serviceLocator.registerLazySingleton<VoiceCreateViewModel>(
       () => VoiceCreateViewModel());
+  serviceLocator.registerLazySingleton<VoiceInviteViewModel>(
+      () => VoiceInviteViewModel());
   serviceLocator.registerLazySingleton<VoiceDetailViewModel>(
       () => VoiceDetailViewModel());
   serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());

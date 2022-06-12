@@ -251,6 +251,7 @@ class VoiceDetailViewModel extends BaseModel {
 
   void resetData() {
     // 1. agora 해제 2. stomp unsubscribe 3. server participant에서 제거
+    //TODO: 4. recentTalkuser 추가해야함!!!
     if (!isFull) {
       leaveChannel();
       unsubscribeFn!(unsubscribeHeaders: AuthService.get_auth_header());

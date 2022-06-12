@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_invite_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/my_friend_body.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/recent_talk_body.dart';
 
-class VoiceCreateFriendScreen extends StatefulWidget {
-  const VoiceCreateFriendScreen({Key? key}) : super(key: key);
+class VoiceInviteFriendScreen extends StatefulWidget {
+  static const routeName = '/voiceInviteFriend';
+  final int voiceRoomId;
+  const VoiceInviteFriendScreen({Key? key, required this.voiceRoomId})
+      : super(key: key);
 
   @override
-  State<VoiceCreateFriendScreen> createState() =>
-      _VoiceCreateFriendScreenState();
+  State<VoiceInviteFriendScreen> createState() =>
+      _VoiceInviteFriendScreenState();
 }
 
-class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
-  VoiceCreateViewModel vm = serviceLocator<VoiceCreateViewModel>();
+class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
+  VoiceInviteViewModel vm = serviceLocator<VoiceInviteViewModel>();
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      vm.loadRecentTalkUsersAndFriends();
+      vm.loadRecentTalkUsersAndFriends(widget.voiceRoomId);
     });
 
     super.initState();
@@ -29,12 +32,9 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    final args = ModalRoute.of(context)!.settings.arguments
-        as VoiceCreateFriendScreenArgs;
-
-    return ChangeNotifierProvider<VoiceCreateViewModel>.value(
+    return ChangeNotifierProvider<VoiceInviteViewModel>.value(
         value: vm,
-        child: Consumer<VoiceCreateViewModel>(builder: (context, vm, child) {
+        child: Consumer<VoiceInviteViewModel>(builder: (context, vm, child) {
           return GestureDetector(
             onTap: () =>
                 FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
@@ -59,7 +59,7 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                     preferredSize:
                         Size.fromHeight(getProportionateScreenHeight(40)),
                     child: TabBar(
-                        indicatorColor: args.color,
+                        indicatorColor: mainColor,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
                         labelStyle: const TextStyle(
@@ -87,16 +87,16 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                     users: vm.searchedRecentUsers.isEmpty
                         ? vm.recentTalkUsers
                         : vm.searchedRecentUsers,
-                    color: args.color,
-                    isFrom: "create",
+                    color: mainColor,
+                    isFrom: "invite",
                   ),
                   MyFriendBody(
                     vm: vm,
                     users: vm.searchedFriendUsers.isEmpty
                         ? vm.friendUsers
                         : vm.searchedFriendUsers,
-                    color: args.color,
-                    isFrom: "create",
+                    color: mainColor,
+                    isFrom: "invite",
                   )
                 ]),
               ),

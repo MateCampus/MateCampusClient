@@ -3,7 +3,7 @@ import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmod
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class RecentTalkSearchBar extends StatefulWidget {
-  final VoiceCreateViewModel vm;
+  final dynamic vm;
   const RecentTalkSearchBar({Key? key, required this.vm}) : super(key: key);
 
   @override

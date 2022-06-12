@@ -12,10 +12,12 @@ class FakeUserService implements UserService {
   }
 
   @override
-  Future<List<User>> fetchRecentTalkUsers() async {
+  Future<Map<String, List<User>>> fetchRecentTalkUsersAndFriends() async {
     List<User> list = [];
     list.addAll(userDummy);
-    return list;
+    Map<String, List<User>> users = {};
+    users.addAll({"recentTalkUsers": userDummy, "approveFriend": userDummy});
+    return users;
   }
 
   @override

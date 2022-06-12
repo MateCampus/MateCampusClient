@@ -6,6 +6,7 @@ import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
+import 'package:zamongcampus/src/object/prefs_object.dart';
 
 import 'user_service.dart';
 
@@ -26,10 +27,30 @@ class UserServiceImpl implements UserService {
   }
 
   @override
-  Future<List<User>> fetchRecentTalkUsers() async {
-    List<User> list = [];
-    list.addAll(userDummy);
-    return list;
+  Future<Map<String, List<User>>> fetchRecentTalkUsersAndFriends() async {
+    String recentTalkUserLoginIds =
+        (await PrefsObject.getRecentTalkUsers() ?? []).join(', ');
+
+    final response = await http.get(
+        Uri.parse(devServer +
+            "/api/user/recentTalkAndFriend?recentTalkUserLoginIds=" +
+            recentTalkUserLoginIds),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      var json = await jsonDecode(utf8.decode(response.bodyBytes));
+      Map<String, List<User>> users = {};
+      users.addAll({
+        "recentTalkUsers": json["recentTalkUsers"]
+            .map<User>((user) => User.fromJson(user))
+            .toList(),
+        "approveFriends": json["approveFriends"]
+            .map<User>((user) => User.fromJson(user))
+            .toList()
+      });
+      return users;
+    } else {
+      throw Exception('최근 대화한 사람, approve 친구 가져오기 오류');
+    }
   }
 
   @override

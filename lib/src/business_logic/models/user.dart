@@ -52,8 +52,12 @@ class User {
         loginId: json['loginId'],
         nickname: json['nickname'],
         imageUrl: json['imageUrl'],
-        collegeCode: College.values.byName(json['collegeCode'].toLowerCase()),
-        majorCode: Major.values.byName(json['majorCode'].toLowerCase()),
+        collegeCode: json['collegeCode'] != null
+            ? College.values.byName(json['collegeCode'].toLowerCase())
+            : null,
+        majorCode: json['majorCode'] != null
+            ? Major.values.byName(json['majorCode'].toLowerCase())
+            : null,
         name: json['name'],
         deviceToken: json['deviceToken'],
         password: json['password'],

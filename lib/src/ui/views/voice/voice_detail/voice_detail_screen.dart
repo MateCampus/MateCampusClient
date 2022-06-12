@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_invite_friend_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -58,7 +61,11 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/voiceInviteFriend",
+                          arguments:
+                              VoiceInviteFriendScreenArgs(vm.voiceRoom.id));
+                    },
                     icon: const Icon(Icons.person_add_outlined),
                     color: Colors.black,
                   ),

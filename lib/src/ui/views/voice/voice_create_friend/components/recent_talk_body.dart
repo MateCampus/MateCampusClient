@@ -9,11 +9,16 @@ import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/r
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 class RecentTalkBody extends StatelessWidget {
-  final VoiceCreateViewModel vm;
-  final List<UserPresentation> users;
+  final dynamic vm;
+  final List<dynamic> users; // 나중에는 userpresentation 통합하면 userpresentation으로 변경
   final Color color;
+  final String isFrom;
   const RecentTalkBody(
-      {Key? key, required this.vm, required this.users, required this.color})
+      {Key? key,
+      required this.vm,
+      required this.users,
+      required this.color,
+      required this.isFrom})
       : super(key: key);
 
   @override
@@ -31,12 +36,16 @@ class RecentTalkBody extends StatelessWidget {
         SafeArea(
           child: BottomFixedBtnDecoBox(
             child: DefaultBtn(
-              text: '시작하기!',
+              text: isFrom == "create" ? '시작하기!' : "초대하기",
               press: () async {
-                VoiceRoom voiceRoom = await vm.createVoiceRoom();
-                Navigator.pushNamedAndRemoveUntil(context,
-                    VoiceDetailScreen.routeName, ModalRoute.withName('/'),
-                    arguments: VoiceDetailScreenArgs(voiceRoom: voiceRoom));
+                if (isFrom == "create") {
+                  VoiceRoom voiceRoom = await vm.createVoiceRoom();
+                  Navigator.pushNamedAndRemoveUntil(context,
+                      VoiceDetailScreen.routeName, ModalRoute.withName('/'),
+                      arguments: VoiceDetailScreenArgs(voiceRoom: voiceRoom));
+                } else {
+                  await vm.inviteUsers(context);
+                }
               },
               btnColor: color,
             ),
