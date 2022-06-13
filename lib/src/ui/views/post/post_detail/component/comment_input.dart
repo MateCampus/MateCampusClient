@@ -51,6 +51,7 @@ class _CommentInputState extends State<CommentInput> {
           controller: (widget.vm.overlayEntry == null)
               ? widget.vm.commentTextController
               : widget.vm.nestedCommentTextController,
+          focusNode: widget.vm.focusNode,
           decoration: InputDecoration(
             hintText: '소중한 댓글을 남겨주세요',
             hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),

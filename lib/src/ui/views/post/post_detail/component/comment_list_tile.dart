@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -55,8 +56,8 @@ class CommentListTile extends StatelessWidget {
                   const HorizontalSpacing(of: 10),
                   _replyBtn(context),
                   (comment.loginId == AuthService.loginId)
-                      ? _deletedBtn()
-                      : _reportBtn()
+                      ? _deletedBtn(context)
+                      : _reportBtn(context)
                 ],
               ),
               (comment.children.isNotEmpty)
@@ -100,10 +101,16 @@ class CommentListTile extends StatelessWidget {
     );
   }
 
-  Widget _deletedBtn() {
+  Widget _deletedBtn(BuildContext context) {
     return TextButton(
       onPressed: () {
-        vm.deleteComment(comment.id);
+        buildCustomAlertDialog(
+            context: context,
+            contentText: '댓글을 삭제하시겠습니까?',
+            btnText: '삭제',
+            press: () {
+              vm.deleteComment(context, comment.id);
+            });
       },
       style: TextButton.styleFrom(
         minimumSize: Size.zero,
@@ -120,7 +127,7 @@ class CommentListTile extends StatelessWidget {
     );
   }
 
-  Widget _reportBtn() {
+  Widget _reportBtn(BuildContext context) {
     return TextButton(
       onPressed: () {},
       style: TextButton.styleFrom(

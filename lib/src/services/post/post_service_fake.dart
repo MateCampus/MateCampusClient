@@ -50,4 +50,10 @@ class FakePostService implements PostService {
     // TODO: implement bookMarkPost
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> deletePost({required int postId}) {
+    // TODO: implement deletePost
+    throw UnimplementedError();
+  }
 }

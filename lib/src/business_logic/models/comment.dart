@@ -5,7 +5,7 @@ class Comment {
   final String body;
   bool deleted;
   final int parentId;
-  List<dynamic> children;
+  List<Comment> children;
 
   List<String>? userImageUrls;
   DateTime? createdAt;
@@ -24,16 +24,18 @@ class Comment {
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-        id: json['id'],
-        loginId: json['loginId'],
-        userNickname: json['userNickname'],
-        body: json['body'],
-        deleted: json['deleted'],
-        parentId: json['parentId'],
-        children:
-            json['children'].map((json) => Comment.fromJson(json)).toList(),
-        userImageUrls: json['userImageUrls']?.toList(),
-        // createdAt: DateTime.parse(json['createdAt']),
-        createdAt: DateTime(2021, 05, 05));
+      id: json['id'],
+      loginId: json['loginId'],
+      userNickname: json['userNickname'],
+      body: json['body'],
+      deleted: json['deleted'],
+      parentId: json['parentId'],
+      children: json['children']
+          .map<Comment>((json) => Comment.fromJson(json))
+          .toList(),
+      userImageUrls: json['userImageUrls']?.toList(),
+      createdAt: DateTime.parse(json['createdAt']),
+      // createdAt: DateTime(2021, 05, 05),
+    );
   }
 }

@@ -14,4 +14,5 @@ abstract class PostService {
   Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds();
   Future<Map<String, int>> likePost({required int postId});
   Future<int> bookMarkPost({required int postId});
+  Future<bool> deletePost({required int postId});
 }

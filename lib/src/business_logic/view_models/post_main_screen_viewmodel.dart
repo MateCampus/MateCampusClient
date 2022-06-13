@@ -10,7 +10,7 @@ class PostMainScreenViewModel extends BaseModel {
   bool isInit = false;
   final PostService _postService = serviceLocator<PostService>();
 
-  List<PostPresentation> _posts = [];
+  List<PostPresentation> _posts = List.empty(growable: true);
   List<int> likepostIds = [];
   List<int> bookmarkpostIds = [];
   String _sortType = "popular";
@@ -95,6 +95,16 @@ class PostMainScreenViewModel extends BaseModel {
     isInit = false;
     _posts = [];
     _nextPageToken = 0;
+  }
+
+  void refreshPostAfterDelete(int postId) {
+    for (PostPresentation post in _posts) {
+      if (post.id == postId) {
+        _posts.remove(post);
+        break;
+      }
+    }
+    notifyListeners();
   }
 }
 

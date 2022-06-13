@@ -12,7 +12,7 @@ class Post {
   List<dynamic> imageUrls;
   int viewCount;
   int commentCount;
-  List<dynamic>? comments;
+  List<Comment>? comments;
   final List<Category>? categories; //포스트에 관심사 설정이 없을 수도 있음
   List<String>? userImageUrls;
 
@@ -46,7 +46,7 @@ class Post {
         commentCount: json['commentCount'],
         imageUrls: json['imageUrls'].toList(),
         comments: json['comments']
-            ?.map((comment) => Comment.fromJson(comment))
+            ?.map<Comment>((comment) => Comment.fromJson(comment))
             .toList());
   }
 }

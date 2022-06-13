@@ -119,4 +119,18 @@ class PostServiceImpl implements PostService {
       throw Exception('게시물 좋아요 오류');
     }
   }
+
+  @override
+  Future<bool> deletePost({required int postId}) async {
+    final response = await http.delete(
+        Uri.parse(devServer + "/api/post/" + postId.toString()),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 204) {
+      print('게시물 삭제 완료');
+      return true;
+    } else {
+      print('오류: 게시물 삭제 실패');
+      return false;
+    }
+  }
 }

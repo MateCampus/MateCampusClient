@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/custom_alert_dialog.dart';
 import 'package:zamongcampus/src/ui/common_widgets/custom_dialog_for_notice.dart';
 
 // snackbar => 해결 필요.
@@ -68,12 +69,35 @@ void buildShowDialogForLoading(BuildContext context) {
 //ex) post_create에서 사진 10장 이상 못올린다고 알려줄때
 //buildWidget은 common_widget의 CustomDialogForNotice을 사용
 //확인버튼만 있고 누르면 무조건 pop
-void buildShowDialogForNotice(
+void buildDialogForNotice(
     {required BuildContext context, required String description}) {
   showDialog(
       context: context,
-      barrierColor: Colors.black26, //배경색
+      barrierColor: Colors.black38, //배경색
       builder: (BuildContext context) {
         return CustomDialogForNotice(description: description);
+      });
+}
+
+///버튼이 최소 2개 이상일때 사용 (버튼을 눌렀을 때 동작하는 함수가 있을 때 사용)
+///(취소/확인) 이렇게 두개가 있어야할때는 무조건 취소가 왼쪽, 확인이 오른쪽이며 취소는 텍스트, onpress모두 고정. onpress는 무조건 pop
+/// 확인에 대한 text와 onpress는 변수로 둠.
+void buildCustomAlertDialog({
+  required BuildContext context,
+  required String contentText,
+  required GestureTapCallback press,
+  required String btnText,
+  Widget? titleWidget,
+}) {
+  showDialog(
+      context: context,
+      barrierColor: Colors.black38, //배경색
+      builder: (BuildContext context) {
+        return CustomAlertDialog(
+          titleWidget: titleWidget,
+          contentText: contentText,
+          btnText: btnText,
+          press: press,
+        );
       });
 }
