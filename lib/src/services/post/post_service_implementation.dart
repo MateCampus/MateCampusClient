@@ -37,14 +37,18 @@ class PostServiceImpl implements PostService {
 
   @override
   Future<List<Post>> fetchPosts(
-      {required String type, required int nextPageToken}) async {
+      {required String type,
+      required int nextPageToken,
+      required bool collegeFilter}) async {
     final response = await http.get(
         Uri.parse(
           devServer +
               "/api/post/" +
               type +
               "?nextPageToken=" +
-              nextPageToken.toString(),
+              nextPageToken.toString() +
+              "&onlyOurCollege=" +
+              collegeFilter.toString(),
         ),
         headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {

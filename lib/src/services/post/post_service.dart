@@ -8,7 +8,9 @@ abstract class PostService {
       List<XFile>? imageFileList});
 
   Future<List<Post>> fetchPosts(
-      {required String type, required int nextPageToken});
+      {required String type,
+      required int nextPageToken,
+      required bool collegeFilter});
 
   Future<Post> fetchPostDetail({required int postId});
   Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds();

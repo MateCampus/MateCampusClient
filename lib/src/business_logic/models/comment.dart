@@ -6,8 +6,6 @@ class Comment {
   bool deleted;
   final int parentId;
   List<Comment> children;
-
-  List<String>? userImageUrls;
   DateTime? createdAt;
 
   Comment({
@@ -18,7 +16,6 @@ class Comment {
     required this.deleted,
     required this.parentId,
     required this.children,
-    this.userImageUrls,
     this.createdAt,
   });
 
@@ -33,7 +30,6 @@ class Comment {
       children: json['children']
           .map<Comment>((json) => Comment.fromJson(json))
           .toList(),
-      userImageUrls: json['userImageUrls']?.toList(),
       createdAt: DateTime.parse(json['createdAt']),
       // createdAt: DateTime(2021, 05, 05),
     );

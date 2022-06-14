@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
@@ -14,17 +15,33 @@ class PostMainScreenViewModel extends BaseModel {
   List<int> likepostIds = [];
   List<int> bookmarkpostIds = [];
   String _sortType = "popular";
-  ScrollController scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   int _nextPageToken = 0;
+  bool _collegeFilter = false;
 
   List<PostPresentation> get posts => _posts;
   String get sortType => _sortType;
+  bool get collegeFilter => _collegeFilter;
+  ScrollController get postScrollController => _scrollController;
 
-  void initData() async {
+  void initData(BuildContext context) async {
     if (isInit) return;
+    scrollInit(context);
+    await loadPosts();
     await loadMyLikeBookmarkPostIds();
-    await loadPost();
+
     isInit = true;
+  }
+
+  void scrollInit(BuildContext context) {
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent &&
+          _scrollController.offset > 0) {
+        print("끝 지점 도착");
+        loadMorePosts(context);
+      }
+    });
   }
 
   Future<void> loadMyLikeBookmarkPostIds() async {
@@ -34,11 +51,47 @@ class PostMainScreenViewModel extends BaseModel {
     bookmarkpostIds = ids["myBookMarkIds"]!;
   }
 
-  Future<void> loadPost() async {
+  Future<void> loadPosts() async {
     setBusy(true);
     List<Post> postResult = await _postService.fetchPosts(
-        type: _sortType, nextPageToken: _nextPageToken);
-    posts.addAll(postResult.map((post) => PostPresentation(
+        type: _sortType,
+        nextPageToken: _nextPageToken,
+        collegeFilter: _collegeFilter);
+    _posts = postResult
+        .map((post) => PostPresentation(
+              id: post.id,
+              loginId: post.loginId,
+              categories: post.categories == null
+                  ? []
+                  : post.categories!
+                      .map((category) =>
+                          CategoryData.iconOf(category.name) +
+                          " " +
+                          CategoryData.korNameOf(category.name))
+                      .toList(),
+              title: post.title,
+              body: post.body,
+              createdAt: dateToPastTime(post.createdAt),
+              likedCount: post.likedCount.toString(),
+              viewCount: post.viewCount.toString(),
+              commentCount: post.commentCount.toString(),
+              imageUrls: post.imageUrls,
+            ))
+        .toList();
+
+    _nextPageToken++;
+
+    setBusy(false);
+  }
+
+  Future<void> loadMorePosts(BuildContext context) async {
+    buildShowDialogForLoading(
+        context: context, barrierColor: Colors.transparent);
+    List<Post> additionalPosts = await _postService.fetchPosts(
+        type: _sortType,
+        nextPageToken: _nextPageToken,
+        collegeFilter: collegeFilter);
+    _posts.addAll(additionalPosts.map((post) => PostPresentation(
           id: post.id,
           loginId: post.loginId,
           categories: post.categories == null
@@ -55,11 +108,11 @@ class PostMainScreenViewModel extends BaseModel {
           likedCount: post.likedCount.toString(),
           viewCount: post.viewCount.toString(),
           commentCount: post.commentCount.toString(),
-          imageUrl: post.imageUrls.isEmpty ? null : post.imageUrls.first,
+          imageUrls: post.imageUrls,
         )));
     _nextPageToken++;
-
-    setBusy(false);
+    Navigator.pop(context);
+    notifyListeners();
   }
 
   void changePostType(int value) {
@@ -78,23 +131,24 @@ class PostMainScreenViewModel extends BaseModel {
     }
   }
 
-  void refreshPost(int value) {
-    _posts = []; //포스트에 담았던거 다 비움
+  void setCollegeFilter() {
+    _posts.clear(); //포스트에 담았던거 다 비움
+    _nextPageToken = 0;
+    _collegeFilter = !_collegeFilter;
+    loadPosts();
+  }
+
+  void loadPostsByType(int value) {
+    _posts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
     changePostType(value);
-    loadPost();
+    loadPosts();
   }
 
   Future<void> refreshPostAfterCreateUpdate() async {
-    _posts = []; //포스트에 담았던거 다 비움
+    _posts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
-    loadPost();
-  }
-
-  void resetData() {
-    isInit = false;
-    _posts = [];
-    _nextPageToken = 0;
+    loadPosts();
   }
 
   void refreshPostAfterDelete(int postId) {
@@ -105,6 +159,12 @@ class PostMainScreenViewModel extends BaseModel {
       }
     }
     notifyListeners();
+  }
+
+  void resetData() {
+    isInit = false;
+    _posts = [];
+    _nextPageToken = 0;
   }
 }
 
@@ -119,7 +179,7 @@ class PostPresentation {
   String likedCount;
   String viewCount;
   String commentCount;
-  String? imageUrl;
+  List<String> imageUrls;
 
   PostPresentation(
       {required this.id,
@@ -131,5 +191,5 @@ class PostPresentation {
       required this.likedCount,
       required this.viewCount,
       required this.commentCount,
-      this.imageUrl});
+      required this.imageUrls});
 }
