@@ -167,21 +167,16 @@ class MypageViewModel extends BaseModel {
   }
 
   void updateMyInfo({required BuildContext context}) async {
-    bool isUpdated = await _userService.updateMyInfo(
+    User updatedUserResult = await _userService.updateMyInfo(
         nickname: _changedNickname,
         introduction: _changedIntroduction,
         profileImg: _changedProfileImg);
 
-    if (isUpdated) {
-      _myInfo.nickname = _changedNickname ?? _myInfo.nickname;
-      _changedProfileImgPath.isNotEmpty
-          ? _myInfo.imageUrl = _changedProfileImgPath
-          : _myInfo.imageUrl = _myInfo.imageUrl;
+    _myInfo.nickname = updatedUserResult.nickname;
+    _myInfo.imageUrl = updatedUserResult.imageUrl ?? _myInfo.imageUrl;
+    _myInfo.introduction =
+        updatedUserResult.introduction ?? _myInfo.introduction;
 
-      toastMessage("프로필 수정 완료!");
-    } else {
-      toastMessage("실패");
-    }
     _isValidNickname = false;
     _isValidIntroduction = false;
     _changedProfileImgPath = '';

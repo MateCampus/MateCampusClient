@@ -193,4 +193,13 @@ class FakeChatService implements ChatService {
     // TODO: implement getChatRoomByRoomId
     throw UnimplementedError();
   }
+
+  @override
+  updateTitleImageUrlChatRoom(
+      {required String title,
+      required String imageUrl,
+      required String roomId}) {
+    // TODO: implement updateTitleImageUrlChatRoom
+    throw UnimplementedError();
+  }
 }

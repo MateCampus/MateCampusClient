@@ -30,6 +30,10 @@ abstract class ChatService {
       DateTime? lastMsgCreatedAt,
       int? unreadCount,
       String? roomId}) {}
+  updateTitleImageUrlChatRoom(
+      {required String title,
+      required String imageUrl,
+      required String roomId}) {}
   updateUnreadCount(int unreadCount, String roomId) {}
   // chatRoomDB 끝
 

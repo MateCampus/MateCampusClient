@@ -79,6 +79,7 @@ class ChatDetailViewModel extends BaseModel {
 
   changeMember(ChatMemberInfo chatMemberInfo) {
     chatMemberInfos.update(chatMemberInfo.loginId, (value) => chatMemberInfo);
+    notifyListeners();
   }
 
   Future<void> loadMoreChatMessages() async {

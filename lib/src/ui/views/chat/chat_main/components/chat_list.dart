@@ -23,27 +23,31 @@ class ChatList extends StatelessWidget {
               '채팅',
               style: TextStyle(fontSize: 12, color: Colors.black87),
             )),
-        vm.chatRooms.isEmpty
-            ? const CenterSentence(
-                sentence: 'chatRooms is Empty', verticalSpace: 0)
-            : AnimatedList(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                key: vm.listKey,
-                initialItemCount: vm.chatRooms.length,
-                itemBuilder: (context, index, animation) => ChatTile(
-                    chatRoom: vm.chatRooms[index],
-                    animation: animation,
-                    onClicked: () {
-                      Navigator.pushNamed(context, "/chatDetail",
-                          arguments:
-                              ChatDetailScreenArgs(vm.chatRooms[index], index));
-                    },
-                    onDeleted: () {
-                      vm.removeItem(index, vm.chatRooms[index].roomId);
-                    }),
-              ),
+        buildEmptyBox(),
+        AnimatedList(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          key: vm.listKey,
+          initialItemCount: vm.chatRooms.length,
+          itemBuilder: (context, index, animation) => ChatTile(
+              chatRoom: vm.chatRooms[index],
+              animation: animation,
+              onClicked: () {
+                Navigator.pushNamed(context, "/chatDetail",
+                    arguments:
+                        ChatDetailScreenArgs(vm.chatRooms[index], index));
+              },
+              onDeleted: () {
+                vm.removeItem(index, vm.chatRooms[index].roomId);
+              }),
+        ),
       ],
     );
+  }
+
+  Widget buildEmptyBox() {
+    return vm.chatRooms.isEmpty
+        ? const CenterSentence(sentence: '친구와 대화를 시작해보세요!', verticalSpace: 0)
+        : Container();
   }
 }

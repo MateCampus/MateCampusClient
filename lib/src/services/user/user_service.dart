@@ -9,6 +9,6 @@ abstract class UserService {
   Future<User> fetchUserInfo({required String loginId});
 
   Future<bool> checkNicknameRedundancy({required String nickname});
-  Future<bool> updateMyInfo(
+  Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg});
 }
