@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
@@ -32,7 +33,7 @@ class Certification extends StatelessWidget {
                 height: getProportionateScreenHeight(170),
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xfff8f8f8),
+                  color: screenBackgroundColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: (vm.studentIdImgPath == '')

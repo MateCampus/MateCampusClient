@@ -60,7 +60,7 @@ class _SelectCollegeState extends State<SelectCollege> {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(20)),
                 decoration: BoxDecoration(
-                  color: const Color(0xfff8f8f8),
+                  color: screenBackgroundColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Row(
@@ -119,7 +119,7 @@ class _SelectCollegeState extends State<SelectCollege> {
             child: Container(
               height: getProportionateScreenHeight(200),
               decoration: BoxDecoration(
-                color: const Color(0xfff8f8f8),
+                color: screenBackgroundColor,
                 //border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),

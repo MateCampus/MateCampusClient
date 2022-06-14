@@ -58,7 +58,7 @@ class _NicknameInputState extends State<NicknameInput> {
                         hintText: "닉네임을 입력해주세요",
                         hintStyle: const TextStyle(
                             color: Color(0xFFADADAD), fontSize: 14),
-                        fillColor: const Color(0xfff8f8f8),
+                        fillColor: screenBackgroundColor,
                         filled: true,
                         contentPadding:
                             EdgeInsets.all(getProportionateScreenHeight(10)),

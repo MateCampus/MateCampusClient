@@ -49,7 +49,7 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
                   ],
                   backgroundColor: mainColor,
                   elevation: 0.0),
-              backgroundColor: const Color(0xfff8f8f8),
+              backgroundColor: screenBackgroundColor,
               body: Body(vm: vm));
         }));
   }

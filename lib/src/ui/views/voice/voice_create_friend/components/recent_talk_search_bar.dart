@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -45,7 +46,7 @@ class _RecentTalkSearchBarState extends State<RecentTalkSearchBar> {
           contentPadding: EdgeInsets.zero,
           hintText: "친구 검색",
           hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-          fillColor: const Color(0xfff8f8f8),
+          fillColor: screenBackgroundColor,
           filled: true,
           border: const OutlineInputBorder(
               borderSide: BorderSide.none,

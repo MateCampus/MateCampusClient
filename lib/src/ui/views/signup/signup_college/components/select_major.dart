@@ -61,7 +61,7 @@ class _SelectMajorState extends State<SelectMajor> {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(20)),
                 decoration: BoxDecoration(
-                  color: const Color(0xfff8f8f8),
+                  color: screenBackgroundColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Row(
@@ -120,7 +120,7 @@ class _SelectMajorState extends State<SelectMajor> {
             child: Container(
               height: getProportionateScreenHeight(200),
               decoration: BoxDecoration(
-                color: const Color(0xfff8f8f8),
+                color: screenBackgroundColor,
                 //border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),
