@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -50,9 +51,9 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
                 ),
               ],
               elevation: 0.0,
-              backgroundColor: const Color(0xfff8f8f8),
+              backgroundColor: screenBackgroundColor,
             ),
-            backgroundColor: const Color(0xfff8f8f8),
+            backgroundColor: screenBackgroundColor,
             body: vm.busy ? const IsLoading() : Body(vm: vm));
       }),
     );

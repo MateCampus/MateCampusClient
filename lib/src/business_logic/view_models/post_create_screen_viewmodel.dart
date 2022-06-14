@@ -20,7 +20,7 @@ class PostCreateScreenViewModel extends BaseModel {
 
   void createPost(BuildContext context) async {
     postFocusNode.unfocus();
-    buildShowDialogForLoading(context);
+    buildShowDialogForLoading(context: context);
     if (titleTextController.text.length < 5 &&
         bodyTextController.text.length < 5) {
       toastMessage("글자수가 적습니다");

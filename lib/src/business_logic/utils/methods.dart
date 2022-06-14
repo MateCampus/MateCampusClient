@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/custom_alert_dialog.dart';
 import 'package:zamongcampus/src/ui/common_widgets/custom_dialog_for_notice.dart';
 
@@ -48,18 +50,21 @@ void showCustomModalBottomSheet(BuildContext context, Widget widget) {
       });
 }
 
-//회원가입에서 유저 생성 함수안에서 사용
-//마이페이지에서 관심사 변경 적용할때 사용
 //이름이 헷갈려서 buildShowDialog -> buildShowDialogForLoading 으로 변경
 //무언가 로딩하거나, 아니면 만들어질때까지(적용될때까지) 기다릴때 사용
-void buildShowDialogForLoading(BuildContext context) {
+//barrierColor를 Colors.transparent로 두면 overlay 같은 효과를 줄 수 있음 -> 포스트에서 댓글 생성할때 사용, 포스트메인에서 게시물 정보 추가 로드할 때 사용 가능
+//단점 dialog를 빌드하면서 위젯트리를 하나 더 쌓기 때문에 자동으로 사라지는게 아니라 적절하게 pop을 써줘야함..
+void buildShowDialogForLoading(
+    {required BuildContext context, Color? barrierColor}) {
   showDialog(
       context: context,
       barrierDismissible: false,
+      barrierColor: barrierColor ?? Colors.black54,
       builder: (BuildContext context) {
-        return const Center(
-          child: CircularProgressIndicator(
+        return Center(
+          child: SpinKitFadingCube(
             color: mainColor,
+            size: getProportionateScreenHeight(25),
           ),
         );
       });

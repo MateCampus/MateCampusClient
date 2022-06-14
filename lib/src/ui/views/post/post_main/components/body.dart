@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
@@ -16,6 +17,7 @@ class Body extends StatelessWidget {
         displacement: 150,
         onRefresh: () => vm.refreshPostAfterCreateUpdate(),
         child: CustomScrollView(
+          controller: vm.postScrollController,
           slivers: [
             SliverAppBar(
               title: const Text('피드',
@@ -38,7 +40,7 @@ class Body extends StatelessWidget {
                 ),
               ],
               elevation: 0.0,
-              backgroundColor: const Color(0xfff8f8f8),
+              backgroundColor: screenBackgroundColor,
               pinned: false,
               floating: true,
             ),

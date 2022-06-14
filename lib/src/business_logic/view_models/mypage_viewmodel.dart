@@ -191,7 +191,7 @@ class MypageViewModel extends BaseModel {
   }
 
   void updateInterests({required BuildContext context}) async {
-    buildShowDialogForLoading(context);
+    buildShowDialogForLoading(context: context);
     List<Interest> updateInterests =
         await _interestService.updateMyInterests(_selectedInterestCodes);
 
