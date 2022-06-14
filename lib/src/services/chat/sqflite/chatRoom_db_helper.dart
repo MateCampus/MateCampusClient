@@ -45,7 +45,7 @@ class ChatRoomDBHelper {
   Future<List<ChatRoom>> getChatRoomsByMemberLoginId(String loginId) async {
     final db = await SqfliteObject.database;
     List res = await db!.rawQuery(
-        'SELECT C.roomId, C.type, C.lastMessage, C.lastMsgCreatedAt, C.imageUrl, C.unreadCount FROM ChatRoom C INNER JOIN ChatRoomMemberInfo CM ON C.roomId = CM.roomId INNER JOIN ChatMemberInfo M ON CM.loginId = M.loginId AND M.loginId = ?',
+        'SELECT C.roomId, C.title, C.type, C.lastMessage, C.lastMsgCreatedAt, C.imageUrl, C.unreadCount FROM ChatRoom C INNER JOIN ChatRoomMemberInfo CM ON C.roomId = CM.roomId INNER JOIN ChatMemberInfo M ON CM.loginId = M.loginId AND M.loginId = ?',
         [loginId]);
 
     List<ChatRoom> chatRooms =
@@ -95,6 +95,17 @@ class ChatRoomDBHelper {
     List res = await db!.rawQuery(
         'UPDATE $tableName SET lastMessage = ?, lastMsgCreatedAt = ?, unreadCount = unreadCount + ? WHERE roomId = ?',
         [lastMsg, lastMsgCreatedAt.toString(), unreadCount ?? 0, roomId]);
+  }
+
+  Future<void> updateTitleImageUrlChatRoom(
+      {required String title,
+      required String imageUrl,
+      required String roomId}) async {
+    final db = await SqfliteObject.database;
+    // TODO: null이면 업데이트 안하도록 하는 로직 구현.
+    List res = await db!.rawQuery(
+        'UPDATE $tableName SET title = ?, imageUrl = ? WHERE roomId = ?',
+        [title, imageUrl, roomId]);
   }
 
   Future<void> updateUnreadCount(int unreadCount, String roomId) async {

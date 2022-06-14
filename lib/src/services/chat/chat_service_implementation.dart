@@ -163,6 +163,15 @@ class ChatServiceImpl implements ChatService {
   }
 
   @override
+  Future<void> updateTitleImageUrlChatRoom(
+      {required String title,
+      required String imageUrl,
+      required String roomId}) async {
+    return await chatRoomDBHelper.updateTitleImageUrlChatRoom(
+        title: title, imageUrl: imageUrl, roomId: roomId);
+  }
+
+  @override
   updateUnreadCount(int unreadCount, String roomId) async {
     return await chatRoomDBHelper.updateUnreadCount(unreadCount, roomId);
   }

@@ -88,10 +88,10 @@ class UserServiceImpl implements UserService {
   }
 
   @override
-  Future<bool> updateMyInfo(
+  Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg}) async {
     var request =
-        http.MultipartRequest("PUT", Uri.parse(devServer + "/api/user/mypage"))
+        http.MultipartRequest("PUT", Uri.parse(devServer + "/api/user"))
           ..headers.addAll(AuthService.get_auth_header());
     if (nickname != null) {
       request.fields['nickname'] = nickname;
@@ -100,14 +100,17 @@ class UserServiceImpl implements UserService {
       request.fields['introduction'] = introduction;
     }
     if (profileImg != null) {
-      request.files
-          .add(await http.MultipartFile.fromPath('imageUrl', profileImg.path));
+      request.files.add(
+          await http.MultipartFile.fromPath('profileImage', profileImg.path));
     }
 
-    var response = await request.send();
-    if (response.statusCode == 200) {
+    var streamedResponse = await request.send();
+    if (streamedResponse.statusCode == 200) {
       print('내정보 업데이트 성공');
-      return true;
+      var response = await http.Response.fromStream(streamedResponse);
+      User user =
+          User.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
+      return user;
     } else {
       throw Exception('업데이트 오류');
     }

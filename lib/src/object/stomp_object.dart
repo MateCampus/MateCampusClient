@@ -318,6 +318,11 @@ class StompObject {
         }
       }
       if (chatRoom.type == "single") {
+        // 1:1이면 채팅방의 타이틀, 이미지를 nickname, imageUrl로 변경
+        _chatService.updateTitleImageUrlChatRoom(
+            title: chatMemberInfo.nickname,
+            imageUrl: chatMemberInfo.imageUrl,
+            roomId: chatRoom.roomId);
         chatRoom.title = chatMemberInfo.nickname;
         chatRoom.imageUrl = chatMemberInfo.imageUrl;
         int index = chatViewModel.getExistRoomIndex(chatRoom.roomId);

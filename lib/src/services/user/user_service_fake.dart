@@ -43,8 +43,11 @@ class FakeUserService implements UserService {
   }
 
   @override
-  Future<bool> updateMyInfo(
+  Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg}) async {
-    return true;
+    return User(
+      loginId: "zm",
+      nickname: nickname!,
+    );
   }
 }
