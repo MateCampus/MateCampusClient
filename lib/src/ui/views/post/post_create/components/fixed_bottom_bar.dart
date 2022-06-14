@@ -1,9 +1,9 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 class FixedBottomBar extends StatefulWidget {
   PostCreateScreenViewModel vm;
@@ -47,22 +47,22 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                     widget.vm.getImageFromGallery(context);
                   },
                   icon: Icon(
-                    Icons.image_outlined,
-                    color: Colors.grey,
-                    size: getProportionateScreenWidth(25),
+                    CupertinoIcons.photo,
+                    color: postColor,
+                    size: getProportionateScreenWidth(20),
                   ),
                   label: Text(
                     widget.vm.pickedImgs.length.toString() + '/10',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: getProportionateScreenWidth(13),
-                        color: Colors.grey),
+                        color: postColor),
                   )),
               IconButton(
                 icon: Icon(
-                  Icons.photo_camera_outlined,
-                  color: Colors.grey,
-                  size: getProportionateScreenWidth(25),
+                  CupertinoIcons.camera,
+                  color: postColor,
+                  size: getProportionateScreenWidth(20),
                 ),
                 onPressed: () {
                   widget.vm.getImageFromCamera(context);
@@ -84,24 +84,39 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
           itemBuilder: (context, index) =>
               Stack(alignment: AlignmentDirectional.center, children: [
                 Container(
-                  height: getProportionateScreenHeight(90),
-                  width: getProportionateScreenWidth(90),
-                  padding: EdgeInsets.all(getProportionateScreenHeight(8)),
+                  height: getProportionateScreenHeight(92),
+                  width: getProportionateScreenWidth(92),
+                  padding: EdgeInsets.all(getProportionateScreenHeight(5)),
                   child: Image.file(
                     File(widget.vm.pickedImgs[index].path),
                     fit: BoxFit.cover,
                   ),
                 ),
                 Positioned(
-                    right: getProportionateScreenWidth(3),
-                    top: getProportionateScreenHeight(3),
+                    right: getProportionateScreenWidth(0),
+                    top: getProportionateScreenHeight(0),
                     child: IconButton(
                       padding: EdgeInsets.zero, // 패딩 설정
                       constraints: const BoxConstraints(),
                       icon: Icon(
-                        Icons.cancel,
+                        CupertinoIcons.xmark_circle,
+                        color: Colors.white,
+                        size: getProportionateScreenWidth(20),
+                      ),
+                      onPressed: () {
+                        widget.vm.removeImage(index);
+                      },
+                    )),
+                Positioned(
+                    right: getProportionateScreenWidth(0),
+                    top: getProportionateScreenHeight(0),
+                    child: IconButton(
+                      padding: EdgeInsets.zero, // 패딩 설정
+                      constraints: const BoxConstraints(),
+                      icon: Icon(
+                        CupertinoIcons.xmark_circle_fill,
                         color: Colors.black,
-                        size: getProportionateScreenWidth(25),
+                        size: getProportionateScreenWidth(20),
                       ),
                       onPressed: () {
                         widget.vm.removeImage(index);

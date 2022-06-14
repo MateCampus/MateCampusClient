@@ -1,59 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 class PostHead extends StatelessWidget {
-  final PostDetailPresentation post;
-  const PostHead({Key? key, required this.post}) : super(key: key);
+  final PostDetailScreenViewModel vm;
+  const PostHead({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            //카테고리 나열 -> viewmodel에서 맵핑할때 이렇게까지 작업하고 여기에서는 Text(post.category) 이런식으로만 쓸 수 있게 해야할거같음.
-            alignment: WrapAlignment.start,
-            spacing: getProportionateScreenWidth(8),
-            children: [
-              ...?post.categories?.map((category) => Chip(
-                    label: Text(category),
-                    labelStyle: const TextStyle(fontSize: 12),
-                    backgroundColor: const Color(0xfff8f8f8),
-                  ))
-            ],
-          ),
+          vm.postDetail.categories.isEmpty
+              ? const SizedBox()
+              : Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: getProportionateScreenWidth(8),
+                  children: [
+                    ...vm.postDetail.categories.map((category) => Chip(
+                          label: Text(category),
+                          labelStyle: const TextStyle(fontSize: 12),
+                          backgroundColor: screenBackgroundColor,
+                        ))
+                  ],
+                ),
 
-          const VerticalSpacing(of: 5),
-          Text(
-            post.title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          //const VerticalSpacing(of: 10),
+          // Text(
+          //   post.title,
+          //   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          // ),
+
           ListTile(
             contentPadding: const EdgeInsets.all(0),
-            minVerticalPadding: getProportionateScreenHeight(15),
-            horizontalTitleGap: getProportionateScreenWidth(5),
+            minVerticalPadding: 0,
+            horizontalTitleGap: getProportionateScreenWidth(10),
             dense: true,
             leading: CircleAvatar(
-              radius: getProportionateScreenWidth(15),
-
+              radius: getProportionateScreenWidth(17),
               backgroundImage:
-                  AssetImage(post.userImageUrl), //이미지만 넣으면 에러남(아마도 해결)
+                  AssetImage(vm.postProfileImgPath), //이미지만 넣으면 에러남(아마도 해결)
             ),
             title: Text(
-              post.userNickname,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              vm.postDetail.userNickname,
+              style: TextStyle(
+                  fontSize: getProportionateScreenWidth(15),
+                  fontWeight: FontWeight.bold),
             ),
-            subtitle: Text(
-              post.createdAt,
-              style: const TextStyle(fontSize: 10, color: Colors.grey),
+            subtitle: Row(
+              children: [
+                Text(
+                  vm.postDetail.createdAt,
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(12),
+                      color: postColor),
+                ),
+                const HorizontalSpacing(of: 15),
+                //        Icon(
+                //   CupertinoIcons.eye,
+                //   size: getProportionateScreenWidth(15),
+                //   color: postColor,
+                // ),
+                // const HorizontalSpacing(of: 5),
+                // Text(
+                //   vm.postDetail.viewCount,  //아직 서버에서 안넘겨줌
+                //   textAlign: TextAlign.center,
+                //   style: TextStyle(
+                //     color: postColor,
+                //     fontSize: getProportionateScreenWidth(13),
+                //   ),
+                // )
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

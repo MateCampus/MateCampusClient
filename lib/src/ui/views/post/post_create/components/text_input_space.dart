@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
@@ -37,7 +38,7 @@ class _TextInputSpaceState extends State<TextInputSpace> {
             decoration: const InputDecoration(
               hintText: "게시물 제목을 입력해주세요",
               hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-              fillColor: Color(0xfff8f8f8),
+              fillColor: screenBackgroundColor,
               filled: true,
               border: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -52,7 +53,7 @@ class _TextInputSpaceState extends State<TextInputSpace> {
           const VerticalSpacing(of: 10),
           Container(
             decoration: BoxDecoration(
-                color: const Color(0xfff8f8f8),
+                color: screenBackgroundColor,
                 borderRadius: BorderRadius.circular(5)),
             child: Column(
               children: [
@@ -68,7 +69,7 @@ class _TextInputSpaceState extends State<TextInputSpace> {
                     hintText: "게시물 내용을 입력해주세요",
                     hintStyle:
                         TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-                    fillColor: Color(0xfff8f8f8),
+                    fillColor: screenBackgroundColor,
                     filled: true,
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,

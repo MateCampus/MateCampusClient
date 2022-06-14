@@ -9,7 +9,9 @@ import 'post_service.dart';
 class FakePostService implements PostService {
   @override
   Future<List<Post>> fetchPosts(
-      {required String type, required int nextPageToken}) async {
+      {required String type,
+      required int nextPageToken,
+      required bool collegeFilter}) async {
     List<Post> list = [];
     list.addAll(postDummy1);
 
@@ -48,6 +50,12 @@ class FakePostService implements PostService {
   @override
   Future<int> bookMarkPost({required int postId}) {
     // TODO: implement bookMarkPost
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> deletePost({required int postId}) {
+    // TODO: implement deletePost
     throw UnimplementedError();
   }
 }

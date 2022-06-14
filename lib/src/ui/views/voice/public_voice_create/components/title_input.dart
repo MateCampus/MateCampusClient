@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
@@ -47,7 +48,7 @@ class _TitleInputState extends State<TitleInput> {
           decoration: const InputDecoration(
             hintText: "어떤 얘기를 나눠볼까요?",
             hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-            fillColor: Color(0xfff8f8f8),
+            fillColor: screenBackgroundColor,
             filled: true,
             border: OutlineInputBorder(
                 borderSide: BorderSide.none,

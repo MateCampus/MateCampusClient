@@ -9,12 +9,11 @@ class Post {
   final String body;
   DateTime createdAt;
   int likedCount;
-  List<dynamic> imageUrls;
+  List<String> imageUrls;
   int viewCount;
   int commentCount;
-  List<dynamic>? comments;
+  List<Comment>? comments;
   final List<Category>? categories; //포스트에 관심사 설정이 없을 수도 있음
-  List<String>? userImageUrls;
 
   Post(
       {required this.id,
@@ -22,7 +21,6 @@ class Post {
       required this.categories,
       required this.title,
       required this.userNickname,
-      this.userImageUrls,
       required this.body,
       required this.createdAt,
       required this.likedCount,
@@ -38,15 +36,16 @@ class Post {
         categories: json['categories'],
         title: json['title'],
         userNickname: json['userNickname'],
-        userImageUrls: json['userImageUrls']?.toList(),
         body: json['body'],
         createdAt: DateTime.parse(json['createdAt']),
         likedCount: json['likedCount'],
         viewCount: json['viewCount'],
         commentCount: json['commentCount'],
-        imageUrls: json['imageUrls'].toList(),
+        imageUrls: json['imageUrls']
+            .map<String>((imageUrl) => imageUrl.toString())
+            .toList(),
         comments: json['comments']
-            ?.map((comment) => Comment.fromJson(comment))
+            ?.map<Comment>((comment) => Comment.fromJson(comment))
             .toList());
   }
 }

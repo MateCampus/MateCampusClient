@@ -14,11 +14,13 @@ double kHorizontalPadding = getProportionateScreenWidth(20);
 // 컬러
 const mainColor = Color(0xFFFF6F5E); //사용중
 const subColor = Color(0xFFFFC45E); //사용중
+const postColor = Color(0xff818181);
+const screenBackgroundColor = Color(0xfff8f8f8);
 
 // server
 // final devServer = Platform.isAndroid
-//     ? "https://baa9-211-198-109-254.ngrok.io"
-//     : "https://baa9-211-198-109-254.ngrok.io";
+//     ? "https://7152-211-198-109-254.ngrok.io"
+//     : "https://7152-211-198-109-254.ngrok.io";
 
 final devServer =
     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";

@@ -12,30 +12,20 @@ class CommentInput extends StatefulWidget {
 }
 
 class _CommentInputState extends State<CommentInput> {
-  ////대댓글,댓글 확인용
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   widget.vm.commentTextController.addListener(() {
-  //     print('comment: ' + widget.vm.commentTextController.text);
-  //   });
-  //   widget.vm.nestedCommentTextController.addListener(() {
-  //     print('nestedComment: ' + widget.vm.nestedCommentTextController.text);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: getProportionateScreenHeight(335),
+      width: getProportionateScreenHeight(355),
       height: getProportionateScreenHeight(56),
+      padding:
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: const Color(0xfff8f8f8)),
+          color: screenBackgroundColor),
       child: Row(
         children: [
           _commentInputField(),
+          const Spacer(),
           _sendBtn(),
         ],
       ),
@@ -44,18 +34,31 @@ class _CommentInputState extends State<CommentInput> {
 
   Widget _commentInputField() {
     return SizedBox(
-        width: getProportionateScreenWidth(275),
+        width: getProportionateScreenWidth(270),
         child: TextField(
           keyboardType: TextInputType.multiline,
           maxLines: null,
           controller: (widget.vm.overlayEntry == null)
               ? widget.vm.commentTextController
               : widget.vm.nestedCommentTextController,
+          focusNode: widget.vm.focusNode,
+          //키보드offset관련
+          // onTap: () {
+          //   print(widget.vm.commentScrollController.offset);
+          //   print(widget.vm.keyboardHeight);
+          //   widget.vm.commentScrollController.animateTo(
+          //       widget.vm.commentScrollController.offset +
+          //           widget.vm.keyboardHeight,
+          //       duration: const Duration(milliseconds: 400),
+          //       curve: Curves.fastOutSlowIn);
+          // },
           decoration: InputDecoration(
             hintText: '소중한 댓글을 남겨주세요',
-            hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+            hintStyle: TextStyle(
+                color: const Color(0xFFADADAD),
+                fontSize: getProportionateScreenWidth(14)),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding: EdgeInsets.all(getProportionateScreenHeight(10)),
+            contentPadding: EdgeInsets.zero,
             isDense: true,
           ),
           cursorColor: mainColor,

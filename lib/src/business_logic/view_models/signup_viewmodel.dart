@@ -206,7 +206,7 @@ class SignUpViewModel extends BaseModel {
 
   //유저 생성
   Future<void> createUser(BuildContext context) async {
-    buildShowDialogForLoading(context);
+    buildShowDialogForLoading(context: context);
     bool isCreated = await _signUpService.createUser(
         id: _userIdController.text,
         pw: _userPwController.text,

@@ -17,20 +17,27 @@ class PostDetailScreenViewModel extends BaseModel {
   final CommentService _commentService = serviceLocator<CommentService>();
 
   PostDetailPresentation _postDetail = defaultPostDetail;
-  final List<CommentPresentation> _comments = [];
+  List<CommentPresentation> _comments = List.empty(growable: true);
   int _currentPostId = -1;
   int _parentId = -1; //대댓글 생성할 때 쓰는용도
   bool _isliked = false;
   bool _isBookMarked = false;
-
+  final String _postProfileImgPath = 'assets/images/user/general_user.png';
   final _commentTextController = TextEditingController();
   final _nestedCommentTextController = TextEditingController();
+  final _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+  double _currentScrollOffset = 0;
+  //double keyboardHeight = 0;
+  OverlayEntry? overlayEntry;
+  final LayerLink layerLink = LayerLink();
+
+  String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
   TextEditingController get nestedCommentTextController =>
       _nestedCommentTextController;
-
-  OverlayEntry? overlayEntry;
-  final LayerLink layerLink = LayerLink();
+  FocusNode get focusNode => _focusNode;
+  ScrollController get commentScrollController => _scrollController;
 
   static final PostDetailPresentation
       defaultPostDetail = //postDetailPresentation 초기값 설정
@@ -40,7 +47,7 @@ class PostDetailScreenViewModel extends BaseModel {
           categories: [],
           title: '',
           userNickname: '',
-          userImageUrl: 'assets/images/user/general_user.png',
+          imageUrls: [],
           body: '',
           createdAt: '',
           likedCount: '',
@@ -61,8 +68,8 @@ class PostDetailScreenViewModel extends BaseModel {
   Future<void> loadPostDetail(int postId) async {
     Post postDetailResult = await _postService.fetchPostDetail(postId: postId);
 
-    _comments.addAll(postDetailResult.comments!.map((comment) =>
-        CommentPresentation(
+    _comments = postDetailResult.comments!
+        .map((comment) => CommentPresentation(
             id: comment.id,
             loginId: comment.loginId,
             userNickname: comment.userNickname,
@@ -70,41 +77,39 @@ class PostDetailScreenViewModel extends BaseModel {
             deleted: comment.deleted,
             parentId: comment.parentId,
             children: comment.children
-                    .map((nestedComment) => CommentPresentation(
-                        id: nestedComment.id,
-                        loginId: nestedComment.loginId,
-                        userNickname: nestedComment.userNickname,
-                        body: nestedComment.body,
-                        deleted: nestedComment.deleted,
-                        parentId: nestedComment.parentId,
-                        userImageUrl: nestedComment.userImageUrls?.first ??
-                            'assets/images/user/general_user.png',
-                        createdAt: dateToPastTime(nestedComment.createdAt),
-                        children: nestedComment.children))
-                    .toList() ??
-                [],
-            userImageUrl: comment.userImageUrls?.first ??
-                'assets/images/user/general_user.png',
-            createdAt: dateToPastTime(comment.createdAt))));
+                .map((nestedComment) => CommentPresentation(
+                    id: nestedComment.id,
+                    loginId: nestedComment.loginId,
+                    userNickname: nestedComment.userNickname,
+                    body: nestedComment.body,
+                    deleted: nestedComment.deleted,
+                    parentId: nestedComment.parentId,
+                    createdAt: dateToPastTime(
+                        nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                    children: nestedComment.children))
+                .toList(),
+            createdAt:
+                dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05))))
+        .toList();
 
     _postDetail = PostDetailPresentation(
       id: postDetailResult.id,
       loginId: postDetailResult.loginId,
-      categories: postDetailResult.categories
-          ?.map((category) =>
-              CategoryData.iconOf(category.name) +
-              " " +
-              CategoryData.korNameOf(category.name))
-          .toList(),
+      categories: postDetailResult.categories == null
+          ? defaultPostDetail.categories
+          : postDetailResult.categories!
+              .map((category) =>
+                  CategoryData.iconOf(category.name) +
+                  " " +
+                  CategoryData.korNameOf(category.name))
+              .toList(),
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
-      userImageUrl:
-          postDetailResult.userImageUrls?.first ?? _postDetail.userImageUrl,
       body: postDetailResult.body,
       createdAt: dateToPastTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.commentCount.toString(),
-      imageUrls: postDetailResult.imageUrls.toList(),
+      imageUrls: postDetailResult.imageUrls,
     );
 
     _currentPostId = postId;
@@ -118,7 +123,6 @@ class PostDetailScreenViewModel extends BaseModel {
   }
 
   void likePost(int postId) async {
-    setBusy(true);
     Map<String, int> result = await _postService.likePost(postId: postId);
     _isliked = !_isliked;
     PostMainScreenViewModel postMainScreenViewModel =
@@ -127,11 +131,10 @@ class PostDetailScreenViewModel extends BaseModel {
         ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
         : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
     _postDetail.likedCount = result["likeCount"].toString();
-    setBusy(false);
+    notifyListeners();
   }
 
   void bookMarkPost(int postId) async {
-    setBusy(true);
     int newPostId = await _postService.bookMarkPost(postId: postId);
     _isBookMarked = !_isBookMarked;
     PostMainScreenViewModel postMainScreenViewModel =
@@ -139,7 +142,7 @@ class PostDetailScreenViewModel extends BaseModel {
     isBookMarked
         ? postMainScreenViewModel.bookmarkpostIds.add(newPostId)
         : postMainScreenViewModel.bookmarkpostIds.remove(newPostId);
-    setBusy(false);
+    notifyListeners();
   }
 
   void createComment() async {
@@ -150,12 +153,13 @@ class PostDetailScreenViewModel extends BaseModel {
     bool isCreated = await _commentService.createComment(
         postId: _postDetail.id, body: _commentTextController.text);
     if (isCreated) {
-      toastMessage("댓글 생성 성공");
+      await refreshComments();
+      _commentTextController.clear();
+      _focusNode.unfocus();
+      scrollToEnd();
     } else {
-      toastMessage("ㄴㄴ 구현 잘못함 다시하셈");
+      print('댓글 생성 실패');
     }
-    _commentTextController.clear();
-    refreshComments();
   }
 
   void createNestedComment() async {
@@ -169,15 +173,16 @@ class PostDetailScreenViewModel extends BaseModel {
         body: _nestedCommentTextController.text);
     if (isCreated) {
       removeNestedCommentOverlay();
-      toastMessage("commentId $_parentId 에게 대댓글 생성 성공");
+      await refreshComments();
+      _nestedCommentTextController.clear();
+      _focusNode.unfocus();
+      scrollToTargetPosition();
     } else {
-      toastMessage("ㄴㄴ 구현 잘못함 다시하셈");
+      print('대댓글 생성 실패');
     }
-    _nestedCommentTextController.clear();
-    refreshComments();
   }
 
-  void refreshComments() async {
+  Future<void> refreshComments() async {
     _comments.clear();
     List<Comment> commentsResult =
         await _commentService.fetchComments(postId: _currentPostId);
@@ -196,14 +201,12 @@ class PostDetailScreenViewModel extends BaseModel {
                 body: nestedComment.body,
                 deleted: nestedComment.deleted,
                 parentId: nestedComment.parentId,
-                userImageUrl: nestedComment.userImageUrls?.first ??
-                    'assets/images/user/general_user.png',
-                createdAt: dateToPastTime(nestedComment.createdAt),
+                createdAt: dateToPastTime(
+                    nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                 children: nestedComment.children))
             .toList(),
-        userImageUrl: comment.userImageUrls?.first ??
-            'assets/images/user/general_user.png',
-        createdAt: dateToPastTime(comment.createdAt!))));
+        createdAt:
+            dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
     //총 댓글 수 카운트
     int _commentCount = 0;
@@ -218,15 +221,56 @@ class PostDetailScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void deleteComment(int commentId) async {
+  //현재 스크롤 오프셋 가져옴
+  void getScrollOffset(double offset) {
+    _currentScrollOffset = offset;
+  }
+
+  //댓글 달 때 사용
+  void scrollToEnd() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.fastOutSlowIn);
+    });
+  }
+
+  //대댓글 달 때 사용. 대댓글 달려고 하는 부모 comment위치로 이동
+  void scrollToTargetPosition() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _scrollController.animateTo(_currentScrollOffset,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.fastOutSlowIn);
+    });
+  }
+
+  void deleteComment(BuildContext context, int commentId) async {
     bool isDeleted = await _commentService.deleteComment(
         postId: _postDetail.id, commentId: commentId);
     if (isDeleted) {
-      toastMessage("댓글 삭제 성공");
+      Navigator.pop(context);
+      print('댓글 삭제 성공');
       refreshComments();
     } else {
-      toastMessage("오류: 삭제 실패");
+      Navigator.pop(context);
+      print('댓글 삭제 오류');
     }
+  }
+
+  void deletePost(BuildContext context, int postId) async {
+    //bottomSheet내리는 용도의pop
+    Navigator.pop(context);
+    bool isDeleted = await _postService.deletePost(postId: postId);
+    if (isDeleted) {
+      toastMessage("게시물이 삭제되었습니다");
+    } else {
+      print('실패');
+    }
+    PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+    postMainScreenViewModel.refreshPostAfterDelete(postId);
+    //postMain으로 돌아가기위한 용도의 pop. pop으로 하지 않으면 postmain이 로드되면서 또 새롭게 서버에서 post를 가져온다
+    Navigator.pop(context);
   }
 
   // 대댓글 overlay 생성
@@ -309,15 +353,14 @@ class PostDetailScreenViewModel extends BaseModel {
 class PostDetailPresentation {
   final int id;
   final String loginId;
-  final List<dynamic>? categories;
+  final List<dynamic> categories;
   final String title;
   final String userNickname;
-  final String userImageUrl;
   final String body;
   String createdAt;
   String likedCount;
   String commentCount;
-  List<dynamic>? imageUrls;
+  List<String> imageUrls;
 
   PostDetailPresentation({
     required this.id,
@@ -325,12 +368,11 @@ class PostDetailPresentation {
     required this.categories,
     required this.title,
     required this.userNickname,
-    required this.userImageUrl,
     required this.body,
     required this.createdAt,
     required this.likedCount,
     required this.commentCount,
-    this.imageUrls,
+    required this.imageUrls,
   });
 }
 
@@ -341,7 +383,6 @@ class CommentPresentation {
   final String body;
   bool deleted;
   final int parentId;
-  final String userImageUrl;
   String createdAt;
   List<dynamic> children;
 
@@ -352,7 +393,6 @@ class CommentPresentation {
     required this.body,
     required this.deleted,
     required this.parentId,
-    required this.userImageUrl,
     required this.createdAt,
     required this.children,
   });

@@ -37,14 +37,18 @@ class PostServiceImpl implements PostService {
 
   @override
   Future<List<Post>> fetchPosts(
-      {required String type, required int nextPageToken}) async {
+      {required String type,
+      required int nextPageToken,
+      required bool collegeFilter}) async {
     final response = await http.get(
         Uri.parse(
           devServer +
               "/api/post/" +
               type +
               "?nextPageToken=" +
-              nextPageToken.toString(),
+              nextPageToken.toString() +
+              "&onlyOurCollege=" +
+              collegeFilter.toString(),
         ),
         headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
@@ -117,6 +121,20 @@ class PostServiceImpl implements PostService {
       return postId;
     } else {
       throw Exception('게시물 좋아요 오류');
+    }
+  }
+
+  @override
+  Future<bool> deletePost({required int postId}) async {
+    final response = await http.delete(
+        Uri.parse(devServer + "/api/post/" + postId.toString()),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 204) {
+      print('게시물 삭제 완료');
+      return true;
+    } else {
+      print('오류: 게시물 삭제 실패');
+      return false;
     }
   }
 }
