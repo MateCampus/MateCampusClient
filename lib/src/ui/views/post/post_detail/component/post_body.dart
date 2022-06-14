@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -16,89 +15,29 @@ class PostBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(12)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(vm.postDetail.body),
-          vm.postDetail.imageUrls == null ? Container() : _hasImage(context),
-          Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  vm.likePost(vm.postDetail.id);
-                },
-                child: vm.isliked
-                    ? Padding(
-                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                        child: Icon(
-                          Icons.favorite,
-                          size: getProportionateScreenWidth(22),
-                          color: mainColor,
-                        ),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                        child: Icon(Icons.favorite_border,
-                            size: getProportionateScreenWidth(22)),
-                      ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(40),
-                child: Text(
-                  vm.postDetail.likedCount,
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w600),
-                ),
-              ),
-              InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                  child: Icon(
-                    Icons.chat_bubble_outline,
-                    size: getProportionateScreenWidth(22),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: getProportionateScreenWidth(40),
-                child: Text(
-                  vm.postDetail.commentCount,
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w600),
-                ),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  vm.bookMarkPost(vm.postDetail.id);
-                },
-                // child: Padding(
-                //   padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                //   child: Icon(
-                //     Icons.bookmark_outline,
-                //     size: getProportionateScreenWidth(25),
-                //   ),
-                // ),
-                child: vm.isBookMarked
-                    ? Padding(
-                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                        child: Icon(
-                          Icons.bookmark,
-                          size: getProportionateScreenWidth(22),
-                          color: Colors.orangeAccent,
-                        ),
-                      )
-                    : Padding(
-                        padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                        child: Icon(Icons.bookmark_outline,
-                            size: getProportionateScreenWidth(22)),
-                      ),
-              ),
-            ],
-          )
+          Padding(
+            padding: vm.postDetail.imageUrls.isEmpty
+                ? EdgeInsets.fromLTRB(
+                    getProportionateScreenWidth(5),
+                    getProportionateScreenHeight(15),
+                    getProportionateScreenWidth(5),
+                    0)
+                : EdgeInsets.symmetric(
+                    vertical: getProportionateScreenHeight(15),
+                    horizontal: getProportionateScreenWidth(5)),
+            child: Text(
+              vm.postDetail.body,
+              style: TextStyle(fontSize: getProportionateScreenWidth(15)),
+            ),
+          ),
+          vm.postDetail.imageUrls.isEmpty
+              ? const SizedBox()
+              : _hasImage(context),
         ],
       ),
     );
@@ -106,12 +45,15 @@ class PostBody extends StatelessWidget {
 
   Widget _hasImage(BuildContext context) {
     Widget widget;
-    int restImg = vm.postDetail.imageUrls!.length - 3;
+    int restImg = vm.postDetail.imageUrls.length - 3;
+    double entireWidth = getProportionateScreenWidth(355);
+    double entireHeight = getProportionateScreenHeight(265);
 
     List<ImageItem> postImageItems = <ImageItem>[];
-    for (int i = 0; i < vm.postDetail.imageUrls!.length; i++) {
+
+    for (int i = 0; i < vm.postDetail.imageUrls.length; i++) {
       postImageItems
-          .add(ImageItem(id: "tag${i}", resource: vm.postDetail.imageUrls![i]));
+          .add(ImageItem(id: "tag${i}", resource: vm.postDetail.imageUrls[i]));
     }
 
     void open(BuildContext context, final int index) {
@@ -131,18 +73,11 @@ class PostBody extends StatelessWidget {
       );
     }
 
-    EdgeInsets margin = EdgeInsets.only(
-        top: getProportionateScreenHeight(10),
-        bottom: getProportionateScreenHeight(5));
-    switch (vm.postDetail.imageUrls!.length) {
-      case 0:
-        widget = Container();
-        break;
+    switch (vm.postDetail.imageUrls.length) {
       case 1:
-        widget = Container(
-          margin: margin,
-          height: getProportionateScreenHeight(335),
-          width: getProportionateScreenWidth(335),
+        widget = SizedBox(
+          height: entireHeight,
+          width: entireWidth,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(5),
             child: PostImageItemThumbnail(
@@ -155,18 +90,17 @@ class PostBody extends StatelessWidget {
         );
         break;
       case 2:
-        widget = Container(
-          margin: margin,
-          height: getProportionateScreenHeight(335),
-          width: getProportionateScreenWidth(335),
-          child: Column(
+        widget = SizedBox(
+          height: entireHeight,
+          width: entireWidth,
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5)),
+                      bottomLeft: Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[0],
                     onTap: () {
@@ -175,11 +109,11 @@ class PostBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpacing(of: 5),
+              const HorizontalSpacing(of: 3),
               Expanded(
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
                       bottomRight: Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[1],
@@ -194,18 +128,17 @@ class PostBody extends StatelessWidget {
         );
         break;
       case 3:
-        widget = Container(
-          margin: margin,
-          height: getProportionateScreenHeight(335),
-          width: getProportionateScreenWidth(335),
-          child: Column(
+        widget = SizedBox(
+          height: entireHeight,
+          width: entireWidth,
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5)),
+                      bottomLeft: Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[0],
                     onTap: () {
@@ -214,15 +147,15 @@ class PostBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpacing(of: 5),
+              const HorizontalSpacing(of: 3),
               Expanded(
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(5)),
+                            topRight: Radius.circular(5)),
                         child: PostImageItemThumbnail(
                           postImageItem: postImageItems[1],
                           onTap: () {
@@ -231,7 +164,7 @@ class PostBody extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const HorizontalSpacing(of: 5),
+                    const VerticalSpacing(of: 3),
                     Expanded(
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
@@ -252,18 +185,17 @@ class PostBody extends StatelessWidget {
         );
         break;
       default: //4개이상일 때 실행
-        widget = Container(
-          margin: margin,
-          height: getProportionateScreenHeight(335),
-          width: getProportionateScreenWidth(335),
-          child: Column(
+        widget = SizedBox(
+          height: entireHeight,
+          width: entireWidth,
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5)),
+                      bottomLeft: Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[0],
                     onTap: () {
@@ -272,15 +204,15 @@ class PostBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const VerticalSpacing(of: 5),
+              const HorizontalSpacing(of: 3),
               Expanded(
-                child: Row(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Expanded(
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(5)),
+                            topRight: Radius.circular(5)),
                         child: PostImageItemThumbnail(
                           postImageItem: postImageItems[1],
                           onTap: () {
@@ -289,7 +221,7 @@ class PostBody extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const HorizontalSpacing(of: 5),
+                    const VerticalSpacing(of: 3),
                     Expanded(
                       child: ClipRRect(
                         borderRadius: const BorderRadius.only(
