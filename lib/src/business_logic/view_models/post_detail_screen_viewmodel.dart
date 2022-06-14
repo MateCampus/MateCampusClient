@@ -22,18 +22,22 @@ class PostDetailScreenViewModel extends BaseModel {
   int _parentId = -1; //대댓글 생성할 때 쓰는용도
   bool _isliked = false;
   bool _isBookMarked = false;
-
+  final String _postProfileImgPath = 'assets/images/user/general_user.png';
   final _commentTextController = TextEditingController();
   final _nestedCommentTextController = TextEditingController();
+  final _focusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+  double _currentScrollOffset = 0;
+  //double keyboardHeight = 0;
+  OverlayEntry? overlayEntry;
+  final LayerLink layerLink = LayerLink();
+
+  String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
   TextEditingController get nestedCommentTextController =>
       _nestedCommentTextController;
-
-  final _focusNode = FocusNode();
   FocusNode get focusNode => _focusNode;
-
-  OverlayEntry? overlayEntry;
-  final LayerLink layerLink = LayerLink();
+  ScrollController get commentScrollController => _scrollController;
 
   static final PostDetailPresentation
       defaultPostDetail = //postDetailPresentation 초기값 설정
@@ -43,7 +47,7 @@ class PostDetailScreenViewModel extends BaseModel {
           categories: [],
           title: '',
           userNickname: '',
-          userImageUrl: 'assets/images/user/general_user.png',
+          imageUrls: [],
           body: '',
           createdAt: '',
           likedCount: '',
@@ -80,14 +84,10 @@ class PostDetailScreenViewModel extends BaseModel {
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    userImageUrl: nestedComment.userImageUrls?.first ??
-                        'assets/images/user/general_user.png',
                     createdAt: dateToPastTime(
                         nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children))
                 .toList(),
-            userImageUrl: comment.userImageUrls?.first ??
-                'assets/images/user/general_user.png',
             createdAt:
                 dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
@@ -95,21 +95,21 @@ class PostDetailScreenViewModel extends BaseModel {
     _postDetail = PostDetailPresentation(
       id: postDetailResult.id,
       loginId: postDetailResult.loginId,
-      categories: postDetailResult.categories
-          ?.map((category) =>
-              CategoryData.iconOf(category.name) +
-              " " +
-              CategoryData.korNameOf(category.name))
-          .toList(),
+      categories: postDetailResult.categories == null
+          ? defaultPostDetail.categories
+          : postDetailResult.categories!
+              .map((category) =>
+                  CategoryData.iconOf(category.name) +
+                  " " +
+                  CategoryData.korNameOf(category.name))
+              .toList(),
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
-      userImageUrl:
-          postDetailResult.userImageUrls?.first ?? _postDetail.userImageUrl,
       body: postDetailResult.body,
       createdAt: dateToPastTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.commentCount.toString(),
-      imageUrls: postDetailResult.imageUrls.toList(),
+      imageUrls: postDetailResult.imageUrls,
     );
 
     _currentPostId = postId;
@@ -153,13 +153,13 @@ class PostDetailScreenViewModel extends BaseModel {
     bool isCreated = await _commentService.createComment(
         postId: _postDetail.id, body: _commentTextController.text);
     if (isCreated) {
+      await refreshComments();
+      _commentTextController.clear();
       _focusNode.unfocus();
-      toastMessage("댓글 생성 성공");
+      scrollToEnd();
     } else {
-      toastMessage("ㄴㄴ 구현 잘못함 다시하셈");
+      print('댓글 생성 실패');
     }
-    _commentTextController.clear();
-    refreshComments();
   }
 
   void createNestedComment() async {
@@ -172,17 +172,17 @@ class PostDetailScreenViewModel extends BaseModel {
         parentId: _parentId,
         body: _nestedCommentTextController.text);
     if (isCreated) {
-      _focusNode.unfocus();
       removeNestedCommentOverlay();
-      toastMessage("commentId $_parentId 에게 대댓글 생성 성공");
+      await refreshComments();
+      _nestedCommentTextController.clear();
+      _focusNode.unfocus();
+      scrollToTargetPosition();
     } else {
-      toastMessage("ㄴㄴ 구현 잘못함 다시하셈");
+      print('대댓글 생성 실패');
     }
-    _nestedCommentTextController.clear();
-    refreshComments();
   }
 
-  void refreshComments() async {
+  Future<void> refreshComments() async {
     _comments.clear();
     List<Comment> commentsResult =
         await _commentService.fetchComments(postId: _currentPostId);
@@ -201,14 +201,10 @@ class PostDetailScreenViewModel extends BaseModel {
                 body: nestedComment.body,
                 deleted: nestedComment.deleted,
                 parentId: nestedComment.parentId,
-                userImageUrl: nestedComment.userImageUrls?.first ??
-                    'assets/images/user/general_user.png',
                 createdAt: dateToPastTime(
                     nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                 children: nestedComment.children))
             .toList(),
-        userImageUrl: comment.userImageUrls?.first ??
-            'assets/images/user/general_user.png',
         createdAt:
             dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
@@ -225,16 +221,39 @@ class PostDetailScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
+  //현재 스크롤 오프셋 가져옴
+  void getScrollOffset(double offset) {
+    _currentScrollOffset = offset;
+  }
+
+  //댓글 달 때 사용
+  void scrollToEnd() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.fastOutSlowIn);
+    });
+  }
+
+  //대댓글 달 때 사용. 대댓글 달려고 하는 부모 comment위치로 이동
+  void scrollToTargetPosition() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _scrollController.animateTo(_currentScrollOffset,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.fastOutSlowIn);
+    });
+  }
+
   void deleteComment(BuildContext context, int commentId) async {
     bool isDeleted = await _commentService.deleteComment(
         postId: _postDetail.id, commentId: commentId);
     if (isDeleted) {
       Navigator.pop(context);
-      toastMessage("댓글 삭제 성공");
+      print('댓글 삭제 성공');
       refreshComments();
     } else {
       Navigator.pop(context);
-      toastMessage("오류: 삭제 실패");
+      print('댓글 삭제 오류');
     }
   }
 
@@ -334,15 +353,14 @@ class PostDetailScreenViewModel extends BaseModel {
 class PostDetailPresentation {
   final int id;
   final String loginId;
-  final List<dynamic>? categories;
+  final List<dynamic> categories;
   final String title;
   final String userNickname;
-  final String userImageUrl;
   final String body;
   String createdAt;
   String likedCount;
   String commentCount;
-  List<dynamic>? imageUrls;
+  List<String> imageUrls;
 
   PostDetailPresentation({
     required this.id,
@@ -350,12 +368,11 @@ class PostDetailPresentation {
     required this.categories,
     required this.title,
     required this.userNickname,
-    required this.userImageUrl,
     required this.body,
     required this.createdAt,
     required this.likedCount,
     required this.commentCount,
-    this.imageUrls,
+    required this.imageUrls,
   });
 }
 
@@ -366,7 +383,6 @@ class CommentPresentation {
   final String body;
   bool deleted;
   final int parentId;
-  final String userImageUrl;
   String createdAt;
   List<dynamic> children;
 
@@ -377,7 +393,6 @@ class CommentPresentation {
     required this.body,
     required this.deleted,
     required this.parentId,
-    required this.userImageUrl,
     required this.createdAt,
     required this.children,
   });
