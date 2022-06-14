@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
@@ -13,22 +14,21 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
     return Container(
       //배경색 넣기위해 컨테이너 사용
 
-      height: getProportionateScreenHeight(70), //maxExtend, minExtend와 동일하게 해둠
-      decoration: const BoxDecoration(color: Color(0xfff8f8f8)),
+      height: getProportionateScreenHeight(60), //maxExtend, minExtend와 동일하게 해둠
+      decoration: const BoxDecoration(color: screenBackgroundColor),
       child: Padding(
         padding:
-            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+            EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(15)),
         child: Row(
           children: [
             TextButton(
               onPressed: () {
-                vm.refreshPost(0);
+                vm.loadPostsByType(0);
               },
               child: Text(
                 '인기',
                 style: TextStyle(
-                    color:
-                        vm.sortType == "popular" ? Colors.white : Colors.grey),
+                    color: vm.sortType == "popular" ? Colors.white : postColor),
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(getProportionateScreenWidth(48),
@@ -42,14 +42,13 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
             const HorizontalSpacing(of: 5),
             TextButton(
               onPressed: () {
-                vm.refreshPost(1);
+                vm.loadPostsByType(1);
               },
               child: Text(
                 '추천',
                 style: TextStyle(
-                    color: vm.sortType == "recommend"
-                        ? Colors.white
-                        : Colors.grey),
+                    color:
+                        vm.sortType == "recommend" ? Colors.white : postColor),
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(getProportionateScreenWidth(48),
@@ -63,13 +62,12 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
             const HorizontalSpacing(of: 5),
             TextButton(
               onPressed: () {
-                vm.refreshPost(2);
+                vm.loadPostsByType(2);
               },
               child: Text(
                 '최신',
                 style: TextStyle(
-                    color:
-                        vm.sortType == "recent" ? Colors.white : Colors.grey),
+                    color: vm.sortType == "recent" ? Colors.white : postColor),
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(getProportionateScreenWidth(48),
@@ -81,15 +79,17 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
                       : const BorderSide(color: Color(0xffe2e2e2))),
             ),
             const Spacer(),
-            TextButton(
-                onPressed: () {},
-                child: Icon(Icons.tune,
-                    color: Colors.grey, size: getProportionateScreenWidth(20)),
+            TextButton.icon(
+                icon: Icon(
+                  CupertinoIcons.checkmark_alt,
+                  size: getProportionateScreenWidth(15),
+                ),
+                label: Text('우리학교 글만 보기'),
+                onPressed: () {
+                  vm.setCollegeFilter();
+                },
                 style: TextButton.styleFrom(
-                  minimumSize: Size(getProportionateScreenWidth(36),
-                      getProportionateScreenHeight(36)),
-                  backgroundColor: Colors.white,
-                  side: const BorderSide(color: Color(0xffe2e2e2)),
+                  primary: vm.collegeFilter ? mainColor : postColor,
                   padding: EdgeInsets.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 )),
@@ -100,10 +100,10 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => getProportionateScreenHeight(70);
+  double get maxExtent => getProportionateScreenHeight(60);
 
   @override
-  double get minExtent => getProportionateScreenHeight(70);
+  double get minExtent => getProportionateScreenHeight(60);
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>
