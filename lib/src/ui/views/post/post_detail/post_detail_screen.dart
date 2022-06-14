@@ -33,6 +33,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //vm.keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<PostDetailScreenViewModel>.value(
       value: vm,
@@ -47,6 +48,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   icon: const Icon(Icons.chevron_left_outlined),
                   color: Colors.black,
                   onPressed: () {
+                    //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
+                    vm.removeNestedCommentOverlay();
                     Navigator.of(context).pop();
                   },
                 ),
