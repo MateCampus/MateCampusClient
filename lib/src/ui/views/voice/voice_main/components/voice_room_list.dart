@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -23,7 +24,7 @@ class VoiceRoomList extends StatelessWidget {
               'NOW\u{1F34A}',
               style: TextStyle(
                   fontFamily: 'Gmarket',
-                  fontSize: getProportionateScreenWidth(18),
+                  fontSize: kTitleFontSize,
                   fontWeight: FontWeight.w700),
             )),
         ListView.builder(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class MainAppBar extends StatelessWidget with PreferredSizeWidget {

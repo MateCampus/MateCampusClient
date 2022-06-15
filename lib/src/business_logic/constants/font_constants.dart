@@ -6,3 +6,6 @@ double kLabelFontSize = resizeFont(11);
 double kTextFieldInnerFontSize = resizeFont(13);
 
 double kCreateAtFontSize = resizeFont(11);
+
+double kTitleFontSize = resizeFont(18);
+double kPlainTextFontSize = resizeFont(14);

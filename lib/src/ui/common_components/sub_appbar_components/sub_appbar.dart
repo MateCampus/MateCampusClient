@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 
 class SubAppbar extends StatelessWidget with PreferredSizeWidget {
   final String? titleText;
@@ -41,6 +41,7 @@ class SubAppbar extends StatelessWidget with PreferredSizeWidget {
         style: TextStyle(
             fontFamily: 'Gmarket',
             color: kAppBarTextColor,
+            fontSize: kTitleFontSize,
             fontWeight: FontWeight.w500),
       ),
       centerTitle: isCenter ?? false,

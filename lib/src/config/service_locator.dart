@@ -99,8 +99,8 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<VoiceDetailViewModel>(
       () => VoiceDetailViewModel());
   serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());
-  serviceLocator
-      .registerFactory<UserProfileViewModel>(() => UserProfileViewModel());
+  serviceLocator.registerLazySingleton<UserProfileViewModel>(
+      () => UserProfileViewModel());
   serviceLocator
       .registerLazySingleton<MypageViewModel>(() => MypageViewModel());
   serviceLocator

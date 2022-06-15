@@ -35,8 +35,8 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<UserProfileViewModel>(
-        create: (context) => vm,
+    return ChangeNotifierProvider.value(
+        value: vm,
         child: Consumer<UserProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(

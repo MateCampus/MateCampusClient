@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -32,13 +33,13 @@ class VoiceRoomHead extends StatelessWidget {
           voiceRoom.type == VoiceRoomType.PUBLIC
               ? Text(
                   voiceRoom.title,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: kTitleFontSize, fontWeight: FontWeight.bold),
                 )
               : Text(
-                  '\u{1F512}' + voiceRoom.title,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                  '\u{1F512} ' + voiceRoom.title,
+                  style: TextStyle(
+                      fontSize: kTitleFontSize, fontWeight: FontWeight.bold),
                 )
         ],
       ),
