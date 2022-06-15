@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/body.dart';
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
@@ -43,28 +45,23 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             onTap: () =>
                 FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
             child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.chevron_left_outlined),
-                  color: Colors.black,
-                  onPressed: () {
-                    //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
-                    vm.removeNestedCommentOverlay();
-                    Navigator.of(context).pop();
-                  },
-                ),
+              appBar: SubAppbar(
+                leadingOnPress: () {
+                  //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
+                  vm.removeNestedCommentOverlay();
+                  Navigator.of(context).pop();
+                },
                 actions: [
                   IconButton(
-                    icon: const Icon(Icons.more_vert),
+                    icon: const Icon(CupertinoIcons.ellipsis),
                     color: Colors.black,
                     onPressed: () {
                       _removeReportPost();
                     },
-                  ),
+                  )
                 ],
-                elevation: 0.0,
-                backgroundColor: Colors.transparent,
               ),
+
               backgroundColor: Colors.white,
               //extendBodyBehindAppBar: true,
               body: vm.busy ? const IsLoading() : Body(vm: vm),

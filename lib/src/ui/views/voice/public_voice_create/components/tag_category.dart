@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
+//마찬가지로 관심사 추가 버튼..
+
 class TagCategory extends StatelessWidget {
   final VoiceCreateViewModel vm;
   const TagCategory({Key? key, required this.vm}) : super(key: key);
@@ -46,7 +48,7 @@ class TagCategory extends StatelessWidget {
         labelStyle: TextStyle(
           fontSize: getProportionateScreenWidth(12),
           color: Colors.black,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
         ),
         backgroundColor: Colors.white,
         side: const BorderSide(color: Color(0xffe2e2e2), width: 1.2),

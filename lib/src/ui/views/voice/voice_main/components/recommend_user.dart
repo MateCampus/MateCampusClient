@@ -43,16 +43,19 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '새로운 친구들을 만나보세요!',
+            '새로운 친구들을 만나보세요! \u{1F440}',
             style: TextStyle(
+                fontFamily: 'Gmarket',
                 fontSize: getProportionateScreenHeight(18),
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
                 color: Colors.white),
           ),
           const VerticalSpacing(of: 5),
           Text(
             '나와 같은 학교 혹은 관심사가 같은 친구를 추천합니다',
             style: TextStyle(
+                fontFamily: 'Gmarket',
+                fontWeight: FontWeight.w300,
                 fontSize: getProportionateScreenHeight(13),
                 color: Colors.white),
           ),

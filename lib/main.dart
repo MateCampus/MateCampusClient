@@ -36,11 +36,15 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => AuthService()),
         ],
         child: MaterialApp(
+          builder: (context, child) {
+            return MediaQuery(
+              child: child!,
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+            );
+          },
           title: 'zamongCampus',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Spoqa'),
           routes: routes,
           initialRoute: "/splash",
           onGenerateRoute: RouteGenerator.generateRoute,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -64,9 +65,11 @@ class _ChatInputFieldState extends State<ChatInputField> {
           maxLines: null,
           controller: _textController,
           onSubmitted: _sendMessage,
+          style: TextStyle(fontSize: kTextFieldInner),
           decoration: InputDecoration(
             hintText: '메세지를 입력하세요',
-            hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+            hintStyle:
+                TextStyle(color: Color(0xFFADADAD), fontSize: kTextFieldInner),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding: EdgeInsets.all(getProportionateScreenHeight(10)),
             isDense: true,

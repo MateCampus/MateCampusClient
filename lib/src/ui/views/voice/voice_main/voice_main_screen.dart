@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
@@ -38,12 +40,12 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
             Consumer<VoiceMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
               appBar: AppBar(
-                  title: const Text("자몽캠퍼스"),
+                  title: SvgPicture.asset('assets/images/svg/appbarLogo.svg'),
                   centerTitle: false,
                   actions: [
                     IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.notifications_outlined))
+                        icon: const Icon(FontAwesomeIcons.bell))
                   ],
                   backgroundColor: mainColor,
                   elevation: 0.0),

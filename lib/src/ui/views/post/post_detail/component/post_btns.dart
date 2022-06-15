@@ -39,7 +39,7 @@ class _PostBtnsState extends State<PostBtns> {
               widget.vm.postDetail.likedCount,
               style: TextStyle(
                   fontSize: getProportionateScreenWidth(15),
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black),
             ),
           ),
@@ -54,7 +54,7 @@ class _PostBtnsState extends State<PostBtns> {
               widget.vm.postDetail.commentCount,
               style: TextStyle(
                   fontSize: getProportionateScreenWidth(15),
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   color: Colors.black),
             ),
           ),

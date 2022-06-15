@@ -15,7 +15,7 @@ class InterestDifferentChip extends StatelessWidget {
         labelStyle: TextStyle(
           fontSize: getProportionateScreenWidth(12),
           color: Colors.black,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
         ),
         backgroundColor: Colors.white,
         side: const BorderSide(color: Color(0xffe2e2e2), width: 1.2),

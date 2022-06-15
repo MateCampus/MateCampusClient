@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -32,7 +34,7 @@ class PostBody extends StatelessWidget {
                     horizontal: getProportionateScreenWidth(5)),
             child: Text(
               vm.postDetail.body,
-              style: TextStyle(fontSize: getProportionateScreenWidth(15)),
+              style: kPostBodyStyle,
             ),
           ),
           vm.postDetail.imageUrls.isEmpty

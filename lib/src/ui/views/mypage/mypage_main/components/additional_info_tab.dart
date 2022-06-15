@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -54,7 +55,7 @@ class AdditionalInfoTab extends StatelessWidget {
           children: [
             Text(text,
                 style: TextStyle(
-                  fontSize: getProportionateScreenWidth(13),
+                  fontSize: kTextFieldInner,
                   color: Colors.black.withOpacity(0.45),
                 )),
             Text(count,

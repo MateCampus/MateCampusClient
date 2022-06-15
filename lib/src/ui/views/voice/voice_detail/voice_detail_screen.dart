@@ -48,41 +48,38 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
       child: Consumer<VoiceDetailViewModel>(builder: ((context, vm, child) {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
-          child: PreferredSize(
-            preferredSize: Size.fromHeight(getProportionateScreenHeight(30)),
-            child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.expand_more_outlined),
+          child: Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(Icons.expand_more_outlined),
+                color: Colors.black,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/voiceInviteFriend",
+                        arguments:
+                            VoiceInviteFriendScreenArgs(vm.voiceRoom.id));
+                  },
+                  icon: const Icon(Icons.person_add_outlined),
                   color: Colors.black,
+                ),
+                IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
+                  icon: const Icon(Icons.logout_outlined),
+                  color: Colors.black,
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, "/voiceInviteFriend",
-                          arguments:
-                              VoiceInviteFriendScreenArgs(vm.voiceRoom.id));
-                    },
-                    icon: const Icon(Icons.person_add_outlined),
-                    color: Colors.black,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.logout_outlined),
-                    color: Colors.black,
-                  ),
-                ],
-                elevation: 0.0,
-                backgroundColor: screenBackgroundColor,
-              ),
+              ],
+              elevation: 0.0,
               backgroundColor: screenBackgroundColor,
-              body: vm.busy ? const IsLoading() : Body(vm: vm),
             ),
+            backgroundColor: screenBackgroundColor,
+            body: vm.busy ? const IsLoading() : Body(vm: vm),
           ),
         );
       })),

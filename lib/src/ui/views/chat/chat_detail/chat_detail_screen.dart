@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
@@ -5,6 +6,7 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmode
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 
 import 'components/body.dart';
 
@@ -55,29 +57,13 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             behavior: HitTestBehavior.translucent,
             child: Scaffold(
               extendBodyBehindAppBar: true,
-              appBar: AppBar(
-                elevation: 0.0,
+              appBar: SubAppbar(
+                titleText: vm.chatRoom.title,
+                isCenter: true,
                 backgroundColor: const Color(0xfffff8f3).withOpacity(0.9),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_outlined),
-                  iconSize: getProportionateScreenHeight(20),
-                  color: Colors.black,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                centerTitle: true,
-                title: Text(
-                  vm.chatRoom.title,
-                  style: TextStyle(
-                      fontSize: getProportionateScreenWidth(16),
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.5),
-                ),
                 actions: [
                   IconButton(
-                    icon: const Icon(Icons.more_horiz_outlined),
+                    icon: const Icon(CupertinoIcons.ellipsis),
                     iconSize: getProportionateScreenHeight(20),
                     color: Colors.black,
                     onPressed: () {},

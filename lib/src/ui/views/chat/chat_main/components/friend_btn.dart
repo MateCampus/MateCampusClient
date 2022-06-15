@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
@@ -14,9 +15,9 @@ class FriendBtn extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             '친구',
-            style: TextStyle(fontSize: 12, color: Colors.black87),
+            style: TextStyle(fontSize: kLabel, color: Colors.black87),
           ),
           const VerticalSpacing(of: 10),
           InkWell(

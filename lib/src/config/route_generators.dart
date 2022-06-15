@@ -69,7 +69,7 @@ class RouteGenerator {
           appBar: AppBar(
             title: const Text(
               '자몽캠퍼스',
-              style: TextStyle(color: Colors.white, fontSize: 25),
+              style: TextStyle(color: Colors.white),
             ),
           ),
           body: const Center(

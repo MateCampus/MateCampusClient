@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
@@ -39,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
         textInputAction: TextInputAction.next,
         autofocus: true,
         controller: _loginIdTxtCtrl,
-        style: const TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: kTextFieldInner),
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -49,8 +50,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
           hintText: "아이디를 입력해주세요",
-          hintStyle: TextStyle(
-              color: Colors.grey, fontSize: getProportionateScreenHeight(13)),
+          hintStyle: TextStyle(color: Colors.grey, fontSize: kTextFieldInner),
           fillColor: Colors.white,
           filled: true,
           border: const OutlineInputBorder(
@@ -77,7 +77,7 @@ class _LoginFormState extends State<LoginForm> {
         },
         controller: _passwordTxtCtrl,
         obscureText: true,
-        style: const TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: kTextFieldInner),
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -87,8 +87,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
           contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
           hintText: "비밀번호를 입력해주세요",
-          hintStyle: TextStyle(
-              color: Colors.grey, fontSize: getProportionateScreenHeight(13)),
+          hintStyle: TextStyle(color: Colors.grey, fontSize: kTextFieldInner),
           fillColor: Colors.white,
           filled: true,
           border: const OutlineInputBorder(

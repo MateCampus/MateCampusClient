@@ -54,7 +54,7 @@ class MenuList extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black,
-                    fontWeight: FontWeight.w600)),
+                    fontWeight: FontWeight.w500)),
             const Spacer(),
             version == null
                 ? const SizedBox()

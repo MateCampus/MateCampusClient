@@ -38,3 +38,9 @@ double getProportionateScreenWidth(double inputWidth) {
   // 375 is the layout width that designer use or you can say iPhone 11 Pro width
   return (inputWidth / 375.0) * screenWidth;
 }
+
+//폰트 사이즈 조절
+double resizeFont(double fontSize) {
+  double screenHeight = SizeConfig.screenHeight!;
+  return (fontSize / 812.0) * screenHeight;
+}

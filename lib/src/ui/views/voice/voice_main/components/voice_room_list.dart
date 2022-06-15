@@ -19,9 +19,12 @@ class VoiceRoomList extends StatelessWidget {
                 getProportionateScreenHeight(20),
                 getProportionateScreenWidth(20),
                 getProportionateScreenHeight(10)),
-            child: const Text(
-              'NOW \u{1F34A}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+            child: Text(
+              'NOW\u{1F34A}',
+              style: TextStyle(
+                  fontFamily: 'Gmarket',
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.w700),
             )),
         ListView.builder(
             shrinkWrap: true,

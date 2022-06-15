@@ -59,7 +59,7 @@ class CommentListTile extends StatelessWidget {
                   child: Text(
                     comment.body,
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         fontSize: getProportionateScreenHeight(13),
                         height: 1.3),
                   ),

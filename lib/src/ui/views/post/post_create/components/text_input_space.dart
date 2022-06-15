@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -22,22 +23,23 @@ class _TextInputSpaceState extends State<TextInputSpace> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             '제목',
-            style: TextStyle(fontSize: 12, color: Colors.black87),
+            style: TextStyle(fontSize: kLabel, color: Colors.black87),
           ),
           const VerticalSpacing(of: 10),
           TextField(
             autofocus: true,
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.next,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: kTextFieldInner),
             controller: widget.vm.titleTextController,
             focusNode: widget.vm.postFocusNode,
             maxLines: 1, //제목 글자수 제한 미정
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               hintText: "게시물 제목을 입력해주세요",
-              hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+              hintStyle: TextStyle(
+                  color: Color(0xFFADADAD), fontSize: kTextFieldInner),
               fillColor: screenBackgroundColor,
               filled: true,
               border: OutlineInputBorder(
@@ -46,9 +48,9 @@ class _TextInputSpaceState extends State<TextInputSpace> {
             ),
           ),
           const VerticalSpacing(of: 20),
-          const Text(
+          Text(
             '내용',
-            style: TextStyle(fontSize: 12, color: Colors.black87),
+            style: TextStyle(fontSize: kLabel, color: Colors.black87),
           ),
           const VerticalSpacing(of: 10),
           Container(
@@ -61,14 +63,14 @@ class _TextInputSpaceState extends State<TextInputSpace> {
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.done,
                   controller: widget.vm.bodyTextController,
-
+                  style: TextStyle(fontSize: kTextFieldInner),
                   maxLines: null,
                   minLines: 5, //이걸로 사이즈 조절
                   //style: TextStyle(fontSize: 150),  //테스트용
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: "게시물 내용을 입력해주세요",
-                    hintStyle:
-                        TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+                    hintStyle: TextStyle(
+                        color: Color(0xFFADADAD), fontSize: kTextFieldInner),
                     fillColor: screenBackgroundColor,
                     filled: true,
                     border: OutlineInputBorder(
