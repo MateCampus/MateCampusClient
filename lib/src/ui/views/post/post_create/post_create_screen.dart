@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/views/post/post_create/components/body.dart';
 
 class PostCreateScreen extends StatefulWidget {
@@ -27,20 +28,9 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
             onTap: () =>
                 FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
             child: Scaffold(
-              appBar: AppBar(
-                title: const Text('글쓰기',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.0)),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios_outlined),
-                  color: Colors.black,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
+              appBar: SubAppbar(
+                titleText: '글쓰기',
+                isCenter: true,
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -52,8 +42,6 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                     ),
                   )
                 ],
-                elevation: 0.0,
-                backgroundColor: Colors.white,
               ),
               backgroundColor: Colors.white,
               body: Body(vm: vm),

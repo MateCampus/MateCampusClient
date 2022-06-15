@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_invite_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/my_friend_body.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/components/recent_talk_body.dart';
 
@@ -41,20 +42,8 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
             child: DefaultTabController(
               length: 2,
               child: Scaffold(
-                appBar: AppBar(
-                  title: const Text('대화친구 선택',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold)),
-                  centerTitle: false,
-                  elevation: 0.0,
-                  backgroundColor: Colors.white,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_outlined),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                appBar: SubAppbar(
+                  titleText: '대화친구 선택',
                   bottom: PreferredSize(
                     preferredSize:
                         Size.fromHeight(getProportionateScreenHeight(40)),
@@ -80,6 +69,7 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
                         ]),
                   ),
                 ),
+
                 backgroundColor: Colors.white, //배경색
                 body: TabBarView(children: [
                   RecentTalkBody(

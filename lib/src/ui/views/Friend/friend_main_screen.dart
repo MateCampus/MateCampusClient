@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/views/Friend/components/friend_list_body.dart';
 import 'package:zamongcampus/src/ui/views/Friend/components/request_list_body.dart';
 
@@ -39,23 +41,11 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
             child: DefaultTabController(
               length: 2,
               child: Scaffold(
-                appBar: AppBar(
-                  title: const Text('내 친구',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold)),
-                  centerTitle: false,
-                  elevation: 0.0,
-                  backgroundColor: Colors.white,
-                  leading: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_outlined),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
+                appBar: SubAppbar(
+                  titleText: '내 친구',
                   actions: [
                     IconButton(
-                      icon: const Icon(Icons.settings_outlined),
+                      icon: const Icon(CupertinoIcons.line_horizontal_3),
                       color: Colors.black,
                       onPressed: () {},
                     )
@@ -85,6 +75,7 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
                         ]),
                   ),
                 ),
+
                 backgroundColor: Colors.white, //배경색
                 body: TabBarView(children: [
                   FriendListBody(
