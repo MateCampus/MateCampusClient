@@ -23,16 +23,16 @@ class ShowInfo extends StatelessWidget {
               children: [
                 CircleAvatar(
                     radius: getProportionateScreenHeight(50),
-                    backgroundImage: (vm.changedProfileImgPath.isEmpty)
-                        ? vm.myInfo.imageUrl.startsWith('https')
+                    backgroundImage: vm.changedProfileImgPath.isEmpty
+                        ? (vm.myInfo.imageUrl.startsWith('https')
                             ? CachedNetworkImageProvider(vm.myInfo.imageUrl)
                                 as ImageProvider
-                            : AssetImage(vm.myInfo.imageUrl)
-                        : vm.changedProfileImgPath.startsWith('https')
+                            : AssetImage(vm.myInfo.imageUrl))
+                        : (vm.changedProfileImgPath.startsWith('https')
                             ? CachedNetworkImageProvider(
                                 vm.changedProfileImgPath) as ImageProvider
                             : AssetImage(vm
-                                .changedProfileImgPath) //추후 누르면 전체화면으로 프사볼수있도록 변경하기
+                                .changedProfileImgPath)) //추후 누르면 전체화면으로 프사볼수있도록 변경하기
                     ),
                 Positioned(
                   bottom: 1,
