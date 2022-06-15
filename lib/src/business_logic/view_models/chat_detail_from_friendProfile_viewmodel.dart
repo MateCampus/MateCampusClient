@@ -127,6 +127,11 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     chatMemberInfos.update(chatMemberInfo.loginId, (value) => chatMemberInfo);
   }
 
+  changeTitle(String nickname) {
+    chatRoom.title = nickname;
+    notifyListeners();
+  }
+
   Future<void> loadMoreChatMessages() async {
     /// local storage에 있는 메세지 더 불러오기
     changeLoadMoreBusy(true);
