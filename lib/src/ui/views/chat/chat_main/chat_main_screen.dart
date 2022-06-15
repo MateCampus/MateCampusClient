@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/main_appbar_components/main_appbar.dart';
-import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_main/components/body.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
@@ -32,22 +33,21 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
               actions: [
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(
-                    Icons.maps_ugc_outlined,
-                    size: getProportionateScreenWidth(25),
-                  ),
-                  color: Colors.black,
+                  icon: const Icon(Icons.maps_ugc_outlined),
+                  iconSize: kAppBarIconSizeG,
+                  color: kAppBarIconColor,
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(
                     FontAwesomeIcons.bell,
                   ),
-                  color: Colors.black,
+                  iconSize: kAppBarIconSizeFA,
+                  color: kAppBarIconColor,
                 ),
               ],
             ),
-            backgroundColor: screenBackgroundColor,
+            backgroundColor: kMainScreenBackgroundColor,
             body: Body(vm: vm),
           );
         }));

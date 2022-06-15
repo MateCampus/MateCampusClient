@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 
 class SubAppbar extends StatelessWidget with PreferredSizeWidget {
@@ -26,7 +27,7 @@ class SubAppbar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Icon(CupertinoIcons.chevron_back),
+        icon: const Icon(CupertinoIcons.chevron_back),
         color: Colors.black,
         onPressed: leadingOnPress ??
             () {
@@ -37,8 +38,8 @@ class SubAppbar extends StatelessWidget with PreferredSizeWidget {
         titleText ?? '',
         style: TextStyle(
             fontFamily: 'Gmarket',
-            color: Colors.black,
-            fontWeight: FontWeight.w700),
+            color: kAppBarTextColor,
+            fontWeight: FontWeight.w500),
       ),
       centerTitle: isCenter ?? false,
       actions: actions,

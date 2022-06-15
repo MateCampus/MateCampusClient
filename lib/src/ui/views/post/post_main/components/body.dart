@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -26,9 +28,10 @@ class Body extends StatelessWidget {
                 '\t피드',
                 style: TextStyle(
                     fontFamily: 'Gmarket',
-                    color: Colors.black,
+                    color: kAppBarTextColor,
                     fontSize: resizeFont(20),
-                    fontWeight: FontWeight.w700),
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.w500),
               ),
               actions: [
                 IconButton(
@@ -36,16 +39,18 @@ class Body extends StatelessWidget {
                     Navigator.pushNamed(context, '/postCreate');
                   },
                   icon: const Icon(FontAwesomeIcons.penToSquare),
-                  color: Colors.black,
+                  iconSize: kAppBarIconSizeFA,
+                  color: kAppBarIconColor,
                 ),
                 IconButton(
                   onPressed: () => {},
                   icon: const Icon(FontAwesomeIcons.bell),
-                  color: Colors.black,
+                  iconSize: kAppBarIconSizeFA,
+                  color: kAppBarIconColor,
                 ),
               ],
               elevation: 0.0,
-              backgroundColor: screenBackgroundColor,
+              backgroundColor: kMainScreenBackgroundColor,
               pinned: false,
               floating: true,
             ),
