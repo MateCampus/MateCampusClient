@@ -25,6 +25,12 @@ class Body extends StatelessWidget {
               AuthService.logout(context);
             }),
         const HorizontalDividerCustom(),
+        _tabBtn(
+            text: '테스트 설정',
+            onTap: () {
+              Navigator.pushNamed(context, "/dummy");
+            }),
+        const HorizontalDividerCustom(),
       ]),
     );
   }

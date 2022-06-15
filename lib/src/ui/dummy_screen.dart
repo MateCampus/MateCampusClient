@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import '../object/firebase_object.dart';
 
 /// 삭제 예정 (채팅 테스트 용도)
@@ -24,6 +25,11 @@ class DummyScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              VerticalSpacing(of: 50),
+              Text(
+                "테스트 페이지입니다",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
               TextButton(
                 onPressed: () async {
                   var count = 0;
@@ -158,6 +164,10 @@ class DummyScreen extends StatelessWidget {
                 },
                 child: Text("recentTalkUser 리스트 출력"),
               ),
+              Text(
+                "어드민: 활성화 유저",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
               buildActivateButton()
             ],
           ),
@@ -171,13 +181,16 @@ class DummyScreen extends StatelessWidget {
     if (AuthService.loginId == "admin") {
       return Column(
         children: [
-          TextField(
-            controller: _textController,
-            decoration: const InputDecoration(
-              hintText: '활성화시킬 유저 loginId',
-              hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
-              border: OutlineInputBorder(),
-              isDense: true,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _textController,
+              decoration: const InputDecoration(
+                hintText: '활성화시킬 유저 loginId',
+                hintStyle: TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+                border: OutlineInputBorder(),
+                isDense: true,
+              ),
             ),
           ),
           TextButton(
@@ -186,6 +199,7 @@ class DummyScreen extends StatelessWidget {
             },
             child: Text("유저 활성화"),
           ),
+          VerticalSpacing(of: 50)
         ],
       );
     }
@@ -194,6 +208,10 @@ class DummyScreen extends StatelessWidget {
 
   void _activateUser(String text) async {
     print(text + " 유저 활성화 시작!");
+    if (text.isEmpty) {
+      toastMessage("로그인 id가 비웠습니다");
+      return;
+    }
     final response = await http.post(
         Uri.parse(devServer + "/api/user/activate?loginId=" + text),
         headers: AuthService.get_auth_header());
