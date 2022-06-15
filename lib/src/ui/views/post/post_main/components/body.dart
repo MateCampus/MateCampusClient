@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/post_tab_btns.dart';
 import 'post_list_tile.dart';
 
-//예전 버전
+//여기서는 sliver을 써야해서 mainAppbar 못씀
 class Body extends StatelessWidget {
   final PostMainScreenViewModel vm;
   const Body({Key? key, required this.vm}) : super(key: key);
@@ -20,22 +22,25 @@ class Body extends StatelessWidget {
           controller: vm.postScrollController,
           slivers: [
             SliverAppBar(
-              title: const Text('피드',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+              title: Text(
+                '\t피드',
+                style: TextStyle(
+                    fontFamily: 'Gmarket',
                     color: Colors.black,
-                  )),
+                    fontSize: resizeFont(20),
+                    fontWeight: FontWeight.w700),
+              ),
               actions: [
                 IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, '/postCreate');
                   },
-                  icon: const Icon(Icons.edit_outlined),
+                  icon: const Icon(FontAwesomeIcons.penToSquare),
                   color: Colors.black,
                 ),
                 IconButton(
                   onPressed: () => {},
-                  icon: const Icon(Icons.notifications_outlined),
+                  icon: const Icon(FontAwesomeIcons.bell),
                   color: Colors.black,
                 ),
               ],

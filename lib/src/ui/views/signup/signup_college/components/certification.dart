@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -20,9 +21,9 @@ class Certification extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenHeight(10)),
-            child: const Text(
+            child: Text(
               '학생증 인증',
-              style: TextStyle(fontSize: 12, color: Colors.black87),
+              style: TextStyle(fontSize: kLabel, color: Colors.black87),
             ),
           ),
           GestureDetector(

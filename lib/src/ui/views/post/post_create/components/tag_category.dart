@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
+//이거 따로 위젯으로 빼도될듯 암튼 통일시키기
+
 class TagCategory extends StatelessWidget {
   const TagCategory({Key? key}) : super(key: key);
 

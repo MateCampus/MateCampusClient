@@ -35,13 +35,13 @@ class Body extends StatelessWidget {
             child:
                 (vm.userImgPath != '' && vm.userIntroduceController.text != '')
                     ? DefaultBtn(
-                        text: '설정 완료',
+                        text: '회원가입 완료',
                         press: () {
                           vm.createUser(context);
                         },
                       )
                     : DefaultBtn(
-                        text: '건너뛰기',
+                        text: '회원가입 완료',
                         btnColor: Colors.grey.withOpacity(0.5),
                         press: () {
                           vm.createUser(context);

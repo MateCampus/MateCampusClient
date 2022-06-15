@@ -33,11 +33,10 @@ class ProfileInfo extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: getProportionateScreenHeight(40),
-                  backgroundImage: this.imageUrl.startsWith('https')
-                      ? CachedNetworkImageProvider(this.imageUrl)
-                          as ImageProvider
+                  backgroundImage: imageUrl.startsWith('https')
+                      ? CachedNetworkImageProvider(imageUrl) as ImageProvider
                       : AssetImage(
-                          this.imageUrl,
+                          imageUrl,
                         ),
                 ),
                 // Positioned(
@@ -61,33 +60,33 @@ class ProfileInfo extends StatelessWidget {
             ),
           ),
           Text(
-            this.nickname,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+            nickname,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           ),
-          this.majorName == null
+          majorName == null
               ? Text(
-                  this.collegeName,
+                  collegeName,
                   style: TextStyle(
                       fontSize: 13, color: Colors.black.withOpacity(0.5)),
                 )
               : Text(
-                  this.collegeName + ' / ' + this.majorName!,
+                  collegeName + ' / ' + majorName!,
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.black.withOpacity(0.5),
                       letterSpacing: 0.5),
                 ),
-          this.introduction == null
+          introduction == null
               ? const VerticalSpacing(of: 20)
               : Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: getProportionateScreenHeight(20)),
                   child: Text(
-                    this.introduction!,
+                    introduction!,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         letterSpacing: 0.5),
                   ),
                 )

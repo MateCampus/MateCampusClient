@@ -15,12 +15,14 @@ double kHorizontalPadding = getProportionateScreenWidth(20);
 const mainColor = Color(0xFFFF6F5E); //사용중
 const subColor = Color(0xFFFFC45E); //사용중
 const postColor = Color(0xff818181);
-const screenBackgroundColor = Color(0xfff8f8f8);
+const screenBackgroundColor =
+    Color(0xfff8f8f8); //kMainScreenBackgroundColor로 바꿀예정
+const kSubScreenBackgroundColor = Colors.white;
 
 // server
 // final devServer = Platform.isAndroid
-//     ? "https://7152-211-198-109-254.ngrok.io"
-//     : "https://7152-211-198-109-254.ngrok.io";
+//     ? "https://d3c9-211-198-109-254.ngrok.io"
+//     : "https://d3c9-211-198-109-254.ngrok.io";
 
 final devServer =
     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";

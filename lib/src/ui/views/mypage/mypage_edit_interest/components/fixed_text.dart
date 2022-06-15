@@ -13,12 +13,19 @@ class FixedText extends StatelessWidget {
           vertical: getProportionateScreenHeight(15)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Text('어떤 것을 좋아하세요?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+              style: TextStyle(
+                  fontFamily: 'Gmarket',
+                  fontSize: getProportionateScreenHeight(18),
+                  fontWeight: FontWeight.w700)),
           Text(
             '관심사는 10개까지 선택할 수 있어요',
-            style: TextStyle(fontSize: 13, color: mainColor),
+            style: TextStyle(
+                fontFamily: 'Gmarket',
+                fontSize: getProportionateScreenHeight(13),
+                fontWeight: FontWeight.w500,
+                color: mainColor),
           )
         ],
       ),

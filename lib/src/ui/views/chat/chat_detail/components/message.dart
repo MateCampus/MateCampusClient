@@ -71,7 +71,7 @@ class Message extends StatelessWidget {
                           style: TextStyle(
                               fontSize: getProportionateScreenWidth(12),
                               color: Colors.grey[800],
-                              fontWeight: FontWeight.w600),
+                              fontWeight: FontWeight.w500),
                         ),
                       ),
                       Row(

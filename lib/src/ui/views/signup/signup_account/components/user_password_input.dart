@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -25,9 +26,9 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '비밀번호',
-          style: TextStyle(fontSize: 12, color: Colors.black87),
+          style: TextStyle(fontSize: kLabel, color: Colors.black87),
         ),
         Padding(
           padding:
@@ -35,7 +36,7 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
           child: TextFormField(
             //validation위해 textformfield 사용
             keyboardType: TextInputType.multiline,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: kTextFieldInner),
             controller: widget.vm.userPwController,
             maxLines: 1,
             autovalidateMode:
@@ -60,9 +61,9 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
           ),
         ),
         const VerticalSpacing(of: 10),
-        const Text(
+        Text(
           '비밀번호 확인',
-          style: TextStyle(fontSize: 12, color: Colors.black87),
+          style: TextStyle(fontSize: kLabel, color: Colors.black87),
         ),
         Padding(
           padding:
@@ -70,7 +71,7 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
           child: TextFormField(
             //validation위해 textformfield 사용
             keyboardType: TextInputType.multiline,
-            style: const TextStyle(fontSize: 14),
+            style: TextStyle(fontSize: kTextFieldInner),
             maxLines: 1,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             validator: (value) => widget.vm.pwDoubleCheckValidator(value),
@@ -79,8 +80,8 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
             obscuringCharacter: '*',
             decoration: InputDecoration(
               hintText: "비밀번호를 다시 입력해주세요",
-              hintStyle:
-                  const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+              hintStyle: TextStyle(
+                  color: Color(0xFFADADAD), fontSize: kTextFieldInner),
               fillColor: screenBackgroundColor,
               filled: true,
               contentPadding: EdgeInsets.all(getProportionateScreenHeight(10)),

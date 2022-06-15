@@ -14,7 +14,7 @@ class InterestNoneChip extends StatelessWidget {
       labelStyle: TextStyle(
         fontSize: getProportionateScreenWidth(12),
         color: Colors.black.withOpacity(0.4),
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w500,
       ),
       backgroundColor: screenBackgroundColor,
       side: const BorderSide(color: screenBackgroundColor, width: 1.2),

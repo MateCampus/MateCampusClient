@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -73,10 +74,7 @@ class PostListTile extends StatelessWidget {
             post.body,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                fontSize: getProportionateScreenHeight(15),
-                color: Colors.black87,
-                height: 1.3),
+            style: kPostBodyStyle,
           ),
         )
       ],
@@ -92,10 +90,7 @@ class PostListTile extends StatelessWidget {
         post.body,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-            fontSize: getProportionateScreenHeight(15),
-            color: Colors.black87,
-            height: 1.3),
+        style: kPostBodyStyle,
       ),
     );
   }
