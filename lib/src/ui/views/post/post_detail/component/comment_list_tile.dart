@@ -28,7 +28,7 @@ class CommentListTile extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    comment.loginId == AuthService.loginId
+                    comment.loginId == vm.postDetail.loginId
                         ? Text(
                             comment.userNickname + '(작성자)',
                             style: TextStyle(
@@ -98,7 +98,7 @@ class CommentListTile extends StatelessWidget {
                     : const SizedBox(),
               ],
             )),
-        const HorizontalDividerCustom(color: screenBackgroundColor)
+        const HorizontalDividerCustom(color: kMainScreenBackgroundColor)
       ],
     );
   }
