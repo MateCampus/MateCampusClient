@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
@@ -12,20 +11,14 @@ import 'package:zamongcampus/src/config/size_config.dart';
 double kHorizontalPadding = getProportionateScreenWidth(20);
 
 // 컬러
-const mainColor = Color(0xFFFF6F5E); //사용중
-const subColor = Color(0xFFFFC45E); //사용중
-const postColor = Color(0xff818181);
-const screenBackgroundColor =
-    Color(0xfff8f8f8); //kMainScreenBackgroundColor로 바꿀예정
-const kSubScreenBackgroundColor = Colors.white;
 
 // server
-// final devServer = Platform.isAndroid
-//     ? "https://d3c9-211-198-109-254.ngrok.io"
-//     : "https://d3c9-211-198-109-254.ngrok.io";
+final devServer = Platform.isAndroid
+    ? "https://c4f5-211-198-109-254.ngrok.io"
+    : "https://c4f5-211-198-109-254.ngrok.io";
 
-final devServer =
-    Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
+// final devServer =
+//     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
 // final devServer =
 //     Platform.isAndroid ? "http://3.36.41.198:8080" : "http://3.36.41.198:8080";

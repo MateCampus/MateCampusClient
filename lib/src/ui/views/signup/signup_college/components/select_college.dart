@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
@@ -60,7 +61,7 @@ class _SelectCollegeState extends State<SelectCollege> {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(20)),
                 decoration: BoxDecoration(
-                  color: screenBackgroundColor,
+                  color: kTextFieldColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Row(
@@ -119,7 +120,7 @@ class _SelectCollegeState extends State<SelectCollege> {
             child: Container(
               height: getProportionateScreenHeight(200),
               decoration: BoxDecoration(
-                color: screenBackgroundColor,
+                color: kTextFieldColor,
                 //border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),

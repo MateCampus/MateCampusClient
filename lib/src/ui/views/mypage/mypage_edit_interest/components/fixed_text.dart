@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class FixedText extends StatelessWidget {
@@ -25,7 +25,7 @@ class FixedText extends StatelessWidget {
                 fontFamily: 'Gmarket',
                 fontSize: getProportionateScreenHeight(13),
                 fontWeight: FontWeight.w500,
-                color: mainColor),
+                color: kMainColor),
           )
         ],
       ),

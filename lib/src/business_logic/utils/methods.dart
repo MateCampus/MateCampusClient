@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/custom_alert_dialog.dart';
@@ -63,7 +64,7 @@ void buildShowDialogForLoading(
       builder: (BuildContext context) {
         return Center(
           child: SpinKitFadingCube(
-            color: mainColor,
+            color: kMainColor,
             size: getProportionateScreenHeight(25),
           ),
         );

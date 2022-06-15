@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -25,7 +25,7 @@ class PostHead extends StatelessWidget {
                     ...vm.postDetail.categories.map((category) => Chip(
                           label: Text(category),
                           labelStyle: const TextStyle(fontSize: 12),
-                          backgroundColor: screenBackgroundColor,
+                          backgroundColor: kMainScreenBackgroundColor,
                         ))
                   ],
                 ),
@@ -57,7 +57,7 @@ class PostHead extends StatelessWidget {
                   vm.postDetail.createdAt,
                   style: TextStyle(
                       fontSize: getProportionateScreenWidth(12),
-                      color: postColor),
+                      color: kPostBtnColor),
                 ),
                 const HorizontalSpacing(of: 15),
                 //        Icon(

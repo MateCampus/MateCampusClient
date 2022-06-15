@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -29,7 +29,7 @@ class _FriendListTileState extends State<FriendListTile> {
         ),
         contentPadding: const EdgeInsets.all(0),
         tileColor: Colors.white,
-        activeColor: mainColor,
+        activeColor: kMainColor,
         side: BorderSide.none,
         secondary: Stack(
           children: [

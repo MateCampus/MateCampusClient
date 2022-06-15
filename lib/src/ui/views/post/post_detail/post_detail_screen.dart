@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -55,6 +56,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   IconButton(
                     icon: const Icon(CupertinoIcons.ellipsis),
                     color: Colors.black,
+                    iconSize: kAppBarIconSizeCP,
                     onPressed: () {
                       _removeReportPost();
                     },

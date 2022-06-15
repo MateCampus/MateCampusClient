@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -308,7 +308,7 @@ class PostDetailScreenViewModel extends BaseModel {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(25)),
                 decoration: const BoxDecoration(
-                  color: mainColor,
+                  color: kMainColor,
                 ),
                 child: Row(
                   children: [

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
@@ -17,7 +17,7 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
     return Container(
       height: getProportionateScreenHeight(246),
       padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(25)),
-      color: mainColor,
+      color: kMainColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

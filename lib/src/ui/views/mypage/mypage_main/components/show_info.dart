@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -88,7 +89,7 @@ class ShowInfo extends StatelessWidget {
         width: getProportionateScreenWidth(30),
         height: getProportionateScreenHeight(30),
         decoration: BoxDecoration(
-          color: mainColor,
+          color: kMainColor,
           shape: BoxShape.circle,
           border: Border.all(
               color: Colors.white, width: 3.0, style: BorderStyle.solid),
@@ -114,7 +115,7 @@ class ShowInfo extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10.0),
             ),
-            backgroundColor: mainColor,
+            backgroundColor: kMainColor,
             textStyle: TextStyle(
                 fontSize: getProportionateScreenWidth(14),
                 fontWeight: FontWeight.bold)),

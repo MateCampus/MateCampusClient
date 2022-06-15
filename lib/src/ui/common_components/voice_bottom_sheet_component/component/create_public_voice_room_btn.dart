@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class CreatePublicVoiceRoomBtn extends StatelessWidget {
@@ -20,8 +20,8 @@ class CreatePublicVoiceRoomBtn extends StatelessWidget {
             Container(
               height: getProportionateScreenHeight(70),
               width: getProportionateScreenWidth(70),
-              decoration:
-                  const BoxDecoration(color: mainColor, shape: BoxShape.circle),
+              decoration: const BoxDecoration(
+                  color: kMainColor, shape: BoxShape.circle),
               child: Icon(
                 Icons.forum_outlined,
                 color: Colors.white,

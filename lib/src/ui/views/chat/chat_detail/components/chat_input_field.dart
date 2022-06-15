@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 
@@ -65,16 +64,16 @@ class _ChatInputFieldState extends State<ChatInputField> {
           maxLines: null,
           controller: _textController,
           onSubmitted: _sendMessage,
-          style: TextStyle(fontSize: kTextFieldInner),
+          style: TextStyle(fontSize: kTextFieldInnerFontSize),
           decoration: InputDecoration(
             hintText: '메세지를 입력하세요',
-            hintStyle:
-                TextStyle(color: Color(0xFFADADAD), fontSize: kTextFieldInner),
+            hintStyle: TextStyle(
+                color: Color(0xFFADADAD), fontSize: kTextFieldInnerFontSize),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding: EdgeInsets.all(getProportionateScreenHeight(10)),
             isDense: true,
           ),
-          cursorColor: mainColor,
+          cursorColor: kMainColor,
         ));
   }
 
@@ -87,7 +86,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
       style: TextButton.styleFrom(
           minimumSize: Size(getProportionateScreenWidth(44),
               getProportionateScreenHeight(36)),
-          backgroundColor: mainColor,
+          backgroundColor: kMainColor,
           primary: Colors.white),
     );
   }

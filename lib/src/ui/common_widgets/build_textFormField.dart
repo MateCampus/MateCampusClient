@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 
 class BuildTextFormField extends StatelessWidget {
   final String hint;
@@ -17,10 +16,10 @@ class BuildTextFormField extends StatelessWidget {
         hintText: hint,
         floatingLabelBehavior: FloatingLabelBehavior.always,
         focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: mainColor),
+          borderSide: BorderSide(color: kMainColor),
         ),
         enabledBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: mainColor)),
+            borderSide: BorderSide(color: kMainColor)),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
         isDense: true,
         contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 15),

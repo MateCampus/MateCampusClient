@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -36,7 +37,7 @@ class SelectProfileImage extends StatelessWidget {
                       width: getProportionateScreenWidth(30),
                       height: getProportionateScreenHeight(30),
                       decoration: BoxDecoration(
-                        color: mainColor,
+                        color: kMainColor,
                         shape: BoxShape.circle,
                         border: Border.all(
                             color: Colors.white,

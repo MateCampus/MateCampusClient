@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_invite_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -48,7 +48,7 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
                     preferredSize:
                         Size.fromHeight(getProportionateScreenHeight(40)),
                     child: TabBar(
-                        indicatorColor: mainColor,
+                        indicatorColor: kMainColor,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
                         labelStyle: const TextStyle(
@@ -77,7 +77,7 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
                     users: vm.searchedRecentUsers.isEmpty
                         ? vm.recentTalkUsers
                         : vm.searchedRecentUsers,
-                    color: mainColor,
+                    color: kMainColor,
                     isFrom: "invite",
                   ),
                   MyFriendBody(
@@ -85,7 +85,7 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
                     users: vm.searchedFriendUsers.isEmpty
                         ? vm.friendUsers
                         : vm.searchedFriendUsers,
-                    color: mainColor,
+                    color: kMainColor,
                     isFrom: "invite",
                   )
                 ]),

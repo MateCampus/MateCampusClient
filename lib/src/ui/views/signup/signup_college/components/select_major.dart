@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
@@ -43,7 +44,7 @@ class _SelectMajorState extends State<SelectMajor> {
                 vertical: getProportionateScreenHeight(10)),
             child: Text(
               '내 학과',
-              style: TextStyle(fontSize: kLabel, color: Colors.black87),
+              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
             ),
           ),
           InkWell(
@@ -62,7 +63,7 @@ class _SelectMajorState extends State<SelectMajor> {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(20)),
                 decoration: BoxDecoration(
-                  color: screenBackgroundColor,
+                  color: kTextFieldColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Row(
@@ -121,7 +122,7 @@ class _SelectMajorState extends State<SelectMajor> {
             child: Container(
               height: getProportionateScreenHeight(200),
               decoration: BoxDecoration(
-                color: screenBackgroundColor,
+                color: kTextFieldColor,
                 //border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(5),
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -34,7 +34,7 @@ class DeletedNestedCommentListTile extends StatelessWidget {
               child: Container(
             padding: EdgeInsets.all(getProportionateScreenHeight(10)),
             decoration: BoxDecoration(
-                color: mainColor.withOpacity(0.06),
+                color: kMainColor.withOpacity(0.06),
                 borderRadius: const BorderRadius.all(Radius.circular(5))),
             child: Text('삭제된 댓글입니다'),
           ))

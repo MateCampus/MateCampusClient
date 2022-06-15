@@ -40,7 +40,7 @@ class _LoginFormState extends State<LoginForm> {
         textInputAction: TextInputAction.next,
         autofocus: true,
         controller: _loginIdTxtCtrl,
-        style: TextStyle(fontSize: kTextFieldInner),
+        style: TextStyle(fontSize: kTextFieldInnerFontSize),
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -50,7 +50,8 @@ class _LoginFormState extends State<LoginForm> {
           ),
           contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
           hintText: "아이디를 입력해주세요",
-          hintStyle: TextStyle(color: Colors.grey, fontSize: kTextFieldInner),
+          hintStyle:
+              TextStyle(color: Colors.grey, fontSize: kTextFieldInnerFontSize),
           fillColor: Colors.white,
           filled: true,
           border: const OutlineInputBorder(
@@ -77,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
         },
         controller: _passwordTxtCtrl,
         obscureText: true,
-        style: TextStyle(fontSize: kTextFieldInner),
+        style: TextStyle(fontSize: kTextFieldInnerFontSize),
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -87,7 +88,8 @@ class _LoginFormState extends State<LoginForm> {
           ),
           contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
           hintText: "비밀번호를 입력해주세요",
-          hintStyle: TextStyle(color: Colors.grey, fontSize: kTextFieldInner),
+          hintStyle:
+              TextStyle(color: Colors.grey, fontSize: kTextFieldInnerFontSize),
           fillColor: Colors.white,
           filled: true,
           border: const OutlineInputBorder(

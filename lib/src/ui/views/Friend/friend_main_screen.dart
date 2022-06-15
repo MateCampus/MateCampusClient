@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -45,7 +46,8 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
                   titleText: '내 친구',
                   actions: [
                     IconButton(
-                      icon: const Icon(CupertinoIcons.line_horizontal_3),
+                      icon: const Icon(CupertinoIcons.bars),
+                      iconSize: kAppBarIconSizeCP,
                       color: Colors.black,
                       onPressed: () {},
                     )
@@ -54,7 +56,7 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
                     preferredSize:
                         Size.fromHeight(getProportionateScreenHeight(40)),
                     child: TabBar(
-                        indicatorColor: mainColor,
+                        indicatorColor: kMainColor,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
                         labelStyle: const TextStyle(
@@ -76,7 +78,7 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
                   ),
                 ),
 
-                backgroundColor: Colors.white, //배경색
+                backgroundColor: kSubScreenBackgroundColor, //배경색
                 body: TabBarView(children: [
                   FriendListBody(
                       vm: vm,

@@ -21,7 +21,7 @@ class ChatList extends StatelessWidget {
                 vertical: getProportionateScreenHeight(5)),
             child: Text(
               '채팅',
-              style: TextStyle(fontSize: kLabel, color: Colors.black87),
+              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
             )),
         buildEmptyBox(),
         AnimatedList(

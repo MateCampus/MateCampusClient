@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -17,14 +17,14 @@ class BottomCountInfo extends StatelessWidget {
           Icon(
             CupertinoIcons.heart,
             size: getProportionateScreenWidth(15),
-            color: postColor,
+            color: kPostBtnColor,
           ),
           const HorizontalSpacing(of: 5),
           Text(
             post.likedCount,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: postColor,
+              color: kPostBtnColor,
               fontSize: getProportionateScreenWidth(13),
             ),
           ),
@@ -32,14 +32,14 @@ class BottomCountInfo extends StatelessWidget {
           Icon(
             CupertinoIcons.bubble_left,
             size: getProportionateScreenWidth(15),
-            color: postColor,
+            color: kPostBtnColor,
           ),
           const HorizontalSpacing(of: 5),
           Text(
             post.commentCount,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: postColor,
+              color: kPostBtnColor,
               fontSize: getProportionateScreenWidth(13),
             ),
           ),
@@ -47,14 +47,14 @@ class BottomCountInfo extends StatelessWidget {
           Icon(
             CupertinoIcons.eye,
             size: getProportionateScreenWidth(15),
-            color: postColor,
+            color: kPostBtnColor,
           ),
           const HorizontalSpacing(of: 5),
           Text(
             post.viewCount,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: postColor,
+              color: kPostBtnColor,
               fontSize: getProportionateScreenWidth(13),
             ),
           ),

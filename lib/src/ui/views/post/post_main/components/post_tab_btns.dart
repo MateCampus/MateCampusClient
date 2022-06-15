@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -15,7 +15,7 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
       //배경색 넣기위해 컨테이너 사용
 
       height: getProportionateScreenHeight(60), //maxExtend, minExtend와 동일하게 해둠
-      decoration: const BoxDecoration(color: screenBackgroundColor),
+      decoration: const BoxDecoration(color: kMainScreenBackgroundColor),
       child: Padding(
         padding:
             EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(15)),
@@ -28,13 +28,15 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
               child: Text(
                 '인기',
                 style: TextStyle(
-                    color: vm.sortType == "popular" ? Colors.white : postColor),
+                    color: vm.sortType == "popular"
+                        ? Colors.white
+                        : kPostBtnColor),
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(getProportionateScreenWidth(48),
                       getProportionateScreenHeight(36)),
                   backgroundColor:
-                      vm.sortType == "popular" ? mainColor : Colors.white,
+                      vm.sortType == "popular" ? kMainColor : Colors.white,
                   side: vm.sortType == "popular" //테두리 색
                       ? null
                       : const BorderSide(color: Color(0xffe2e2e2))),
@@ -47,14 +49,15 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
               child: Text(
                 '추천',
                 style: TextStyle(
-                    color:
-                        vm.sortType == "recommend" ? Colors.white : postColor),
+                    color: vm.sortType == "recommend"
+                        ? Colors.white
+                        : kPostBtnColor),
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(getProportionateScreenWidth(48),
                       getProportionateScreenHeight(36)),
                   backgroundColor:
-                      vm.sortType == "recommend" ? mainColor : Colors.white,
+                      vm.sortType == "recommend" ? kMainColor : Colors.white,
                   side: vm.sortType == "recommend"
                       ? null
                       : const BorderSide(color: Color(0xffe2e2e2))),
@@ -67,13 +70,14 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
               child: Text(
                 '최신',
                 style: TextStyle(
-                    color: vm.sortType == "recent" ? Colors.white : postColor),
+                    color:
+                        vm.sortType == "recent" ? Colors.white : kPostBtnColor),
               ),
               style: TextButton.styleFrom(
                   minimumSize: Size(getProportionateScreenWidth(48),
                       getProportionateScreenHeight(36)),
                   backgroundColor:
-                      vm.sortType == "recent" ? mainColor : Colors.white,
+                      vm.sortType == "recent" ? kMainColor : Colors.white,
                   side: vm.sortType == "recent"
                       ? null
                       : const BorderSide(color: Color(0xffe2e2e2))),
@@ -89,7 +93,7 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
                   vm.setCollegeFilter();
                 },
                 style: TextButton.styleFrom(
-                  primary: vm.collegeFilter ? mainColor : postColor,
+                  primary: vm.collegeFilter ? kMainColor : kPostBtnColor,
                   padding: EdgeInsets.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 )),

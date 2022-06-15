@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -69,7 +69,7 @@ class RequestListTile extends StatelessWidget {
                 },
                 child: Text('수락'),
                 style: TextButton.styleFrom(
-                  backgroundColor: mainColor,
+                  backgroundColor: kMainColor,
                   primary: Colors.white,
                 ),
               ),
@@ -79,7 +79,8 @@ class RequestListTile extends StatelessWidget {
                   },
                   child: Text('거절'),
                   style: TextButton.styleFrom(
-                      primary: mainColor, side: BorderSide(color: mainColor))),
+                      primary: kMainColor,
+                      side: BorderSide(color: kMainColor))),
             ],
           ),
         ),

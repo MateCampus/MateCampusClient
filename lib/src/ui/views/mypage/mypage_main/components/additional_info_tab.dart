@@ -55,7 +55,7 @@ class AdditionalInfoTab extends StatelessWidget {
           children: [
             Text(text,
                 style: TextStyle(
-                  fontSize: kTextFieldInner,
+                  fontSize: kTextFieldInnerFontSize,
                   color: Colors.black.withOpacity(0.45),
                 )),
             Text(count,

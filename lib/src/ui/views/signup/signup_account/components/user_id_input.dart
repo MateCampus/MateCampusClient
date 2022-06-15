@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -38,7 +38,7 @@ class _UserIdInputState extends State<UserIdInput> {
           children: [
             Text(
               '아이디',
-              style: TextStyle(fontSize: kLabel, color: Colors.black87),
+              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -50,7 +50,7 @@ class _UserIdInputState extends State<UserIdInput> {
                     child: TextFormField(
                       //validation위해 textformfield 사용
                       keyboardType: TextInputType.multiline,
-                      style: TextStyle(fontSize: kTextFieldInner),
+                      style: TextStyle(fontSize: kTextFieldInnerFontSize),
                       controller: widget.vm.userIdController,
                       maxLines: 1,
                       validator: (value) => widget.vm.idValidator(value),
@@ -59,8 +59,8 @@ class _UserIdInputState extends State<UserIdInput> {
                         hintText: "아이디를 입력해주세요",
                         hintStyle: TextStyle(
                             color: Color(0xFFADADAD),
-                            fontSize: kTextFieldInner),
-                        fillColor: screenBackgroundColor,
+                            fontSize: kTextFieldInnerFontSize),
+                        fillColor: kTextFieldColor,
                         filled: true,
                         contentPadding:
                             EdgeInsets.all(getProportionateScreenHeight(10)),
@@ -79,7 +79,7 @@ class _UserIdInputState extends State<UserIdInput> {
                       },
                       child: const Text('중복 확인'),
                       style: TextButton.styleFrom(
-                        backgroundColor: mainColor,
+                        backgroundColor: kMainColor,
                         primary: Colors.white,
                         minimumSize: Size(getProportionateScreenWidth(70),
                             getProportionateScreenHeight(43)),

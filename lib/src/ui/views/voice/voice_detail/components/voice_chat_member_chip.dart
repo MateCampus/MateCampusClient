@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -27,7 +27,7 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                       color: Colors.white, //이미지 문제 고쳐지면 삭제
                       border: Border.all(
                           color: widget.member.isSpeaking
-                              ? mainColor
+                              ? kMainColor
                               : Colors.grey.withOpacity(0.5),
                           width: 2.0,
                           style: BorderStyle.solid),
@@ -47,7 +47,7 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                     width: getProportionateScreenWidth(20),
                     height: getProportionateScreenHeight(20),
                     decoration: const BoxDecoration(
-                      color: mainColor,
+                      color: kMainColor,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -80,7 +80,7 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: widget.member.isSpeaking
-                            ? mainColor
+                            ? kMainColor
                             : Colors.grey.withOpacity(0.5),
                         width: 2.0,
                         style: BorderStyle.solid),

@@ -17,7 +17,7 @@ class FriendBtn extends StatelessWidget {
         children: [
           Text(
             '친구',
-            style: TextStyle(fontSize: kLabel, color: Colors.black87),
+            style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
           ),
           const VerticalSpacing(of: 10),
           InkWell(

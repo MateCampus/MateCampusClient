@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
@@ -23,7 +23,7 @@ class _CheckOptionsState extends State<CheckOptions> {
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          activeColor: mainColor,
+          activeColor: kMainColor,
           side: const BorderSide(
             color: Colors.grey,
             width: 1.0,
@@ -39,7 +39,7 @@ class _CheckOptionsState extends State<CheckOptions> {
           },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-          activeColor: mainColor,
+          activeColor: kMainColor,
           side: const BorderSide(
             color: Colors.grey,
             width: 1.0,
