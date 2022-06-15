@@ -41,7 +41,7 @@ class Body extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 15,
                     color: Colors.black,
-                    fontWeight: FontWeight.w600)),
+                    fontWeight: FontWeight.w500)),
             const Spacer(),
             const Icon(Icons.chevron_right_outlined)
           ],

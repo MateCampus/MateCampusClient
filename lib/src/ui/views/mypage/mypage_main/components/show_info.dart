@@ -48,7 +48,7 @@ class ShowInfo extends StatelessWidget {
               vm.myInfo.nickname,
               style: TextStyle(
                   fontSize: getProportionateScreenWidth(18),
-                  fontWeight: FontWeight.w800),
+                  fontWeight: FontWeight.w700),
             ),
           ),
           vm.myInfo.majorName.isEmpty

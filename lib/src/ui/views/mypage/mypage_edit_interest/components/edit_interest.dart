@@ -44,7 +44,7 @@ class _EditInterestState extends State<EditInterest> {
                             interest.title,
                             style: TextStyle(
                                 fontSize: getProportionateScreenWidth(12),
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w500),
                           )
                         ],
                       )
@@ -65,7 +65,7 @@ class _EditInterestState extends State<EditInterest> {
                             interest.title,
                             style: TextStyle(
                                 fontSize: getProportionateScreenWidth(12),
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w500),
                           )
                         ],
                       ))

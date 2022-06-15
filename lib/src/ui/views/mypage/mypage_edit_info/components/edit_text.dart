@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -42,9 +43,9 @@ class _EditTextState extends State<EditText> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               '내 소개',
-              style: TextStyle(fontSize: 12, color: Colors.black87),
+              style: TextStyle(fontSize: kLabel, color: Colors.black87),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -56,14 +57,15 @@ class _EditTextState extends State<EditText> {
                     child: TextFormField(
                       keyboardType: TextInputType.multiline,
                       autocorrect: false,
-                      style: const TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: kTextFieldInner),
                       controller: widget.vm.nicknameController,
                       maxLines: 1,
                       validator: (value) => widget.vm.nicknameValidator(value),
                       decoration: InputDecoration(
                         hintText: "닉네임",
-                        hintStyle: const TextStyle(
-                            color: Color(0xFFADADAD), fontSize: 14),
+                        hintStyle: TextStyle(
+                            color: Color(0xFFADADAD),
+                            fontSize: kTextFieldInner),
                         fillColor: screenBackgroundColor,
                         filled: true,
                         contentPadding:
@@ -98,13 +100,13 @@ class _EditTextState extends State<EditText> {
             ),
             TextFormField(
               keyboardType: TextInputType.multiline,
-              style: const TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: kTextFieldInner),
               controller: widget.vm.introductionController,
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: "본인을 자유롭게 표현해주세요",
-                hintStyle:
-                    const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+                hintStyle: TextStyle(
+                    color: Color(0xFFADADAD), fontSize: kTextFieldInner),
                 fillColor: screenBackgroundColor,
                 filled: true,
                 contentPadding:

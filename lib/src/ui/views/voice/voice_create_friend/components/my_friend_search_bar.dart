@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -28,7 +29,7 @@ class _MyFriendSearchBarState extends State<MyFriendSearchBar> {
           vertical: getProportionateScreenHeight(15)),
       child: TextField(
         keyboardType: TextInputType.multiline,
-        style: const TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: kTextFieldInner),
         controller: widget.vm.friendSearchController,
         // onChanged: (text) {
         //   widget.vm.searchFriendUsers(text);
@@ -45,7 +46,8 @@ class _MyFriendSearchBarState extends State<MyFriendSearchBar> {
               : const SizedBox(),
           contentPadding: EdgeInsets.zero,
           hintText: "친구 검색",
-          hintStyle: const TextStyle(color: Color(0xFFADADAD), fontSize: 14),
+          hintStyle:
+              TextStyle(color: Color(0xFFADADAD), fontSize: kTextFieldInner),
           fillColor: screenBackgroundColor,
           filled: true,
           border: const OutlineInputBorder(

@@ -66,8 +66,9 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                   widget.member.nickname,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 11, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(10),
+                      fontWeight: FontWeight.bold),
                 ),
               )
             ],
@@ -101,8 +102,9 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                   widget.member.nickname,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 11, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: getProportionateScreenWidth(10),
+                      fontWeight: FontWeight.bold),
                 ),
               )
             ],

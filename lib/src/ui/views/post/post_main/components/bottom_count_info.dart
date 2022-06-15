@@ -17,7 +17,7 @@ class BottomCountInfo extends StatelessWidget {
           Icon(
             CupertinoIcons.heart,
             size: getProportionateScreenWidth(15),
-            color: postColor, //이거 색깔 상수로 넣자
+            color: postColor,
           ),
           const HorizontalSpacing(of: 5),
           Text(

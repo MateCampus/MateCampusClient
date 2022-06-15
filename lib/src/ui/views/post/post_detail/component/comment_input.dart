@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -37,6 +38,7 @@ class _CommentInputState extends State<CommentInput> {
         width: getProportionateScreenWidth(270),
         child: TextField(
           keyboardType: TextInputType.multiline,
+          style: TextStyle(fontSize: kTextFieldInner),
           maxLines: null,
           controller: (widget.vm.overlayEntry == null)
               ? widget.vm.commentTextController
@@ -55,8 +57,7 @@ class _CommentInputState extends State<CommentInput> {
           decoration: InputDecoration(
             hintText: '소중한 댓글을 남겨주세요',
             hintStyle: TextStyle(
-                color: const Color(0xFFADADAD),
-                fontSize: getProportionateScreenWidth(14)),
+                color: const Color(0xFFADADAD), fontSize: kTextFieldInner),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding: EdgeInsets.zero,
             isDense: true,

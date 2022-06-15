@@ -38,7 +38,7 @@ class SelectInterests extends StatelessWidget {
                             interest.title,
                             style: TextStyle(
                                 fontSize: getProportionateScreenWidth(12),
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w500),
                           )
                         ],
                       )
@@ -59,7 +59,7 @@ class SelectInterests extends StatelessWidget {
                             interest.title,
                             style: TextStyle(
                                 fontSize: getProportionateScreenWidth(12),
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w500),
                           )
                         ],
                       ))

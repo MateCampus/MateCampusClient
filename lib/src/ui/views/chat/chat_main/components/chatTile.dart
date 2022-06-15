@@ -78,7 +78,7 @@ class _ChatTileState extends State<ChatTile> {
                 widget.chatRoom.lastMessage,
                 maxLines: 1,
                 style: TextStyle(
-                  fontSize: getProportionateScreenHeight(14),
+                  fontSize: getProportionateScreenHeight(13),
                   color: Colors.grey,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -90,7 +90,7 @@ class _ChatTileState extends State<ChatTile> {
                       timeago.format(widget.chatRoom.lastMsgCreatedAt,
                           locale: 'ko'),
                       style: TextStyle(
-                          fontSize: getProportionateScreenHeight(13),
+                          fontSize: getProportionateScreenHeight(12),
                           color: Colors.grey),
                     ),
                     // ** TODO: unread 부분 수정

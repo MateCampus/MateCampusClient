@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_main/components/chatTile.dart';
 
 class ChatList extends StatelessWidget {
@@ -19,9 +19,9 @@ class ChatList extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20),
                 vertical: getProportionateScreenHeight(5)),
-            child: const Text(
+            child: Text(
               '채팅',
-              style: TextStyle(fontSize: 12, color: Colors.black87),
+              style: TextStyle(fontSize: kLabel, color: Colors.black87),
             )),
         buildEmptyBox(),
         AnimatedList(

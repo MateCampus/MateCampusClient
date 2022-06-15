@@ -21,7 +21,7 @@ class UnselectedInterestChip extends StatelessWidget {
       child: Center(
         child: Text(
           icon,
-          style: const TextStyle(fontSize: 30),
+          style: TextStyle(fontSize: getProportionateScreenHeight(30)),
         ),
       ),
     );

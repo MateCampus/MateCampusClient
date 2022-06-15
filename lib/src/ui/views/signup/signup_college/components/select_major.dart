@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
@@ -40,9 +41,9 @@ class _SelectMajorState extends State<SelectMajor> {
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenHeight(10)),
-            child: const Text(
+            child: Text(
               '내 학과',
-              style: TextStyle(fontSize: 12, color: Colors.black87),
+              style: TextStyle(fontSize: kLabel, color: Colors.black87),
             ),
           ),
           InkWell(
