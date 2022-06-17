@@ -28,9 +28,7 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TitleInput(vm: vm),
-                  const VerticalSpacing(of: 5),
-                  CheckOptions(vm: vm),
-                  const VerticalSpacing(of: 15),
+                  const VerticalSpacing(of: 10),
                   TagCategory(vm: vm),
                 ],
               ),

@@ -6,12 +6,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_components/voice_bottom_sheet_component/voice_bottom_sheet.dart';
-
-import 'chat/chat_main/chat_main_screen.dart';
-import 'mypage/mypage_main/mypage_main_screen.dart';
-import 'post/post_main/post_main_screen.dart';
-import 'voice/voice_main/voice_main_screen.dart';
+import 'package:zamongcampus/src/ui/common_components/voice_room_create_bottom_sheet_component/voice_room_create_bottom_sheet.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -21,15 +16,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Widget> screens = [
-    const VoiceMainScreen(),
-    const PostMainScreen(),
-    const ChatMainScreen(),
-    const MypageMainScreen()
-  ];
-
   final PageStorageBucket bucket = PageStorageBucket();
   HomeViewModel vm = serviceLocator<HomeViewModel>();
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
@@ -48,7 +37,9 @@ class _HomeState extends State<Home> {
               ),
               backgroundColor: kMainColor,
               onPressed: () {
-                showCustomModalBottomSheet(context, const VoiceBottomSheet());
+                showCustomModalBottomSheet(
+                    context: context,
+                    buildWidget: const VoiceRoomCreateBottomSheet());
               },
             ),
             floatingActionButtonLocation:

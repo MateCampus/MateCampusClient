@@ -27,13 +27,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              offset: Offset(0, -getProportionateScreenHeight(5)),
-              blurRadius: 3,
-              blurStyle: BlurStyle.normal)
-        ],
+        boxShadow: [kDefaultShadowOnlyTop],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -38,13 +38,7 @@ class _ChatTileState extends State<ChatTile> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                blurRadius: 3,
-                spreadRadius: 1,
-              )
-            ],
+            boxShadow: [kShadowForTile],
           ),
           child: ListTile(
               onTap: widget.onClicked,

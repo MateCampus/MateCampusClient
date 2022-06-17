@@ -39,6 +39,7 @@ class _TitleInputState extends State<TitleInput> {
         TextFormField(
           //autofocus: true,
           keyboardType: TextInputType.multiline,
+          textInputAction: TextInputAction.done,
           style: TextStyle(fontSize: kTextFieldInnerFontSize),
           controller: widget.vm.titleController,
           maxLines: 1,

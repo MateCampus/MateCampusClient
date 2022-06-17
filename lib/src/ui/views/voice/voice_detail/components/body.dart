@@ -14,7 +14,6 @@ class Body extends StatelessWidget {
       children: [
         VoiceRoomHead(voiceRoom: vm.voiceRoom),
         VoiceChat(vm: vm),
-        const Spacer(),
         ChangeVoiceBtn(vm: vm)
       ],
     );

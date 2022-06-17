@@ -25,6 +25,7 @@ class VoiceDetailViewModel extends BaseModel {
   bool isFull = false;
   VoiceRoomPresentation _voiceRoom = VoiceRoomPresentation(
       id: -1,
+      roomId: '',
       title: '',
       categories: [],
       createdAt: '',
@@ -32,13 +33,14 @@ class VoiceDetailViewModel extends BaseModel {
 
   List<MemberPresentation> _voiceRoomMembers = List.empty(growable: true);
   List<String> _recentTalkUserLoginIds = List.empty(growable: true);
-  List<ChatMessage> _chatMessages = List.empty(growable: true);
+  List<ChatMessage> _textChatMessages = List.empty(growable: true);
   RtcEngine? _engine;
 
   String _ownerLoginId = ''; //방장 아이디
 
   VoiceRoomPresentation get voiceRoom => _voiceRoom;
   List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
+  List<ChatMessage> get textChatMessages => _textChatMessages;
 
   ///init
   voiceDetailInit(
@@ -141,6 +143,7 @@ class VoiceDetailViewModel extends BaseModel {
     print('presentVoiceRoom 시작');
     _voiceRoom = VoiceRoomPresentation(
         id: voiceRoom.id,
+        roomId: voiceRoom.roomId!,
         title: voiceRoom.title ?? '제목 오류',
         categories: categoryDummy[Random().nextInt(2)]
             .map((category) =>
@@ -223,6 +226,15 @@ class VoiceDetailViewModel extends BaseModel {
     PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
   }
 
+  Future<void> addTextChatMessage(ChatMessage chatMessage) async {
+    /// 실시간 오는 메세지
+    setBusy(true);
+    _textChatMessages.insert(0, chatMessage);
+    //changeScrollToLowest();
+    print("fromfriendProfile: 실시간 메세지 더하기 완료");
+    setBusy(false);
+  }
+
   void removeChatMemberInfo(String exitMemberLoginId) {
     _voiceRoomMembers
         .removeWhere((member) => member.loginId == exitMemberLoginId);
@@ -262,6 +274,7 @@ class VoiceDetailViewModel extends BaseModel {
 
 class VoiceRoomPresentation {
   final int id;
+  final String roomId;
   final String title;
   final List<dynamic> categories; //일단은 뷰모델에서 지정해두자. 서버에서는 아직 안넘어옴
   String createdAt; //얘도 서버에서 아직 안넘어옴
@@ -269,6 +282,7 @@ class VoiceRoomPresentation {
 
   VoiceRoomPresentation(
       {required this.id,
+      required this.roomId,
       required this.title,
       required this.categories,
       required this.createdAt,

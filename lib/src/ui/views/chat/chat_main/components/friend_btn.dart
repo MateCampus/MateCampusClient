@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
@@ -31,13 +32,7 @@ class FriendBtn extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.2),
-                    blurRadius: 10,
-                    spreadRadius: 1,
-                  )
-                ],
+                boxShadow: [kShadowForTile],
               ),
               child: ListTile(
                 leading: CircleAvatar(

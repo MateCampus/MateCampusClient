@@ -2,6 +2,7 @@
 //하단 고정되는 버튼에 대해서 padding 값과 shadow값을 주기위한 위젯
 
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -21,13 +22,7 @@ class BottomFixedBtnDecoBox extends StatelessWidget {
           vertical: getProportionateScreenHeight(10)),
       decoration: BoxDecoration(
         color: backgroundColor ?? Colors.white,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              offset: Offset(0, -getProportionateScreenHeight(5)),
-              blurRadius: 3,
-              blurStyle: BlurStyle.normal)
-        ],
+        boxShadow: [kDefaultShadowOnlyTop],
       ),
       child: child,
     );

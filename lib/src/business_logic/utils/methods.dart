@@ -38,16 +38,20 @@ void backWithToast(message, BuildContext context) {
   toastMessage(message);
 }
 
-void showCustomModalBottomSheet(BuildContext context, Widget widget) {
+void showCustomModalBottomSheet(
+    {required BuildContext context,
+    required Widget buildWidget,
+    Color? barrierColor}) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
+      barrierColor: barrierColor ?? Colors.black54,
       context: context,
       isScrollControlled: true,
       //isDismissible: isScrollControlled,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) {
-        return widget;
+        return buildWidget;
       });
 }
 

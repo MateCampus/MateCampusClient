@@ -60,7 +60,7 @@ class _TextInputSpaceState extends State<TextInputSpace> {
               children: [
                 TextField(
                   keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.newline,
                   controller: widget.vm.bodyTextController,
                   style: TextStyle(fontSize: kTextFieldInnerFontSize),
                   maxLines: null,

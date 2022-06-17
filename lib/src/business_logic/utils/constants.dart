@@ -10,12 +10,10 @@ import 'package:zamongcampus/src/config/size_config.dart';
 //가로패딩 값.(사용중)
 double kHorizontalPadding = getProportionateScreenWidth(20);
 
-// 컬러
-
 // server
 final devServer = Platform.isAndroid
-    ? "https://c4f5-211-198-109-254.ngrok.io"
-    : "https://c4f5-211-198-109-254.ngrok.io";
+    ? "https://c517-211-198-109-254.ngrok.io"
+    : "https://c517-211-198-109-254.ngrok.io";
 
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";

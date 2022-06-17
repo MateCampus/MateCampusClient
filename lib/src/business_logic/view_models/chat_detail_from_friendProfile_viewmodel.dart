@@ -117,7 +117,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   Future<void> addChatMessage(ChatMessage chatMessage) async {
     /// 실시간 오는 메세지
     setBusy(true);
-    chatMessages.insert(0, chatMessage);
+    _chatMessages.insert(0, chatMessage);
     changeScrollToLowest();
     print("fromfriendProfile: 실시간 메세지 더하기 완료");
     setBusy(false);

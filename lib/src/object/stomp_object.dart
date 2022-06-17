@@ -345,6 +345,10 @@ class StompObject {
             voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
           } else if (res["type"] == "exit") {
             voiceDetailViewModel.removeChatMemberInfo(res["loginId"]);
+          } else if (res["type"] == "talk") {
+            ChatMessage chatMessage =
+                ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
+            voiceDetailViewModel.addTextChatMessage(chatMessage);
           }
         });
     return unsubscribeFn;
