@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
@@ -26,14 +26,15 @@ class Body extends StatelessWidget {
                   children: [
                     PostHead(vm: vm), //카터고리 타이틀 프로필
                     const HorizontalDividerCustom(
-                      color: screenBackgroundColor,
+                      thickness: 5,
+                      color: kMainScreenBackgroundColor,
                     ),
                     PostBody(vm: vm), //본문
                     //const HorizontalDividerCustom(),
                     PostBtns(vm: vm), //좋아요, 북마크 버튼
                     const HorizontalDividerCustom(
                       thickness: 10,
-                      color: screenBackgroundColor,
+                      color: kMainScreenBackgroundColor,
                     ),
                     CommentList(vm: vm) // 댓글
                   ],

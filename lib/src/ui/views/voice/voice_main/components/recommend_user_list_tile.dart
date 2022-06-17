@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/user_profile_bottom_sheet_component/user_profile_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class RecommendUserListTile extends StatelessWidget {
   UserPresentation recommendUser;
@@ -15,7 +16,9 @@ class RecommendUserListTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         showCustomModalBottomSheet(
-            context, UserProfileBottomSheet(loginId: recommendUser.loginId));
+            context: context,
+            buildWidget:
+                UserProfileBottomSheet(loginId: recommendUser.loginId));
       },
       child: Container(
         width: getProportionateScreenWidth(116),
@@ -37,7 +40,7 @@ class RecommendUserListTile extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: getProportionateScreenHeight(25),
-                      backgroundImage: recommendUser.imageUrl
+                      foregroundImage: recommendUser.imageUrl
                               .startsWith('https')
                           ? CachedNetworkImageProvider(recommendUser.imageUrl)
                               as ImageProvider
@@ -66,14 +69,21 @@ class RecommendUserListTile extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  "#" + recommendUser.majorName,
+                  recommendUser.collegeName,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: resizeFont(13)),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                const VerticalSpacing(of: 2),
                 Text(
-                  "#" + recommendUser.collegeName,
+                  recommendUser.majorName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: resizeFont(12),
+                      color: Colors.black.withOpacity(0.7)),
                 ),
               ],
             ),
