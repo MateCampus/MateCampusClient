@@ -14,6 +14,7 @@ import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 
 class VoiceMainScreenViewModel extends BaseModel {
+  bool isInit = false;
   final VoiceService _voiceService = serviceLocator<VoiceService>();
   final UserService _userService = serviceLocator<UserService>();
 
@@ -30,6 +31,18 @@ class VoiceMainScreenViewModel extends BaseModel {
   //   await loadVoiceRooms();
   //   setBusy(false);
   // }
+
+  void initData() async {
+    if (isInit) return;
+    isInit = true;
+    await loadVoiceRooms();
+    await loadRecommendUsers();
+  }
+
+  Future<void> refreshPage() async {
+    await loadVoiceRooms();
+    await loadRecommendUsers();
+  }
 
   loadVoiceRooms() async {
     setBusy(true);

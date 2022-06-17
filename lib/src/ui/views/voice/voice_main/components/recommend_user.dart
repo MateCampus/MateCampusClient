@@ -14,24 +14,44 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      height: getProportionateScreenHeight(246),
-      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(25)),
-      color: mainColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _headerText(),
-          vm.busy
-              ? const Expanded(child: IsLoading())
-              : (vm.recommendUsers.isEmpty)
-                  ? const CenterSentence(
-                      sentence: "추천 상대가 존재하지 않습니다.", //추후 대화방 최신순 정렬으로 보여주게끔 바꾸기
-                      verticalSpace: 50,
-                    )
-                  : Expanded(child: RecommendUserList(vm: vm))
-        ],
-      ),
+    return Column(
+      children: [
+        Container(
+          height: getProportionateScreenHeight(246),
+          padding:
+              EdgeInsets.symmetric(vertical: getProportionateScreenHeight(25)),
+          color: mainColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _headerText(),
+              vm.busy
+                  ? const Expanded(child: IsLoading())
+                  : (vm.recommendUsers.isEmpty)
+                      ? const CenterSentence(
+                          sentence:
+                              "추천 상대가 존재하지 않습니다.", //추후 대화방 최신순 정렬으로 보여주게끔 바꾸기
+                          verticalSpace: 50,
+                        )
+                      : Expanded(child: RecommendUserList(vm: vm)),
+            ],
+          ),
+        ),
+        Container(
+            alignment: Alignment.topLeft,
+            margin: EdgeInsets.fromLTRB(
+                getProportionateScreenWidth(20),
+                getProportionateScreenHeight(20),
+                getProportionateScreenWidth(20),
+                getProportionateScreenHeight(10)),
+            child: Text(
+              'NOW\u{1F34A}',
+              style: TextStyle(
+                  fontFamily: 'Gmarket',
+                  fontSize: getProportionateScreenWidth(18),
+                  fontWeight: FontWeight.w700),
+            ))
+      ],
     );
   }
 
@@ -66,11 +86,11 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => getProportionateScreenHeight(246);
+  double get maxExtent => getProportionateScreenHeight(310);
 
   @override
   // TODO: implement minExtent
-  double get minExtent => getProportionateScreenHeight(246);
+  double get minExtent => getProportionateScreenHeight(310);
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

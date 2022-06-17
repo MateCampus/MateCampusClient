@@ -10,30 +10,12 @@ class VoiceRoomList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-            margin: EdgeInsets.fromLTRB(
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(20),
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(10)),
-            child: Text(
-              'NOW\u{1F34A}',
-              style: TextStyle(
-                  fontFamily: 'Gmarket',
-                  fontSize: getProportionateScreenWidth(18),
-                  fontWeight: FontWeight.w700),
-            )),
-        ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: vm.voiceRooms.length,
-            itemBuilder: (BuildContext context, int index) {
-              return VoiceRoomListTile(voiceRoom: vm.voiceRooms[index]);
-            }),
-      ],
-    );
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: vm.voiceRooms.length,
+        itemBuilder: (BuildContext context, int index) {
+          return VoiceRoomListTile(voiceRoom: vm.voiceRooms[index]);
+        });
   }
 }
