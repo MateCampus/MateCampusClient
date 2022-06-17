@@ -22,8 +22,9 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
 
   @override
   void initState() {
-    vm.loadVoiceRooms();
-    vm.loadRecommendUsers();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.initData();
+    });
     super.initState();
   }
 

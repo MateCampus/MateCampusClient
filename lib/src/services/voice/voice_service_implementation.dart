@@ -17,7 +17,7 @@ class VoiceServiceImpl implements VoiceService {
           await jsonDecode(utf8.decode(response.bodyBytes))
               .map<VoiceRoom>((voiceRoom) => VoiceRoom.fromJson(voiceRoom))
               .toList();
-      print("fetchVoiceRooms ");
+      print("fetchVoiceRooms 성공");
       return voiceRooms;
     } else {
       throw Exception('오류: 보이스룸 가져오기 실패');

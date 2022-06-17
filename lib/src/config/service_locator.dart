@@ -83,7 +83,7 @@ void setupServiceLocator() {
       () => PostMainScreenViewModel());
   serviceLocator.registerFactory<PostCreateScreenViewModel>(
       () => PostCreateScreenViewModel());
-  serviceLocator.registerFactory<VoiceMainScreenViewModel>(
+  serviceLocator.registerLazySingleton<VoiceMainScreenViewModel>(
       () => VoiceMainScreenViewModel());
   serviceLocator.registerLazySingleton<ChatViewModel>(() => ChatViewModel());
   serviceLocator

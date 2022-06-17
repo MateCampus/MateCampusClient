@@ -74,7 +74,6 @@ class VoiceRoomListTile extends StatelessWidget {
                                     : AssetImage(imageUrl))),
                       )),
                   const HorizontalSpacing(of: 10),
-                  Text(voiceRoom.createdAt),
                 ],
               ),
             ],

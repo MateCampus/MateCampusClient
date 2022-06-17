@@ -313,8 +313,15 @@ class StompObject {
       if (chatRoom.roomId == chatViewModel.insideRoomId) {
         if (chatViewModel.fromFriendProfile) {
           chatDetailFromFriendProfileViewModel.changeMember(chatMemberInfo);
+          if (chatRoom.type == "single") {
+            chatDetailFromFriendProfileViewModel
+                .changeTitle(chatMemberInfo.nickname);
+          }
         } else {
           chatDetailViewModel.changeMember(chatMemberInfo);
+          if (chatRoom.type == "single") {
+            chatDetailViewModel.changeTitle(chatMemberInfo.nickname);
+          }
         }
       }
       if (chatRoom.type == "single") {
