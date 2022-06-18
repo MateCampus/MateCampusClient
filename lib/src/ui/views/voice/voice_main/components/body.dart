@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_main/components/now_text.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_main/components/voice_room_list.dart';
 
@@ -15,6 +14,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
+        controller: vm.voiceListScrollController,
         headerSliverBuilder: (context, innerBoxScrolled) => [
               SliverPersistentHeader(
                 // recommendUser 안에 "Now(오렌지)" 까지 포함됨.

@@ -41,6 +41,7 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
         child:
             Consumer<VoiceMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
+              key: vm.scaffoldKey,
               appBar: AppBar(
                   title: SvgPicture.asset('assets/images/svg/appbarLogo.svg'),
                   centerTitle: false,
