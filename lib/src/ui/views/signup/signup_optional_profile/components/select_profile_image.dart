@@ -19,6 +19,7 @@ class SelectProfileImage extends StatelessWidget {
           child: Stack(
             children: [
               CircleAvatar(
+                  backgroundColor: Colors.grey,
                   radius: getProportionateScreenHeight(50),
                   backgroundImage: (vm.userImgPath == '')
                       ? const AssetImage('assets/images/user/general_user.png')

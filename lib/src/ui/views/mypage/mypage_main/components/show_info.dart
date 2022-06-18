@@ -23,6 +23,7 @@ class ShowInfo extends StatelessWidget {
             child: Stack(
               children: [
                 CircleAvatar(
+                    backgroundColor: Colors.grey,
                     radius: getProportionateScreenHeight(50),
                     backgroundImage: vm.changedProfileImgPath.isEmpty
                         ? (vm.myInfo.imageUrl.startsWith('https')

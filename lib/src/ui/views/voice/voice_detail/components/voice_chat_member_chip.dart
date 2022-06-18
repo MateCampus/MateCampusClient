@@ -33,6 +33,7 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                           style: BorderStyle.solid),
                       shape: BoxShape.circle),
                   child: CircleAvatar(
+                    backgroundColor: Colors.grey,
                     radius: getProportionateScreenWidth(28),
                     backgroundImage: widget.member.imageUrl.startsWith('https')
                         ? CachedNetworkImageProvider(widget.member.imageUrl)
@@ -86,6 +87,7 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                         style: BorderStyle.solid),
                     shape: BoxShape.circle),
                 child: CircleAvatar(
+                  backgroundColor: Colors.grey,
                   radius: getProportionateScreenWidth(28),
                   backgroundImage: widget.member.imageUrl.startsWith('https')
                       ? CachedNetworkImageProvider(widget.member.imageUrl)

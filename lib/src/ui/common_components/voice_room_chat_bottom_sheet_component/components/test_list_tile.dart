@@ -14,6 +14,7 @@ class TestListTile extends StatelessWidget {
       horizontalTitleGap: getProportionateScreenWidth(10),
       dense: true,
       leading: CircleAvatar(
+        backgroundColor: Colors.grey,
         radius: getProportionateScreenWidth(17),
         backgroundImage: AssetImage('assets/images/user/general_user.png'),
       ),

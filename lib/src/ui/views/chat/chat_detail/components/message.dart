@@ -44,6 +44,7 @@ class Message extends StatelessWidget {
                     padding:
                         EdgeInsets.only(top: getProportionateScreenHeight(3)),
                     child: CircleAvatar(
+                      backgroundColor: Colors.grey,
                       radius: getProportionateScreenWidth(17),
                       backgroundImage:
                           // TODO: aws 적용 부분

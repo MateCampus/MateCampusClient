@@ -22,6 +22,7 @@ class _EditImageState extends State<EditImage> {
       child: Stack(
         children: [
           CircleAvatar(
+              backgroundColor: Colors.grey,
               radius: getProportionateScreenHeight(50),
               backgroundImage: (widget.vm.changedProfileImgPath.isEmpty)
                   ? widget.vm.myInfo.imageUrl.startsWith('https')

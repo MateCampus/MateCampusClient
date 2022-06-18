@@ -47,6 +47,7 @@ class VoiceRoomTextChatMessage extends StatelessWidget {
                       child: Container()
 
                       // CircleAvatar(
+                      //   backgroundColor: Colors.grey,
                       //   radius: getProportionateScreenWidth(17),
                       //   backgroundImage:
                       //       // TODO: aws 적용 부분

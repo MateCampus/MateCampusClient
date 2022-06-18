@@ -40,6 +40,7 @@ class RecommendUserListTile extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: getProportionateScreenHeight(25),
+                      backgroundColor: Colors.grey,
                       foregroundImage: recommendUser.imageUrl
                               .startsWith('https')
                           ? CachedNetworkImageProvider(recommendUser.imageUrl)

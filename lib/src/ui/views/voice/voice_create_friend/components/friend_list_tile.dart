@@ -34,6 +34,7 @@ class _FriendListTileState extends State<FriendListTile> {
         secondary: Stack(
           children: [
             CircleAvatar(
+              backgroundColor: Colors.grey,
               radius: getProportionateScreenWidth(27),
               // backgroundImage: AssetImage(widget.user.userImageUrl),
               backgroundImage: widget.user.userImageUrl.startsWith('https')

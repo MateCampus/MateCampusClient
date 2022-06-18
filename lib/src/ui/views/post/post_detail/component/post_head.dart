@@ -41,6 +41,7 @@ class PostHead extends StatelessWidget {
             horizontalTitleGap: getProportionateScreenWidth(10),
             dense: true,
             leading: CircleAvatar(
+              backgroundColor: Colors.grey,
               radius: getProportionateScreenWidth(17),
               backgroundImage:
                   AssetImage(vm.postProfileImgPath), //이미지만 넣으면 에러남(아마도 해결)

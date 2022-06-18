@@ -36,6 +36,7 @@ class FriendBtn extends StatelessWidget {
               ),
               child: ListTile(
                 leading: CircleAvatar(
+                  backgroundColor: Colors.grey,
                   radius: getProportionateScreenHeight(25),
                   child: Image.asset(
                     'assets/images/temp/zamonglogo.png',

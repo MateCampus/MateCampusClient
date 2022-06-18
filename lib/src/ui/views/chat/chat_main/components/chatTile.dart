@@ -47,6 +47,7 @@ class _ChatTileState extends State<ChatTile> {
                   vertical: getProportionateScreenHeight(5)),
               minVerticalPadding: 0,
               leading: CircleAvatar(
+                backgroundColor: Colors.grey,
                 radius: getProportionateScreenWidth(25),
                 // TODO: aws 이미지 403이면 일반 이미지 보여주도록 구현해야함.
                 // backgroundImage: widget.chatRoom.image.image ??

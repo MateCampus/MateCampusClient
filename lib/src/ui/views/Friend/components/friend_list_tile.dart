@@ -29,6 +29,7 @@ class FriendListTile extends StatelessWidget {
             leading: Stack(
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.grey,
                   radius: getProportionateScreenHeight(27),
                   backgroundImage: friend.imageUrl.startsWith('https')
                       ? CachedNetworkImageProvider(friend.imageUrl)

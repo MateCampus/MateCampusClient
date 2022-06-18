@@ -33,6 +33,7 @@ class ProfileInfo extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: getProportionateScreenHeight(40),
+                  backgroundColor: Colors.grey,
                   backgroundImage: imageUrl.startsWith('https')
                       ? CachedNetworkImageProvider(imageUrl) as ImageProvider
                       : AssetImage(
