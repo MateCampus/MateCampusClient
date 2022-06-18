@@ -28,7 +28,6 @@ class VoiceDetailViewModel extends BaseModel {
       roomId: '',
       title: '',
       categories: [],
-      createdAt: '',
       type: VoiceRoomType.PUBLIC);
 
   List<MemberPresentation> _voiceRoomMembers = List.empty(growable: true);
@@ -63,8 +62,8 @@ class VoiceDetailViewModel extends BaseModel {
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
     unsubscribeFn = StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
-    //local db
-    saveExistingUsersDB(voiceRoom.memberInfos!);
+
+    saveExistingUsers(voiceRoom.memberInfos!);
     setBusy(false);
   }
 
@@ -133,6 +132,7 @@ class VoiceDetailViewModel extends BaseModel {
   }
 
   Future<void> leaveChannel() async {
+    saveRecentTalkUsersDB();
     await _engine!.leaveChannel();
     print("leave channel");
     _voiceRoomMembers.clear();
@@ -151,7 +151,6 @@ class VoiceDetailViewModel extends BaseModel {
                 " " +
                 CategoryData.korNameOf(category.name))
             .toList(),
-        createdAt: dateToPastTime(DateTime(2022, 2, 3)),
         type: VoiceRoomType.PUBLIC);
 
     //이미 존재하고 있는 멤버 정보 매핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
@@ -182,48 +181,39 @@ class VoiceDetailViewModel extends BaseModel {
             : 'assets/images/user/general_user.png',
         isSpeaking: false,
         isHost: false));
-    //local db
-    saveAddUserDB(chatMemberInfo);
+
+    saveAddedUser(chatMemberInfo.loginId);
     notifyListeners();
   }
 
-  //db에 이미 존재하는 사람들 저장
-  Future<void> saveExistingUsersDB(List<ChatMemberInfo> chatMemberInfos) async {
-    _recentTalkUserLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+  void saveExistingUsers(List<ChatMemberInfo> chatMemberInfos) {
     for (ChatMemberInfo chatMemberInfo in chatMemberInfos) {
       //본인은 저장하지 않음
       if (chatMemberInfo.loginId != AuthService.loginId) {
-        //이미 존재하는 유저면 remove 후 다시 add
-        if (_recentTalkUserLoginIds.contains(chatMemberInfo.loginId)) {
-          _recentTalkUserLoginIds.remove(chatMemberInfo.loginId);
-          _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
-        }
-        //본인도 아니고 db에 없는 유저 add
-        else {
-          _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
-        }
+        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
       }
     }
-    PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
   }
 
-  //새롭게 들어오는 한사람의 정보 db에 저장
-  Future<void> saveAddUserDB(ChatMemberInfo chatMemberInfo) async {
-    _recentTalkUserLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
-
-    //본인은 저장하지 않음
-    if (chatMemberInfo.loginId != AuthService.loginId) {
-      //이미 존재하는 유저면 remove 후 다시 add
-      if (_recentTalkUserLoginIds.contains(chatMemberInfo.loginId)) {
-        _recentTalkUserLoginIds.remove(chatMemberInfo.loginId);
-        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
-      }
-      //본인도 아니고 db에 없는 유저 add
-      else {
-        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
+  void saveAddedUser(String loginId) {
+    for (String existLoginId in _recentTalkUserLoginIds) {
+      if (existLoginId == loginId) {
+        _recentTalkUserLoginIds.remove(loginId);
       }
     }
-    PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
+    _recentTalkUserLoginIds.add(loginId);
+  }
+
+  //loacl db에 저장
+  Future<void> saveRecentTalkUsersDB() async {
+    List<String> _savedLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+    for (String loginId in _recentTalkUserLoginIds) {
+      if (_savedLoginIds.contains(loginId)) {
+        _savedLoginIds.remove(loginId);
+      }
+    }
+    _savedLoginIds.addAll(_recentTalkUserLoginIds);
+    PrefsObject.setRecentTalkUsers(_savedLoginIds);
   }
 
   Future<void> addTextChatMessage(ChatMessage chatMessage) async {
@@ -277,7 +267,6 @@ class VoiceRoomPresentation {
   final String roomId;
   final String title;
   final List<dynamic> categories; //일단은 뷰모델에서 지정해두자. 서버에서는 아직 안넘어옴
-  String createdAt; //얘도 서버에서 아직 안넘어옴
   VoiceRoomType type;
 
   VoiceRoomPresentation(
@@ -285,7 +274,6 @@ class VoiceRoomPresentation {
       required this.roomId,
       required this.title,
       required this.categories,
-      required this.createdAt,
       required this.type});
 }
 
