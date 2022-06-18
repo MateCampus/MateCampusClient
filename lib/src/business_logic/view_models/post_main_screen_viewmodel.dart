@@ -18,28 +18,30 @@ class PostMainScreenViewModel extends BaseModel {
   final ScrollController _scrollController = ScrollController();
   int _nextPageToken = 0;
   bool _collegeFilter = false;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   List<PostPresentation> get posts => _posts;
   String get sortType => _sortType;
   bool get collegeFilter => _collegeFilter;
   ScrollController get postScrollController => _scrollController;
+  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
 
-  void initData(BuildContext context) async {
+  void initData() async {
     if (isInit) return;
-    scrollInit(context);
+    scrollInit();
     await loadPosts();
     await loadMyLikeBookmarkPostIds();
 
     isInit = true;
   }
 
-  void scrollInit(BuildContext context) {
+  void scrollInit() {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent &&
           _scrollController.offset > 0) {
         print("끝 지점 도착");
-        loadMorePosts(context);
+        loadMorePosts();
       }
     });
   }
@@ -84,34 +86,39 @@ class PostMainScreenViewModel extends BaseModel {
     setBusy(false);
   }
 
-  Future<void> loadMorePosts(BuildContext context) async {
+  Future<void> loadMorePosts() async {
     buildShowDialogForLoading(
-        context: context, barrierColor: Colors.transparent);
+        context: _scaffoldKey.currentContext!,
+        barrierColor: Colors.transparent);
     List<Post> additionalPosts = await _postService.fetchPosts(
         type: _sortType,
         nextPageToken: _nextPageToken,
         collegeFilter: collegeFilter);
-    _posts.addAll(additionalPosts.map((post) => PostPresentation(
-          id: post.id,
-          loginId: post.loginId,
-          categories: post.categories == null
-              ? []
-              : post.categories!
-                  .map((category) =>
-                      CategoryData.iconOf(category.name) +
-                      " " +
-                      CategoryData.korNameOf(category.name))
-                  .toList(),
-          title: post.title,
-          body: post.body,
-          createdAt: dateToPastTime(post.createdAt),
-          likedCount: post.likedCount.toString(),
-          viewCount: post.viewCount.toString(),
-          commentCount: post.commentCount.toString(),
-          imageUrls: post.imageUrls,
-        )));
-    _nextPageToken++;
-    Navigator.pop(context);
+    if (additionalPosts.isEmpty) {
+      toastMessage('피드 끝!');
+    } else if (additionalPosts.isNotEmpty) {
+      _posts.addAll(additionalPosts.map((post) => PostPresentation(
+            id: post.id,
+            loginId: post.loginId,
+            categories: post.categories == null
+                ? []
+                : post.categories!
+                    .map((category) =>
+                        CategoryData.iconOf(category.name) +
+                        " " +
+                        CategoryData.korNameOf(category.name))
+                    .toList(),
+            title: post.title,
+            body: post.body,
+            createdAt: dateToPastTime(post.createdAt),
+            likedCount: post.likedCount.toString(),
+            viewCount: post.viewCount.toString(),
+            commentCount: post.commentCount.toString(),
+            imageUrls: post.imageUrls,
+          )));
+      _nextPageToken++;
+    }
+    Navigator.pop(_scaffoldKey.currentContext!);
     notifyListeners();
   }
 
