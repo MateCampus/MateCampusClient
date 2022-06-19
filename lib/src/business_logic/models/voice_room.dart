@@ -10,7 +10,7 @@ class VoiceRoom {
   String? token;
   int? uid;
   String? ownerLoginId;
-  List<dynamic>? userImageUrls;
+  List<String>? userImageUrls;
   List<ChatMemberInfo>? memberInfos;
   bool? isFull;
   // DateTime createdAt;
@@ -59,7 +59,9 @@ class VoiceRoom {
         : VoiceRoom(
             id: json['id'],
             title: json['title'],
-            userImageUrls: json['userImageUrls'].toList(),
+            userImageUrls: json['userImageUrls']
+                .map<String>((userImageUrl) => userImageUrl.toString())
+                .toList(),
             //createdAt: DateTime?.parse(json['createdAt']),
           );
   }

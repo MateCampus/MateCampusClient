@@ -52,49 +52,49 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: const Icon(Icons.expand_more_outlined),
-                color: Colors.black,
-                iconSize: kAppBarIconSizeG,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/voiceInviteFriend",
-                        arguments:
-                            VoiceInviteFriendScreenArgs(vm.voiceRoom.id));
-                  },
-                  icon: const Icon(Icons.person_add_outlined),
+            appBar: PreferredSize(
+              preferredSize: Size(
+                  SizeConfig.screenWidth!, getProportionateScreenHeight(40)),
+              child: AppBar(
+                leading: IconButton(
+                  icon: const Icon(Icons.expand_more_outlined),
                   color: Colors.black,
                   iconSize: kAppBarIconSizeG,
-                ),
-                IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.logout_outlined),
-                  color: Colors.black,
-                  iconSize: kAppBarIconSizeG,
                 ),
-              ],
-              elevation: 0.0,
-              backgroundColor: kMainScreenBackgroundColor,
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      if (vm.voiceRoomMembers.length == 8) {
+                        buildDialogForNotice(
+                            context: context,
+                            description: '인원을 초과하여 초대할 수 없습니다');
+                      } else {
+                        Navigator.pushNamed(context, "/voiceInviteFriend",
+                            arguments:
+                                VoiceInviteFriendScreenArgs(vm.voiceRoom.id));
+                      }
+                    },
+                    icon: const Icon(Icons.person_add_outlined),
+                    color: Colors.black,
+                    iconSize: kAppBarIconSizeG,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.logout_outlined),
+                    color: Colors.black,
+                    iconSize: kAppBarIconSizeG,
+                  ),
+                ],
+                elevation: 0.0,
+                backgroundColor: kSubScreenBackgroundColor,
+              ),
             ),
-            floatingActionButton: FloatingActionButton(
-              child: const Icon(CupertinoIcons.ellipses_bubble),
-              backgroundColor: kMainColor,
-              onPressed: () {
-                showCustomModalBottomSheet(
-                    context: context,
-                    buildWidget: VoiceRoomChatBottomSheet(vm: vm),
-                    barrierColor: Colors.transparent);
-              },
-            ),
-            backgroundColor: kMainScreenBackgroundColor,
+            backgroundColor: kSubScreenBackgroundColor,
             body: vm.busy ? const IsLoading() : Body(vm: vm),
           ),
         );
