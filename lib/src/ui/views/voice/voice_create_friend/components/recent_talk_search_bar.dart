@@ -25,7 +25,7 @@ class _RecentTalkSearchBarState extends State<RecentTalkSearchBar> {
     return Padding(
       padding: EdgeInsets.symmetric(
           horizontal: getProportionateScreenWidth(20),
-          vertical: getProportionateScreenHeight(15)),
+          vertical: getProportionateScreenHeight(10)),
       child: TextField(
         keyboardType: TextInputType.multiline,
         style: TextStyle(fontSize: kTextFieldInnerFontSize),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -59,13 +60,13 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
                         indicatorColor: kMainColor,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
-                        labelStyle: const TextStyle(
-                          fontSize: 15,
+                        labelStyle: TextStyle(
+                          fontSize: kTabbarTextFontSize,
                           fontWeight: FontWeight.bold,
                         ),
                         unselectedLabelColor: const Color(0xff7f7f7f),
-                        unselectedLabelStyle: const TextStyle(
-                          fontSize: 15,
+                        unselectedLabelStyle: TextStyle(
+                          fontSize: kTabbarTextFontSize,
                         ),
                         tabs: [
                           SizedBox(

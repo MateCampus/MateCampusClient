@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_invite_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -43,7 +44,7 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
               length: 2,
               child: Scaffold(
                 appBar: SubAppbar(
-                  titleText: '대화친구 선택',
+                  titleText: '초대 친구 선택',
                   bottom: PreferredSize(
                     preferredSize:
                         Size.fromHeight(getProportionateScreenHeight(40)),
@@ -51,13 +52,13 @@ class _VoiceInviteFriendScreenState extends State<VoiceInviteFriendScreen> {
                         indicatorColor: kMainColor,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
-                        labelStyle: const TextStyle(
-                          fontSize: 15,
+                        labelStyle: TextStyle(
+                          fontSize: kTabbarTextFontSize,
                           fontWeight: FontWeight.bold,
                         ),
                         unselectedLabelColor: const Color(0xff7f7f7f),
-                        unselectedLabelStyle: const TextStyle(
-                          fontSize: 15,
+                        unselectedLabelStyle: TextStyle(
+                          fontSize: kTabbarTextFontSize,
                         ),
                         tabs: [
                           SizedBox(
