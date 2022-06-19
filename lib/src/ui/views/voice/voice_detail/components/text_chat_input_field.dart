@@ -69,6 +69,7 @@ class _TextChatInputFieldState extends State<TextChatInputField> {
                   fontSize: kTextFieldInnerFontSize),
               border: const OutlineInputBorder(borderSide: BorderSide.none),
               contentPadding: EdgeInsets.zero,
+              isDense: true,
             ),
             cursorColor: kMainColor,
           ),

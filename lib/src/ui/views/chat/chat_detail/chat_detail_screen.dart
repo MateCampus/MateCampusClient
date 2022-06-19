@@ -57,7 +57,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             },
             behavior: HitTestBehavior.translucent,
             child: Scaffold(
-              extendBodyBehindAppBar: true,
               appBar: SubAppbar(
                 titleText: vm.chatRoom.title,
                 isCenter: true,
@@ -72,7 +71,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 ],
               ),
               backgroundColor: const Color(0xfffff8f3),
-              body: Body(vm: vm),
+              body: SafeArea(child: Body(vm: vm)),
             ),
           );
         }));

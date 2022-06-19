@@ -43,13 +43,16 @@ class _ChatInputFieldState extends State<ChatInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: getProportionateScreenHeight(335),
+      width: getProportionateScreenHeight(355),
       height: getProportionateScreenHeight(56),
+      padding:
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: Row(
         children: [
           _messageInputField(),
+          const Spacer(),
           _sendBtn(),
         ],
       ),
@@ -58,22 +61,25 @@ class _ChatInputFieldState extends State<ChatInputField> {
 
   Widget _messageInputField() {
     return SizedBox(
-        width: getProportionateScreenWidth(275),
-        child: TextField(
-          keyboardType: TextInputType.multiline,
-          maxLines: null,
-          controller: _textController,
-          onSubmitted: _sendMessage,
-          style: TextStyle(fontSize: kTextFieldInnerFontSize),
-          decoration: InputDecoration(
-            hintText: '메세지를 입력하세요',
-            hintStyle: TextStyle(
-                color: Color(0xFFADADAD), fontSize: kTextFieldInnerFontSize),
-            border: const OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding: EdgeInsets.all(getProportionateScreenHeight(10)),
-            isDense: true,
+        height: getProportionateScreenHeight(36),
+        width: getProportionateScreenWidth(265),
+        child: Center(
+          child: TextField(
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
+            controller: _textController,
+            onSubmitted: _sendMessage,
+            style: TextStyle(fontSize: kTextFieldInnerFontSize),
+            decoration: InputDecoration(
+              hintText: '메세지를 입력하세요',
+              hintStyle: TextStyle(
+                  color: Color(0xFFADADAD), fontSize: kTextFieldInnerFontSize),
+              border: const OutlineInputBorder(borderSide: BorderSide.none),
+              contentPadding: EdgeInsets.zero,
+              isDense: true,
+            ),
+            cursorColor: kMainColor,
           ),
-          cursorColor: kMainColor,
         ));
   }
 

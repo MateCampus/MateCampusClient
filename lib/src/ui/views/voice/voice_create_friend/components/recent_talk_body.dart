@@ -26,9 +26,11 @@ class RecentTalkBody extends StatelessWidget {
     return Column(
       children: [
         RecentTalkSearchBar(vm: vm),
-        //Expanded 때문에 ios에서 리스트 아래로 다 땡겼을때 여백이 남음(chat detail이랑 같은 이슈)
+        //Expanded 때문에 ios에서 리스트 아래로 다 땡겼을때 여백이 남음(chat detail이랑 같은 이슈) 6/19일 수정 -> 테스트 해봐야함
         Expanded(
             child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
                 itemCount: users.length,
                 itemBuilder: (BuildContext context, int index) {
                   return FriendListTile(vm: vm, user: users[index]);

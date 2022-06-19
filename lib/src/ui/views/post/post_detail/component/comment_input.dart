@@ -35,35 +35,38 @@ class _CommentInputState extends State<CommentInput> {
 
   Widget _commentInputField() {
     return SizedBox(
-        width: getProportionateScreenWidth(270),
-        child: TextField(
-          keyboardType: TextInputType.multiline,
-          style: TextStyle(fontSize: kTextFieldInnerFontSize),
-          maxLines: null,
-          controller: (widget.vm.overlayEntry == null)
-              ? widget.vm.commentTextController
-              : widget.vm.nestedCommentTextController,
-          focusNode: widget.vm.focusNode,
-          //키보드offset관련
-          // onTap: () {
-          //   print(widget.vm.commentScrollController.offset);
-          //   print(widget.vm.keyboardHeight);
-          //   widget.vm.commentScrollController.animateTo(
-          //       widget.vm.commentScrollController.offset +
-          //           widget.vm.keyboardHeight,
-          //       duration: const Duration(milliseconds: 400),
-          //       curve: Curves.fastOutSlowIn);
-          // },
-          decoration: InputDecoration(
-            hintText: '소중한 댓글을 남겨주세요',
-            hintStyle: TextStyle(
-                color: const Color(0xFFADADAD),
-                fontSize: kTextFieldInnerFontSize),
-            border: const OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding: EdgeInsets.zero,
-            isDense: true,
+        height: getProportionateScreenHeight(36),
+        width: getProportionateScreenWidth(265),
+        child: Center(
+          child: TextField(
+            keyboardType: TextInputType.multiline,
+            style: TextStyle(fontSize: kTextFieldInnerFontSize),
+            maxLines: null,
+            controller: (widget.vm.overlayEntry == null)
+                ? widget.vm.commentTextController
+                : widget.vm.nestedCommentTextController,
+            focusNode: widget.vm.focusNode,
+            //키보드offset관련
+            // onTap: () {
+            //   print(widget.vm.commentScrollController.offset);
+            //   print(widget.vm.keyboardHeight);
+            //   widget.vm.commentScrollController.animateTo(
+            //       widget.vm.commentScrollController.offset +
+            //           widget.vm.keyboardHeight,
+            //       duration: const Duration(milliseconds: 400),
+            //       curve: Curves.fastOutSlowIn);
+            // },
+            decoration: InputDecoration(
+              hintText: '소중한 댓글을 남겨주세요',
+              hintStyle: TextStyle(
+                  color: const Color(0xFFADADAD),
+                  fontSize: kTextFieldInnerFontSize),
+              border: const OutlineInputBorder(borderSide: BorderSide.none),
+              contentPadding: EdgeInsets.zero,
+              isDense: true,
+            ),
+            cursorColor: kMainColor,
           ),
-          cursorColor: kMainColor,
         ));
   }
 

@@ -42,7 +42,7 @@ class _VoiceRoomTextChatInputFieldState
   Widget _textChatInputField() {
     return SizedBox(
         height: getProportionateScreenHeight(36),
-        width: getProportionateScreenWidth(270),
+        width: getProportionateScreenWidth(265),
         child: Center(
           child: TextField(
             keyboardType: TextInputType.multiline,
