@@ -11,3 +11,5 @@ double kTitleFontSize = resizeFont(18);
 double kPlainTextFontSize = resizeFont(14);
 
 double kTabbarTextFontSize = resizeFont(14);
+
+double kInterestTextFontSize = resizeFont(12);

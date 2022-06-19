@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/custom_alert_dialog.dart';
+import 'package:zamongcampus/src/ui/common_components/show_original_image_component/show_original_image.dart';
 import 'package:zamongcampus/src/ui/common_widgets/custom_dialog_for_notice.dart';
 
 // snackbar => 해결 필요.
@@ -110,4 +111,18 @@ void buildCustomAlertDialog({
           press: press,
         );
       });
+}
+
+void showOriginalProfileImage(BuildContext context, String imageUrl) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ShowOriginalImage(
+        imageUrl: imageUrl,
+        backgroundDecoration: const BoxDecoration(
+          color: Colors.black,
+        ),
+      ),
+    ),
+  );
 }

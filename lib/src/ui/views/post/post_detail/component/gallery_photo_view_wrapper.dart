@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/post_image_item_thumbnail.dart';
 
 class GalleryPhotoViewWrapper extends StatefulWidget {
@@ -64,8 +65,8 @@ class _GalleryPhotoViewWrapperState extends State<GalleryPhotoViewWrapper> {
                 children: indicators(widget.imageItems.length, currentIndex)),
           ),
           Positioned(
-            top: 50,
-            right: 5,
+            top: getProportionateScreenHeight(50),
+            right: getProportionateScreenWidth(5),
             child: IconButton(
                 onPressed: () {
                   Navigator.pop(context);

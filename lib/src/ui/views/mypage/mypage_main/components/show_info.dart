@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -22,20 +23,29 @@ class ShowInfo extends StatelessWidget {
                 vertical: getProportionateScreenHeight(15)),
             child: Stack(
               children: [
-                CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: getProportionateScreenHeight(50),
-                    backgroundImage: vm.changedProfileImgPath.isEmpty
-                        ? (vm.myInfo.imageUrl.startsWith('https')
-                            ? CachedNetworkImageProvider(vm.myInfo.imageUrl)
-                                as ImageProvider
-                            : AssetImage(vm.myInfo.imageUrl))
-                        : (vm.changedProfileImgPath.startsWith('https')
-                            ? CachedNetworkImageProvider(
-                                vm.changedProfileImgPath) as ImageProvider
-                            : AssetImage(vm
-                                .changedProfileImgPath)) //추후 누르면 전체화면으로 프사볼수있도록 변경하기
-                    ),
+                GestureDetector(
+                  onTap: () {
+                    showOriginalProfileImage(
+                        context,
+                        vm.changedProfileImgPath.isEmpty
+                            ? vm.myInfo.imageUrl
+                            : vm.changedProfileImgPath);
+                  },
+                  child: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      radius: getProportionateScreenHeight(50),
+                      backgroundImage: vm.changedProfileImgPath.isEmpty
+                          ? (vm.myInfo.imageUrl.startsWith('https')
+                              ? CachedNetworkImageProvider(vm.myInfo.imageUrl)
+                                  as ImageProvider
+                              : AssetImage(vm.myInfo.imageUrl))
+                          : (vm.changedProfileImgPath.startsWith('https')
+                              ? CachedNetworkImageProvider(
+                                  vm.changedProfileImgPath) as ImageProvider
+                              : AssetImage(vm
+                                  .changedProfileImgPath)) //추후 누르면 전체화면으로 프사볼수있도록 변경하기
+                      ),
+                ),
                 Positioned(
                   bottom: 1,
                   right: -1,
