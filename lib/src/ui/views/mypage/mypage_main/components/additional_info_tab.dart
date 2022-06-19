@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/verticalDividerCustom.dart';
 
@@ -28,9 +30,16 @@ class AdditionalInfoTab extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _tabBtn(text: '친구', count: myInfo.friendCount, onTap: () {}),
+                _tabBtn(
+                    text: '친구',
+                    count: myInfo.friendCount,
+                    onTap: () {
+                      HomeViewModel homevm = serviceLocator<HomeViewModel>();
+                      homevm.changeCurrentIndex(2);
+                      Navigator.pushNamed(context, "/friend");
+                    }),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
-                _tabBtn(text: '저장', count: myInfo.bookMarkCount, onTap: () {}),
+                _tabBtn(text: '북마크', count: myInfo.bookMarkCount, onTap: () {}),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
                 _tabBtn(text: '내 피드', count: myInfo.feedCount, onTap: () {}),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
