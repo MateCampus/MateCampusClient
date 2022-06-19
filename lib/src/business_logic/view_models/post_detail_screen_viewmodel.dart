@@ -84,12 +84,12 @@ class PostDetailScreenViewModel extends BaseModel {
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    createdAt: dateToPastTime(
+                    createdAt: dateToTimeEng(
                         nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children))
                 .toList(),
             createdAt:
-                dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05))))
+                dateToTimeEng(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
 
     _postDetail = PostDetailPresentation(
@@ -106,7 +106,7 @@ class PostDetailScreenViewModel extends BaseModel {
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
       body: postDetailResult.body,
-      createdAt: dateToPastTime(postDetailResult.createdAt),
+      createdAt: dateToTimeEng(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.commentCount.toString(),
       imageUrls: postDetailResult.imageUrls,

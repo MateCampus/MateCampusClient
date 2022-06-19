@@ -33,7 +33,6 @@ class _PostMainScreenState extends State<PostMainScreen> {
         value: vm,
         child: Consumer<PostMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
-              key: vm.scaffoldKey,
               backgroundColor: kMainScreenBackgroundColor,
               body: SafeArea(child: Body(vm: vm)));
         }));

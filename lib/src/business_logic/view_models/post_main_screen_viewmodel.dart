@@ -18,13 +18,14 @@ class PostMainScreenViewModel extends BaseModel {
   final ScrollController _scrollController = ScrollController();
   int _nextPageToken = 0;
   bool _collegeFilter = false;
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _postMainRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   List<PostPresentation> get posts => _posts;
   String get sortType => _sortType;
   bool get collegeFilter => _collegeFilter;
   ScrollController get postScrollController => _scrollController;
-  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+  GlobalKey<RefreshIndicatorState> get postMainKey =>
+      _postMainRefreshIndicatorKey;
 
   void initData() async {
     if (isInit) return;
@@ -73,7 +74,7 @@ class PostMainScreenViewModel extends BaseModel {
                       .toList(),
               title: post.title,
               body: post.body,
-              createdAt: dateToPastTime(post.createdAt),
+              createdAt: dateToTimeEng(post.createdAt),
               likedCount: post.likedCount.toString(),
               viewCount: post.viewCount.toString(),
               commentCount: post.commentCount.toString(),
@@ -88,7 +89,7 @@ class PostMainScreenViewModel extends BaseModel {
 
   Future<void> loadMorePosts() async {
     buildShowDialogForLoading(
-        context: _scaffoldKey.currentContext!,
+        context: _postMainRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
     List<Post> additionalPosts = await _postService.fetchPosts(
         type: _sortType,
@@ -110,7 +111,7 @@ class PostMainScreenViewModel extends BaseModel {
                     .toList(),
             title: post.title,
             body: post.body,
-            createdAt: dateToPastTime(post.createdAt),
+            createdAt: dateToTimeEng(post.createdAt),
             likedCount: post.likedCount.toString(),
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
@@ -118,7 +119,7 @@ class PostMainScreenViewModel extends BaseModel {
           )));
       _nextPageToken++;
     }
-    Navigator.pop(_scaffoldKey.currentContext!);
+    Navigator.pop(_postMainRefreshIndicatorKey.currentContext!);
     notifyListeners();
   }
 

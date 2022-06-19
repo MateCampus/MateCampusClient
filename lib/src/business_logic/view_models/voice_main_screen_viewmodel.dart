@@ -6,7 +6,6 @@ import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -25,12 +24,13 @@ class VoiceMainScreenViewModel extends BaseModel {
   int _voiceRoomNextPageToken = 0;
   int _recommendNextPageToken = 0;
   final ScrollController _scrollController = ScrollController();
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _voiceMainRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   List<VoiceRoomPresentation> get voiceRooms => _voiceRooms;
   List<UserPresentation> get recommendUsers => _recommendUsers;
   ScrollController get voiceListScrollController => _scrollController;
-  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+  GlobalKey<RefreshIndicatorState> get voiceMainKey =>
+      _voiceMainRefreshIndicatorKey;
 
   void initData() async {
     if (isInit) return;
@@ -77,7 +77,6 @@ class VoiceMainScreenViewModel extends BaseModel {
                       " " +
                       CategoryData.korNameOf(category.name))
                   .toList(),
-              createdAt: dateToPastTime(DateTime(2022, 2, 3)),
             ))
         .toList();
 
@@ -105,7 +104,7 @@ class VoiceMainScreenViewModel extends BaseModel {
 
   Future<void> loadMoreVoiceRooms() async {
     buildShowDialogForLoading(
-        context: _scaffoldKey.currentContext!,
+        context: _voiceMainRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
     List<VoiceRoom> additionalVoiceRooms = await _voiceService.fetchVoiceRooms(
         nextPageToken: _voiceRoomNextPageToken);
@@ -127,13 +126,12 @@ class VoiceMainScreenViewModel extends BaseModel {
                         " " +
                         CategoryData.korNameOf(category.name))
                     .toList(),
-                createdAt: dateToPastTime(DateTime(2022, 2, 3)),
               ))
           .toList());
       _voiceRoomNextPageToken++;
     }
 
-    Navigator.pop(_scaffoldKey.currentContext!);
+    Navigator.pop(_voiceMainRefreshIndicatorKey.currentContext!);
     notifyListeners();
   }
 }
@@ -141,16 +139,15 @@ class VoiceMainScreenViewModel extends BaseModel {
 class VoiceRoomPresentation {
   final int id;
   final String title;
-  final List<dynamic> memberImgUrls;
+  final List<String> memberImgUrls;
   final List<dynamic> categories;
-  String createdAt;
 
-  VoiceRoomPresentation(
-      {required this.id,
-      required this.title,
-      required this.memberImgUrls,
-      required this.categories,
-      required this.createdAt});
+  VoiceRoomPresentation({
+    required this.id,
+    required this.title,
+    required this.memberImgUrls,
+    required this.categories,
+  });
 }
 
 class UserPresentation {

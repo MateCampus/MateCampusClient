@@ -34,7 +34,7 @@ class RecommendUserListTile extends StatelessWidget {
                 vertical: getProportionateScreenHeight(15),
                 horizontal: getProportionateScreenWidth(8)),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Stack(
                   children: [
@@ -69,23 +69,28 @@ class RecommendUserListTile extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Text(
-                  recommendUser.collegeName,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: resizeFont(13)),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: getProportionateScreenHeight(3)),
+                  child: Text(
+                    recommendUser.collegeName,
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600, fontSize: resizeFont(13)),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                const VerticalSpacing(of: 2),
-                Text(
-                  recommendUser.majorName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: resizeFont(12),
-                      color: Colors.black.withOpacity(0.7)),
-                ),
+                recommendUser.majorName.isEmpty
+                    ? const SizedBox()
+                    : Text(
+                        recommendUser.majorName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: resizeFont(12),
+                            color: Colors.black.withOpacity(0.7)),
+                      ),
               ],
             ),
           ),

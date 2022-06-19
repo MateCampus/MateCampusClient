@@ -17,6 +17,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
+        key: vm.postMainKey,
         displacement: 150,
         onRefresh: () => vm.refreshPostAfterCreateUpdate(),
         child: CustomScrollView(

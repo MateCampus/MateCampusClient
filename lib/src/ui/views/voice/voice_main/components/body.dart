@@ -5,11 +5,9 @@ import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_main/components/recommend_user.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_main/components/voice_room_list.dart';
 
-import 'package:zamongcampus/src/ui/views/voice/voice_main/components/voice_room_list_tile.dart';
-
 class Body extends StatelessWidget {
-  VoiceMainScreenViewModel vm;
-  Body({Key? key, required this.vm}) : super(key: key);
+  final VoiceMainScreenViewModel vm;
+  const Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +29,7 @@ class Body extends StatelessWidget {
                     verticalSpace: 50,
                   )
                 : RefreshIndicator(
+                    key: vm.voiceMainKey,
                     displacement: 0,
                     onRefresh: vm.refreshPage,
                     child: VoiceRoomList(vm: vm)));
