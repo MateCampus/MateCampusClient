@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/edit_interest.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/fixed_text.dart';
 
@@ -12,7 +13,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return vm.busy
-        ? const Center(child: CircularProgressIndicator())
+        ? const IsLoading()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

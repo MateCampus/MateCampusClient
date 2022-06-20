@@ -47,7 +47,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<ChatDetailViewModel>(builder: (context, vm, child) {

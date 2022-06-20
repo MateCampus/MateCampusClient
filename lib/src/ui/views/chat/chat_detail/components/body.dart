@@ -3,6 +3,7 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmode
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
+import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 
 import 'chat_input_field.dart';
 import 'message.dart';
@@ -14,7 +15,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return vm.busy
-        ? const CircularProgressIndicator()
+        ? const IsLoading()
         : Column(
             children: [
               vm.loadMoreBusy
