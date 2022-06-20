@@ -8,11 +8,11 @@ import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
@@ -25,20 +25,28 @@ class VoiceDetailViewModel extends BaseModel {
   bool isFull = false;
   VoiceRoomPresentation _voiceRoom = VoiceRoomPresentation(
       id: -1,
+      roomId: '',
       title: '',
       categories: [],
-      createdAt: '',
       type: VoiceRoomType.PUBLIC);
 
   List<MemberPresentation> _voiceRoomMembers = List.empty(growable: true);
   List<String> _recentTalkUserLoginIds = List.empty(growable: true);
-  List<ChatMessage> _chatMessages = List.empty(growable: true);
+  List<ChatMessage> _textChatMessages = List.empty(growable: true);
+  List<TextChatPresentation> _textChatMembers = List.empty(growable: true);
+  final ScrollController _scrollController = ScrollController();
+  final _focusNode = FocusNode();
   RtcEngine? _engine;
 
   String _ownerLoginId = ''; //방장 아이디
+  MediaQueryData? mediaQueryData;
 
   VoiceRoomPresentation get voiceRoom => _voiceRoom;
   List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
+  List<ChatMessage> get textChatMessages => _textChatMessages;
+  List<TextChatPresentation> get textChatMembers => _textChatMembers;
+  ScrollController get textChatScrollController => _scrollController;
+  FocusNode get focusNode => _focusNode;
 
   ///init
   voiceDetailInit(
@@ -61,8 +69,8 @@ class VoiceDetailViewModel extends BaseModel {
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
     unsubscribeFn = StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
-    //local db
-    saveExistingUsersDB(voiceRoom.memberInfos!);
+
+    saveExistingUsers(voiceRoom.memberInfos!);
     setBusy(false);
   }
 
@@ -131,6 +139,7 @@ class VoiceDetailViewModel extends BaseModel {
   }
 
   Future<void> leaveChannel() async {
+    saveRecentTalkUsersDB();
     await _engine!.leaveChannel();
     print("leave channel");
     _voiceRoomMembers.clear();
@@ -141,6 +150,7 @@ class VoiceDetailViewModel extends BaseModel {
     print('presentVoiceRoom 시작');
     _voiceRoom = VoiceRoomPresentation(
         id: voiceRoom.id,
+        roomId: voiceRoom.roomId!,
         title: voiceRoom.title ?? '제목 오류',
         categories: categoryDummy[Random().nextInt(2)]
             .map((category) =>
@@ -148,24 +158,36 @@ class VoiceDetailViewModel extends BaseModel {
                 " " +
                 CategoryData.korNameOf(category.name))
             .toList(),
-        createdAt: dateToPastTime(DateTime(2022, 2, 3)),
         type: VoiceRoomType.PUBLIC);
 
     //이미 존재하고 있는 멤버 정보 매핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
     _ownerLoginId = voiceRoom.ownerLoginId!;
-    _voiceRoomMembers.addAll(voiceRoom.memberInfos!.map(
-      (memberInfo) => MemberPresentation(
-          uid: memberInfo.id ?? -1,
-          loginId: memberInfo.loginId,
-          nickname: memberInfo.loginId == AuthService.loginId
-              ? memberInfo.nickname + '(나)'
-              : memberInfo.nickname,
-          imageUrl: memberInfo.imageUrl.isNotEmpty
-              ? memberInfo.imageUrl
-              : 'assets/images/user/general_user.png',
-          isSpeaking: false,
-          isHost: memberInfo.loginId == _ownerLoginId ? true : false),
-    ));
+    _voiceRoomMembers = voiceRoom.memberInfos!
+        .map((memberInfo) => MemberPresentation(
+            uid: memberInfo.id ?? -1,
+            loginId: memberInfo.loginId,
+            nickname: memberInfo.loginId == AuthService.loginId
+                ? memberInfo.nickname + '(나)'
+                : memberInfo.nickname,
+            imageUrl: memberInfo.imageUrl.isNotEmpty
+                ? memberInfo.imageUrl
+                : 'assets/images/user/general_user.png',
+            isSpeaking: false,
+            isHost: memberInfo.loginId == _ownerLoginId ? true : false))
+        .toList();
+
+    //textChat에 쓰기 위해 따로 저장
+    _textChatMembers = voiceRoom.memberInfos!
+        .map((memberInfo) => TextChatPresentation(
+              loginId: memberInfo.loginId,
+              nickname: memberInfo.loginId == AuthService.loginId
+                  ? memberInfo.nickname + '(나)'
+                  : memberInfo.nickname,
+              imageUrl: memberInfo.imageUrl.isNotEmpty
+                  ? memberInfo.imageUrl
+                  : 'assets/images/user/general_user.png',
+            ))
+        .toList();
   }
 
   //stomp_object의 subscribeVoiceRoomChat안에서 쓴다. 새로운 멤버가 들어오면 그 멤버의 정보를 맵핑해주고 멤버리스트에 추가
@@ -179,54 +201,71 @@ class VoiceDetailViewModel extends BaseModel {
             : 'assets/images/user/general_user.png',
         isSpeaking: false,
         isHost: false));
-    //local db
-    saveAddUserDB(chatMemberInfo);
+
+    _textChatMembers.add(TextChatPresentation(
+      loginId: chatMemberInfo.loginId,
+      nickname: chatMemberInfo.nickname,
+      imageUrl: chatMemberInfo.imageUrl.isNotEmpty
+          ? chatMemberInfo.imageUrl
+          : 'assets/images/user/general_user.png',
+    ));
+    saveAddedUser(chatMemberInfo.loginId);
     notifyListeners();
   }
 
-  //db에 이미 존재하는 사람들 저장
-  Future<void> saveExistingUsersDB(List<ChatMemberInfo> chatMemberInfos) async {
-    _recentTalkUserLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+  void saveExistingUsers(List<ChatMemberInfo> chatMemberInfos) {
     for (ChatMemberInfo chatMemberInfo in chatMemberInfos) {
       //본인은 저장하지 않음
       if (chatMemberInfo.loginId != AuthService.loginId) {
-        //이미 존재하는 유저면 remove 후 다시 add
-        if (_recentTalkUserLoginIds.contains(chatMemberInfo.loginId)) {
-          _recentTalkUserLoginIds.remove(chatMemberInfo.loginId);
-          _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
-        }
-        //본인도 아니고 db에 없는 유저 add
-        else {
-          _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
-        }
+        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
       }
     }
-    PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
   }
 
-  //새롭게 들어오는 한사람의 정보 db에 저장
-  Future<void> saveAddUserDB(ChatMemberInfo chatMemberInfo) async {
-    _recentTalkUserLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
-
-    //본인은 저장하지 않음
-    if (chatMemberInfo.loginId != AuthService.loginId) {
-      //이미 존재하는 유저면 remove 후 다시 add
-      if (_recentTalkUserLoginIds.contains(chatMemberInfo.loginId)) {
-        _recentTalkUserLoginIds.remove(chatMemberInfo.loginId);
-        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
-      }
-      //본인도 아니고 db에 없는 유저 add
-      else {
-        _recentTalkUserLoginIds.add(chatMemberInfo.loginId);
+  void saveAddedUser(String loginId) {
+    for (String existLoginId in _recentTalkUserLoginIds) {
+      if (existLoginId == loginId) {
+        _recentTalkUserLoginIds.remove(loginId);
       }
     }
-    PrefsObject.setRecentTalkUsers(_recentTalkUserLoginIds);
+    _recentTalkUserLoginIds.add(loginId);
+  }
+
+  //loacl db에 저장
+  Future<void> saveRecentTalkUsersDB() async {
+    List<String> _savedLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+    for (String loginId in _recentTalkUserLoginIds) {
+      if (_savedLoginIds.contains(loginId)) {
+        _savedLoginIds.remove(loginId);
+      }
+    }
+    _savedLoginIds.addAll(_recentTalkUserLoginIds);
+    PrefsObject.setRecentTalkUsers(_savedLoginIds);
+  }
+
+  Future<void> addTextChatMessage(ChatMessage chatMessage) async {
+    /// 실시간 오는 메세지
+    setBusy(true);
+    _textChatMessages.insert(0, chatMessage);
+    _focusNode.unfocus();
+    scrollToEnd();
+    print("fromfriendProfile: 실시간 메세지 더하기 완료");
+    setBusy(false);
   }
 
   void removeChatMemberInfo(String exitMemberLoginId) {
     _voiceRoomMembers
         .removeWhere((member) => member.loginId == exitMemberLoginId);
     notifyListeners();
+  }
+
+  void scrollToEnd() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      //리스트 뷰를 reverse로 그리고 있기 때문에 제일 처음 위치로 스크롤을 떙겨야함.
+      _scrollController.animateTo(_scrollController.position.minScrollExtent,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.fastOutSlowIn);
+    });
   }
 
   void setVoiceFilter1() {
@@ -262,16 +301,16 @@ class VoiceDetailViewModel extends BaseModel {
 
 class VoiceRoomPresentation {
   final int id;
+  final String roomId;
   final String title;
   final List<dynamic> categories; //일단은 뷰모델에서 지정해두자. 서버에서는 아직 안넘어옴
-  String createdAt; //얘도 서버에서 아직 안넘어옴
   VoiceRoomType type;
 
   VoiceRoomPresentation(
       {required this.id,
+      required this.roomId,
       required this.title,
       required this.categories,
-      required this.createdAt,
       required this.type});
 }
 
@@ -292,4 +331,10 @@ class MemberPresentation {
       required this.isHost});
 }
 
-class TextChatPresentation {}
+class TextChatPresentation {
+  String loginId;
+  String nickname;
+  String imageUrl;
+  TextChatPresentation(
+      {required this.loginId, required this.nickname, required this.imageUrl});
+}

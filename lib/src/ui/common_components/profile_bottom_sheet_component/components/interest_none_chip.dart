@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
-import 'package:zamongcampus/src/config/size_config.dart';
 
 class InterestNoneChip extends StatelessWidget {
   final InterestPresentation interest;
@@ -12,12 +12,12 @@ class InterestNoneChip extends StatelessWidget {
     return Chip(
       label: Text(interest.title),
       labelStyle: TextStyle(
-        fontSize: getProportionateScreenWidth(12),
+        fontSize: kInterestTextFontSize,
         color: Colors.black.withOpacity(0.4),
         fontWeight: FontWeight.w500,
       ),
-      backgroundColor: screenBackgroundColor,
-      side: const BorderSide(color: screenBackgroundColor, width: 1.2),
+      backgroundColor: kTextFieldColor,
+      side: const BorderSide(color: kTextFieldColor, width: 1.2),
     );
   }
 }

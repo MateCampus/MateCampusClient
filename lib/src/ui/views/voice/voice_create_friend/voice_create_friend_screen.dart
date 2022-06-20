@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -51,13 +52,13 @@ class _VoiceCreateFriendScreenState extends State<VoiceCreateFriendScreen> {
                         indicatorColor: args.color,
                         indicatorSize: TabBarIndicatorSize.label,
                         labelColor: Colors.black,
-                        labelStyle: const TextStyle(
-                          fontSize: 15,
+                        labelStyle: TextStyle(
+                          fontSize: kTabbarTextFontSize,
                           fontWeight: FontWeight.bold,
                         ),
                         unselectedLabelColor: const Color(0xff7f7f7f),
-                        unselectedLabelStyle: const TextStyle(
-                          fontSize: 15,
+                        unselectedLabelStyle: TextStyle(
+                          fontSize: kTabbarTextFontSize,
                         ),
                         tabs: [
                           SizedBox(

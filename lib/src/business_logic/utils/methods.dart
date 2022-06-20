@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/custom_alert_dialog.dart';
+import 'package:zamongcampus/src/ui/common_components/show_original_image_component/show_original_image.dart';
 import 'package:zamongcampus/src/ui/common_widgets/custom_dialog_for_notice.dart';
 
 // snackbar => 해결 필요.
@@ -37,16 +38,20 @@ void backWithToast(message, BuildContext context) {
   toastMessage(message);
 }
 
-void showCustomModalBottomSheet(BuildContext context, Widget widget) {
+void showCustomModalBottomSheet(
+    {required BuildContext context,
+    required Widget buildWidget,
+    Color? barrierColor}) {
   showModalBottomSheet(
       backgroundColor: Colors.transparent,
+      barrierColor: barrierColor ?? Colors.black54,
       context: context,
       isScrollControlled: true,
       //isDismissible: isScrollControlled,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) {
-        return widget;
+        return buildWidget;
       });
 }
 
@@ -63,7 +68,7 @@ void buildShowDialogForLoading(
       builder: (BuildContext context) {
         return Center(
           child: SpinKitFadingCube(
-            color: mainColor,
+            color: kMainColor,
             size: getProportionateScreenHeight(25),
           ),
         );
@@ -89,7 +94,7 @@ void buildDialogForNotice(
 /// 확인에 대한 text와 onpress는 변수로 둠.
 void buildCustomAlertDialog({
   required BuildContext context,
-  required String contentText,
+  required Widget contentWidget,
   required GestureTapCallback press,
   required String btnText,
   Widget? titleWidget,
@@ -100,9 +105,23 @@ void buildCustomAlertDialog({
       builder: (BuildContext context) {
         return CustomAlertDialog(
           titleWidget: titleWidget,
-          contentText: contentText,
+          contentWidget: contentWidget,
           btnText: btnText,
           press: press,
         );
       });
+}
+
+void showOriginalProfileImage(BuildContext context, String imageUrl) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => ShowOriginalImage(
+        imageUrl: imageUrl,
+        backgroundDecoration: const BoxDecoration(
+          color: Colors.black,
+        ),
+      ),
+    ),
+  );
 }

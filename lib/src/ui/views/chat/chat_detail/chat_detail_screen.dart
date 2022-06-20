@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
@@ -46,7 +47,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<ChatDetailViewModel>(builder: (context, vm, child) {
@@ -56,7 +56,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             },
             behavior: HitTestBehavior.translucent,
             child: Scaffold(
-              extendBodyBehindAppBar: true,
               appBar: SubAppbar(
                 titleText: vm.chatRoom.title,
                 isCenter: true,
@@ -64,14 +63,14 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                 actions: [
                   IconButton(
                     icon: const Icon(CupertinoIcons.ellipsis),
-                    iconSize: getProportionateScreenHeight(20),
+                    iconSize: kAppBarIconSizeCP,
                     color: Colors.black,
                     onPressed: () {},
                   ),
                 ],
               ),
               backgroundColor: const Color(0xfffff8f3),
-              body: Body(vm: vm),
+              body: SafeArea(child: Body(vm: vm)),
             ),
           );
         }));

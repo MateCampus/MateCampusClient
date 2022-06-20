@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -43,7 +44,7 @@ class VoiceRoomListTile extends StatelessWidget {
                         category + "  ",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: kInterestTextFontSize),
                       ))
                 ],
               ),
@@ -52,8 +53,8 @@ class VoiceRoomListTile extends StatelessWidget {
                 voiceRoom.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                style: TextStyle(
+                    fontWeight: FontWeight.w700, fontSize: resizeFont(15)),
               ),
               const VerticalSpacing(of: 10),
               Row(
@@ -73,7 +74,6 @@ class VoiceRoomListTile extends StatelessWidget {
                                         as ImageProvider
                                     : AssetImage(imageUrl))),
                       )),
-                  const HorizontalSpacing(of: 10),
                 ],
               ),
             ],

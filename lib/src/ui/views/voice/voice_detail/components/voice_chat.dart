@@ -18,11 +18,11 @@ class _VoiceChatState extends State<VoiceChat> {
       width: SizeConfig.screenWidth,
       padding: EdgeInsets.symmetric(
           horizontal: getProportionateScreenWidth(20),
-          vertical: getProportionateScreenHeight(25)),
+          vertical: getProportionateScreenHeight(15)),
       child: Wrap(
         alignment: WrapAlignment.start,
         spacing: getProportionateScreenWidth(23),
-        runSpacing: getProportionateScreenHeight(20),
+        runSpacing: getProportionateScreenHeight(10),
         children: [
           ...widget.vm.voiceRoomMembers.map(
               (member) => VoiceChatMemberChip(vm: widget.vm, member: member))

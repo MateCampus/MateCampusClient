@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class MainAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -22,14 +22,15 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
         '\t$titleText',
         style: TextStyle(
             fontFamily: 'Gmarket',
-            color: Colors.black,
+            color: kAppBarTextColor,
             fontSize: resizeFont(20),
-            fontWeight: FontWeight.w700),
+            letterSpacing: 2,
+            fontWeight: FontWeight.w500),
       ),
       actions: actions,
       bottom: bottom,
       elevation: 0,
-      backgroundColor: screenBackgroundColor,
+      backgroundColor: kMainScreenBackgroundColor,
     );
   }
 

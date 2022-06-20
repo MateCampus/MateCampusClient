@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -27,13 +27,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              offset: Offset(0, -getProportionateScreenHeight(5)),
-              blurRadius: 3,
-              blurStyle: BlurStyle.normal)
-        ],
+        boxShadow: [kDefaultShadowOnlyTop],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +42,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                   },
                   icon: Icon(
                     CupertinoIcons.photo,
-                    color: postColor,
+                    color: kPostBtnColor,
                     size: getProportionateScreenWidth(20),
                   ),
                   label: Text(
@@ -56,12 +50,12 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: getProportionateScreenWidth(13),
-                        color: postColor),
+                        color: kPostBtnColor),
                   )),
               IconButton(
                 icon: Icon(
                   CupertinoIcons.camera,
-                  color: postColor,
+                  color: kPostBtnColor,
                   size: getProportionateScreenWidth(20),
                 ),
                 onPressed: () {

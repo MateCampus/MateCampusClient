@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/commemt_deleted_msg.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
@@ -38,7 +39,7 @@ class NestedCommentListTile extends StatelessWidget {
               child: Container(
             padding: EdgeInsets.all(getProportionateScreenHeight(10)),
             decoration: BoxDecoration(
-                color: mainColor.withOpacity(0.06),
+                color: kMainColor.withOpacity(0.06),
                 borderRadius: const BorderRadius.all(Radius.circular(5))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +50,7 @@ class NestedCommentListTile extends StatelessWidget {
                         ? Text(
                             nestedComment.userNickname + '(작성자)',
                             style: TextStyle(
-                                color: mainColor,
+                                color: kMainColor,
                                 fontSize: getProportionateScreenHeight(13),
                                 fontWeight: FontWeight.bold),
                           )
@@ -65,7 +66,7 @@ class NestedCommentListTile extends StatelessWidget {
                       nestedComment.createdAt,
                       style: TextStyle(
                         fontSize: getProportionateScreenHeight(11),
-                        color: postColor,
+                        color: kPostBtnColor,
                       ),
                     ),
                     const HorizontalSpacing(of: 10),
@@ -95,7 +96,7 @@ class NestedCommentListTile extends StatelessWidget {
       onPressed: () {
         buildCustomAlertDialog(
             context: context,
-            contentText: '댓글을 삭제하시겠습니까?',
+            contentWidget: const CommentDeletedMsg(),
             btnText: '삭제',
             press: () {
               vm.deleteComment(context, nestedComment.id);
@@ -105,7 +106,7 @@ class NestedCommentListTile extends StatelessWidget {
         minimumSize: Size.zero,
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        primary: postColor,
+        primary: kPostBtnColor,
       ),
       child: Text(
         '삭제',
@@ -123,7 +124,7 @@ class NestedCommentListTile extends StatelessWidget {
         minimumSize: Size.zero,
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        primary: postColor,
+        primary: kPostBtnColor,
       ),
       child: Text(
         '신고',

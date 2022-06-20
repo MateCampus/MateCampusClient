@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_post/report_post_form.dart';
 import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/body.dart';
@@ -55,6 +58,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   IconButton(
                     icon: const Icon(CupertinoIcons.ellipsis),
                     color: Colors.black,
+                    iconSize: kAppBarIconSizeCP,
                     onPressed: () {
                       _removeReportPost();
                     },
@@ -80,7 +84,10 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             ? BottomSheetAction(
                 title: Text(
                   '삭제하기',
-                  style: TextStyle(fontSize: getProportionateScreenHeight(18)),
+                  style: TextStyle(
+                    fontSize: resizeFont(15.0),
+                    color: Colors.black87,
+                  ),
                 ),
                 onPressed: () {
                   vm.deletePost(context, vm.postDetail.id);
@@ -89,13 +96,27 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             : BottomSheetAction(
                 title: Text(
                   '신고하기',
-                  style: TextStyle(fontSize: getProportionateScreenHeight(18)),
+                  style: TextStyle(
+                    fontSize: resizeFont(15.0),
+                    color: Colors.black87,
+                  ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                  buildCustomAlertDialog(
+                      context: context,
+                      contentWidget: ReportPostForm(vm: vm),
+                      press: () {},
+                      btnText: '신고');
+                },
               ),
       ],
       cancelAction: CancelAction(
-          title: const Text('취소'),
+          title: Text(
+            '취소',
+            style: TextStyle(
+                fontSize: resizeFont(16.0), fontWeight: FontWeight.w500),
+          ),
           onPressed: () {
             Navigator.pop(context);
           }),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class DefaultBtn extends StatelessWidget {
@@ -33,10 +33,10 @@ class DefaultBtn extends StatelessWidget {
           primary: textColor ?? Colors.white,
           minimumSize: Size(width ?? getProportionateScreenWidth(335),
               height ?? getProportionateScreenHeight(56)),
-          backgroundColor: btnColor ?? mainColor,
+          backgroundColor: btnColor ?? kMainColor,
           side: (borderColor != null) ? BorderSide(color: borderColor!) : null,
           textStyle: TextStyle(
-              fontSize: fontsize ?? getProportionateScreenHeight(14.0),
+              fontSize: fontsize ?? resizeFont(14.0),
               fontWeight: FontWeight.bold)),
     );
   }

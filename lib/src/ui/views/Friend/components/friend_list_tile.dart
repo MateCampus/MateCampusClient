@@ -21,13 +21,15 @@ class FriendListTile extends StatelessWidget {
       child: InkWell(
         onTap: () {
           showCustomModalBottomSheet(
-              context, ProfileBottomSheet(friendId: friend.id));
+              context: context,
+              buildWidget: ProfileBottomSheet(friendId: friend.id));
         },
         child: ListTile(
             contentPadding: const EdgeInsets.all(0),
             leading: Stack(
               children: [
                 CircleAvatar(
+                  backgroundColor: Colors.grey,
                   radius: getProportionateScreenHeight(27),
                   backgroundImage: friend.imageUrl.startsWith('https')
                       ? CachedNetworkImageProvider(friend.imageUrl)

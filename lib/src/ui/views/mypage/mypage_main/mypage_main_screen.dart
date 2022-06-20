@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -40,20 +40,19 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/settings');
                   },
-                  icon: Icon(
-                    Icons.settings_outlined,
-                    size: getProportionateScreenWidth(25),
-                  ),
-                  color: Colors.black,
+                  icon: const Icon(Icons.settings_outlined),
+                  iconSize: kAppBarIconSizeG,
+                  color: kAppBarIconColor,
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: const Icon(FontAwesomeIcons.bell),
-                  color: Colors.black,
+                  iconSize: kAppBarIconSizeFA,
+                  color: kAppBarIconColor,
                 ),
               ],
             ),
-            backgroundColor: screenBackgroundColor,
+            backgroundColor: kMainScreenBackgroundColor,
             body: vm.busy ? const IsLoading() : Body(vm: vm));
       }),
     );

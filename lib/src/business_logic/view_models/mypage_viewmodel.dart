@@ -167,6 +167,7 @@ class MypageViewModel extends BaseModel {
   }
 
   void updateMyInfo({required BuildContext context}) async {
+    buildShowDialogForLoading(context: context);
     User updatedUserResult = await _userService.updateMyInfo(
         nickname: _changedNickname,
         introduction: _changedIntroduction,
@@ -181,7 +182,7 @@ class MypageViewModel extends BaseModel {
     _isValidIntroduction = false;
     _changedProfileImgPath = '';
     notifyListeners();
-    Navigator.pop(context);
+    Navigator.popUntil(context, ModalRoute.withName('/'));
     toastMessage('프로필 변경 완료!');
   }
 

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -45,12 +46,14 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
                   centerTitle: false,
                   actions: [
                     IconButton(
-                        onPressed: () {},
-                        icon: const Icon(FontAwesomeIcons.bell))
+                      onPressed: () {},
+                      icon: const Icon(FontAwesomeIcons.bell),
+                      iconSize: kAppBarIconSizeFA,
+                    )
                   ],
-                  backgroundColor: mainColor,
+                  backgroundColor: kMainColor,
                   elevation: 0.0),
-              backgroundColor: screenBackgroundColor,
+              backgroundColor: kMainScreenBackgroundColor,
               body: Body(vm: vm));
         }));
   }

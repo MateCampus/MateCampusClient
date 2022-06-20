@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -18,7 +18,7 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(15),
+          horizontal: getProportionateScreenWidth(10),
           vertical: getProportionateScreenHeight(5)),
       child: (message.type == "ENTER" || message.text == "EXIT") //얘는 뭔지 모르겟다
           ? Container(
@@ -44,6 +44,7 @@ class Message extends StatelessWidget {
                     padding:
                         EdgeInsets.only(top: getProportionateScreenHeight(3)),
                     child: CircleAvatar(
+                      backgroundColor: Colors.grey,
                       radius: getProportionateScreenWidth(17),
                       backgroundImage:
                           // TODO: aws 적용 부분
@@ -53,8 +54,7 @@ class Message extends StatelessWidget {
                               ? CachedNetworkImageProvider(
                                       loginIdToImageUrl(message.loginId))
                                   as ImageProvider
-                              : const AssetImage(
-                                  'assets/images/user/general_user.png'),
+                              : AssetImage(loginIdToImageUrl(message.loginId)),
                     ),
                   ),
                   const HorizontalSpacing(of: 8),
@@ -69,7 +69,7 @@ class Message extends StatelessWidget {
                           // ** nickname으로 변경한 부분
                           loginIdToNickname(message.loginId),
                           style: TextStyle(
-                              fontSize: getProportionateScreenWidth(12),
+                              fontSize: resizeFont(12),
                               color: Colors.grey[800],
                               fontWeight: FontWeight.w500),
                         ),
@@ -84,7 +84,7 @@ class Message extends StatelessWidget {
                                   horizontal: getProportionateScreenWidth(10),
                                   vertical: getProportionateScreenHeight(8)),
                               decoration: const BoxDecoration(
-                                color: mainColor, //컬러바꾸기
+                                color: kMainColor, //컬러바꾸기
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
@@ -94,15 +94,14 @@ class Message extends StatelessWidget {
                                 message.text,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: getProportionateScreenWidth(15),
+                                    fontSize: resizeFont(14),
                                     height: 1.2),
                               )),
                           const HorizontalSpacing(of: 5),
                           Text(
                             dateToTime(message.createdAt),
                             style: TextStyle(
-                                fontSize: getProportionateScreenWidth(11),
-                                color: Colors.grey),
+                                fontSize: resizeFont(11), color: Colors.grey),
                           ),
                         ],
                       ),
@@ -113,9 +112,8 @@ class Message extends StatelessWidget {
                   //내 메세지
                   Text(
                     dateToTime(message.createdAt),
-                    style: TextStyle(
-                        fontSize: getProportionateScreenWidth(11),
-                        color: Colors.grey),
+                    style:
+                        TextStyle(fontSize: resizeFont(11), color: Colors.grey),
                   ),
                   const HorizontalSpacing(of: 5),
                   Container(
@@ -131,10 +129,10 @@ class Message extends StatelessWidget {
                             topRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10))),
                     child: Text(
-                      this.message.text,
+                      message.text,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: getProportionateScreenWidth(15),
+                          fontSize: resizeFont(14),
                           height: 1.2),
                     ),
                   )

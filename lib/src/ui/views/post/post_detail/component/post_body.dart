@@ -32,9 +32,12 @@ class PostBody extends StatelessWidget {
                 : EdgeInsets.symmetric(
                     vertical: getProportionateScreenHeight(15),
                     horizontal: getProportionateScreenWidth(5)),
-            child: Text(
-              vm.postDetail.body,
-              style: kPostBodyStyle,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                vm.postDetail.body,
+                style: kPostBodyStyle,
+              ),
             ),
           ),
           vm.postDetail.imageUrls.isEmpty

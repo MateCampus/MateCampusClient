@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      vm.initData(context);
+      vm.initData();
     });
 
     super.initState();
@@ -33,7 +33,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
         value: vm,
         child: Consumer<PostMainScreenViewModel>(builder: (context, vm, child) {
           return Scaffold(
-              backgroundColor: screenBackgroundColor,
+              backgroundColor: kMainScreenBackgroundColor,
               body: SafeArea(child: Body(vm: vm)));
         }));
   }

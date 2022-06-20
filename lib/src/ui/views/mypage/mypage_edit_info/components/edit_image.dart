@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -22,6 +22,7 @@ class _EditImageState extends State<EditImage> {
       child: Stack(
         children: [
           CircleAvatar(
+              backgroundColor: Colors.grey,
               radius: getProportionateScreenHeight(50),
               backgroundImage: (widget.vm.changedProfileImgPath.isEmpty)
                   ? widget.vm.myInfo.imageUrl.startsWith('https')
@@ -43,7 +44,7 @@ class _EditImageState extends State<EditImage> {
                   width: getProportionateScreenWidth(30),
                   height: getProportionateScreenHeight(30),
                   decoration: BoxDecoration(
-                    color: mainColor,
+                    color: kMainColor,
                     shape: BoxShape.circle,
                     border: Border.all(
                         color: Colors.white,

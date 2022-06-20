@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
-import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class TitleInput extends StatefulWidget {
@@ -34,13 +33,14 @@ class _TitleInputState extends State<TitleInput> {
       children: [
         Text(
           '대화방 정보',
-          style: TextStyle(fontSize: kLabel, color: Colors.black87),
+          style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
         ),
         const VerticalSpacing(of: 10),
         TextFormField(
           //autofocus: true,
           keyboardType: TextInputType.multiline,
-          style: TextStyle(fontSize: kTextFieldInner),
+          textInputAction: TextInputAction.done,
+          style: TextStyle(fontSize: kTextFieldInnerFontSize),
           controller: widget.vm.titleController,
           maxLines: 1,
           autovalidateMode:
@@ -49,11 +49,11 @@ class _TitleInputState extends State<TitleInput> {
           autocorrect: false,
           decoration: InputDecoration(
             hintText: "어떤 얘기를 나눠볼까요?",
-            hintStyle:
-                TextStyle(color: Color(0xFFADADAD), fontSize: kTextFieldInner),
-            fillColor: screenBackgroundColor,
+            hintStyle: TextStyle(
+                color: Color(0xFFADADAD), fontSize: kTextFieldInnerFontSize),
+            fillColor: kTextFieldColor,
             filled: true,
-            border: OutlineInputBorder(
+            border: const OutlineInputBorder(
                 borderSide: BorderSide.none,
                 borderRadius: BorderRadius.all(Radius.circular(5))),
           ),

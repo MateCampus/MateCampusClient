@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -84,12 +84,12 @@ class PostDetailScreenViewModel extends BaseModel {
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    createdAt: dateToPastTime(
+                    createdAt: dateToTimeEng(
                         nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children))
                 .toList(),
             createdAt:
-                dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05))))
+                dateToTimeEng(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
 
     _postDetail = PostDetailPresentation(
@@ -106,7 +106,7 @@ class PostDetailScreenViewModel extends BaseModel {
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
       body: postDetailResult.body,
-      createdAt: dateToPastTime(postDetailResult.createdAt),
+      createdAt: dateToTimeEng(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.commentCount.toString(),
       imageUrls: postDetailResult.imageUrls,
@@ -308,7 +308,7 @@ class PostDetailScreenViewModel extends BaseModel {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(25)),
                 decoration: const BoxDecoration(
-                  color: mainColor,
+                  color: kMainColor,
                 ),
                 child: Row(
                   children: [

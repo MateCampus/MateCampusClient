@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 
@@ -19,8 +19,8 @@ class SignUp extends StatelessWidget {
               '/signUpAccount', ModalRoute.withName('/login'));
         },
         btnColor: Colors.white,
-        textColor: mainColor,
-        borderColor: mainColor,
+        textColor: kMainColor,
+        borderColor: kMainColor,
       ),
     );
   }

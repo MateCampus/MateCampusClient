@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
@@ -51,7 +51,7 @@ class DeletedCommentListTile extends StatelessWidget {
                     : const SizedBox()
               ],
             )),
-        const HorizontalDividerCustom(color: screenBackgroundColor)
+        const HorizontalDividerCustom(color: kMainScreenBackgroundColor)
       ],
     );
   }

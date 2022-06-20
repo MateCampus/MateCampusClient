@@ -1,9 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class ChatTile extends StatefulWidget {
@@ -39,13 +38,7 @@ class _ChatTileState extends State<ChatTile> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                blurRadius: 3,
-                spreadRadius: 1,
-              )
-            ],
+            boxShadow: [kShadowForTile],
           ),
           child: ListTile(
               onTap: widget.onClicked,
@@ -54,6 +47,7 @@ class _ChatTileState extends State<ChatTile> {
                   vertical: getProportionateScreenHeight(5)),
               minVerticalPadding: 0,
               leading: CircleAvatar(
+                backgroundColor: Colors.grey,
                 radius: getProportionateScreenWidth(25),
                 // TODO: aws 이미지 403이면 일반 이미지 보여주도록 구현해야함.
                 // backgroundImage: widget.chatRoom.image.image ??
@@ -103,7 +97,7 @@ class _ChatTileState extends State<ChatTile> {
                               width: getProportionateScreenHeight(20),
                               height: getProportionateScreenWidth(20),
                               decoration: const BoxDecoration(
-                                  shape: BoxShape.circle, color: mainColor),
+                                  shape: BoxShape.circle, color: kMainColor),
                               child: Center(
                                 child: Text(
                                   widget.chatRoom.unreadCount.toString(),

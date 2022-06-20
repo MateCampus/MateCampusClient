@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class SelectedInterestChip extends StatelessWidget {
@@ -16,7 +16,7 @@ class SelectedInterestChip extends StatelessWidget {
         decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-                color: mainColor, width: 2.5, style: BorderStyle.solid)),
+                color: kMainColor, width: 2.5, style: BorderStyle.solid)),
         child: Center(
           child: Text(
             icon,
@@ -32,7 +32,7 @@ class SelectedInterestChip extends StatelessWidget {
                 shape: BoxShape.circle, color: Colors.white),
             child: Icon(
               Icons.check_circle,
-              color: mainColor,
+              color: kMainColor,
               size: getProportionateScreenHeight(20),
             )),
       )

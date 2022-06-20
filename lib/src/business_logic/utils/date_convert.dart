@@ -77,7 +77,23 @@ String dateToTime(DateTime time) {
   }
 }
 
+// time ex. 2:05 PM
+String dateToTimeEng(DateTime time) {
+  String minute =
+      time.minute < 10 ? "0" + time.minute.toString() : time.minute.toString();
+  if (time.hour > 13) {
+    return (time.hour - 12).toString() + ":" + minute + " PM";
+  } else {
+    return (time.hour).toString() + ":" + minute + " AM";
+  }
+}
+
 String dateToYearMonthDay(DateTime time) {
   String formDate = DateFormat('yyyy.MM.dd').format(time);
   return formDate;
 }
+
+// String dateToCreateAt(DateTime createTime) {
+//   DateTime now = DateTime.now();
+//   if ( > 10) ;
+// }

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
@@ -81,7 +81,7 @@ gotoSignUp(BuildContext context) {
               style: TextStyle(
                   fontSize: getProportionateScreenWidth(14),
                   decoration: TextDecoration.underline,
-                  color: mainColor),
+                  color: kMainColor),
             ))
       ],
     ),

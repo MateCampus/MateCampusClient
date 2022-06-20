@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -40,14 +40,15 @@ class _UserIntroduceInputState extends State<UserIntroduceInput> {
                 vertical: getProportionateScreenHeight(10)),
             child: TextFormField(
               keyboardType: TextInputType.multiline,
-              style: TextStyle(fontSize: kTextFieldInner),
+              style: TextStyle(fontSize: kTextFieldInnerFontSize),
               controller: widget.vm.userIntroduceController,
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: "본인을 자유롭게 표현해주세요",
                 hintStyle: TextStyle(
-                    color: Color(0xFFADADAD), fontSize: kTextFieldInner),
-                fillColor: screenBackgroundColor,
+                    color: Color(0xFFADADAD),
+                    fontSize: kTextFieldInnerFontSize),
+                fillColor: kTextFieldColor,
                 filled: true,
                 contentPadding:
                     EdgeInsets.all(getProportionateScreenHeight(10)),

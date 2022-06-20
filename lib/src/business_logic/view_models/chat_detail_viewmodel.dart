@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
-import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
@@ -42,6 +41,7 @@ class ChatDetailViewModel extends BaseModel {
     await changeUnreadCount(chatRoom.roomId);
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     chatvm.changeInsideRoomId(chatRoom.roomId);
+    changeScrollToLowest();
     setBusy(false);
     print('chatDetailInit 끝');
   }
@@ -101,12 +101,14 @@ class ChatDetailViewModel extends BaseModel {
     scrollController.addListener(_onScrollEvent);
   }
 
+//listview가 reverse여서 scroll도 반대로 생각해줘야함
   void _onScrollEvent() {
     if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+        scrollController.position.minScrollExtent) {
       print("위 도착 load morez");
       loadMoreChatMessages();
-    } else if (scrollController.position.pixels == 0) {
+    } else if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       print("아래 도착");
     } else {}
   }
@@ -114,7 +116,7 @@ class ChatDetailViewModel extends BaseModel {
   void changeScrollToLowest() {
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       scrollController.animateTo(
-        0,
+        scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 50),
         curve: Curves.easeOut,
       );

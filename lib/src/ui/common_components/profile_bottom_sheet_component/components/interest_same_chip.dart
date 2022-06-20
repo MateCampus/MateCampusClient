@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -13,19 +14,19 @@ class InterestSameChip extends StatelessWidget {
       Chip(
         label: Text(interest.title),
         labelStyle: TextStyle(
-          fontSize: getProportionateScreenWidth(12),
+          fontSize: kInterestTextFontSize,
           color: Colors.black,
           fontWeight: FontWeight.w500,
         ),
         backgroundColor: Colors.white,
-        side: const BorderSide(color: mainColor, width: 1.2),
+        side: const BorderSide(color: kMainColor, width: 1.2),
       ),
       Container(
           decoration:
               const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
           child: Icon(
             Icons.check_circle,
-            color: mainColor,
+            color: kMainColor,
             size: getProportionateScreenHeight(16),
           ))
     ]);

@@ -12,6 +12,7 @@ class CommentList extends StatelessWidget {
     return ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
+        padding: EdgeInsets.zero,
         itemCount: vm.comments.length,
         itemBuilder: (BuildContext context, int index) {
           if (vm.comments[index].deleted) {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -28,7 +29,7 @@ class _PostBtnsState extends State<PostBtns> {
                 ? Icon(
                     CupertinoIcons.heart_fill,
                     size: getProportionateScreenWidth(20),
-                    color: mainColor,
+                    color: kMainColor,
                   )
                 : Icon(
                     CupertinoIcons.heart,
@@ -44,7 +45,7 @@ class _PostBtnsState extends State<PostBtns> {
             ),
           ),
           TextButton.icon(
-            onPressed: () {},
+            onPressed: null,
             icon: Icon(
               CupertinoIcons.bubble_left,
               size: getProportionateScreenWidth(20),

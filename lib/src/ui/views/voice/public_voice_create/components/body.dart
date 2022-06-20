@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_create_friend_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
@@ -28,9 +28,7 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TitleInput(vm: vm),
-                  const VerticalSpacing(of: 5),
-                  CheckOptions(vm: vm),
-                  const VerticalSpacing(of: 15),
+                  const VerticalSpacing(of: 10),
                   TagCategory(vm: vm),
                 ],
               ),
@@ -43,7 +41,7 @@ class Body extends StatelessWidget {
               text: '다음',
               press: () {
                 Navigator.pushNamed(context, "/voiceCreateFriend",
-                    arguments: VoiceCreateFriendScreenArgs(mainColor));
+                    arguments: VoiceCreateFriendScreenArgs(kMainColor));
               },
             ),
           ),

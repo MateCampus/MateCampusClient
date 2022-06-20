@@ -46,6 +46,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     // 중요!! 이것이 일반 detail과 다른점 (changeFromFriendProfile)
     // => subscribe에서 오는 실시간 메세지를 어떤 vm에 넣어야하는지 구분을 위함(ui)
     chatvm.changeFromFriendProfile(true);
+    changeScrollToLowest();
     setBusy(false);
     print('chatDetailInit 끝');
   }
@@ -117,7 +118,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   Future<void> addChatMessage(ChatMessage chatMessage) async {
     /// 실시간 오는 메세지
     setBusy(true);
-    chatMessages.insert(0, chatMessage);
+    _chatMessages.insert(0, chatMessage);
     changeScrollToLowest();
     print("fromfriendProfile: 실시간 메세지 더하기 완료");
     setBusy(false);
@@ -149,10 +150,11 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
 
   void _onScrollEvent() {
     if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+        scrollController.position.minScrollExtent) {
       print("위 도착 load morez");
       loadMoreChatMessages();
-    } else if (scrollController.position.pixels == 0) {
+    } else if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       print("아래 도착");
     } else {}
   }
@@ -160,7 +162,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   void changeScrollToLowest() {
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       scrollController.animateTo(
-        0,
+        scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 50),
         curve: Curves.easeOut,
       );

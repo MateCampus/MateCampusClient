@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
@@ -45,7 +45,7 @@ class _EditTextState extends State<EditText> {
           children: [
             Text(
               '내 소개',
-              style: TextStyle(fontSize: kLabel, color: Colors.black87),
+              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -57,7 +57,7 @@ class _EditTextState extends State<EditText> {
                     child: TextFormField(
                       keyboardType: TextInputType.multiline,
                       autocorrect: false,
-                      style: TextStyle(fontSize: kTextFieldInner),
+                      style: TextStyle(fontSize: kTextFieldInnerFontSize),
                       controller: widget.vm.nicknameController,
                       maxLines: 1,
                       validator: (value) => widget.vm.nicknameValidator(value),
@@ -65,8 +65,8 @@ class _EditTextState extends State<EditText> {
                         hintText: "닉네임",
                         hintStyle: TextStyle(
                             color: Color(0xFFADADAD),
-                            fontSize: kTextFieldInner),
-                        fillColor: screenBackgroundColor,
+                            fontSize: kTextFieldInnerFontSize),
+                        fillColor: kTextFieldColor,
                         filled: true,
                         contentPadding:
                             EdgeInsets.all(getProportionateScreenHeight(10)),
@@ -100,14 +100,15 @@ class _EditTextState extends State<EditText> {
             ),
             TextFormField(
               keyboardType: TextInputType.multiline,
-              style: TextStyle(fontSize: kTextFieldInner),
+              style: TextStyle(fontSize: kTextFieldInnerFontSize),
               controller: widget.vm.introductionController,
               maxLines: 5,
               decoration: InputDecoration(
                 hintText: "본인을 자유롭게 표현해주세요",
                 hintStyle: TextStyle(
-                    color: Color(0xFFADADAD), fontSize: kTextFieldInner),
-                fillColor: screenBackgroundColor,
+                    color: Color(0xFFADADAD),
+                    fontSize: kTextFieldInnerFontSize),
+                fillColor: kTextFieldColor,
                 filled: true,
                 contentPadding:
                     EdgeInsets.all(getProportionateScreenHeight(10)),

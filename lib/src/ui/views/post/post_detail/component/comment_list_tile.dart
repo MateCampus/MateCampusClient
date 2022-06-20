@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/commemt_deleted_msg.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/deleted_nested_comment_list_tile.dart';
@@ -28,11 +29,11 @@ class CommentListTile extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    comment.loginId == AuthService.loginId
+                    comment.loginId == vm.postDetail.loginId
                         ? Text(
                             comment.userNickname + '(작성자)',
                             style: TextStyle(
-                                color: mainColor,
+                                color: kMainColor,
                                 fontSize: getProportionateScreenHeight(13),
                                 fontWeight: FontWeight.bold),
                           )
@@ -48,7 +49,7 @@ class CommentListTile extends StatelessWidget {
                       comment.createdAt,
                       style: TextStyle(
                         fontSize: getProportionateScreenHeight(11),
-                        color: postColor,
+                        color: kPostBtnColor,
                       ),
                     ),
                   ],
@@ -98,7 +99,7 @@ class CommentListTile extends StatelessWidget {
                     : const SizedBox(),
               ],
             )),
-        const HorizontalDividerCustom(color: screenBackgroundColor)
+        const HorizontalDividerCustom(color: kMainScreenBackgroundColor)
       ],
     );
   }
@@ -114,7 +115,7 @@ class CommentListTile extends StatelessWidget {
         minimumSize: Size.zero,
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        primary: postColor,
+        primary: kPostBtnColor,
       ),
       child: Text(
         '답글달기',
@@ -130,7 +131,7 @@ class CommentListTile extends StatelessWidget {
       onPressed: () {
         buildCustomAlertDialog(
             context: context,
-            contentText: '댓글을 삭제하시겠습니까?',
+            contentWidget: const CommentDeletedMsg(),
             btnText: '삭제',
             press: () {
               vm.deleteComment(context, comment.id);
@@ -140,7 +141,7 @@ class CommentListTile extends StatelessWidget {
         minimumSize: Size.zero,
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        primary: postColor,
+        primary: kPostBtnColor,
       ),
       child: Text(
         '삭제',
@@ -158,7 +159,7 @@ class CommentListTile extends StatelessWidget {
         minimumSize: Size.zero,
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        primary: postColor,
+        primary: kPostBtnColor,
       ),
       child: Text(
         '신고',
