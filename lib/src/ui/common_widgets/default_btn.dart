@@ -36,7 +36,7 @@ class DefaultBtn extends StatelessWidget {
           backgroundColor: btnColor ?? kMainColor,
           side: (borderColor != null) ? BorderSide(color: borderColor!) : null,
           textStyle: TextStyle(
-              fontSize: fontsize ?? getProportionateScreenHeight(14.0),
+              fontSize: fontsize ?? resizeFont(14.0),
               fontWeight: FontWeight.bold)),
     );
   }

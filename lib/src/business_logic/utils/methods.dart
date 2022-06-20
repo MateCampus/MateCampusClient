@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/custom_alert_dialog.dart';
 import 'package:zamongcampus/src/ui/common_components/show_original_image_component/show_original_image.dart';
@@ -95,7 +94,7 @@ void buildDialogForNotice(
 /// 확인에 대한 text와 onpress는 변수로 둠.
 void buildCustomAlertDialog({
   required BuildContext context,
-  required String contentText,
+  required Widget contentWidget,
   required GestureTapCallback press,
   required String btnText,
   Widget? titleWidget,
@@ -106,7 +105,7 @@ void buildCustomAlertDialog({
       builder: (BuildContext context) {
         return CustomAlertDialog(
           titleWidget: titleWidget,
-          contentText: contentText,
+          contentWidget: contentWidget,
           btnText: btnText,
           press: press,
         );

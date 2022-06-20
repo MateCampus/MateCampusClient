@@ -3,13 +3,13 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 class CustomAlertDialog extends StatelessWidget {
   Widget? titleWidget;
-  final String contentText;
+  final Widget contentWidget;
   final GestureTapCallback press;
   final String btnText;
   CustomAlertDialog(
       {Key? key,
       this.titleWidget,
-      required this.contentText,
+      required this.contentWidget,
       required this.press,
       required this.btnText})
       : super(key: key);
@@ -21,10 +21,7 @@ class CustomAlertDialog extends StatelessWidget {
       //타이틀 부분 ->아마 거의 안쓸거 같아서 ..
       title: titleWidget,
 
-      content: Text(
-        contentText,
-        style: TextStyle(fontSize: getProportionateScreenWidth(14)),
-      ),
+      content: contentWidget,
       actions: [
         _cancleBtn(context),
         _customBtn(context),

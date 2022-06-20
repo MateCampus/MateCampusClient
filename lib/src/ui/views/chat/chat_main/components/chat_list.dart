@@ -21,7 +21,7 @@ class ChatList extends StatelessWidget {
                 vertical: getProportionateScreenHeight(5)),
             child: Text(
               '채팅',
-              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
+              style: TextStyle(fontSize: resizeFont(12), color: Colors.black87),
             )),
         buildEmptyBox(),
         AnimatedList(
@@ -47,7 +47,10 @@ class ChatList extends StatelessWidget {
 
   Widget buildEmptyBox() {
     return vm.chatRooms.isEmpty
-        ? const CenterSentence(sentence: '친구와 대화를 시작해보세요!', verticalSpace: 0)
+        ? const CenterSentence(
+            sentence: '친구와 대화를 시작해보세요!',
+            topSpace: 10,
+          )
         : Container();
   }
 }

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
@@ -32,26 +34,38 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
                       ? const CenterSentence(
                           sentence:
                               "추천 상대가 존재하지 않습니다.", //추후 대화방 최신순 정렬으로 보여주게끔 바꾸기
-                          verticalSpace: 50,
                         )
                       : Expanded(child: RecommendUserList(vm: vm)),
             ],
           ),
         ),
-        Container(
-            alignment: Alignment.topLeft,
-            margin: EdgeInsets.fromLTRB(
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(20),
-                getProportionateScreenWidth(20),
-                getProportionateScreenHeight(10)),
-            child: Text(
-              'NOW\u{1F34A}',
-              style: TextStyle(
-                  fontFamily: 'Gmarket',
-                  fontSize: getProportionateScreenWidth(18),
-                  fontWeight: FontWeight.w700),
-            ))
+        const Spacer(),
+        Padding(
+          padding: EdgeInsets.only(
+              left: getProportionateScreenWidth(20),
+              right: getProportionateScreenWidth(5),
+              bottom: getProportionateScreenHeight(5)),
+          child: Row(
+            children: [
+              Text(
+                'NOW\u{1F34A}',
+                style: TextStyle(
+                    fontFamily: 'Gmarket',
+                    fontSize: getProportionateScreenWidth(18),
+                    fontWeight: FontWeight.w700),
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {
+                  vm.refreshPage();
+                },
+                icon: const Icon(CupertinoIcons.arrow_clockwise),
+                color: Colors.grey,
+                iconSize: getProportionateScreenWidth(18),
+              )
+            ],
+          ),
+        )
       ],
     );
   }
@@ -87,11 +101,11 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => getProportionateScreenHeight(310);
+  double get maxExtent => getProportionateScreenHeight(300);
 
   @override
   // TODO: implement minExtent
-  double get minExtent => getProportionateScreenHeight(310);
+  double get minExtent => getProportionateScreenHeight(300);
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

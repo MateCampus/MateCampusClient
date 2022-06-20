@@ -26,7 +26,7 @@ class Body extends StatelessWidget {
             : (vm.voiceRooms.isEmpty)
                 ? const CenterSentence(
                     sentence: "대화방이 존재하지 않습니다.", //추후 대화방 최신순 정렬으로 보여주게끔 바꾸기
-                    verticalSpace: 50,
+                    bottomSpace: 50,
                   )
                 : RefreshIndicator(
                     key: vm.voiceMainKey,

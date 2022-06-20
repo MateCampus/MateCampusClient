@@ -77,7 +77,7 @@ class Body extends StatelessWidget {
                           // displays the index of the current item.
                           (context, index) => const CenterSentence(
                             sentence: "등록된 게시글이 없습니다.",
-                            verticalSpace: 50,
+                            topSpace: 50,
                           ),
                           // Builds 1000 ListTiles
                           childCount: 1,

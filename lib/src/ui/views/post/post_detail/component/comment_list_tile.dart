@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/commemt_deleted_msg.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/deleted_nested_comment_list_tile.dart';
@@ -130,7 +131,7 @@ class CommentListTile extends StatelessWidget {
       onPressed: () {
         buildCustomAlertDialog(
             context: context,
-            contentText: '댓글을 삭제하시겠습니까?',
+            contentWidget: const CommentDeletedMsg(),
             btnText: '삭제',
             press: () {
               vm.deleteComment(context, comment.id);
