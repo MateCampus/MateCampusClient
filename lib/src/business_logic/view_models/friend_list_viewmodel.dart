@@ -5,6 +5,8 @@ import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 
+import '../models/enums/friendRequestStatus.dart';
+
 class FriendListViewModel extends BaseModel {
   final FriendService _friendService = serviceLocator<FriendService>();
 

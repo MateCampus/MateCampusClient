@@ -24,6 +24,8 @@ import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 
+import '../business_logic/models/enums/messageType.dart';
+
 class StompObject {
   static late StompClient _stompClient;
 

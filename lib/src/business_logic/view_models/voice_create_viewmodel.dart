@@ -10,6 +10,8 @@ import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:zamongcampus/src/ui/common_components/select_cateory_dialog_component/select_category_dialog.dart';
 
+import '../models/enums/categoryCode.dart';
+import '../models/enums/voiceRoomType.dart';
 import 'base_model.dart';
 
 class VoiceCreateViewModel extends BaseModel {
@@ -27,7 +29,7 @@ class VoiceCreateViewModel extends BaseModel {
   final TextEditingController _titleController = TextEditingController();
   bool _isValidTitle = false;
 
-  List<Category> _categories = [];
+  List<CategoryCode> _categories = [];
   final List<CategoryPresentation> _selectedCategories = []; //view에서 사용
   final List<dynamic> _categoryResult = []; //서버로 보내는 용도
 
@@ -142,8 +144,8 @@ class VoiceCreateViewModel extends BaseModel {
                     CategoryData.korNameOf(category.name))
                 .toList())));
 
-    for (Category category in _categories) {
-      _categoryResult.add(category.name);
+    for (CategoryCode categoryCode in _categories) {
+      _categoryResult.add(categoryCode.name);
     }
 
     notifyListeners();

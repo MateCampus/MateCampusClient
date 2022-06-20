@@ -7,6 +7,9 @@ import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.da
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/interest/interest_service.dart';
 
+import '../business_logic/models/enums/InterestCode.dart';
+import '../business_logic/models/enums/interestStatus.dart';
+
 class InterestObject {
   static List<Interest> myInterests = [];
   static loadMyInterests() async {
@@ -22,7 +25,7 @@ class InterestObject {
   static List<InterestPresentation> mapInterests(
       List<Interest>? otherInterests) {
     List<InterestPresentation> interestPresentations = [];
-    for (var systemInterest in allInterestList) {
+    for (var systemInterest in InterestCode.values) {
       if (otherInterests!.any(
               (otherInterest) => otherInterest.codeNum == systemInterest) &&
           myInterests.any(

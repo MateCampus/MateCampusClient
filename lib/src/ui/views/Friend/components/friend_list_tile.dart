@@ -6,6 +6,8 @@ import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmode
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/profile_bottom_sheet.dart';
 
+import '../../../../business_logic/models/enums/friendRequestStatus.dart';
+
 class FriendListTile extends StatelessWidget {
   final FriendListViewModel vm;
   final FriendPresentation friend;

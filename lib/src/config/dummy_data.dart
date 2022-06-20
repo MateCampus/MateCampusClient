@@ -9,8 +9,13 @@ import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
+
+import '../business_logic/models/enums/categoryCode.dart';
+import '../business_logic/models/enums/collegeCode.dart';
+import '../business_logic/models/enums/interestCode.dart';
+import '../business_logic/models/enums/majorCode.dart';
+import '../business_logic/models/enums/messageType.dart';
 
 /**
  * 테스트를 위한 dummyData. 
@@ -21,9 +26,9 @@ List<User> userDummy = [
   User(
       loginId: "zm1",
       nickname: "가나초코릿",
-      collegeCode: College.college0001,
+      collegeCode: CollegeCode.college0001,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: Major.major0001,
+      majorCode: MajorCode.major0001,
       introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
       isOnline: true,
       interests: [
@@ -34,65 +39,65 @@ List<User> userDummy = [
   const User(
       loginId: "zm2",
       nickname: "나비야훨훨",
-      collegeCode: College.college0002,
+      collegeCode: CollegeCode.college0002,
       imageUrl: null,
-      majorCode: Major.major0002,
+      majorCode: MajorCode.major0002,
       isOnline: false,
       interests: []),
   const User(
       loginId: "zm3",
       nickname: "다부지",
-      collegeCode: College.college0003,
+      collegeCode: CollegeCode.college0003,
       imageUrl: "assets/images/user/user3.jpg",
-      majorCode: Major.major0003,
+      majorCode: MajorCode.major0003,
       isOnline: null,
       interests: []),
   const User(
       loginId: "zm4",
       nickname: "라디오꾼",
-      collegeCode: College.college0004,
+      collegeCode: CollegeCode.college0004,
       imageUrl: "assets/images/user/user4.jpg",
-      majorCode: Major.major0004,
+      majorCode: MajorCode.major0004,
       isOnline: false,
       interests: []),
   const User(
       loginId: "zm5",
       nickname: "마라탕궈",
-      collegeCode: College.college0005,
+      collegeCode: CollegeCode.college0005,
       imageUrl: "assets/images/user/user5.jpg",
-      majorCode: Major.major0005,
+      majorCode: MajorCode.major0005,
       isOnline: false,
       interests: []),
   const User(
       loginId: "zm6",
       nickname: "나비야훨훨",
-      collegeCode: College.college0002,
+      collegeCode: CollegeCode.college0002,
       imageUrl: null,
-      majorCode: Major.major0002,
+      majorCode: MajorCode.major0002,
       isOnline: false,
       interests: []),
   const User(
       loginId: "zm7",
       nickname: "다부지",
-      collegeCode: College.college0003,
+      collegeCode: CollegeCode.college0003,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: Major.major0003,
+      majorCode: MajorCode.major0003,
       isOnline: null,
       interests: []),
   const User(
       loginId: "zm8",
       nickname: "라디오꾼",
-      collegeCode: College.college0004,
+      collegeCode: CollegeCode.college0004,
       imageUrl: "assets/images/user/user4.jpg",
-      majorCode: Major.major0004,
+      majorCode: MajorCode.major0004,
       isOnline: false,
       interests: []),
   const User(
       loginId: "zm9",
       nickname: "마라탕궈",
-      collegeCode: College.college0005,
+      collegeCode: CollegeCode.college0005,
       imageUrl: "assets/images/user/user5.jpg",
-      majorCode: Major.major0005,
+      majorCode: MajorCode.major0005,
       isOnline: false,
       interests: []),
 ];
@@ -101,17 +106,17 @@ List<User> userDummy2 = [
   const User(
       loginId: "zm10",
       nickname: "바나나2",
-      collegeCode: College.college0001,
+      collegeCode: CollegeCode.college0001,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: Major.major0001,
+      majorCode: MajorCode.major0001,
       isOnline: true,
       interests: []),
   const User(
       loginId: "zm11",
       nickname: "사이다",
-      collegeCode: College.college0002,
+      collegeCode: CollegeCode.college0002,
       imageUrl: "assets/images/user/user2.jpg",
-      majorCode: Major.major0002,
+      majorCode: MajorCode.major0002,
       isOnline: true,
       interests: []),
 ];
@@ -120,49 +125,49 @@ List<User> userDummy3 = [
   const User(
       loginId: "zm10",
       nickname: "바나나2",
-      collegeCode: College.college0001,
+      collegeCode: CollegeCode.college0001,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: Major.major0001,
+      majorCode: MajorCode.major0001,
       isOnline: true,
       interests: []),
   const User(
       loginId: "zm11",
       nickname: "나랑드사이다",
-      collegeCode: College.college0002,
+      collegeCode: CollegeCode.college0002,
       imageUrl: "assets/images/user/user2.jpg",
-      majorCode: Major.major0002,
+      majorCode: MajorCode.major0002,
       isOnline: true,
       interests: []),
   const User(
       loginId: "zm3",
       nickname: "삼부지",
-      collegeCode: College.college0003,
+      collegeCode: CollegeCode.college0003,
       imageUrl: "assets/images/user/user3.jpg",
-      majorCode: Major.major0003,
+      majorCode: MajorCode.major0003,
       isOnline: null,
       interests: []),
   const User(
       loginId: "zm4",
       nickname: "라디오꾼",
-      collegeCode: College.college0004,
+      collegeCode: CollegeCode.college0004,
       imageUrl: "assets/images/user/user4.jpg",
-      majorCode: Major.major0004,
+      majorCode: MajorCode.major0004,
       isOnline: false,
       interests: []),
   const User(
       loginId: "zm5",
       nickname: "마라탕궈",
-      collegeCode: College.college0005,
+      collegeCode: CollegeCode.college0005,
       imageUrl: "assets/images/user/user5.jpg",
-      majorCode: Major.major0005,
+      majorCode: MajorCode.major0005,
       isOnline: false,
       interests: []),
 ];
 
-List<List<Category>> categoryDummy = [
-  [Category.c0010, Category.c0002],
-  [Category.c0003, Category.c0009],
-  [Category.c0005, Category.c0007]
+List<List<CategoryCode>> categoryDummy = [
+  [CategoryCode.c0010, CategoryCode.c0002],
+  [CategoryCode.c0003, CategoryCode.c0009],
+  [CategoryCode.c0005, CategoryCode.c0007]
 ];
 
 List<ChatMemberInfo> chatMemberInfo = [

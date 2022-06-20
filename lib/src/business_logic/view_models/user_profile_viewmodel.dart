@@ -15,6 +15,10 @@ import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
+import '../models/enums/collegeCode.dart';
+import '../models/enums/friendRequestStatus.dart';
+import '../models/enums/majorCode.dart';
+
 class UserProfileViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
   final FriendService _friendService = serviceLocator<FriendService>();
@@ -43,9 +47,9 @@ class UserProfileViewModel extends BaseModel {
         nickname: recommendUser.nickname,
         imageUrl: recommendUser.imageUrl ?? defaultUserProfile.imageUrl,
         collegeName: CollegeData.korNameOf(
-            describeEnum(recommendUser.collegeCode ?? College.college0000)),
+            describeEnum(recommendUser.collegeCode ?? CollegeCode.college0000)),
         majorName: MajorData.korNameOf(
-            describeEnum(recommendUser.majorCode ?? Major.major0000)),
+            describeEnum(recommendUser.majorCode ?? MajorCode.major0000)),
         introduction: recommendUser.introduction,
         friendRequestStatus:
             recommendUser.friendRequestStatus ?? FriendRequestStatus.NONE);

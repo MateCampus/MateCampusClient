@@ -4,6 +4,8 @@ import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
+import '../../../../../business_logic/models/enums/voiceRoomType.dart';
+
 class VoiceRoomHead extends StatelessWidget {
   final VoiceRoomPresentation voiceRoom;
   const VoiceRoomHead({Key? key, required this.voiceRoom}) : super(key: key);

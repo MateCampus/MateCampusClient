@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
-List<Category> selectCategoryDialog(BuildContext context) {
+import '../../../business_logic/models/enums/categoryCode.dart';
+
+List<CategoryCode> selectCategoryDialog(BuildContext context) {
   SizeConfig().init(context: context);
-  List<Category> selectedCategories = [];
+  List<CategoryCode> selectedCategories = [];
   showDialog(
       context: context,
       builder: (context) {

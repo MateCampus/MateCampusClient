@@ -1,6 +1,8 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 
+import '../../business_logic/models/enums/interestCode.dart';
+import '../../business_logic/models/enums/interestStatus.dart';
 import '../../business_logic/view_models/profile_viewmodel.dart';
 
 List<InterestPresentation> interestDummy = [

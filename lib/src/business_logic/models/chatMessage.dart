@@ -1,4 +1,4 @@
-enum MessageType { ENTER, TALK, EXIT, UPDATE }
+import 'enums/messageType.dart';
 
 class ChatMessage {
   String? roomId;

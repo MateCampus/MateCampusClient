@@ -19,6 +19,8 @@ import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 
+import '../models/enums/voiceRoomType.dart';
+
 class VoiceDetailViewModel extends BaseModel {
   final VoiceService _voiceService = serviceLocator<VoiceService>();
   StompUnsubscribe? unsubscribeFn;

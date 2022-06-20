@@ -13,6 +13,9 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import '../../services/interest/interest_service.dart';
+import '../models/enums/collegeCode.dart';
+import '../models/enums/interestCode.dart';
+import '../models/enums/majorCode.dart';
 
 class MypageViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
@@ -73,9 +76,9 @@ class MypageViewModel extends BaseModel {
         nickname: myInfoResult.nickname,
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
         collegeName: CollegeData.korNameOf(
-            describeEnum(myInfoResult.collegeCode ?? College.college0000)),
+            describeEnum(myInfoResult.collegeCode ?? CollegeCode.college0000)),
         majorName: MajorData.korNameOf(
-            describeEnum(myInfoResult.majorCode ?? Major.major0000)),
+            describeEnum(myInfoResult.majorCode ?? MajorCode.major0000)),
         introduction: myInfoResult.introduction ?? defaultInfo.introduction,
         interestCount: myInfoResult.interestCount.toString(),
         friendCount: myInfoResult.friendCount.toString(),
@@ -91,7 +94,7 @@ class MypageViewModel extends BaseModel {
       List<Interest> selectedInterestResults = InterestObject.myInterests;
       _selectedInterestCodes =
           selectedInterestResults.map((interest) => interest.codeNum).toList();
-      for (InterestCode systemInterest in allInterestList) {
+      for (InterestCode systemInterest in InterestCode.values) {
         bool hasData = selectedInterestCodes.contains(systemInterest);
         _allInterestsAfterLoad.add(InterestPresentation(
             codeNum: systemInterest,

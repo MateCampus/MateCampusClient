@@ -1,6 +1,6 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 
+import '../../business_logic/models/enums/interestCode.dart';
 import 'interest_service.dart';
 
 class FakeInterestService extends InterestService {

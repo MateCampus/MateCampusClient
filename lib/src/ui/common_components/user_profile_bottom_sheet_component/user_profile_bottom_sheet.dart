@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_compo
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_interest.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 
+import '../../../business_logic/models/enums/friendRequestStatus.dart';
 import '../profile_bottom_sheet_component/components/friend_request_btn.dart';
 import '../profile_bottom_sheet_component/components/goto_chatroom_btn.dart';
 import '../profile_bottom_sheet_component/components/profile_info.dart';

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/majorCode.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
@@ -13,6 +14,8 @@ import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
+
+import '../models/enums/collegeCode.dart';
 
 class VoiceMainScreenViewModel extends BaseModel {
   bool isInit = false;
@@ -93,9 +96,9 @@ class VoiceMainScreenViewModel extends BaseModel {
             loginId: user.loginId,
             imageUrl: user.imageUrl ?? "assets/images/user/general_user.png",
             collegeName: CollegeData.korNameOf(
-                describeEnum(user.collegeCode ?? College.college0000)),
+                describeEnum(user.collegeCode ?? CollegeCode.college0000)),
             majorName: MajorData.korNameOf(
-                describeEnum(user.majorCode ?? Major.major0000)),
+                describeEnum(user.majorCode ?? MajorCode.major0000)),
             isOnline: user.isOnline ?? false))
         .toList();
     _recommendNextPageToken++;

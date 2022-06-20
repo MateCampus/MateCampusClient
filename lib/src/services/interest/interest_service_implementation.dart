@@ -1,8 +1,8 @@
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 
+import '../../business_logic/models/enums/interestCode.dart';
 import 'interest_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

@@ -5,6 +5,8 @@ import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_compo
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/interest_none_chip.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/interest_same_chip.dart';
 
+import '../../../../business_logic/models/enums/interestStatus.dart';
+
 class ProfileInterest extends StatelessWidget {
   List<InterestPresentation> profileInterests;
   ProfileInterest({Key? key, required this.profileInterests}) : super(key: key);
@@ -12,8 +14,8 @@ class ProfileInterest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(20), 0,
-          getProportionateScreenWidth(20), getProportionateScreenHeight(70)),
+      padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(10), 0,
+          getProportionateScreenWidth(10), getProportionateScreenHeight(70)),
       child: Wrap(
         runSpacing: getProportionateScreenHeight(3),
         alignment: WrapAlignment.center,

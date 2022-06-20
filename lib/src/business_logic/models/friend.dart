@@ -1,7 +1,10 @@
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 
+import 'enums/collegeCode.dart';
+import 'enums/friendRequestStatus.dart';
+import 'enums/interestCode.dart';
+import 'enums/majorCode.dart';
 import 'interest.dart';
 
 class Friend {
@@ -11,8 +14,8 @@ class Friend {
   final String requestorLoginId;
   final FriendRequestStatus friendRequestStatus;
   final String? imageUrl;
-  final College? collegeCode;
-  final Major? majorCode;
+  final CollegeCode? collegeCode;
+  final MajorCode? majorCode;
   final String? introduction;
   final List<Interest>? interests;
 
@@ -37,10 +40,10 @@ class Friend {
       friendRequestStatus: FriendRequestStatus.values.byName(json['status']),
       imageUrl: json['imageUrl'],
       collegeCode: json['collegeCode'] != null
-          ? College.values.byName(json['collegeCode'].toLowerCase())
+          ? CollegeCode.values.byName(json['collegeCode'].toLowerCase())
           : null,
       majorCode: json['majorCode'] != null
-          ? Major.values.byName(json['majorCode'].toLowerCase())
+          ? MajorCode.values.byName(json['majorCode'].toLowerCase())
           : null,
       introduction: json['introduction'],
       interests: json['interests']
@@ -51,5 +54,3 @@ class Friend {
     );
   }
 }
-
-enum FriendRequestStatus { NONE, UNACCEPTED, ACCEPTED, REFUSED }

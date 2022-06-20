@@ -4,6 +4,8 @@ import 'package:zamongcampus/src/business_logic/utils/report_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
+import '../../../../business_logic/models/enums/reportType.dart';
+
 class ReportPostForm extends StatefulWidget {
   final PostDetailScreenViewModel vm;
   const ReportPostForm({Key? key, required this.vm}) : super(key: key);

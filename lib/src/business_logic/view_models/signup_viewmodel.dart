@@ -9,6 +9,10 @@ import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 
+import '../models/enums/collegeCode.dart';
+import '../models/enums/interestCode.dart';
+import '../models/enums/majorCode.dart';
+
 class SignUpViewModel extends BaseModel {
   final SignUpService _signUpService = serviceLocator<SignUpService>();
 
@@ -64,7 +68,7 @@ class SignUpViewModel extends BaseModel {
 
   //관심사 관련 변수
   //_systemInterests => 전체관심사 매핑한 리스트.
-  static final List<InterestPresentation> _systemInterests = allInterestList
+  static final List<InterestPresentation> _systemInterests = InterestCode.values
       .map((interestCode) => InterestPresentation(
           interestCode: interestCode,
           title: InterestData.korNameOf(interestCode.name),
@@ -148,14 +152,14 @@ class SignUpViewModel extends BaseModel {
   }
 
   //학교 선택
-  void selectCollege(College college) {
+  void selectCollege(CollegeCode college) {
     _selectedCollegeCode = college.name; //서버에 보낼용도
     _selectedCollegeName = CollegeData.korNameOf(college.name); //뷰에서 쓰는 용도
     notifyListeners();
   }
 
   //학과 선택
-  void selectMajor(Major major) {
+  void selectMajor(MajorCode major) {
     _selectedMajorCode = major.name; //서버에 보낼용도
     _selectedMajorName = MajorData.korNameOf(major.name);
     notifyListeners();

@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/ui/views/chat/chat_main/components/chatTile.dar
 
 import '../models/chatMemberInfo.dart';
 import '../models/chatRoom.dart';
+import '../models/enums/messageType.dart';
 import 'base_model.dart';
 
 class ChatViewModel extends BaseModel {

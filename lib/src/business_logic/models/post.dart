@@ -1,6 +1,8 @@
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 
+import 'enums/categoryCode.dart';
+
 class Post {
   final int id;
   final String loginId;
@@ -13,7 +15,7 @@ class Post {
   int viewCount;
   int commentCount;
   List<Comment>? comments;
-  final List<Category>? categories; //포스트에 관심사 설정이 없을 수도 있음
+  final List<CategoryCode>? categories; //포스트에 관심사 설정이 없을 수도 있음
 
   Post(
       {required this.id,

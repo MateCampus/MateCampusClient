@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+
+import '../models/enums/collegeCode.dart';
+import '../models/enums/interestCode.dart';
+import '../models/enums/majorCode.dart';
 
 // 상수
 
@@ -12,8 +15,8 @@ double kHorizontalPadding = getProportionateScreenWidth(20);
 
 // server
 final devServer = Platform.isAndroid
-    ? "https://c517-211-198-109-254.ngrok.io"
-    : "https://c517-211-198-109-254.ngrok.io";
+    ? "https://7025-211-198-109-254.ngrok.io"
+    : "https://7025-211-198-109-254.ngrok.io";
 
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
@@ -25,24 +28,24 @@ const dankookEmail = "@dankook.ac.kr";
 
 //대학교 리스트
 const collegeList = [
-  College.college0001,
-  College.college0002,
-  College.college0003,
-  College.college0004,
-  College.college0005,
-  College.college0006,
-  College.college0007
+  CollegeCode.college0001,
+  CollegeCode.college0002,
+  CollegeCode.college0003,
+  CollegeCode.college0004,
+  CollegeCode.college0005,
+  CollegeCode.college0006,
+  CollegeCode.college0007
 ];
 
 //학과 리스트
 const majorList = [
-  Major.major0001,
-  Major.major0002,
-  Major.major0003,
-  Major.major0004,
-  Major.major0005,
-  Major.major0006,
-  Major.major0007
+  MajorCode.major0001,
+  MajorCode.major0002,
+  MajorCode.major0003,
+  MajorCode.major0004,
+  MajorCode.major0005,
+  MajorCode.major0006,
+  MajorCode.major0007
 ];
 
 //관심사 리스트

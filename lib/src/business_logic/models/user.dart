@@ -1,8 +1,11 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 
+import 'enums/collegeCode.dart';
+import 'enums/friendRequestStatus.dart';
+import 'enums/interestCode.dart';
+import 'enums/majorCode.dart';
 import 'friend.dart';
 
 class User {
@@ -10,8 +13,8 @@ class User {
   final String loginId;
   final String nickname;
   final String? imageUrl;
-  final College? collegeCode;
-  final Major? majorCode;
+  final CollegeCode? collegeCode;
+  final MajorCode? majorCode;
   final String? name;
   final String? deviceToken;
   final String? password;
@@ -53,10 +56,10 @@ class User {
         nickname: json['nickname'],
         imageUrl: json['imageUrl'],
         collegeCode: json['collegeCode'] != null
-            ? College.values.byName(json['collegeCode'].toLowerCase())
+            ? CollegeCode.values.byName(json['collegeCode'].toLowerCase())
             : null,
         majorCode: json['majorCode'] != null
-            ? Major.values.byName(json['majorCode'].toLowerCase())
+            ? MajorCode.values.byName(json['majorCode'].toLowerCase())
             : null,
         name: json['name'],
         deviceToken: json['deviceToken'],

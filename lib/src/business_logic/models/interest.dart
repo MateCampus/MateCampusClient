@@ -1,4 +1,4 @@
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
+import 'enums/interestCode.dart';
 
 class Interest {
   final InterestCode codeNum;

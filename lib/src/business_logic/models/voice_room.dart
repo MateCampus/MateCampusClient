@@ -1,7 +1,7 @@
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 
-enum VoiceRoomType { PUBLIC, PRIVATE }
+import 'enums/categoryCode.dart';
 
 class VoiceRoom {
   final int id;
@@ -15,7 +15,7 @@ class VoiceRoom {
   bool? isFull;
   // DateTime createdAt;
   //VoiceRoomType? type;
-  List<Category>? categories;
+  List<CategoryCode>? categories;
   //bool? collegeOnly;
   //bool? majorOnly;
 

@@ -2,6 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 
+import '../../../business_logic/models/enums/messageType.dart';
+
 const String tableName = 'ChatMessage';
 const String columnrowId = 'rowId';
 const String columnroomId = 'roomId';

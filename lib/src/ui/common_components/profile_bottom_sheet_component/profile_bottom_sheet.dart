@@ -12,6 +12,8 @@ import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_compo
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/waiting_friend_request.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 
+import '../../../business_logic/models/enums/friendRequestStatus.dart';
+
 /// Friend Profile bottom sheet로 이름 변경 예정
 class ProfileBottomSheet extends StatefulWidget {
   final int friendId;
