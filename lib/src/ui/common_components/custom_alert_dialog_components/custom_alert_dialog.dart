@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class CustomAlertDialog extends StatelessWidget {
@@ -46,8 +47,7 @@ class CustomAlertDialog extends StatelessWidget {
       onPressed: press,
       child: Text(btnText),
       textStyle: TextStyle(
-        fontSize: getProportionateScreenWidth(12),
-      ),
+          fontSize: getProportionateScreenWidth(12), color: Colors.red),
     );
   }
 }

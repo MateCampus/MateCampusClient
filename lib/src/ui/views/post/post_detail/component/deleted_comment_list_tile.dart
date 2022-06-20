@@ -33,6 +33,7 @@ class DeletedCommentListTile extends StatelessWidget {
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
                             itemCount: comment.children.length,
                             itemBuilder: (BuildContext context, int index) {
                               return comment.children[index].deleted
