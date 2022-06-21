@@ -41,8 +41,8 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
         child: Consumer<UserProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(
-              initialChildSize: 0.6,
-              maxChildSize: 0.9,
+              initialChildSize: 0.70,
+              maxChildSize: 0.70,
               builder: (BuildContext context,
                       ScrollController scrollController) =>
                   Container(
@@ -52,31 +52,32 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
                               BorderRadius.vertical(top: Radius.circular(20))),
                       child: vm.busy
                           ? const IsLoading()
-                          : Column(
-                              children: [
-                                const ProfileHeader(),
-                                ProfileInfo(
-                                  imageUrl: vm.userProfile.imageUrl,
-                                  nickname: vm.userProfile.nickname,
-                                  majorName: vm.userProfile.majorName,
-                                  collegeName: vm.userProfile.collegeName,
-                                  introduction: vm.userProfile.introduction,
-                                ),
-                                Expanded(
-                                  child: Stack(
-                                      alignment: Alignment.bottomCenter,
+                          : SingleChildScrollView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: scrollController,
+                              child: Column(
+                                children: [
+                                  const ProfileHeader(),
+                                  ProfileInfo(
+                                    imageUrl: vm.userProfile.imageUrl,
+                                    nickname: vm.userProfile.nickname,
+                                    majorName: vm.userProfile.majorName,
+                                    collegeName: vm.userProfile.collegeName,
+                                    introduction: vm.userProfile.introduction,
+                                  ),
+                                  SizedBox(
+                                    height: getProportionateScreenHeight(255),
+                                    child: ListView(
+                                      controller: scrollController,
                                       children: [
-                                        ListView(
-                                          controller: scrollController,
-                                          children: [
-                                            ProfileInterest(
-                                                profileInterests: vm.interests),
-                                          ],
-                                        ),
-                                        SafeArea(child: _bottomFixedBtn())
-                                      ]),
-                                ),
-                              ],
+                                        ProfileInterest(
+                                            profileInterests: vm.interests),
+                                      ],
+                                    ),
+                                  ),
+                                  SafeArea(child: _bottomFixedBtn())
+                                ],
+                              ),
                             )),
             ),
           );

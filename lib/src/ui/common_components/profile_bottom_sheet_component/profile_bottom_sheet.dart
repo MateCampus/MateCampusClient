@@ -46,8 +46,8 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
         child: Consumer<ProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(
-              initialChildSize: 0.75,
-              maxChildSize: 0.75,
+              initialChildSize: 0.7,
+              maxChildSize: 0.7,
               builder: (BuildContext context,
                       ScrollController scrollController) =>
                   Container(
@@ -85,7 +85,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                                     //           vm.interests[index]);
                                     //     }),
                                     SizedBox(
-                                      height: getProportionateScreenHeight(280),
+                                      height: getProportionateScreenHeight(255),
                                       child: ListView(
                                         // controller: scrollController,
                                         children: [

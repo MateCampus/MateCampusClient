@@ -17,7 +17,7 @@ class ProfileInterest extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(8), 0,
           getProportionateScreenWidth(8), getProportionateScreenHeight(0)),
       child: Wrap(
-        runSpacing: getProportionateScreenHeight(3),
+        runSpacing: getProportionateScreenHeight(2),
         alignment: WrapAlignment.spaceBetween,
         spacing: getProportionateScreenWidth(5),
         children: [
