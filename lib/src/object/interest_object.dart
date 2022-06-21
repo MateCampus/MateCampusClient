@@ -26,17 +26,17 @@ class InterestObject {
       List<Interest>? otherInterests) {
     List<InterestPresentation> interestPresentations = [];
     for (var systemInterest in InterestCode.values) {
-      if (otherInterests!.any(
-              (otherInterest) => otherInterest.codeNum == systemInterest) &&
-          myInterests.any(
-              (otherInterest) => otherInterest.codeNum == systemInterest)) {
+      if (otherInterests!.any((otherInterest) =>
+              otherInterest.codeNum.name == systemInterest.name) &&
+          myInterests.any((otherInterest) =>
+              otherInterest.codeNum.name == systemInterest.name)) {
         interestPresentations.add(InterestPresentation(
             title: InterestData.iconOf(systemInterest.name) +
                 " " +
                 InterestData.korNameOf(systemInterest.name),
             status: InterestStatus.SAME));
-      } else if (otherInterests
-          .any((otherInterest) => otherInterest.codeNum == systemInterest)) {
+      } else if (otherInterests.any((otherInterest) =>
+          otherInterest.codeNum.name == systemInterest.name)) {
         interestPresentations.add(InterestPresentation(
             title: InterestData.iconOf(systemInterest.name) +
                 " " +

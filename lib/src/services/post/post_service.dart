@@ -5,7 +5,8 @@ abstract class PostService {
   Future<bool> createPost(
       {required String title,
       required String body,
-      List<XFile>? imageFileList});
+      List<XFile>? imageFileList,
+      required List<String> categoryCodeList});
 
   Future<List<Post>> fetchPosts(
       {required String type,

@@ -14,11 +14,11 @@ class ProfileInterest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(10), 0,
-          getProportionateScreenWidth(10), getProportionateScreenHeight(70)),
+      padding: EdgeInsets.fromLTRB(getProportionateScreenWidth(8), 0,
+          getProportionateScreenWidth(8), getProportionateScreenHeight(0)),
       child: Wrap(
         runSpacing: getProportionateScreenHeight(3),
-        alignment: WrapAlignment.center,
+        alignment: WrapAlignment.spaceBetween,
         spacing: getProportionateScreenWidth(5),
         children: [
           ...profileInterests.map((interest) {

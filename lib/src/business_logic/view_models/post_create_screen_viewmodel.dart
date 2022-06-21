@@ -16,6 +16,7 @@ class PostCreateScreenViewModel extends BaseModel {
   final postFocusNode = FocusNode();
 
   List<XFile> pickedImgs = List.empty(growable: true);
+  List<String> categoryCodeList = List.empty(growable: true);
   final ImagePicker picker = ImagePicker();
 
   void createPost(BuildContext context) async {
@@ -29,7 +30,8 @@ class PostCreateScreenViewModel extends BaseModel {
     bool isCreated = await _postService.createPost(
         title: titleTextController.text,
         body: bodyTextController.text,
-        imageFileList: pickedImgs);
+        imageFileList: pickedImgs,
+        categoryCodeList: categoryCodeList);
     if (isCreated) {
       toastMessage("게시물이 생성되었습니다!");
     } else {

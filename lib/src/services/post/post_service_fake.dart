@@ -36,7 +36,8 @@ class FakePostService implements PostService {
   Future<bool> createPost(
       {required String title,
       required String body,
-      List<XFile>? imageFileList}) {
+      List<XFile>? imageFileList,
+      required List<String> categoryCodeList}) {
     // TODO: implement createPost
     throw UnimplementedError();
   }

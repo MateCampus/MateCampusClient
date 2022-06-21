@@ -23,6 +23,7 @@ class VoiceCreateViewModel extends BaseModel {
   List<UserPresentation> _friendUsers = List.empty(growable: true);
   List<UserPresentation> _searchedRecentUsers = List.empty(growable: true);
   List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
+  List<String> categoryCodeList = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
 
@@ -210,7 +211,8 @@ class VoiceCreateViewModel extends BaseModel {
   Future<VoiceRoom> createVoiceRoom() async {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
         title: titleController.text,
-        selectedMemberLoginIds: selectedMemberLoginIds);
+        selectedMemberLoginIds: selectedMemberLoginIds,
+        categoryCodeList: categoryCodeList);
     return voiceRoom;
   }
 }

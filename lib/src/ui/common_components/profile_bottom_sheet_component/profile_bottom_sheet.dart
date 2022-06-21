@@ -13,6 +13,10 @@ import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_compo
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 
 import '../../../business_logic/models/enums/friendRequestStatus.dart';
+import '../../../business_logic/models/enums/interestStatus.dart';
+import 'components/interest_different_chip.dart';
+import 'components/interest_none_chip.dart';
+import 'components/interest_same_chip.dart';
 
 /// Friend Profile bottom sheet로 이름 변경 예정
 class ProfileBottomSheet extends StatefulWidget {
@@ -42,8 +46,8 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
         child: Consumer<ProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(
-              initialChildSize: 0.6,
-              maxChildSize: 0.9,
+              initialChildSize: 0.75,
+              maxChildSize: 0.75,
               builder: (BuildContext context,
                       ScrollController scrollController) =>
                   Container(
@@ -53,31 +57,47 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                               BorderRadius.vertical(top: Radius.circular(20))),
                       child: vm.busy
                           ? const IsLoading()
-                          : Column(
-                              children: [
-                                const ProfileHeader(),
-                                ProfileInfo(
-                                  imageUrl: vm.profile.imageUrl,
-                                  nickname: vm.profile.nickname,
-                                  majorName: vm.profile.majorName,
-                                  collegeName: vm.profile.collegeName,
-                                  introduction: vm.profile.introduction,
-                                ),
-                                Expanded(
-                                  child: Stack(
-                                      alignment: Alignment.bottomCenter,
-                                      children: [
-                                        ListView(
-                                          controller: scrollController,
-                                          children: [
-                                            ProfileInterest(
-                                                profileInterests: vm.interests),
-                                          ],
-                                        ),
-                                        SafeArea(child: _bottomFixedBtn())
-                                      ]),
-                                ),
-                              ],
+                          : SingleChildScrollView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: scrollController,
+                              child: Column(
+                                children: [
+                                  const ProfileHeader(),
+                                  ProfileInfo(
+                                    imageUrl: vm.profile.imageUrl,
+                                    nickname: vm.profile.nickname,
+                                    majorName: vm.profile.majorName,
+                                    collegeName: vm.profile.collegeName,
+                                    introduction: vm.profile.introduction,
+                                  ),
+                                  Column(children: [
+                                    // GridView.builder(
+                                    //     itemCount: vm.interests.length,
+                                    //     gridDelegate:
+                                    //         SliverGridDelegateWithMaxCrossAxisExtent(
+                                    //       maxCrossAxisExtent: 125,
+                                    //       mainAxisSpacing: 0,
+                                    //     ),
+                                    //     itemBuilder: (BuildContext context,
+                                    //         int index) {
+                                    //       //item 의 반목문 항목 형성
+                                    //       return _buildInterestChip(
+                                    //           vm.interests[index]);
+                                    //     }),
+                                    SizedBox(
+                                      height: getProportionateScreenHeight(280),
+                                      child: ListView(
+                                        // controller: scrollController,
+                                        children: [
+                                          ProfileInterest(
+                                              profileInterests: vm.interests),
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
+                                  SafeArea(child: _bottomFixedBtn())
+                                ],
+                              ),
                             )),
             ),
           );
@@ -104,6 +124,18 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
           vm: vm,
           profileLoginId: vm.profile.loginId,
         );
+    }
+  }
+
+  Widget _buildInterestChip(InterestPresentation interestPresentation) {
+    switch (interestPresentation.status) {
+      case InterestStatus.SAME:
+        return InterestSameChip(interest: interestPresentation);
+
+      case InterestStatus.DIFFERENT:
+        return InterestDifferentChip(interest: interestPresentation);
+      default: //status.none 상태
+        return InterestNoneChip(interest: interestPresentation);
     }
   }
 }
