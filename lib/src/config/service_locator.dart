@@ -28,6 +28,9 @@ import 'package:zamongcampus/src/services/login/login_service_implementation.dar
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/post/post_service_fake.dart';
 import 'package:zamongcampus/src/services/post/post_service_implementation.dart';
+import 'package:zamongcampus/src/services/report/report_service.dart';
+import 'package:zamongcampus/src/services/report/report_service_fake.dart';
+import 'package:zamongcampus/src/services/report/report_service_implementation.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:zamongcampus/src/services/signup/signup_service_fake.dart';
 import 'package:zamongcampus/src/services/signup/signup_service_implementation.dart';
@@ -59,6 +62,7 @@ void setupServiceLocator() {
   //     .registerLazySingleton<SignUpService>(() => FakeSignUpService());
   // serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   // serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
+  // serviceLocator.registerLazySingleton<ReportService>(() => FakeReportService());
 
   /* 2. 실제 불가능한 services */
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
@@ -76,6 +80,8 @@ void setupServiceLocator() {
   serviceLocator
       .registerLazySingleton<SignUpService>(() => SignUpServiceImpl());
   serviceLocator.registerLazySingleton<UserService>(() => UserServiceImpl());
+  serviceLocator
+      .registerLazySingleton<ReportService>(() => ReportServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());

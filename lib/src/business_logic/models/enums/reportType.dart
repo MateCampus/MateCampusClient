@@ -6,5 +6,4 @@ enum ReportType {
   report0004,
   report0005,
   report0006,
-  report0007
 }
