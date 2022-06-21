@@ -24,15 +24,11 @@ class _ReportPostFormState extends State<ReportPostForm> {
           return Material(
               color: Colors.transparent,
               child: SizedBox(
-                height: getProportionateScreenHeight(320),
+                height: SizeConfig.screenHeight! * 0.43,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const ReportTileText(),
-                    const Spacer(),
-                    ReportTypeList(vm: vm)
-                  ],
+                  children: [const ReportTileText(), ReportTypeList(vm: vm)],
                 ),
               ));
         },
