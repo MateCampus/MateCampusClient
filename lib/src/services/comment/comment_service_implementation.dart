@@ -63,6 +63,23 @@ class CommentServiceImpl implements CommentService {
   }
 
   @override
+  Future<List<Comment>> fetchMyComments() async {
+    final response = await http.get(
+        Uri.parse(devServer + "/api/post/comment/my"),
+        headers: AuthService.get_auth_header());
+
+    if (response.statusCode == 200) {
+      List<Comment> myComments =
+          await jsonDecode(utf8.decode(response.bodyBytes))
+              .map<Comment>((json) => Comment.fromJson(json))
+              .toList();
+      return myComments;
+    } else {
+      throw Exception('내 댓글 가져오기 실패');
+    }
+  }
+
+  @override
   Future<bool> deleteComment(
       {required int postId, required int commentId}) async {
     final response = await http.delete(

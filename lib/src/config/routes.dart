@@ -3,6 +3,7 @@ import 'package:zamongcampus/src/ui/dummy_screen.dart';
 import 'package:zamongcampus/src/ui/views/Friend/friend_main_screen.dart';
 import 'package:zamongcampus/src/ui/views/home.dart';
 import 'package:zamongcampus/src/ui/views/login/login_main/login_main_screen.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_comment/mypage_comment_screen.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/mypage_edit_info_screen.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/mypage_edit_interest_screen.dart';
 import 'package:zamongcampus/src/ui/views/mypage/settings/settings_screen.dart';
@@ -44,4 +45,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
       const SignUpOptionalProfileScreen(),
   "/dummy": (BuildContext context) => DummyScreen(),
   "/postCreate": (BuildContext context) => const PostCreateScreen(),
+  "/mypageComment": (BuildContext context) => const MypageCommentScreen(),
 };

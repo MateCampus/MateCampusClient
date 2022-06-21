@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_invite_friend_screen_args.dart';
@@ -9,7 +8,6 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_components/voice_room_chat_bottom_sheet_component/voice_room_chat_bottom_sheet.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/components/body.dart';
 import 'components/body.dart';

@@ -97,6 +97,38 @@ class PostServiceImpl implements PostService {
   }
 
   @override
+  Future<List<Post>> fetchBookmarkPosts() async {
+    final response = await http.get(Uri.parse(devServer + "/api/post/bookmark"),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      List<Post> bookmarkPosts =
+          await jsonDecode(utf8.decode(response.bodyBytes))
+              .map<Post>((json) => Post.fromJson(json))
+              .toList();
+      return bookmarkPosts;
+    } else {
+      // 만약 응답이 OK가 아니면, 에러를 던집니다.
+      throw Exception(
+          '북마크한 게시물 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
+    }
+  }
+
+  @override
+  Future<List<Post>> fetchMyPosts() async {
+    final response = await http.get(Uri.parse(devServer + "/api/post/my"),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode == 200) {
+      List<Post> myPosts = await jsonDecode(utf8.decode(response.bodyBytes))
+          .map<Post>((json) => Post.fromJson(json))
+          .toList();
+      return myPosts;
+    } else {
+      // 만약 응답이 OK가 아니면, 에러를 던집니다.
+      throw Exception('내 피드 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
+    }
+  }
+
+  @override
   Future<Map<String, int>> likePost({required int postId}) async {
     final response = await http.post(
         Uri.parse(devServer + "/api/post/like/" + postId.toString()),

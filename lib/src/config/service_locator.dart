@@ -3,6 +3,8 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_fri
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_comment_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_post_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
@@ -114,4 +116,8 @@ void setupServiceLocator() {
   serviceLocator
       .registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
   serviceLocator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
+  serviceLocator
+      .registerLazySingleton<MypagePostViewModel>(() => MypagePostViewModel());
+  serviceLocator.registerLazySingleton<MypageCommentViewModel>(
+      () => MypageCommentViewModel());
 }
