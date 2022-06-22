@@ -33,20 +33,26 @@ class Body extends StatelessWidget {
         SafeArea(
           child: BottomFixedBtnDecoBox(
             child:
-                (vm.userImgPath != '' && vm.userIntroduceController.text != '')
-                    ? DefaultBtn(
-                        text: '회원가입 완료',
-                        press: () {
-                          vm.createUser(context);
-                        },
-                      )
-                    : DefaultBtn(
-                        text: '회원가입 완료',
-                        btnColor: Colors.grey.withOpacity(0.5),
-                        press: () {
-                          vm.createUser(context);
-                        },
-                      ),
+                // (vm.userImgPath != '' && vm.userIntroduceController.text != '')
+                //     ? DefaultBtn(
+                //         text: '회원가입 완료',
+                //         press: () {
+                //           vm.createUser(context);
+                //         },
+                //       )
+                //     : DefaultBtn(
+                //         text: '회원가입 완료',
+                //         btnColor: Colors.grey.withOpacity(0.5),
+                //         press: () {
+                //           vm.createUser(context);
+                //         },
+                //       ),
+                DefaultBtn(
+              text: '회원가입 완료',
+              press: () {
+                vm.createUser(context);
+              },
+            ),
           ),
         ),
       ],

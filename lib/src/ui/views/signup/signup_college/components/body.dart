@@ -41,7 +41,8 @@ class Body extends StatelessWidget {
                 ? DefaultBtn(
                     text: '다음',
                     press: () {
-                      Navigator.pushNamed(context, '/signUpAuthentication');
+                      // Navigator.pushNamed(context, '/signUpAuthentication');
+                      Navigator.pushNamed(context, "/signUpRequiredProfile");
                     },
                   )
                 : const DisabledDefaultBtn(text: '다음'),

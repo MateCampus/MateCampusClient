@@ -23,12 +23,12 @@ class PostListTile extends StatelessWidget {
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
-            vertical: getProportionateScreenHeight(5),
-            horizontal: getProportionateScreenWidth(12)),
+            vertical: getProportionateScreenHeight(2),
+            horizontal: getProportionateScreenWidth(8)),
         child: Card(
           shape: RoundedRectangleBorder(
             //모서리를 둥글게 하기 위해 사용
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(5.0),
           ),
           shadowColor: Colors.grey.shade100,
           elevation: 4.0,

@@ -18,7 +18,7 @@ class ShowImage extends StatelessWidget {
           width: imageWidth,
           height: imageHeight,
           child: ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
             child: images[0].startsWith('https')
                 ? CachedNetworkImage(
                     imageUrl: images[0],
@@ -41,7 +41,7 @@ class ShowImage extends StatelessWidget {
                 height: imageHeight,
                 child: ClipRRect(
                   borderRadius:
-                      const BorderRadius.only(topLeft: Radius.circular(10)),
+                      const BorderRadius.only(topLeft: Radius.circular(5)),
                   child: images[0].startsWith('https')
                       ? CachedNetworkImage(
                           imageUrl: images[0],
@@ -58,7 +58,7 @@ class ShowImage extends StatelessWidget {
                 height: imageHeight,
                 child: ClipRRect(
                   borderRadius:
-                      const BorderRadius.only(topRight: Radius.circular(10)),
+                      const BorderRadius.only(topRight: Radius.circular(5)),
                   child: images[1].startsWith('https')
                       ? CachedNetworkImage(
                           imageUrl: images[1],
@@ -85,7 +85,7 @@ class ShowImage extends StatelessWidget {
                 height: imageHeight,
                 child: ClipRRect(
                   borderRadius:
-                      const BorderRadius.only(topLeft: Radius.circular(10)),
+                      const BorderRadius.only(topLeft: Radius.circular(5)),
                   child: images[0].startsWith('https')
                       ? CachedNetworkImage(
                           imageUrl: images[0],
@@ -102,7 +102,7 @@ class ShowImage extends StatelessWidget {
                   height: imageHeight,
                   child: ClipRRect(
                     borderRadius:
-                        const BorderRadius.only(topRight: Radius.circular(10)),
+                        const BorderRadius.only(topRight: Radius.circular(5)),
                     child: images[1].startsWith('https')
                         ? CachedNetworkImage(
                             imageUrl: images[1],
