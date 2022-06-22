@@ -25,10 +25,10 @@ class Body extends StatelessWidget {
                 child: Column(
                   children: [
                     PostHead(vm: vm), //카터고리 타이틀 프로필
-                    const HorizontalDividerCustom(
-                      thickness: 5,
-                      color: kMainScreenBackgroundColor,
-                    ),
+                    // const HorizontalDividerCustom(
+                    //   thickness: 5,
+                    //   color: kMainScreenBackgroundColor,
+                    // ),
                     PostBody(vm: vm), //본문
                     //const HorizontalDividerCustom(),
                     PostBtns(vm: vm), //좋아요, 북마크 버튼

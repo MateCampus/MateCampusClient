@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -23,6 +25,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
+
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<HomeViewModel>(builder: (context, vm, child) {
@@ -105,24 +108,19 @@ class _HomeState extends State<Home> {
         }));
   }
 
-  final double _iconSize = getProportionateScreenWidth(25);
-  final TextStyle _style = TextStyle(
-      fontSize: resizeFont(10),
-      color: Colors.black87,
-      fontWeight: FontWeight.w300);
   Widget _activeIcon(IconData icon, String name) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
           icon,
-          size: _iconSize,
+          size: kBottomNavigationBarIconSize,
           color: Colors.black87,
         ),
         const VerticalSpacing(of: 4),
         Text(
           name,
-          style: _style,
+          style: kBottomNavigationBarTextStyle,
         )
       ],
     );
@@ -134,13 +132,13 @@ class _HomeState extends State<Home> {
       children: [
         Icon(
           icon,
-          size: _iconSize,
+          size: kBottomNavigationBarIconSize,
           color: Colors.black54,
         ),
         const VerticalSpacing(of: 4),
         Text(
           name,
-          style: _style,
+          style: kBottomNavigationBarTextStyle,
         )
       ],
     );
