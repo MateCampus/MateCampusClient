@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
+import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -95,14 +96,13 @@ class PostDetailScreenViewModel extends BaseModel {
     _postDetail = PostDetailPresentation(
       id: postDetailResult.id,
       loginId: postDetailResult.loginId,
-      categories: postDetailResult.categories == null
-          ? defaultPostDetail.categories
-          : postDetailResult.categories!
-              .map((category) =>
-                  CategoryData.iconOf(category.name) +
+      categories: postDetailResult.postCategoryCodes
+              ?.map<String>((category) =>
+                  PostCategoryData.iconOf(category.name) +
                   " " +
-                  CategoryData.korNameOf(category.name))
-              .toList(),
+                  PostCategoryData.korNameOf(category.name))
+              .toList() ??
+          [],
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
       body: postDetailResult.body,
@@ -353,7 +353,7 @@ class PostDetailScreenViewModel extends BaseModel {
 class PostDetailPresentation {
   final int id;
   final String loginId;
-  final List<dynamic> categories;
+  final List<String> categories;
   final String title;
   final String userNickname;
   final String body;

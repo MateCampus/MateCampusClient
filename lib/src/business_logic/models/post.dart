@@ -2,6 +2,7 @@ import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 
 import 'enums/categoryCode.dart';
+import 'enums/postCategoryCode.dart';
 
 class Post {
   final int id;
@@ -15,12 +16,12 @@ class Post {
   int viewCount;
   int commentCount;
   List<Comment>? comments;
-  final List<CategoryCode>? categories; //포스트에 관심사 설정이 없을 수도 있음
+  List<PostCategoryCode>? postCategoryCodes;
 
   Post(
       {required this.id,
       required this.loginId,
-      required this.categories,
+      this.postCategoryCodes,
       required this.title,
       required this.userNickname,
       required this.body,
@@ -35,7 +36,10 @@ class Post {
     return Post(
         id: json['id'],
         loginId: json['loginId'],
-        categories: json['categories'],
+        postCategoryCodes: json['postCategoryCodes']
+            ?.map<PostCategoryCode>((postCategoryCode) =>
+                PostCategoryCode.values.byName(postCategoryCode.toLowerCase()))
+            .toList(),
         title: json['title'],
         userNickname: json['userNickname'],
         body: json['body'],

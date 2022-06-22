@@ -183,7 +183,6 @@ List<VoiceRoom> voiceRoomDummy = [
       token: '',
       uid: 4,
       memberInfos: chatMemberInfo,
-      categories: categoryDummy[Random().nextInt(2)],
       //createdAt: DateTime(2022, 2, 3),
       //type: VoiceRoomType.PUBLIC
       userImageUrls: []),
@@ -197,7 +196,6 @@ List<VoiceRoom> voiceRoomDummy = [
           '0061db42f592687465e9ad1564ae4b55221IABJCnKGlfUjZNgQ3vRhjYc+RyYkebLyXF0471Ao3YbG3G3Q6H4AAAAAEAAPZcnS5z6PYgEAAQDmPo9i',
       uid: 4,
       memberInfos: chatMemberInfo,
-      categories: categoryDummy[Random().nextInt(2)],
       //createdAt: DateTime(2022, 2, 3),
       //type: VoiceRoomType.PUBLIC
       userImageUrls: []),
@@ -209,7 +207,6 @@ List<VoiceRoom> voiceRoomDummy = [
       token: '',
       uid: 4,
       memberInfos: chatMemberInfo,
-      categories: categoryDummy[Random().nextInt(2)],
       //createdAt: DateTime(2022, 2, 3),
       //type: VoiceRoomType.PUBLIC
       userImageUrls: []),
@@ -240,7 +237,7 @@ List<Post> postDummy1 = [
   Post(
       id: 1,
       loginId: "sye",
-      categories: categoryDummy[Random().nextInt(2)],
+      // categories: categoryDummy[Random().nextInt(2)],
       title: "제 이상형을 찾은것 같아요!",
       userNickname: "폼포코팡팡",
       body:
@@ -255,7 +252,7 @@ List<Post> postDummy1 = [
       //post detail fake data로 사용
       id: 2,
       loginId: "zamong",
-      categories: categoryDummy[Random().nextInt(2)],
+      // categories: categoryDummy[Random().nextInt(2)],
       title: "줄서서 기다리는 단국대 맛집",
       userNickname: "자몽쟁이",
       body:
@@ -275,7 +272,7 @@ List<Post> postDummy1 = [
   Post(
     id: 3,
     loginId: "suss",
-    categories: categoryDummy[Random().nextInt(2)],
+    // categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
     userNickname: "미완성작품",
     body:
@@ -290,7 +287,7 @@ List<Post> postDummy1 = [
   Post(
     id: 4,
     loginId: "suss",
-    categories: categoryDummy[Random().nextInt(2)],
+    // categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
     userNickname: "미완성작품",
     body:
@@ -305,7 +302,7 @@ List<Post> postDummy1 = [
   Post(
     id: 5,
     loginId: "suss",
-    categories: categoryDummy[Random().nextInt(2)],
+    // categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
     userNickname: "미완성작품",
     body:
@@ -320,7 +317,7 @@ List<Post> postDummy1 = [
   Post(
     id: 6,
     loginId: "suss",
-    categories: categoryDummy[Random().nextInt(2)],
+    // categories: categoryDummy[Random().nextInt(2)],
     title: "고양이들이 코 박고 자는 이유",
     userNickname: "미완성작품",
     body:

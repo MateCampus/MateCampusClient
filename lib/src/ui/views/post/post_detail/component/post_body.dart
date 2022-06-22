@@ -41,7 +41,9 @@ class PostBody extends StatelessWidget {
             ),
           ),
           vm.postDetail.imageUrls.isEmpty
-              ? const SizedBox()
+              ? const SizedBox(
+                  height: 30,
+                )
               : _hasImage(context),
         ],
       ),

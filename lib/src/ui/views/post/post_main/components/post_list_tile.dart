@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dar
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/bottom_count_info.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/show_image.dart';
@@ -38,7 +39,7 @@ class PostListTile extends StatelessWidget {
                   ? const SizedBox()
                   : ShowImage(images: post.imageUrls),
               post.categories.isEmpty ? _onlyBody() : _hasCategoryWithBody(),
-              const HorizontalDividerCustom(),
+              // const HorizontalDividerCustom(),
               BottomCountInfo(post: post)
             ],
           ),
@@ -52,10 +53,11 @@ class PostListTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const VerticalSpacing(of: 15),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: getProportionateScreenWidth(15),
-              vertical: getProportionateScreenHeight(5)),
+            horizontal: getProportionateScreenWidth(13),
+          ),
           child: Row(
             //카테고리 나열 -> viewmodel에서 Row로 정렬되게끔 바꾸기
             children: [
@@ -66,10 +68,10 @@ class PostListTile extends StatelessWidget {
             ],
           ),
         ),
+        const VerticalSpacing(of: 10),
         Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: getProportionateScreenHeight(5),
-              horizontal: getProportionateScreenWidth(15)),
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(13)),
           child: Text(
             post.body,
             maxLines: 2,
@@ -82,16 +84,21 @@ class PostListTile extends StatelessWidget {
   }
 
   Widget _onlyBody() {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: getProportionateScreenHeight(15),
-          horizontal: getProportionateScreenWidth(15)),
-      child: Text(
-        post.body,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-        style: kPostBodyStyle,
-      ),
+    return Column(
+      children: [
+        VerticalSpacing(of: 20),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(13)),
+          child: Text(
+            post.body,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: kPostBodyStyle,
+          ),
+        ),
+        VerticalSpacing(of: 0),
+      ],
     );
   }
 }

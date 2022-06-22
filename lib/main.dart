@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/route_generators.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'src/business_logic/constants/color_constants.dart';
 import 'src/config/routes.dart';
 import 'package:timeago/timeago.dart' as timeago;
 // import 'firebase_options.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
           },
           title: 'zamongCampus',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Spoqa'),
+          theme: ThemeData(primarySwatch: Palette.kToDark, fontFamily: 'Spoqa'),
           routes: routes,
           initialRoute: "/splash",
           onGenerateRoute: RouteGenerator.generateRoute,

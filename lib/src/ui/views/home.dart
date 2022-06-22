@@ -31,23 +31,17 @@ class _HomeState extends State<Home> {
               child: vm.currentScreen,
               bucket: bucket,
             ),
-            floatingActionButton: Container(
-              height: 50,
-              width: 50,
-              child: FittedBox(
-                child: FloatingActionButton(
-                  child: Icon(
-                    Icons.add,
-                    size: getProportionateScreenWidth(30),
-                  ),
-                  backgroundColor: kMainColor,
-                  onPressed: () {
-                    showCustomModalBottomSheet(
-                        context: context,
-                        buildWidget: const VoiceRoomCreateBottomSheet());
-                  },
-                ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(
+                CupertinoIcons.add,
+                size: getProportionateScreenWidth(27),
               ),
+              backgroundColor: kMainColor,
+              onPressed: () {
+                showCustomModalBottomSheet(
+                    context: context,
+                    buildWidget: const VoiceRoomCreateBottomSheet());
+              },
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,

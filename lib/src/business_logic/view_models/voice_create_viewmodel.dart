@@ -3,6 +3,7 @@ import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
@@ -206,7 +207,7 @@ class VoiceCreateViewModel extends BaseModel {
     notifyListeners();
   }
 
-//대화방 만들기
+  //대화방 만들기
 
   Future<VoiceRoom> createVoiceRoom() async {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
@@ -214,6 +215,20 @@ class VoiceCreateViewModel extends BaseModel {
         selectedMemberLoginIds: selectedMemberLoginIds,
         categoryCodeList: categoryCodeList);
     return voiceRoom;
+  }
+
+  void changecategoryCodeList(String categoryCodeName) {
+    categoryCodeName = categoryCodeName.split('.').last;
+    if (categoryCodeList.contains(categoryCodeName)) {
+      categoryCodeList.remove(categoryCodeName);
+    } else {
+      if (categoryCodeList.length >= 3) {
+        toastMessage("카테고리는 최대 3개까지입니다.");
+        return;
+      }
+      categoryCodeList.add(categoryCodeName);
+    }
+    notifyListeners();
   }
 }
 

@@ -17,8 +17,7 @@ class _PostBtnsState extends State<PostBtns> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(12)),
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(5)),
       child: Row(
         children: [
           TextButton.icon(

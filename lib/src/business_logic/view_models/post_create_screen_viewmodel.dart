@@ -79,6 +79,20 @@ class PostCreateScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
+  void changecategoryCodeList(String categoryCodeName) {
+    categoryCodeName = categoryCodeName.split('.').last;
+    if (categoryCodeList.contains(categoryCodeName)) {
+      categoryCodeList.remove(categoryCodeName);
+    } else {
+      if (categoryCodeList.length >= 3) {
+        toastMessage("카테고리는 최대 3개까지입니다.");
+        return;
+      }
+      categoryCodeList.add(categoryCodeName);
+    }
+    notifyListeners();
+  }
+
   //이미지 삭제 함수
   void removeImage(int index) {
     pickedImgs.removeAt(index);
