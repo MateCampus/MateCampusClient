@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart'
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/voice_room_create_bottom_sheet_component/voice_room_create_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,7 +23,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<HomeViewModel>(builder: (context, vm, child) {
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
               notchMargin: getProportionateScreenWidth(5),
               elevation: 4,
               child: SizedBox(
-                height: getProportionateScreenHeight(50),
+                height: getProportionateScreenHeight(53),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -57,78 +57,44 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         MaterialButton(
-                          //minWidth: getProportionateScreenWidth(40),
-                          onPressed: () {
-                            vm.changeCurrentIndex(0);
-                          },
-                          child: vm.currentTab == 0
-                              ? Icon(
-                                  CupertinoIcons.house_alt_fill,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black87,
-                                )
-                              : Icon(
-                                  CupertinoIcons.house_alt,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black54,
-                                ),
-                        ),
+                            onPressed: () {
+                              vm.changeCurrentIndex(0);
+                            },
+                            child: vm.currentTab == 0
+                                ? _activeIcon(
+                                    CupertinoIcons.house_alt_fill, '홈')
+                                : _deactiveIcon(CupertinoIcons.house_alt, '홈')),
                         MaterialButton(
-                          //minWidth: getProportionateScreenWidth(40),
-                          onPressed: () {
-                            vm.changeCurrentIndex(1);
-                          },
-                          child: vm.currentTab == 1
-                              ? Icon(
-                                  CupertinoIcons.square_favorites_alt_fill,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black87,
-                                )
-                              : Icon(
-                                  CupertinoIcons.square_favorites_alt,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black54,
-                                ),
-                        ),
+                            onPressed: () {
+                              vm.changeCurrentIndex(1);
+                            },
+                            child: vm.currentTab == 1
+                                ? _activeIcon(
+                                    CupertinoIcons.square_favorites_alt_fill,
+                                    '피드')
+                                : _deactiveIcon(
+                                    CupertinoIcons.square_favorites_alt, '피드')),
                       ],
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         MaterialButton(
-                          // minWidth: getProportionateScreenWidth(40),
-                          onPressed: () {
-                            vm.changeCurrentIndex(2);
-                          },
-                          child: vm.currentTab == 2
-                              ? Icon(
-                                  CupertinoIcons.ellipses_bubble_fill,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black87,
-                                )
-                              : Icon(
-                                  CupertinoIcons.ellipses_bubble,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black54,
-                                ),
-                        ),
+                            onPressed: () {
+                              vm.changeCurrentIndex(2);
+                            },
+                            child: vm.currentTab == 2
+                                ? _activeIcon(
+                                    CupertinoIcons.ellipses_bubble_fill, '채팅')
+                                : _deactiveIcon(
+                                    CupertinoIcons.ellipses_bubble, '채팅')),
                         MaterialButton(
-                          // minWidth: getProportionateScreenWidth(40),
-                          onPressed: () {
-                            vm.changeCurrentIndex(3);
-                          },
-                          child: vm.currentTab == 3
-                              ? Icon(
-                                  CupertinoIcons.person_fill,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black87,
-                                )
-                              : Icon(
-                                  CupertinoIcons.person,
-                                  size: getProportionateScreenWidth(25),
-                                  color: Colors.black54,
-                                ),
-                        ),
+                            onPressed: () {
+                              vm.changeCurrentIndex(3);
+                            },
+                            child: vm.currentTab == 3
+                                ? _activeIcon(CupertinoIcons.person_fill, '내정보')
+                                : _deactiveIcon(CupertinoIcons.person, '내정보')),
                       ],
                     )
                   ],
@@ -137,5 +103,46 @@ class _HomeState extends State<Home> {
             ),
           );
         }));
+  }
+
+  final double _iconSize = getProportionateScreenWidth(25);
+  final TextStyle _style = TextStyle(
+      fontSize: resizeFont(10),
+      color: Colors.black87,
+      fontWeight: FontWeight.w300);
+  Widget _activeIcon(IconData icon, String name) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          size: _iconSize,
+          color: Colors.black87,
+        ),
+        const VerticalSpacing(of: 4),
+        Text(
+          name,
+          style: _style,
+        )
+      ],
+    );
+  }
+
+  Widget _deactiveIcon(IconData icon, String name) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(
+          icon,
+          size: _iconSize,
+          color: Colors.black54,
+        ),
+        const VerticalSpacing(of: 4),
+        Text(
+          name,
+          style: _style,
+        )
+      ],
+    );
   }
 }
