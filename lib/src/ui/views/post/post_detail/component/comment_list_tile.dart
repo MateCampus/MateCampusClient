@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/commemt_deleted_msg.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_post/report_post_form.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/component/deleted_nested_comment_list_tile.dart';
@@ -81,6 +82,7 @@ class CommentListTile extends StatelessWidget {
                         child: ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
                             itemCount: comment.children.length,
                             itemBuilder: (BuildContext context, int index) {
                               return comment.children[index].deleted
@@ -154,7 +156,17 @@ class CommentListTile extends StatelessWidget {
 
   Widget _reportBtn(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        buildCustomAlertDialog(
+            context: context,
+            contentWidget: ReportPostForm(
+              vm: vm,
+            ),
+            press: () {
+              vm.reportComment(context, comment.id);
+            },
+            btnText: '신고');
+      },
       style: TextButton.styleFrom(
         minimumSize: Size.zero,
         padding: EdgeInsets.zero,

@@ -3,3 +3,8 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 TextStyle kPostBodyStyle =
     TextStyle(fontSize: resizeFont(14.5), color: Colors.black87, height: 1.5);
+
+TextStyle kBottomNavigationBarTextStyle = TextStyle(
+    fontSize: resizeFont(10),
+    color: Colors.black87,
+    fontWeight: FontWeight.w300);

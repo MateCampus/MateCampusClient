@@ -18,7 +18,7 @@ class Body extends StatelessWidget {
     return SingleChildScrollView(
         child: Column(
       children: [
-        ChatTopBanner(),
+        const ChatTopBanner(),
         FriendBtn(),
         const VerticalSpacing(of: 15),
         ChatList(vm: vm)

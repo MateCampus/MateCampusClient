@@ -15,11 +15,13 @@ onGenerateRoute: (settings) {
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_friendProfile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/mypage_post_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_invite_friend_screen_args.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/chat_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail_from_friendProfile/chat_detail_from_friendProfile_screen.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_post/mypage_post_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_invite_friend/voice_invite_friend_screen.dart';
@@ -58,6 +60,10 @@ class RouteGenerator {
             builder: (_) => ChatDetailFromFriendProfileScreen(
                   profileLoginId: args.profileLoginId,
                 ));
+      case "/mypagePost":
+        final args = settings.arguments as MypagePostScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) => MypagePostScreen(isFrom: args.isFrom));
       default:
         return _errorRoute();
     }

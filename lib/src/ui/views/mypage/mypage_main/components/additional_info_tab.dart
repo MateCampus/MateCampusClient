@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/mypage_post_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
-import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/verticalDividerCustom.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_post/mypage_post_screen.dart';
 
 class AdditionalInfoTab extends StatelessWidget {
-  MypagePresentation myInfo;
-  AdditionalInfoTab({Key? key, required this.myInfo}) : super(key: key);
+  final MypagePresentation myInfo;
+  const AdditionalInfoTab({Key? key, required this.myInfo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +34,31 @@ class AdditionalInfoTab extends StatelessWidget {
                     text: '친구',
                     count: myInfo.friendCount,
                     onTap: () {
-                      HomeViewModel homevm = serviceLocator<HomeViewModel>();
-                      homevm.changeCurrentIndex(2);
                       Navigator.pushNamed(context, "/friend");
                     }),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
-                _tabBtn(text: '북마크', count: myInfo.bookMarkCount, onTap: () {}),
+                _tabBtn(
+                    text: '북마크',
+                    count: myInfo.bookMarkCount,
+                    onTap: () {
+                      Navigator.pushNamed(context, MypagePostScreen.routeName,
+                          arguments: MypagePostScreenArgs("BookMark"));
+                    }),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
-                _tabBtn(text: '내 피드', count: myInfo.feedCount, onTap: () {}),
+                _tabBtn(
+                    text: '내 피드',
+                    count: myInfo.feedCount,
+                    onTap: () {
+                      Navigator.pushNamed(context, MypagePostScreen.routeName,
+                          arguments: MypagePostScreenArgs("Feed"));
+                    }),
                 VerticalDividerCustom(height: getProportionateScreenHeight(35)),
-                _tabBtn(text: '내 댓글', count: myInfo.commentCount, onTap: () {}),
+                _tabBtn(
+                    text: '내 댓글',
+                    count: myInfo.commentCount,
+                    onTap: () {
+                      Navigator.pushNamed(context, "/mypageComment");
+                    }),
               ]),
         ),
       ),

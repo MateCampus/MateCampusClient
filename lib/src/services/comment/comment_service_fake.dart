@@ -16,14 +16,20 @@ class FakeCommentService implements CommentService {
   }
 
   @override
-  Future<bool> deleteComment({required int postId, required int commentId}) {
-    // TODO: implement deleteComment
+  Future<List<Comment>> fetchComments({required int postId}) {
+    // TODO: implement fetchComments
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Comment>> fetchComments({required int postId}) {
-    // TODO: implement fetchComments
+  Future<List<Comment>> fetchMyComments() {
+    // TODO: implement fetchMyComments
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> deleteComment({required int postId, required int commentId}) {
+    // TODO: implement deleteComment
     throw UnimplementedError();
   }
 }

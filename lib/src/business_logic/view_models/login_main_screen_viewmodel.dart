@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/splash_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
 
 class LoginMainScreenViewModel extends BaseModel {
   final LoginService _loginService = serviceLocator<LoginService>();
+  String _loginBackgroundImg = '';
+
+  String get loginBackgroundImg => _loginBackgroundImg;
 
   void login(
       {required String id,
@@ -33,5 +37,10 @@ class LoginMainScreenViewModel extends BaseModel {
                     '/', (Route<dynamic> route) => false);
               }),
             });
+  }
+
+  void setImage() {
+    SplashViewModel splashViewModel = serviceLocator<SplashViewModel>();
+    _loginBackgroundImg = splashViewModel.loginImg;
   }
 }

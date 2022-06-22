@@ -3,6 +3,8 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_fri
 import 'package:zamongcampus/src/business_logic/view_models/friend_list_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_comment_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_post_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
@@ -10,6 +12,7 @@ import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_v
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/splash_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
@@ -28,6 +31,9 @@ import 'package:zamongcampus/src/services/login/login_service_implementation.dar
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/post/post_service_fake.dart';
 import 'package:zamongcampus/src/services/post/post_service_implementation.dart';
+import 'package:zamongcampus/src/services/report/report_service.dart';
+import 'package:zamongcampus/src/services/report/report_service_fake.dart';
+import 'package:zamongcampus/src/services/report/report_service_implementation.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:zamongcampus/src/services/signup/signup_service_fake.dart';
 import 'package:zamongcampus/src/services/signup/signup_service_implementation.dart';
@@ -59,6 +65,7 @@ void setupServiceLocator() {
   //     .registerLazySingleton<SignUpService>(() => FakeSignUpService());
   // serviceLocator.registerLazySingleton<VoiceService>(() => FakeVoiceService());
   // serviceLocator.registerLazySingleton<UserService>(() => FakeUserService());
+  // serviceLocator.registerLazySingleton<ReportService>(() => FakeReportService());
 
   /* 2. 실제 불가능한 services */
   serviceLocator.registerLazySingleton<ChatService>(() => ChatServiceImpl());
@@ -76,6 +83,8 @@ void setupServiceLocator() {
   serviceLocator
       .registerLazySingleton<SignUpService>(() => SignUpServiceImpl());
   serviceLocator.registerLazySingleton<UserService>(() => UserServiceImpl());
+  serviceLocator
+      .registerLazySingleton<ReportService>(() => ReportServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
@@ -108,4 +117,10 @@ void setupServiceLocator() {
   serviceLocator
       .registerLazySingleton<SignUpViewModel>(() => SignUpViewModel());
   serviceLocator.registerLazySingleton<HomeViewModel>(() => HomeViewModel());
+  serviceLocator
+      .registerLazySingleton<MypagePostViewModel>(() => MypagePostViewModel());
+  serviceLocator.registerLazySingleton<MypageCommentViewModel>(
+      () => MypageCommentViewModel());
+  serviceLocator
+      .registerLazySingleton<SplashViewModel>(() => SplashViewModel());
 }
