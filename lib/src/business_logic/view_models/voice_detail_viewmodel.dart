@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
+import 'package:zamongcampus/src/business_logic/utils/voice_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -154,12 +155,13 @@ class VoiceDetailViewModel extends BaseModel {
         id: voiceRoom.id,
         roomId: voiceRoom.roomId!,
         title: voiceRoom.title ?? '제목 오류',
-        categories: categoryDummy[Random().nextInt(2)]
-            .map((category) =>
-                CategoryData.iconOf(category.name) +
-                " " +
-                CategoryData.korNameOf(category.name))
-            .toList(),
+        categories: voiceRoom.voiceCategoryCodes
+                ?.map<String>((category) =>
+                    VoiceCategoryData.iconOf(category.name) +
+                    " " +
+                    VoiceCategoryData.korNameOf(category.name))
+                .toList() ??
+            [],
         type: VoiceRoomType.PUBLIC);
 
     //이미 존재하고 있는 멤버 정보 매핑 -> '나'인 경우와 아닌 경우 닉네임 다르게 표시
@@ -305,7 +307,7 @@ class VoiceRoomPresentation {
   final int id;
   final String roomId;
   final String title;
-  final List<dynamic> categories; //일단은 뷰모델에서 지정해두자. 서버에서는 아직 안넘어옴
+  final List<String> categories; //일단은 뷰모델에서 지정해두자. 서버에서는 아직 안넘어옴
   VoiceRoomType type;
 
   VoiceRoomPresentation(

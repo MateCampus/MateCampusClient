@@ -3,6 +3,7 @@ import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
+import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
@@ -64,14 +65,13 @@ class PostMainScreenViewModel extends BaseModel {
         .map((post) => PostPresentation(
               id: post.id,
               loginId: post.loginId,
-              categories: post.categories == null
-                  ? []
-                  : post.categories!
-                      .map((category) =>
-                          CategoryData.iconOf(category.name) +
+              categories: post.postCategoryCodes
+                      ?.map<String>((category) =>
+                          PostCategoryData.iconOf(category.name) +
                           " " +
-                          CategoryData.korNameOf(category.name))
-                      .toList(),
+                          PostCategoryData.korNameOf(category.name))
+                      .toList() ??
+                  [],
               title: post.title,
               body: post.body,
               createdAt: dateToTimeEng(post.createdAt),
@@ -96,19 +96,18 @@ class PostMainScreenViewModel extends BaseModel {
         nextPageToken: _nextPageToken,
         collegeFilter: collegeFilter);
     if (additionalPosts.isEmpty) {
-      toastMessage('피드 끝!');
+      // toastMessage('피드 끝!');
     } else if (additionalPosts.isNotEmpty) {
       _posts.addAll(additionalPosts.map((post) => PostPresentation(
             id: post.id,
             loginId: post.loginId,
-            categories: post.categories == null
-                ? []
-                : post.categories!
-                    .map((category) =>
-                        CategoryData.iconOf(category.name) +
+            categories: post.postCategoryCodes
+                    ?.map<String>((category) =>
+                        PostCategoryData.iconOf(category.name) +
                         " " +
-                        CategoryData.korNameOf(category.name))
-                    .toList(),
+                        PostCategoryData.korNameOf(category.name))
+                    .toList() ??
+                [],
             title: post.title,
             body: post.body,
             createdAt: dateToTimeEng(post.createdAt),
@@ -180,7 +179,7 @@ class PostMainScreenViewModel extends BaseModel {
 class PostPresentation {
   final int id;
   final String loginId;
-  final List<dynamic> categories;
+  final List<String> categories;
   final String title;
   final String body;
   String createdAt;

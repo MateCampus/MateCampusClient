@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
+import 'package:zamongcampus/src/business_logic/utils/voice_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -69,17 +70,19 @@ class VoiceMainScreenViewModel extends BaseModel {
         .map((voiceRoom) => VoiceRoomPresentation(
               id: voiceRoom.id,
               title: voiceRoom.title ?? "제목 오류",
-              memberImgUrls: voiceRoom.userImageUrls!
-                  .map((image) => image.isEmpty
-                      ? "assets/images/user/general_user.png"
-                      : image)
-                  .toList(),
-              categories: categoryDummy[Random().nextInt(2)]
-                  .map((category) =>
-                      CategoryData.iconOf(category.name) +
-                      " " +
-                      CategoryData.korNameOf(category.name))
-                  .toList(),
+              memberImgUrls: voiceRoom.userImageUrls
+                      ?.map((image) => image.isEmpty
+                          ? "assets/images/user/general_user.png"
+                          : image)
+                      .toList() ??
+                  [],
+              categories: voiceRoom.voiceCategoryCodes
+                      ?.map<String>((category) =>
+                          VoiceCategoryData.iconOf(category.name) +
+                          " " +
+                          VoiceCategoryData.korNameOf(category.name))
+                      .toList() ??
+                  [],
             ))
         .toList();
 
@@ -123,12 +126,13 @@ class VoiceMainScreenViewModel extends BaseModel {
                         ? "assets/images/user/general_user.png"
                         : image)
                     .toList(),
-                categories: categoryDummy[Random().nextInt(2)]
-                    .map((category) =>
-                        CategoryData.iconOf(category.name) +
-                        " " +
-                        CategoryData.korNameOf(category.name))
-                    .toList(),
+                categories: voiceRoom.voiceCategoryCodes
+                        ?.map<String>((category) =>
+                            VoiceCategoryData.iconOf(category.name) +
+                            " " +
+                            VoiceCategoryData.korNameOf(category.name))
+                        .toList() ??
+                    [],
               ))
           .toList());
       _voiceRoomNextPageToken++;
@@ -143,7 +147,7 @@ class VoiceRoomPresentation {
   final int id;
   final String title;
   final List<String> memberImgUrls;
-  final List<dynamic> categories;
+  final List<String> categories;
 
   VoiceRoomPresentation({
     required this.id,

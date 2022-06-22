@@ -35,8 +35,9 @@ class _HomeState extends State<Home> {
               bucket: bucket,
             ),
             floatingActionButton: FloatingActionButton(
-              child: const Icon(
-                Icons.add,
+              child: Icon(
+                CupertinoIcons.add,
+                size: getProportionateScreenWidth(27),
               ),
               backgroundColor: kMainColor,
               onPressed: () {

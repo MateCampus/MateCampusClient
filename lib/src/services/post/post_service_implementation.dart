@@ -12,7 +12,8 @@ class PostServiceImpl implements PostService {
   Future<bool> createPost(
       {required String title,
       required String body,
-      List<XFile>? imageFileList}) async {
+      List<XFile>? imageFileList,
+      required List<String> categoryCodeList}) async {
     var request =
         http.MultipartRequest("POST", Uri.parse(devServer + "/api/post"))
           ..headers.addAll(AuthService.get_auth_header());
@@ -25,6 +26,8 @@ class PostServiceImpl implements PostService {
             .add(await http.MultipartFile.fromPath('files', imageFile.path));
       }
     }
+    String categoryCodesJson = categoryCodeList.join(' ,');
+    request.fields["categoryCodeList"] = categoryCodesJson;
 
     var response = await request.send();
     if (response.statusCode == 200) {

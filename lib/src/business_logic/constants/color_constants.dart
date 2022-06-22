@@ -22,3 +22,21 @@ final kShadowForTile = BoxShadow(
   blurRadius: 5,
   spreadRadius: 1,
 );
+
+class Palette {
+  static const MaterialColor kToDark = MaterialColor(
+    0xffff6f5e, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
+    <int, Color>{
+      50: Color(0xffe66455), //10%
+      100: Color(0xffcc594b), //20%
+      200: Color(0xffb34e42), //30%
+      300: Color(0xff994338), //40%
+      400: Color(0xff80382f), //50%
+      500: Color(0xff662c26), //60%
+      600: Color(0xff4c211c), //70%
+      700: Color(0xff331613), //80%
+      800: Color(0xff190b09), //90%
+      900: Color(0xff000000), //100%
+    },
+  );
+}

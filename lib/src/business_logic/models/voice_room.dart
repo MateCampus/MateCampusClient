@@ -2,6 +2,7 @@ import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 
 import 'enums/categoryCode.dart';
+import 'enums/voiceCategoryCode.dart';
 
 class VoiceRoom {
   final int id;
@@ -15,7 +16,7 @@ class VoiceRoom {
   bool? isFull;
   // DateTime createdAt;
   //VoiceRoomType? type;
-  List<CategoryCode>? categories;
+  List<VoiceCategoryCode>? voiceCategoryCodes;
   //bool? collegeOnly;
   //bool? majorOnly;
 
@@ -28,7 +29,7 @@ class VoiceRoom {
       this.ownerLoginId,
       this.userImageUrls,
       this.memberInfos,
-      this.categories,
+      this.voiceCategoryCodes,
       this.isFull
       //required this.createdAt,
       // this.type,
@@ -37,32 +38,24 @@ class VoiceRoom {
       });
 
   factory VoiceRoom.fromJson(Map<String, dynamic> json) {
-    return json.containsKey('voiceRoomAndTokenInfo')
-        ? VoiceRoom(
-            id: json['voiceRoomAndTokenInfo']['id'],
-            title: json['voiceRoomAndTokenInfo']['title'],
-            roomId: json['voiceRoomAndTokenInfo']['roomId'],
-            token: json['voiceRoomAndTokenInfo']['token'],
-            uid: json['voiceRoomAndTokenInfo']['uid'],
-            ownerLoginId: json['voiceRoomAndTokenInfo']['ownerLoginId'],
-            memberInfos: json['memberInfos']
-                ?.map<ChatMemberInfo>(
-                    (member) => ChatMemberInfo.fromJson(member))
-                .toList(),
-            categories: json['categories']?.toList(),
-            isFull: json['full']
-            //createdAt: DateTime?.parse(json['createdAt']),
-            // type: VoiceRoomType.values.byName(json['type']),
-            // collegeOnly: json['collegeOnly'],
-            // majorOnly: json['majorOnly']
-            )
-        : VoiceRoom(
-            id: json['id'],
-            title: json['title'],
-            userImageUrls: json['userImageUrls']
-                .map<String>((userImageUrl) => userImageUrl.toString())
-                .toList(),
-            //createdAt: DateTime?.parse(json['createdAt']),
-          );
+    return VoiceRoom(
+        id: json['id'],
+        title: json['title'],
+        roomId: json['roomId'],
+        token: json['token'],
+        uid: json['uid'],
+        ownerLoginId: json['ownerLoginId'],
+        userImageUrls: json['userImageUrls']
+            ?.map<String>((userImageUrl) => userImageUrl.toString())
+            .toList(),
+        memberInfos: json['memberInfos']
+            ?.map<ChatMemberInfo>((member) => ChatMemberInfo.fromJson(member))
+            .toList(),
+        voiceCategoryCodes: json['voiceCategoryCodes']
+            .map<VoiceCategoryCode>((voiceCategoryCode) => VoiceCategoryCode
+                .values
+                .byName(voiceCategoryCode.toLowerCase()))
+            .toList(),
+        isFull: json['full']);
   }
 }

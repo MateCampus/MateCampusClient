@@ -11,7 +11,9 @@ class BottomCountInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+      padding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(13),
+          vertical: getProportionateScreenHeight(15)),
       child: Row(
         children: [
           Icon(

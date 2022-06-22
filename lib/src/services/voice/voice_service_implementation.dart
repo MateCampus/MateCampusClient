@@ -41,13 +41,17 @@ class VoiceServiceImpl implements VoiceService {
   @override
   Future<VoiceRoom> createVoiceRoom(
       {required String title,
-      required List<String> selectedMemberLoginIds}) async {
+      required List<String> selectedMemberLoginIds,
+      required List<String> categoryCodeList}) async {
     // 중복제거
     selectedMemberLoginIds = [
       ...{...selectedMemberLoginIds}
     ];
-    String voiceRoomJson = jsonEncode(
-        {"title": title, "selectedMemberLoginIds": selectedMemberLoginIds});
+    String voiceRoomJson = jsonEncode({
+      "title": title,
+      "selectedMemberLoginIds": selectedMemberLoginIds,
+      "categoryCodeList": categoryCodeList
+    });
 
     final response = await http.post(Uri.parse(devServer + "/api/voiceRoom"),
         headers: AuthService.get_auth_header(), body: voiceRoomJson);

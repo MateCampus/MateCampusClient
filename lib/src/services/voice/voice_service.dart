@@ -6,7 +6,9 @@ abstract class VoiceService {
   Future<VoiceRoom> fetchVoiceRoom({required int id});
 
   Future<VoiceRoom> createVoiceRoom(
-      {required String title, required List<String> selectedMemberLoginIds});
+      {required String title,
+      required List<String> selectedMemberLoginIds,
+      required List<String> categoryCodeList});
 
   Future<void> exitVoiceRoom({required int id});
   Future<bool> inviteUsers(

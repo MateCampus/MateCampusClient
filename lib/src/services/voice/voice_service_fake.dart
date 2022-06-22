@@ -6,7 +6,8 @@ class FakeVoiceService implements VoiceService {
   @override
   Future<VoiceRoom> createVoiceRoom(
       {required String title,
-      required List<String> selectedMemberLoginIds}) async {
+      required List<String> selectedMemberLoginIds,
+      required List<String> categoryCodeList}) async {
     // TODO: implement createVoiceRoom
     throw UnimplementedError();
   }

@@ -22,6 +22,7 @@ class _EditInterestState extends State<EditInterest> {
         children: [
           Center(
             child: Wrap(
+              alignment: WrapAlignment.spaceAround,
               runSpacing: getProportionateScreenHeight(15), //세로 간격
               spacing: getProportionateScreenWidth(25),
               children: [
@@ -43,7 +44,7 @@ class _EditInterestState extends State<EditInterest> {
                           Text(
                             interest.title,
                             style: TextStyle(
-                                fontSize: getProportionateScreenWidth(12),
+                                fontSize: getProportionateScreenWidth(10.5),
                                 fontWeight: FontWeight.w500),
                           )
                         ],
@@ -64,7 +65,7 @@ class _EditInterestState extends State<EditInterest> {
                           Text(
                             interest.title,
                             style: TextStyle(
-                                fontSize: getProportionateScreenWidth(12),
+                                fontSize: getProportionateScreenWidth(10.5),
                                 fontWeight: FontWeight.w500),
                           )
                         ],

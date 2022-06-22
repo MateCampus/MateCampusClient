@@ -61,4 +61,6 @@ enum InterestCode {
   interest0060,
   interest0061,
   interest0062,
+  interest0063,
+  interest0064,
 }
