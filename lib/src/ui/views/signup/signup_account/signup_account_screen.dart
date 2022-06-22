@@ -30,8 +30,7 @@ class _SignUpAccountScreenState extends State<SignUpAccountScreen> {
               leadingOnPress: () {
                 serviceLocator.resetLazySingleton<SignUpViewModel>(
                     instance: vm);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/login', (route) => false);
+                Navigator.pop(context);
               },
             ),
             backgroundColor: Colors.white,
