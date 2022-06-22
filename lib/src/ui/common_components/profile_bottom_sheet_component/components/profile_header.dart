@@ -25,12 +25,17 @@ class ProfileHeader extends StatelessWidget {
         Align(
             alignment: Alignment.centerRight,
             child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.more_horiz,
-                  color: const Color(0xffe2e2e2),
-                  size: getProportionateScreenWidth(30),
-                )))
+              onPressed: () {},
+              icon: Icon(
+                Icons.more_horiz,
+                color: const Color(0xffe2e2e2),
+                size: getProportionateScreenWidth(30),
+              ),
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(20)),
+              splashRadius: getProportionateScreenWidth(20),
+              constraints: const BoxConstraints(),
+            ))
       ],
     );
   }

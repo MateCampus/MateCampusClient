@@ -24,8 +24,9 @@ class ProfileInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+      padding: EdgeInsets.symmetric(
+          vertical: getProportionateScreenHeight(10),
+          horizontal: getProportionateScreenWidth(20)),
       child: Column(
         children: [
           _profileImg(context),
@@ -106,9 +107,7 @@ class ProfileInfo extends StatelessWidget {
 
   Widget _introduction() {
     return Padding(
-      padding: EdgeInsets.only(
-          top: getProportionateScreenHeight(10),
-          bottom: getProportionateScreenHeight(20)),
+      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(10)),
       child: Text(
         introduction!,
         textAlign: TextAlign.center,
