@@ -23,7 +23,7 @@ class ChatTopBanner extends StatelessWidget {
               viewportFraction: 1.0,
               autoPlay: true,
               autoPlayCurve: Curves.easeInOut,
-              autoPlayInterval: const Duration(seconds: 5)),
+              autoPlayInterval: const Duration(seconds: 4)),
           items: _bannerList.map((bannerImg) {
             return Builder(builder: (context) {
               return ClipRRect(

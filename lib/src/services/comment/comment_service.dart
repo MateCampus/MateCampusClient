@@ -11,6 +11,9 @@ abstract class CommentService {
 //댓글들 전부 가져오기
   Future<List<Comment>> fetchComments({required int postId});
 
+  //내 댓글 가져오기
+  Future<List<Comment>> fetchMyComments();
+
   //댓글 삭제
   Future<bool> deleteComment({required int postId, required int commentId});
 }
