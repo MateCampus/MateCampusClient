@@ -6,6 +6,8 @@ import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_vie
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 
+import '../utils/post_category_data.dart';
+
 class MypagePostViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
   List<PostPresentation> _posts = List.empty(growable: true);
@@ -31,14 +33,13 @@ class MypagePostViewModel extends BaseModel {
         .map((post) => PostPresentation(
               id: post.id,
               loginId: post.loginId,
-              categories: post.categories == null
-                  ? []
-                  : post.categories!
-                      .map((category) =>
-                          CategoryData.iconOf(category.name) +
+              categories: post.postCategoryCodes
+                      ?.map<String>((category) =>
+                          PostCategoryData.iconOf(category.name) +
                           " " +
-                          CategoryData.korNameOf(category.name))
-                      .toList(),
+                          PostCategoryData.korNameOf(category.name))
+                      .toList() ??
+                  [],
               title: post.title,
               body: post.body,
               createdAt: dateToTimeEng(post.createdAt),
