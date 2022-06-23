@@ -5,7 +5,9 @@ import 'package:zamongcampus/src/business_logic/view_models/mypage_comment_viewm
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
+import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_comment/components/body.dart';
 
 class MypageCommentScreen extends StatefulWidget {
   const MypageCommentScreen({Key? key}) : super(key: key);
@@ -35,15 +37,15 @@ class _MypageCommentScreenState extends State<MypageCommentScreen> {
               titleText: "내 댓글",
             ),
             backgroundColor: kSubScreenBackgroundColor,
-            // body: SafeArea(
-            //     child: vm.busy
-            //         ? const IsLoading()
-            //         : vm.posts.isEmpty
-            //             ? const CenterSentence(
-            //                 sentence: '게시물이 존재하지 않습니다',
-            //                 bottomSpace: 100,
-            //               )
-            //             : Body(vm: vm)),
+            body: SafeArea(
+                child: vm.busy
+                    ? const IsLoading()
+                    : vm.comments.isEmpty
+                        ? const CenterSentence(
+                            sentence: '댓글이 존재하지 않습니다',
+                            bottomSpace: 100,
+                          )
+                        : Body(commentList: vm.comments)),
           );
         },
       ),
