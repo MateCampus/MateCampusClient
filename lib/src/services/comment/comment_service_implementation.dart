@@ -80,14 +80,9 @@ class CommentServiceImpl implements CommentService {
   }
 
   @override
-  Future<bool> deleteComment(
-      {required int postId, required int commentId}) async {
+  Future<bool> deleteComment({required int commentId}) async {
     final response = await http.delete(
-        Uri.parse(devServer +
-            "/api/post/" +
-            postId.toString() +
-            "/comment/" +
-            commentId.toString()),
+        Uri.parse(devServer + "/api/comment/" + commentId.toString()),
         headers: AuthService.get_auth_header());
 
     if (response.statusCode == 204) {

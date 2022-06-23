@@ -280,8 +280,7 @@ class PostDetailScreenViewModel extends BaseModel {
   }
 
   void deleteComment(BuildContext context, int commentId) async {
-    bool isDeleted = await _commentService.deleteComment(
-        postId: _postDetail.id, commentId: commentId);
+    bool isDeleted = await _commentService.deleteComment(commentId: commentId);
     if (isDeleted) {
       Navigator.pop(context);
       print('댓글 삭제 성공');

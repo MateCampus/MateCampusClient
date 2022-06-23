@@ -15,5 +15,5 @@ abstract class CommentService {
   Future<List<Comment>> fetchMyComments();
 
   //댓글 삭제
-  Future<bool> deleteComment({required int postId, required int commentId});
+  Future<bool> deleteComment({required int commentId});
 }
