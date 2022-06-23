@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
@@ -80,6 +81,9 @@ class AuthService extends ChangeNotifier {
     PostMainScreenViewModel postMainScreenViewModel =
         serviceLocator<PostMainScreenViewModel>();
     postMainScreenViewModel.resetData();
+    VoiceMainScreenViewModel voiceMainScreenViewModel =
+        serviceLocator<VoiceMainScreenViewModel>();
+    voiceMainScreenViewModel.resetData();
     toastMessage("로그아웃하셨습니다!");
   }
 

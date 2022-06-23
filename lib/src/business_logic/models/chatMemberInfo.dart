@@ -2,7 +2,7 @@ class ChatMemberInfo {
   int? id;
   String loginId;
   String nickname;
-  String imageUrl;
+  String? imageUrl;
 
   ChatMemberInfo(
       {this.id,

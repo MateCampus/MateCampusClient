@@ -147,6 +147,7 @@ class Message extends StatelessWidget {
   }
 
   String loginIdToImageUrl(String loginId) {
-    return vm.chatMemberInfos[loginId].imageUrl;
+    return vm.chatMemberInfos[loginId].imageUrl ??
+        "assets/images/user/general_user.png";
   }
 }

@@ -4,7 +4,7 @@ class ChatRoom {
   final String type;
   String lastMessage;
   DateTime lastMsgCreatedAt;
-  String imageUrl;
+  String? imageUrl;
   int unreadCount;
 
   ChatRoom(
