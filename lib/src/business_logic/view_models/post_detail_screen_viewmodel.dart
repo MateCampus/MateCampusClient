@@ -51,7 +51,6 @@ class PostDetailScreenViewModel extends BaseModel {
           id: 0,
           loginId: '',
           categories: [],
-          title: '',
           userNickname: '',
           imageUrls: [],
           body: '',
@@ -108,7 +107,6 @@ class PostDetailScreenViewModel extends BaseModel {
                   PostCategoryData.korNameOf(category.name))
               .toList() ??
           [],
-      title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
       body: postDetailResult.body,
       createdAt: dateToElapsedTime(postDetailResult.createdAt),
@@ -250,27 +248,33 @@ class PostDetailScreenViewModel extends BaseModel {
   }
 
   void reportPost(BuildContext context, int postId) async {
-    bool result =
+    String result =
         await _reportService.reportPost(type: _reportValue, postId: postId);
-    if (result) {
-      _reportValue = ReportType.report0000;
+    if (result == "SUCCESS") {
       Navigator.pop(context);
       toastMessage('신고처리 되었습니다');
+    } else if (result == "DUPLICATE") {
+      Navigator.pop(context);
+      toastMessage('이미 신고 하셨습니다');
     } else {
       Navigator.pop(context);
     }
+    _reportValue = ReportType.report0000; // check 표시 안히기 위해서.
   }
 
   void reportComment(BuildContext context, int commentId) async {
-    bool result = await _reportService.reportComment(
+    String result = await _reportService.reportComment(
         type: _reportValue, commentId: commentId);
-    if (result) {
-      _reportValue = ReportType.report0000;
+    if (result == "SUCCESS") {
       Navigator.pop(context);
       toastMessage('신고처리 되었습니다');
+    } else if (result == "DUPLICATE") {
+      Navigator.pop(context);
+      toastMessage('이미 신고 하셨습니다');
     } else {
       Navigator.pop(context);
     }
+    _reportValue = ReportType.report0000;
   }
 
   void setReportType(ReportType value) {
@@ -393,7 +397,6 @@ class PostDetailPresentation {
   final int id;
   final String loginId;
   final List<String> categories;
-  final String title;
   final String userNickname;
   final String body;
   String createdAt;
@@ -405,7 +408,6 @@ class PostDetailPresentation {
     required this.id,
     required this.loginId,
     required this.categories,
-    required this.title,
     required this.userNickname,
     required this.body,
     required this.createdAt,

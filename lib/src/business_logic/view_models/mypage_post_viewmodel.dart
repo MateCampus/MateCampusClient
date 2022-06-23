@@ -40,7 +40,6 @@ class MypagePostViewModel extends BaseModel {
                           PostCategoryData.korNameOf(category.name))
                       .toList() ??
                   [],
-              title: post.title,
               body: post.body,
               createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
