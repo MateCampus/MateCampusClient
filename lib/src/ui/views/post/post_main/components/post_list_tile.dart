@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
@@ -48,27 +49,28 @@ class PostListTile extends StatelessWidget {
     );
   }
 
-//카테고리 넣은 후 테스트 해봐야함
   Widget _hasCategoryWithBody() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const VerticalSpacing(of: 15),
         Padding(
           padding: EdgeInsets.symmetric(
+            vertical: getProportionateScreenHeight(10),
             horizontal: getProportionateScreenWidth(13),
           ),
           child: Row(
             //카테고리 나열 -> viewmodel에서 Row로 정렬되게끔 바꾸기
             children: [
               ...post.categories.map((category) => Text(
-                    category + "  ",
-                    style: const TextStyle(fontSize: 12),
+                    category + "\t\t\t",
+                    style: TextStyle(
+                        fontSize: kInterestTextFontSize,
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500),
                   ))
             ],
           ),
         ),
-        const VerticalSpacing(of: 10),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(13)),
@@ -86,7 +88,7 @@ class PostListTile extends StatelessWidget {
   Widget _onlyBody() {
     return Column(
       children: [
-        VerticalSpacing(of: 20),
+        VerticalSpacing(of: 15),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(13)),

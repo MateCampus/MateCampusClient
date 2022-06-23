@@ -31,11 +31,11 @@ class CategorySelectLine extends StatelessWidget {
           '카테고리',
           style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
         ),
-        const VerticalSpacing(of: 10),
+        const VerticalSpacing(of: 5),
         Wrap(
           runSpacing: getProportionateScreenHeight(2),
           alignment: WrapAlignment.start,
-          spacing: getProportionateScreenWidth(5),
+          spacing: getProportionateScreenWidth(8),
           children: [
             ...categoryCodes.map(
                 (categoryCode) => buildOutLinedButton(categoryCode.toString()))
@@ -56,23 +56,27 @@ class CategorySelectLine extends StatelessWidget {
       return Stack(alignment: Alignment.topRight, children: [
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            padding: EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(10),
+                vertical: getProportionateScreenHeight(5)),
             minimumSize: Size.zero,
             // backgroundColor: kMainColor.withOpacity(0.05),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
+              borderRadius: BorderRadius.circular(15),
             ),
-            side: BorderSide(width: 1.8, color: kMainColor),
+            side: BorderSide(
+                width: getProportionateScreenWidth(1.5), color: kMainColor),
           ),
           onPressed: () {
             vm.changecategoryCodeList(categoryCode.toString());
           },
           child: Text(
             iconValue + " " + korNameValue,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: kInterestTextFontSize,
-              color: Colors.black,
-              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -82,46 +86,34 @@ class CategorySelectLine extends StatelessWidget {
             child: Icon(
               Icons.check_circle,
               color: kMainColor,
-              size: getProportionateScreenHeight(16),
+              size: getProportionateScreenHeight(15),
             ))
       ]);
     } else {
       return OutlinedButton(
         style: OutlinedButton.styleFrom(
-          padding: EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+          padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(10),
+              vertical: getProportionateScreenHeight(5)),
           minimumSize: Size.zero,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          side: BorderSide(width: 1, color: Colors.black.withOpacity(0.2)),
+          side: BorderSide(
+              width: getProportionateScreenWidth(1),
+              color: Colors.black.withOpacity(0.2)),
         ),
         onPressed: () {
           vm.changecategoryCodeList(categoryCode.toString());
         },
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.end,
-          children: [
-            Text(
-              iconValue,
-              style: TextStyle(
-                fontSize: kInterestTextFontSize,
-              ),
-            ),
-            Text(
-              " ",
-              style: TextStyle(
-                fontSize: kInterestTextFontSize,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              korNameValue,
-              style: TextStyle(
-                fontSize: kInterestTextFontSize,
-                color: Colors.black.withOpacity(0.4),
-              ),
-            ),
-          ],
+        child: Text(
+          iconValue + " " + korNameValue,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: kInterestTextFontSize,
+            color: Colors.grey,
+            fontWeight: FontWeight.w400,
+          ),
         ),
       );
     }

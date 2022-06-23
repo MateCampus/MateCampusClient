@@ -11,7 +11,8 @@ class PostCreateScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
 
   final titleTextController = TextEditingController();
-  final bodyTextController = TextEditingController();
+  final _bodyTextController = TextEditingController();
+  TextEditingController get bodyTextController => _bodyTextController;
 
   final postFocusNode = FocusNode();
 
@@ -19,17 +20,24 @@ class PostCreateScreenViewModel extends BaseModel {
   List<String> categoryCodeList = List.empty(growable: true);
   final ImagePicker picker = ImagePicker();
 
+  void detectTextController() {
+    _bodyTextController.addListener(() {
+      notifyListeners();
+    });
+  }
+
   void createPost(BuildContext context) async {
     postFocusNode.unfocus();
     buildShowDialogForLoading(context: context);
     if (titleTextController.text.length < 5 &&
-        bodyTextController.text.length < 5) {
+        _bodyTextController.text.length < 5) {
+      Navigator.pop(context);
       toastMessage("글자수가 적습니다");
       return;
     }
     bool isCreated = await _postService.createPost(
         title: titleTextController.text,
-        body: bodyTextController.text,
+        body: _bodyTextController.text,
         imageFileList: pickedImgs,
         categoryCodeList: categoryCodeList);
     if (isCreated) {
@@ -97,5 +105,11 @@ class PostCreateScreenViewModel extends BaseModel {
   void removeImage(int index) {
     pickedImgs.removeAt(index);
     notifyListeners();
+  }
+
+  void unfocusKeyboard() {
+    if (postFocusNode.hasFocus) {
+      postFocusNode.unfocus();
+    }
   }
 }

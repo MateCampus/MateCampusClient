@@ -49,8 +49,9 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                     widget.vm.pickedImgs.length.toString() + '/10',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        fontSize: getProportionateScreenWidth(13),
-                        color: kPostBtnColor),
+                        fontSize: resizeFont(13),
+                        color: kPostBtnColor,
+                        fontWeight: FontWeight.w400),
                   )),
               IconButton(
                 icon: Icon(
@@ -62,6 +63,19 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                   widget.vm.getImageFromCamera(context);
                 },
               ),
+              const Spacer(),
+              (widget.vm.postFocusNode.hasFocus)
+                  ? IconButton(
+                      icon: Icon(
+                        CupertinoIcons.keyboard_chevron_compact_down,
+                        color: kPostBtnColor,
+                        size: getProportionateScreenWidth(20),
+                      ),
+                      onPressed: () {
+                        widget.vm.unfocusKeyboard();
+                      },
+                    )
+                  : const SizedBox(),
             ],
           ),
         ],

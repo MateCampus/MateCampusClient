@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -24,11 +23,9 @@ class PostBody extends StatelessWidget {
         children: [
           Padding(
             padding: vm.postDetail.imageUrls.isEmpty
-                ? EdgeInsets.fromLTRB(
-                    getProportionateScreenWidth(5),
-                    getProportionateScreenHeight(15),
-                    getProportionateScreenWidth(5),
-                    0)
+                ? EdgeInsets.symmetric(
+                    vertical: getProportionateScreenHeight(15),
+                    horizontal: getProportionateScreenWidth(5))
                 : EdgeInsets.symmetric(
                     vertical: getProportionateScreenHeight(15),
                     horizontal: getProportionateScreenWidth(5)),
@@ -41,9 +38,7 @@ class PostBody extends StatelessWidget {
             ),
           ),
           vm.postDetail.imageUrls.isEmpty
-              ? const SizedBox(
-                  height: 30,
-                )
+              ? const SizedBox()
               : _hasImage(context),
         ],
       ),

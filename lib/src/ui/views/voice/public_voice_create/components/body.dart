@@ -45,7 +45,7 @@ class Body extends StatelessWidget {
         SafeArea(
           child: BottomFixedBtnDecoBox(
             child: vm.titleController.text.length < 5
-                ? DisabledDefaultBtn(text: '다음')
+                ? const DisabledDefaultBtn(text: '다음')
                 : DefaultBtn(
                     text: '다음',
                     press: () {
