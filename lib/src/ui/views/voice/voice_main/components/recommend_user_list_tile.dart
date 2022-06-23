@@ -4,7 +4,6 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/user_profile_bottom_sheet_component/user_profile_bottom_sheet.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class RecommendUserListTile extends StatelessWidget {
   UserPresentation recommendUser;

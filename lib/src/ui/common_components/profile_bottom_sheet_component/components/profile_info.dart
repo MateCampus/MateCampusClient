@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class ProfileInfo extends StatelessWidget {
@@ -38,41 +38,32 @@ class ProfileInfo extends StatelessWidget {
   }
 
   Widget _profileImg(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showOriginalProfileImage(context, imageUrl);
-      },
-      child: Stack(
-        children: [
-          CircleAvatar(
-            radius: getProportionateScreenHeight(40),
-            backgroundColor: Colors.grey,
-            backgroundImage: imageUrl.startsWith('https')
-                ? CachedNetworkImageProvider(imageUrl) as ImageProvider
-                : AssetImage(
-                    imageUrl,
-                  ),
-          ),
-          // Positioned(
-          //   bottom: 1,
-          //   right: -1,
-          //   child: Container(
-          //       width: getProportionateScreenWidth(20),
-          //       height: getProportionateScreenHeight(20),
-          //       decoration: BoxDecoration(
-          //         color: userProfile.isOnline
-          //             ? const Color(0xff00FFBA) //온라인 상태일 때 색
-          //             : Colors.grey, //오프라인 상태일 떄 색
-          //         shape: BoxShape.circle,
-          //         border: Border.all(
-          //             color: Colors.white,
-          //             width: 4.0,
-          //             style: BorderStyle.solid),
-          //       )),
-          // )
-        ],
+    return Stack(children: [
+      CircleImageBtn(
+        imageUrl: imageUrl,
+        press: () {
+          showOriginalProfileImage(context, imageUrl);
+        },
+        size: getProportionateScreenHeight(80),
       ),
-    );
+      // Positioned(
+      //   bottom: 1,
+      //   right: -1,
+      //   child: Container(
+      //       width: getProportionateScreenWidth(20),
+      //       height: getProportionateScreenHeight(20),
+      //       decoration: BoxDecoration(
+      //         color: userProfile.isOnline
+      //             ? const Color(0xff00FFBA) //온라인 상태일 때 색
+      //             : Colors.grey, //오프라인 상태일 떄 색
+      //         shape: BoxShape.circle,
+      //         border: Border.all(
+      //             color: Colors.white,
+      //             width: 4.0,
+      //             style: BorderStyle.solid),
+      //       )),
+      // )
+    ]);
   }
 
   Widget _nicknameWithCollege() {

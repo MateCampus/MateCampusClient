@@ -63,7 +63,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                               controller: scrollController,
                               child: Column(
                                 children: [
-                                  const ProfileHeader(),
+                                  ProfileHeader(vm: vm),
                                   ProfileInfo(
                                     imageUrl: vm.profile.imageUrl,
                                     nickname: vm.profile.nickname,

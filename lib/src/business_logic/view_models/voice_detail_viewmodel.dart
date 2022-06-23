@@ -78,6 +78,7 @@ class VoiceDetailViewModel extends BaseModel {
   }
 
   Future<void> initAgoraRtcEngine(VoiceRoom voiceRoom) async {
+    print('initAgora엔진');
     await [Permission.microphone].request();
     _engine = await RtcEngine.create(appIdForAgora);
     await _engine!.enableAudio();
@@ -89,6 +90,7 @@ class VoiceDetailViewModel extends BaseModel {
   }
 
   void addAgoraEventHandlers(RtcEngine engine) {
+    print('add아고라이벤트핸들러');
     engine.setEventHandler(RtcEngineEventHandler(error: (code) {
       print("error code : $code");
     }, joinChannelSuccess: (String channel, int uid, int elapsed) {
@@ -104,11 +106,13 @@ class VoiceDetailViewModel extends BaseModel {
       //테스트 후 삭제
       print('setEventHandler의 leaveChannel 작동');
     }, audioVolumeIndication: (List<AudioVolumeInfo> speakers, int volume) {
+      print('speaker 수' + speakers.length.toString());
       speakers.forEach((speaker) {
         if (speaker.volume > 5) {
           try {
             for (MemberPresentation member in _voiceRoomMembers) {
               if (speaker.uid == 0 && member.loginId == AuthService.loginId) {
+                print('멤버 수 나나나' + _voiceRoomMembers.length.toString());
                 member.isSpeaking = true;
                 notifyListeners();
                 print(member.uid.toString() +
@@ -116,6 +120,7 @@ class VoiceDetailViewModel extends BaseModel {
                     speaker.uid.toString() +
                     '가 volume $volume로 말하고 있음. 그게 나야');
               } else if (member.uid == speaker.uid) {
+                print('멤버 수 너너너' + _voiceRoomMembers.length.toString());
                 member.isSpeaking = true;
                 notifyListeners();
                 print(member.uid.toString() +
@@ -226,6 +231,7 @@ class VoiceDetailViewModel extends BaseModel {
     for (String existLoginId in _recentTalkUserLoginIds) {
       if (existLoginId == loginId) {
         _recentTalkUserLoginIds.remove(loginId);
+        break;
       }
     }
     _recentTalkUserLoginIds.add(loginId);

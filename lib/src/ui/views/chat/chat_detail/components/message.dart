@@ -1,11 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/user_profile_bottom_sheet_component/user_profile_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/round_chip.dart';
 
@@ -42,22 +44,34 @@ class Message extends StatelessWidget {
               children: [
                 if (message.loginId != AuthService.loginId) ...[
                   Padding(
-                    padding:
-                        EdgeInsets.only(top: getProportionateScreenHeight(3)),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.grey,
-                      radius: getProportionateScreenWidth(17),
-                      backgroundImage:
-                          // TODO: aws 적용 부분
-                          // Image.network(message.imageUrl).image,
-                          // loginIdToImageUrl(message.loginId),
-                          loginIdToImageUrl(message.loginId).startsWith('https')
-                              ? CachedNetworkImageProvider(
-                                      loginIdToImageUrl(message.loginId))
-                                  as ImageProvider
-                              : AssetImage(loginIdToImageUrl(message.loginId)),
-                    ),
-                  ),
+                      padding:
+                          EdgeInsets.only(top: getProportionateScreenHeight(3)),
+                      child: CircleImageBtn(
+                          imageUrl: loginIdToImageUrl(message.loginId),
+                          press: () {
+                            showCustomModalBottomSheet(
+                                context: context,
+                                buildWidget: UserProfileBottomSheet(
+                                  loginId: message.loginId,
+                                  bottomBtn: false,
+                                ));
+                          },
+                          size: getProportionateScreenWidth(35))
+
+                      // CircleAvatar(
+                      //   backgroundColor: Colors.grey,
+                      //   radius: getProportionateScreenWidth(17),
+                      //   backgroundImage:
+                      //       // TODO: aws 적용 부분
+                      //       // Image.network(message.imageUrl).image,
+                      //       // loginIdToImageUrl(message.loginId),
+                      //       loginIdToImageUrl(message.loginId).startsWith('https')
+                      //           ? CachedNetworkImageProvider(
+                      //                   loginIdToImageUrl(message.loginId))
+                      //               as ImageProvider
+                      //           : AssetImage(loginIdToImageUrl(message.loginId)),
+                      // ),
+                      ),
                   const HorizontalSpacing(of: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

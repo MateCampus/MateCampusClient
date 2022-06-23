@@ -1,10 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/user_profile_bottom_sheet_component/user_profile_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
@@ -26,13 +29,28 @@ class TextChatMessage extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundColor: Colors.grey,
-            radius: getProportionateScreenWidth(17),
-            backgroundImage: _imageUrl.startsWith('https')
-                ? CachedNetworkImageProvider(_imageUrl) as ImageProvider
-                : AssetImage(_imageUrl),
-          ),
+          message.loginId == AuthService.loginId
+              ? CircleImageBtn(
+                  imageUrl: _imageUrl,
+                  press: () {
+                    showCustomModalBottomSheet(
+                        context: context,
+                        buildWidget: UserProfileBottomSheet(
+                          loginId: message.loginId,
+                          bottomBtn: false,
+                        ));
+                  },
+                  size: getProportionateScreenWidth(34))
+              : CircleImageBtn(
+                  imageUrl: _imageUrl,
+                  press: () {
+                    showCustomModalBottomSheet(
+                        context: context,
+                        buildWidget: UserProfileBottomSheet(
+                          loginId: message.loginId,
+                        ));
+                  },
+                  size: getProportionateScreenWidth(34)),
           const HorizontalSpacing(of: 10),
           Expanded(
             child: Column(

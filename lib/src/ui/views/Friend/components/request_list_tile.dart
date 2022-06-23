@@ -30,7 +30,7 @@ class RequestListTile extends StatelessWidget {
             children: [
               CircleAvatar(
                 backgroundColor: Colors.grey,
-                radius: getProportionateScreenHeight(27),
+                radius: getProportionateScreenHeight(25),
                 backgroundImage: friend.imageUrl.startsWith('https')
                     ? CachedNetworkImageProvider(friend.imageUrl)
                         as ImageProvider
@@ -60,7 +60,10 @@ class RequestListTile extends StatelessWidget {
           ),
           title: Text(
             friend.nickname,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: resizeFont(14),
+                color: Colors.black87,
+                fontWeight: FontWeight.w500),
           ),
           trailing: Wrap(
             spacing: getProportionateScreenWidth(5),
