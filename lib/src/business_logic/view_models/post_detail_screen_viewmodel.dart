@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/reportType.dart';
-import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -18,7 +17,6 @@ import 'package:zamongcampus/src/services/report/report_service.dart';
 class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
   final CommentService _commentService = serviceLocator<CommentService>();
-  final ReportService _reportService = serviceLocator<ReportService>();
 
   PostDetailPresentation _postDetail = defaultPostDetail;
   List<CommentPresentation> _comments = List.empty(growable: true);
@@ -35,7 +33,6 @@ class PostDetailScreenViewModel extends BaseModel {
   //double keyboardHeight = 0;
   OverlayEntry? overlayEntry;
   final LayerLink layerLink = LayerLink();
-  ReportType _reportValue = ReportType.report0000;
 
   String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
@@ -43,7 +40,6 @@ class PostDetailScreenViewModel extends BaseModel {
       _nestedCommentTextController;
   FocusNode get focusNode => _focusNode;
   ScrollController get commentScrollController => _scrollController;
-  ReportType get reportValue => _reportValue;
 
   static final PostDetailPresentation
       defaultPostDetail = //postDetailPresentation 초기값 설정
@@ -247,42 +243,6 @@ class PostDetailScreenViewModel extends BaseModel {
           duration: const Duration(milliseconds: 400),
           curve: Curves.fastOutSlowIn);
     });
-  }
-
-  void reportPost(BuildContext context, int postId) async {
-    String result =
-        await _reportService.reportPost(type: _reportValue, postId: postId);
-    if (result == "SUCCESS") {
-      Navigator.pop(context);
-      toastMessage('신고처리 되었습니다');
-    } else if (result == "DUPLICATE") {
-      Navigator.pop(context);
-      toastMessage('이미 신고 하셨습니다');
-    } else {
-      Navigator.pop(context);
-    }
-    _reportValue = ReportType.report0000; // check 표시 안히기 위해서.
-  }
-
-  void reportComment(BuildContext context, int commentId) async {
-    String result = await _reportService.reportComment(
-        type: _reportValue, commentId: commentId);
-    if (result == "SUCCESS") {
-      Navigator.pop(context);
-      toastMessage('신고처리 되었습니다');
-    } else if (result == "DUPLICATE") {
-      Navigator.pop(context);
-      toastMessage('이미 신고 하셨습니다');
-    } else {
-      Navigator.pop(context);
-    }
-    _reportValue = ReportType.report0000;
-  }
-
-  void setReportType(ReportType value) {
-    _reportValue = value;
-    //print(_reportValue);
-    notifyListeners();
   }
 
   void deleteComment(BuildContext context, int commentId) async {

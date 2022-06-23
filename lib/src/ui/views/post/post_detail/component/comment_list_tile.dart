@@ -158,15 +158,11 @@ class CommentListTile extends StatelessWidget {
   Widget _reportBtn(BuildContext context) {
     return TextButton(
       onPressed: () {
-        buildCustomAlertDialog(
+        showDialog(
             context: context,
-            contentWidget: ReportPostForm(
-              vm: vm,
-            ),
-            press: () {
-              vm.reportComment(context, comment.id);
-            },
-            btnText: '신고');
+            builder: (BuildContext context) {
+              return ReportPostForm(commentId: comment.id);
+            });
       },
       style: TextButton.styleFrom(
         minimumSize: Size.zero,

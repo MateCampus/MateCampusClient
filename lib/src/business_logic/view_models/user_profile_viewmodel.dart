@@ -1,15 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:zamongcampus/src/business_logic/models/friend.dart';
-import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
-import 'package:zamongcampus/src/config/dummy/interest_dummy.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
@@ -35,7 +30,7 @@ class UserProfileViewModel extends BaseModel {
           isOnline: false,
           friendRequestStatus: FriendRequestStatus.NONE);
 
-  UserProfilePresentation get userProfile => _userProfile;
+  UserProfilePresentation get profile => _userProfile;
   List<InterestPresentation> get interests => _interests;
 
   void loadUserProfile(String loginId) async {

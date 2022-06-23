@@ -103,15 +103,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                  buildCustomAlertDialog(
+                  showDialog(
                       context: context,
-                      contentWidget: ReportPostForm(
-                        vm: vm,
-                      ),
-                      press: () {
-                        vm.reportPost(context, vm.postDetail.id);
-                      },
-                      btnText: '신고');
+                      builder: (BuildContext context) {
+                        return ReportPostForm(postId: vm.postDetail.id);
+                      });
                 },
               ),
       ],

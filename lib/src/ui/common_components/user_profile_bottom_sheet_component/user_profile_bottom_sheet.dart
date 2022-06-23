@@ -60,13 +60,13 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
                               controller: scrollController,
                               child: Column(
                                 children: [
-                                  const ProfileHeader(),
+                                  ProfileHeader(vm: vm),
                                   ProfileInfo(
-                                    imageUrl: vm.userProfile.imageUrl,
-                                    nickname: vm.userProfile.nickname,
-                                    majorName: vm.userProfile.majorName,
-                                    collegeName: vm.userProfile.collegeName,
-                                    introduction: vm.userProfile.introduction,
+                                    imageUrl: vm.profile.imageUrl,
+                                    nickname: vm.profile.nickname,
+                                    majorName: vm.profile.majorName,
+                                    collegeName: vm.profile.collegeName,
+                                    introduction: vm.profile.introduction,
                                   ),
                                   SizedBox(
                                     height: _hasBtn
@@ -101,15 +101,15 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
       );
 
   Widget _bottomFixedBtn() {
-    switch (vm.userProfile.friendRequestStatus) {
+    switch (vm.profile.friendRequestStatus) {
       case FriendRequestStatus.ACCEPTED:
-        return GoToChatRoomBtn(profileLoginId: vm.userProfile.loginId);
+        return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
       case FriendRequestStatus.UNACCEPTED:
         return const WaitingFriendRequest();
       default:
         return FriendRequestBtn(
           vm: vm,
-          profileLoginId: vm.userProfile.loginId,
+          profileLoginId: vm.profile.loginId,
         );
     }
   }

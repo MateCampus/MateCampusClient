@@ -1,12 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
-import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
-import 'package:zamongcampus/src/config/dummy/interest_dummy.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
@@ -18,7 +14,6 @@ import '../models/enums/majorCode.dart';
 
 class ProfileViewModel extends BaseModel {
   final FriendService _friendService = serviceLocator<FriendService>();
-
   ProfilePresentation _profile = defaultProfile;
   List<InterestPresentation> _interests = [];
 
