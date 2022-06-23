@@ -85,7 +85,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                                     //           vm.interests[index]);
                                     //     }),
                                     SizedBox(
-                                      height: getProportionateScreenHeight(255),
+                                      height: getProportionateScreenHeight(250),
                                       child: ListView(
                                         // controller: scrollController,
                                         children: [

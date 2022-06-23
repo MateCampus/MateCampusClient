@@ -66,7 +66,7 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
                                     introduction: vm.userProfile.introduction,
                                   ),
                                   SizedBox(
-                                    height: getProportionateScreenHeight(255),
+                                    height: getProportionateScreenHeight(250),
                                     child: ListView(
                                       controller: scrollController,
                                       children: [
