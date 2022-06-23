@@ -99,7 +99,7 @@ class ChatRoomDBHelper {
 
   Future<void> updateTitleImageUrlChatRoom(
       {required String title,
-      required String imageUrl,
+      required String? imageUrl,
       required String roomId}) async {
     final db = await SqfliteObject.database;
     // TODO: null이면 업데이트 안하도록 하는 로직 구현.

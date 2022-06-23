@@ -7,10 +7,9 @@ import 'package:zamongcampus/src/services/report/report_service.dart';
 
 class ReportServiceImpl implements ReportService {
   @override
-  Future<bool> reportPost(
+  Future<String> reportPost(
       {required ReportType type, required int postId}) async {
-    var reportJson =
-        jsonEncode({"id": postId, "type": type.name.toUpperCase()});
+    var reportJson = jsonEncode({"reportType": type.name.toUpperCase()});
 
     final response = await http.post(
         Uri.parse(devServer + "/api/report/post/" + postId.toString()),
@@ -18,18 +17,18 @@ class ReportServiceImpl implements ReportService {
         body: reportJson);
     if (response.statusCode == 200) {
       print('게시물 신고 성공');
-      return true;
+      var res = await jsonDecode(utf8.decode(response.bodyBytes));
+      return res["reportStatus"];
     } else {
       print('게시물 신고 실패');
-      return false;
+      return "실패";
     }
   }
 
   @override
-  Future<bool> reportComment(
+  Future<String> reportComment(
       {required ReportType type, required int commentId}) async {
-    var reportJson =
-        jsonEncode({"id": commentId, "type": type.name.toUpperCase()});
+    var reportJson = jsonEncode({"reportType": type.name.toUpperCase()});
 
     final response = await http.post(
         Uri.parse(
@@ -38,31 +37,29 @@ class ReportServiceImpl implements ReportService {
         body: reportJson);
     if (response.statusCode == 200) {
       print(reportJson);
-      print('댓글 신고 성공');
-      return true;
+      var res = await jsonDecode(utf8.decode(response.bodyBytes));
+      return res["reportStatus"];
     } else {
       print('댓글 신고 실패');
-      return false;
+      return "실패";
     }
   }
 
   @override
-  Future<bool> reportUser(
+  Future<String> reportUser(
       {required ReportType type, required String loginId}) async {
-    var reportJson =
-        jsonEncode({"loginId": loginId, "type": type.name.toUpperCase()});
+    var reportJson = jsonEncode({"reportType": type.name.toUpperCase()});
 
     final response = await http.post(
         Uri.parse(devServer + "/api/report/user/" + loginId),
         headers: AuthService.get_auth_header(),
         body: reportJson);
     if (response.statusCode == 200) {
-      print(reportJson);
-      print('유저 신고 성공');
-      return true;
+      var res = await jsonDecode(utf8.decode(response.bodyBytes));
+      return res["reportStatus"];
     } else {
       print('유저 신고 실패');
-      return false;
+      return "실패";
     }
   }
 }

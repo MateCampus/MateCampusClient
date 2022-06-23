@@ -11,7 +11,7 @@ class VoiceRoom {
   String? token;
   int? uid;
   String? ownerLoginId;
-  List<String>? userImageUrls;
+  List<String?>? userImageUrls; // main에서만 사용
   List<ChatMemberInfo>? memberInfos;
   bool? isFull;
   // DateTime createdAt;
@@ -46,7 +46,7 @@ class VoiceRoom {
         uid: json['uid'],
         ownerLoginId: json['ownerLoginId'],
         userImageUrls: json['userImageUrls']
-            ?.map<String>((userImageUrl) => userImageUrl.toString())
+            ?.map<String?>((userImageUrl) => userImageUrl as String?)
             .toList(),
         memberInfos: json['memberInfos']
             ?.map<ChatMemberInfo>((member) => ChatMemberInfo.fromJson(member))

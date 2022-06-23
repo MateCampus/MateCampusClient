@@ -55,12 +55,15 @@ class _ChatTileState extends State<ChatTile> {
                 //     Image.asset(
                 //             "assets/images/background/hanriver_chicken.jpeg")
                 //         .image),
-                backgroundImage: widget.chatRoom.imageUrl.startsWith('https')
-                    ? CachedNetworkImageProvider(widget.chatRoom.imageUrl)
-                        as ImageProvider
-                    : AssetImage(
-                        widget.chatRoom.imageUrl,
-                      ),
+                // TODO: presentation으로 변경해야함.
+                backgroundImage: widget.chatRoom.imageUrl != null
+                    ? (widget.chatRoom.imageUrl!.startsWith('https')
+                        ? CachedNetworkImageProvider(widget.chatRoom.imageUrl!)
+                            as ImageProvider
+                        : AssetImage(
+                            widget.chatRoom.imageUrl!,
+                          ))
+                    : const AssetImage("assets/images/user/general_user.png"),
               ),
               title: Text(
                 widget.chatRoom.title,

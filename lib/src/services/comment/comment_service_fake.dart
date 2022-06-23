@@ -28,7 +28,7 @@ class FakeCommentService implements CommentService {
   }
 
   @override
-  Future<bool> deleteComment({required int postId, required int commentId}) {
+  Future<bool> deleteComment({required int commentId}) {
     // TODO: implement deleteComment
     throw UnimplementedError();
   }

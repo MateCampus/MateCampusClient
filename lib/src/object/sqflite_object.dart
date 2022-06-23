@@ -26,7 +26,7 @@ class SqfliteObject {
           type text not null,
           lastMessage text not null,
           lastMsgCreatedAt text not null,
-          imageUrl text not null,
+          imageUrl text,
           unreadCount integer not null
           )''');
     // chatmessage table
@@ -49,7 +49,7 @@ class SqfliteObject {
           rowId integer primary key autoincrement,
           loginId text not null unique,
           nickname text not null,
-          imageUrl text not null
+          imageUrl text
           )''');
     print("table 삭제 후 재 생성");
   }
@@ -76,7 +76,7 @@ class SqfliteObject {
           type text not null,
           lastMessage text not null,
           lastMsgCreatedAt text not null,
-          imageUrl text not null,
+          imageUrl text,
           unreadCount integer not null
           )''');
       // chatRoomMemberInfo table
@@ -90,7 +90,7 @@ class SqfliteObject {
           rowId integer primary key autoincrement,
           loginId text not null unique,
           nickname text not null,
-          imageUrl text not null
+          imageUrl text
           )''');
     }, onUpgrade: (db, oldVersion, newVersion) {});
   }

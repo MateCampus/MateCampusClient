@@ -73,7 +73,6 @@ class PostMainScreenViewModel extends BaseModel {
                           PostCategoryData.korNameOf(category.name))
                       .toList() ??
                   [],
-              title: post.title,
               body: post.body.replaceAll(bodyRegexp, " "),
               createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
@@ -109,7 +108,6 @@ class PostMainScreenViewModel extends BaseModel {
                         PostCategoryData.korNameOf(category.name))
                     .toList() ??
                 [],
-            title: post.title,
             body: post.body.replaceAll(bodyRegexp, " "),
             createdAt: dateToElapsedTime(post.createdAt),
             likedCount: post.likedCount.toString(),
@@ -181,7 +179,6 @@ class PostPresentation {
   final int id;
   final String loginId;
   final List<String> categories;
-  final String title;
   final String body;
   String createdAt;
   String likedCount;
@@ -193,7 +190,6 @@ class PostPresentation {
       {required this.id,
       required this.loginId,
       required this.categories,
-      required this.title,
       required this.body,
       required this.createdAt,
       required this.likedCount,

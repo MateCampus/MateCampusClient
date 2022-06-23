@@ -71,9 +71,8 @@ class VoiceMainScreenViewModel extends BaseModel {
               id: voiceRoom.id,
               title: voiceRoom.title ?? "제목 오류",
               memberImgUrls: voiceRoom.userImageUrls
-                      ?.map((image) => image.isEmpty
-                          ? "assets/images/user/general_user.png"
-                          : image)
+                      ?.map((image) =>
+                          image ?? "assets/images/user/general_user.png")
                       .toList() ??
                   [],
               categories: voiceRoom.voiceCategoryCodes
@@ -121,11 +120,11 @@ class VoiceMainScreenViewModel extends BaseModel {
           .map((voiceRoom) => VoiceRoomPresentation(
                 id: voiceRoom.id,
                 title: voiceRoom.title ?? "제목 오류",
-                memberImgUrls: voiceRoom.userImageUrls!
-                    .map((image) => image.isEmpty
-                        ? "assets/images/user/general_user.png"
-                        : image)
-                    .toList(),
+                memberImgUrls: voiceRoom.userImageUrls
+                        ?.map((image) =>
+                            image ?? "assets/images/user/general_user.png")
+                        .toList() ??
+                    [],
                 categories: voiceRoom.voiceCategoryCodes
                         ?.map<String>((category) =>
                             VoiceCategoryData.iconOf(category.name) +
@@ -140,6 +139,10 @@ class VoiceMainScreenViewModel extends BaseModel {
 
     Navigator.pop(_voiceMainRefreshIndicatorKey.currentContext!);
     notifyListeners();
+  }
+
+  void resetData() {
+    isInit = false;
   }
 }
 

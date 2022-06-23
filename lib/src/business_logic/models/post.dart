@@ -8,7 +8,6 @@ class Post {
   final int id;
   final String loginId;
   final String userNickname;
-  final String title;
   final String body;
   DateTime createdAt;
   int likedCount;
@@ -22,7 +21,6 @@ class Post {
       {required this.id,
       required this.loginId,
       this.postCategoryCodes,
-      required this.title,
       required this.userNickname,
       required this.body,
       required this.createdAt,
@@ -40,7 +38,6 @@ class Post {
             ?.map<PostCategoryCode>((postCategoryCode) =>
                 PostCategoryCode.values.byName(postCategoryCode.toLowerCase()))
             .toList(),
-        title: json['title'],
         userNickname: json['userNickname'],
         body: json['body'],
         createdAt: DateTime.parse(json['createdAt']),

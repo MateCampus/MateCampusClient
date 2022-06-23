@@ -1,8 +1,9 @@
 import 'package:zamongcampus/src/business_logic/models/enums/reportType.dart';
 
 abstract class ReportService {
-  Future<bool> reportPost({required ReportType type, required int postId});
-  Future<bool> reportComment(
+  Future<String> reportPost({required ReportType type, required int postId});
+  Future<String> reportComment(
       {required ReportType type, required int commentId});
-  Future<bool> reportUser({required ReportType type, required String loginId});
+  Future<String> reportUser(
+      {required ReportType type, required String loginId});
 }

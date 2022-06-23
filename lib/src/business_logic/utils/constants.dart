@@ -14,12 +14,12 @@ import '../models/enums/majorCode.dart';
 double kHorizontalPadding = getProportionateScreenWidth(20);
 
 // server
-final devServer = Platform.isAndroid
-    ? "https://109e-211-198-109-254.ngrok.io"
-    : "https://109e-211-198-109-254.ngrok.io";
+// final devServer = Platform.isAndroid
+//     ? "https://109e-211-198-109-254.ngrok.io"
+//     : "https://109e-211-198-109-254.ngrok.io";
 
-// final devServer =
-//     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
+final devServer =
+    Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
 // final devServer =
 //     Platform.isAndroid ? "http://3.36.41.198:8080" : "http://3.36.41.198:8080";

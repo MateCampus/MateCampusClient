@@ -173,9 +173,8 @@ class VoiceDetailViewModel extends BaseModel {
             nickname: memberInfo.loginId == AuthService.loginId
                 ? memberInfo.nickname + '(나)'
                 : memberInfo.nickname,
-            imageUrl: memberInfo.imageUrl.isNotEmpty
-                ? memberInfo.imageUrl
-                : 'assets/images/user/general_user.png',
+            imageUrl:
+                memberInfo.imageUrl ?? 'assets/images/user/general_user.png',
             isSpeaking: false,
             isHost: memberInfo.loginId == _ownerLoginId ? true : false))
         .toList();
@@ -187,9 +186,8 @@ class VoiceDetailViewModel extends BaseModel {
               nickname: memberInfo.loginId == AuthService.loginId
                   ? memberInfo.nickname + '(나)'
                   : memberInfo.nickname,
-              imageUrl: memberInfo.imageUrl.isNotEmpty
-                  ? memberInfo.imageUrl
-                  : 'assets/images/user/general_user.png',
+              imageUrl:
+                  memberInfo.imageUrl ?? 'assets/images/user/general_user.png',
             ))
         .toList();
   }
@@ -200,18 +198,16 @@ class VoiceDetailViewModel extends BaseModel {
         uid: chatMemberInfo.id ?? -1,
         loginId: chatMemberInfo.loginId,
         nickname: chatMemberInfo.nickname,
-        imageUrl: chatMemberInfo.imageUrl.isNotEmpty
-            ? chatMemberInfo.imageUrl
-            : 'assets/images/user/general_user.png',
+        imageUrl:
+            chatMemberInfo.imageUrl ?? 'assets/images/user/general_user.png',
         isSpeaking: false,
         isHost: false));
 
     _textChatMembers.add(TextChatPresentation(
       loginId: chatMemberInfo.loginId,
       nickname: chatMemberInfo.nickname,
-      imageUrl: chatMemberInfo.imageUrl.isNotEmpty
-          ? chatMemberInfo.imageUrl
-          : 'assets/images/user/general_user.png',
+      imageUrl:
+          chatMemberInfo.imageUrl ?? 'assets/images/user/general_user.png',
     ));
     saveAddedUser(chatMemberInfo.loginId);
     notifyListeners();
