@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/business_logic/view_models/mypage_post_viewmode
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/notification_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
@@ -108,7 +109,8 @@ void setupServiceLocator() {
       () => VoiceInviteViewModel());
   serviceLocator.registerLazySingleton<VoiceDetailViewModel>(
       () => VoiceDetailViewModel());
-  serviceLocator.registerFactory<ProfileViewModel>(() => ProfileViewModel());
+  serviceLocator
+      .registerLazySingleton<ProfileViewModel>(() => ProfileViewModel());
   serviceLocator.registerLazySingleton<UserProfileViewModel>(
       () => UserProfileViewModel());
   serviceLocator
@@ -126,4 +128,6 @@ void setupServiceLocator() {
       .registerLazySingleton<SplashViewModel>(() => SplashViewModel());
   serviceLocator
       .registerLazySingleton<ReportViewModel>(() => ReportViewModel());
+  serviceLocator.registerLazySingleton<NotificationViewModel>(
+      () => NotificationViewModel());
 }

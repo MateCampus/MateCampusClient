@@ -45,7 +45,9 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
                   color: kAppBarIconColor,
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/notification');
+                  },
                   icon: const Icon(FontAwesomeIcons.bell),
                   iconSize: kAppBarIconSizeFA,
                   color: kAppBarIconColor,

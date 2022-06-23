@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_info/mypage_edit_in
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/mypage_edit_interest_screen.dart';
 import 'package:zamongcampus/src/ui/views/mypage/settings/settings_screen.dart';
 import 'package:zamongcampus/src/ui/views/error.dart';
+import 'package:zamongcampus/src/ui/views/notification/notification_main/notification_main_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_account/signup_account_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_authentication/signup_authentication_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/signup_college_screen.dart';
@@ -46,4 +47,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/dummy": (BuildContext context) => DummyScreen(),
   "/postCreate": (BuildContext context) => const PostCreateScreen(),
   "/mypageComment": (BuildContext context) => const MypageCommentScreen(),
+  "/notification": (BuildContext context) => const NotificationMainScreen(),
 };

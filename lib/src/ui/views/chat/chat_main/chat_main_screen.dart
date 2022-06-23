@@ -37,7 +37,9 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
                   color: kAppBarIconColor,
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/notification');
+                  },
                   icon: const Icon(
                     FontAwesomeIcons.bell,
                   ),

@@ -28,7 +28,7 @@ class FriendListTile extends StatelessWidget {
               buildWidget: ProfileBottomSheet(friendId: friend.id));
         },
         child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
+            contentPadding: EdgeInsets.zero,
             leading: Stack(
               children: [
                 CircleAvatar(

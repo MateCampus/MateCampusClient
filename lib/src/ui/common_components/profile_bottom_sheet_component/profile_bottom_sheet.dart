@@ -42,8 +42,8 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     bool _hasBtn = widget.bottomBtn ?? true;
-    return ChangeNotifierProvider<ProfileViewModel>(
-        create: (context) => vm,
+    return ChangeNotifierProvider.value(
+        value: vm,
         child: Consumer<ProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(
