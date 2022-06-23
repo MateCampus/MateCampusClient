@@ -100,8 +100,11 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> fetchBookmarkPosts() async {
-    final response = await http.get(Uri.parse(devServer + "/api/post/bookmark"),
+  Future<List<Post>> fetchBookmarkPosts({required int nextPageToken}) async {
+    final response = await http.get(
+        Uri.parse(devServer +
+            "/api/post/bookmark?nextPageToken=" +
+            nextPageToken.toString()),
         headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
       List<Post> bookmarkPosts =
@@ -117,8 +120,11 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> fetchMyPosts() async {
-    final response = await http.get(Uri.parse(devServer + "/api/post/my"),
+  Future<List<Post>> fetchMyPosts({required int nextPageToken}) async {
+    final response = await http.get(
+        Uri.parse(devServer +
+            "/api/post/my?nextPageToken=" +
+            nextPageToken.toString()),
         headers: AuthService.get_auth_header());
     if (response.statusCode == 200) {
       List<Post> myPosts = await jsonDecode(utf8.decode(response.bodyBytes))

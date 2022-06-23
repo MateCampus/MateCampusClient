@@ -20,9 +20,9 @@ class MypagePostViewModel extends BaseModel {
     setBusy(true);
     List<Post> postResult = List.empty(growable: true);
     if (isFrom == "BookMark") {
-      postResult = await _postService.fetchBookmarkPosts();
+      postResult = await _postService.fetchBookmarkPosts(nextPageToken: 0);
     } else if (isFrom == "Feed") {
-      postResult = await _postService.fetchMyPosts();
+      postResult = await _postService.fetchMyPosts(nextPageToken: 0);
     }
     presentationPosts(postResult);
     setBusy(false);

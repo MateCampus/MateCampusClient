@@ -348,13 +348,15 @@ class StompObject {
         callback: (frame) {
           VoiceDetailViewModel voiceDetailViewModel =
               serviceLocator<VoiceDetailViewModel>();
-          print("----- 새로운 멤버 도착 -----");
+          print("----- 멤버 변경 -----");
           var res = json.decode(frame.body ?? "");
           if (res["type"] == "enter") {
             ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(res);
             voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
           } else if (res["type"] == "exit") {
             voiceDetailViewModel.removeChatMemberInfo(res["loginId"]);
+            if (res["newOwnerLoginId"] != null)
+              voiceDetailViewModel.updateNewOwner(res["newOwnerLoginId"]);
           } else if (res["type"] == "talk") {
             ChatMessage chatMessage =
                 ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);

@@ -42,14 +42,13 @@ class FakePostService implements PostService {
   }
 
   @override
-
-  Future<List<Post>> fetchBookmarkPosts() {
+  Future<List<Post>> fetchBookmarkPosts({required int nextPageToken}) {
     // TODO: implement fetchBookmarkPosts
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Post>> fetchMyPosts() {
+  Future<List<Post>> fetchMyPosts({required int nextPageToken}) {
     // TODO: implement fetchMyPosts
     throw UnimplementedError();
   }
