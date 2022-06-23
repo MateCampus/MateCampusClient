@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -67,7 +68,7 @@ class BottomCountInfo extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: kPostBtnColor,
-                fontSize: resizeFont(11),
+                fontSize: kCreateAtFontSize,
                 fontWeight: FontWeight.w300),
           )
         ],

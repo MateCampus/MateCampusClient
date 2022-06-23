@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
@@ -31,7 +32,11 @@ class NestedCommentListTile extends StatelessWidget {
           index == 0
               ? SizedBox(
                   width: getProportionateScreenWidth(20),
-                  child: const Icon(CupertinoIcons.arrow_turn_down_right))
+                  child: Icon(
+                    CupertinoIcons.arrow_turn_down_right,
+                    size: getProportionateScreenWidth(18),
+                    color: kPostBtnColor,
+                  ))
               : SizedBox(
                   width: getProportionateScreenWidth(20),
                 ),
@@ -66,9 +71,9 @@ class NestedCommentListTile extends StatelessWidget {
                     Text(
                       nestedComment.createdAt,
                       style: TextStyle(
-                        fontSize: getProportionateScreenHeight(11),
-                        color: kPostBtnColor,
-                      ),
+                          fontSize: kCreateAtFontSize,
+                          color: kPostBtnColor,
+                          fontWeight: FontWeight.w300),
                     ),
                     const HorizontalSpacing(of: 10),
                     (nestedComment.loginId == AuthService.loginId)

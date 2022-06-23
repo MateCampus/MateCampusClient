@@ -42,8 +42,7 @@ class ChatMessageDBHelper {
           loginId: json["loginId"],
           text: json["text"],
           type: MessageType.values.byName(json['type']),
-          createdAt:
-              DateFormat("yyyy-MM-dd hh:mm:ss").parse(json["createdAt"]));
+          createdAt: DateFormat("yyyy-MM-dd H:mm:ss").parse(json["createdAt"]));
       messages.add(chatMessage);
     }
     return messages;

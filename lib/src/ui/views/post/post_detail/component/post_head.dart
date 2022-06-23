@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -57,7 +58,7 @@ class PostHead extends StatelessWidget {
                 Text(
                   vm.postDetail.createdAt,
                   style: TextStyle(
-                      fontSize: getProportionateScreenWidth(12),
+                      fontSize: kCreateAtFontSize,
                       color: kPostBtnColor,
                       fontWeight: FontWeight.w300),
                 ),
