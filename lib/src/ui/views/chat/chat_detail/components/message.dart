@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
@@ -101,7 +102,8 @@ class Message extends StatelessWidget {
                           Text(
                             dateToTime(message.createdAt),
                             style: TextStyle(
-                                fontSize: resizeFont(11), color: Colors.grey),
+                                fontSize: kCreateAtFontSize,
+                                color: Colors.grey),
                           ),
                         ],
                       ),
@@ -112,8 +114,8 @@ class Message extends StatelessWidget {
                   //내 메세지
                   Text(
                     dateToTime(message.createdAt),
-                    style:
-                        TextStyle(fontSize: resizeFont(11), color: Colors.grey),
+                    style: TextStyle(
+                        fontSize: kCreateAtFontSize, color: Colors.grey),
                   ),
                   const HorizontalSpacing(of: 5),
                   Container(

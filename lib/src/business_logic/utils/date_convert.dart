@@ -3,12 +3,7 @@ import 'package:intl/intl.dart';
 
 // 값을 변환해서 반환해주는 메소드 (ex. dateTime -> 한국어로 변환)
 
-// 날짜와 시간 ex. 10/26 2:05 PM
-String dateWithTime(DateTime time) {
-  String formDate = DateFormat('MM/dd').add_jm().format(time);
-  return formDate;
-}
-
+//post에서 쓴다(mypage_post포함). 1분전 ~59분전 -> 1시간전 ~ 23시간전 -> 10/26 2:05 PM
 String dateToElapsedTime(DateTime _date) {
   var duration = DateTime.now().difference(_date).inMinutes;
   String value = '';
@@ -22,12 +17,12 @@ String dateToElapsedTime(DateTime _date) {
       }
     }
   } else {
-    value = dateToElapsedTimeByHours(_date);
+    value = _dateToElapsedTimeByHours(_date);
   }
   return value;
 }
 
-String dateToElapsedTimeByHours(DateTime _date) {
+String _dateToElapsedTimeByHours(DateTime _date) {
   var duration = DateTime.now().difference(_date).inHours;
   String value = '';
   if (duration < 24) {
@@ -38,19 +33,29 @@ String dateToElapsedTimeByHours(DateTime _date) {
       }
     }
   } else {
-    value = dateWithTime(_date);
+    value = _dateWithTime(_date);
   }
   return value;
 }
 
+// 날짜와 시간 ex. 10/26 2:05 PM
+String _dateWithTime(DateTime time) {
+  String formDate = DateFormat('MM/dd').add_jm().format(time);
+  return formDate;
+}
+
 // time ex. 오후 2:05
+//chat_detail, voice_detail_text_chat 에서 씀
 String dateToTime(DateTime time) {
   String minute =
       time.minute < 10 ? "0" + time.minute.toString() : time.minute.toString();
-  if (time.hour > 13) {
-    return "오후 " + (time.hour - 12).toString() + ":" + minute;
-  } else {
+
+  if (time.hour < 12) {
     return "오전 " + (time.hour).toString() + ":" + minute;
+  } else if (time.hour == 12) {
+    return "오후 " + time.hour.toString() + ":" + minute;
+  } else {
+    return "오후 " + (time.hour - 12).toString() + ":" + minute;
   }
 }
 
@@ -58,20 +63,48 @@ String dateToTime(DateTime time) {
 String dateToTimeEng(DateTime time) {
   String formDate = DateFormat('jm').format(time);
   return formDate;
-  // String minute =
-  //     time.minute < 10 ? "0" + time.minute.toString() : time.minute.toString();
-  // if (time.hour > 13) {
-  //   return (time.hour - 12).toString() + ":" + minute + " PM";
-  // } else {
-  //   return (time.hour).toString() + ":" + minute + " AM";
-  // }
+}
+
+//Chat Main에서 사용 1분전 ~ 59분전 -> 1시간전 ~ 23시간전 -> 6월 23일
+String dateToElapsedTimeOnChatMain(DateTime _date) {
+  var duration = DateTime.now().difference(_date).inMinutes;
+  String value = '';
+  if (duration < 1 || _date == DateTime(2021, 05, 05)) {
+    value = '방금 전';
+  } else if (duration < 60) {
+    for (int i = 1; i < 60; i++) {
+      if (duration < i) {
+        value = '$i분 전';
+        break;
+      }
+    }
+  } else {
+    value = _dateToElapsedTimeByHoursOnChatMain(_date);
+  }
+  return value;
+}
+
+String _dateToElapsedTimeByHoursOnChatMain(DateTime _date) {
+  var duration = DateTime.now().difference(_date).inHours;
+  String value = '';
+  if (duration < 24) {
+    for (int i = 1; i < 24; i++) {
+      if (duration < i) {
+        value = '$i시간 전';
+        break;
+      }
+    }
+  } else {
+    value = dateToDay(_date);
+  }
+  return value;
 }
 
 // day ex. 10/26
-// String dateToDay(DateTime time) {
-//   String formDate = DateFormat('MM/dd').format(time);
-//   return formDate;
-// }
+String dateToDay(DateTime time) {
+  String formDate = DateFormat('MM월 dd일').format(time);
+  return formDate;
+}
 
 
 // String dateToYearMonthDay(DateTime time) {

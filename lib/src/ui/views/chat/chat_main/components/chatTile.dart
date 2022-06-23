@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
+import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class ChatTile extends StatefulWidget {
   final ChatRoom chatRoom;
@@ -79,13 +80,14 @@ class _ChatTileState extends State<ChatTile> {
               ),
               trailing: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    //createdAt -> date_convert에서 데이터 변환
                     Text(
-                      timeago.format(widget.chatRoom.lastMsgCreatedAt,
-                          locale: 'ko'),
+                      dateToElapsedTimeOnChatMain(
+                          widget.chatRoom.lastMsgCreatedAt),
                       style: TextStyle(
-                          fontSize: getProportionateScreenHeight(12),
-                          color: Colors.grey),
+                          fontSize: kCreateAtFontSize, color: Colors.grey),
                     ),
                     // ** TODO: unread 부분 수정
                     widget.chatRoom.unreadCount == 0
@@ -94,17 +96,17 @@ class _ChatTileState extends State<ChatTile> {
                             padding: EdgeInsets.only(
                                 top: getProportionateScreenHeight(5)),
                             child: Container(
-                              width: getProportionateScreenHeight(20),
-                              height: getProportionateScreenWidth(20),
+                              width: getProportionateScreenHeight(18),
+                              height: getProportionateScreenHeight(18),
                               decoration: const BoxDecoration(
                                   shape: BoxShape.circle, color: kMainColor),
                               child: Center(
                                 child: Text(
                                   widget.chatRoom.unreadCount.toString(),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.bold),
+                                      fontSize: resizeFont(10),
+                                      fontWeight: FontWeight.w300),
                                 ),
                               ),
                             ),

@@ -25,7 +25,11 @@ class DeletedNestedCommentListTile extends StatelessWidget {
           index == 0
               ? SizedBox(
                   width: getProportionateScreenWidth(20),
-                  child: const Icon(CupertinoIcons.arrow_turn_down_right))
+                  child: Icon(
+                    CupertinoIcons.arrow_turn_down_right,
+                    size: getProportionateScreenWidth(18),
+                    color: kPostBtnColor,
+                  ))
               : SizedBox(
                   width: getProportionateScreenWidth(20),
                 ),

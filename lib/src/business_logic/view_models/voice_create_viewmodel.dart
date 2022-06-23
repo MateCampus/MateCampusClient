@@ -24,7 +24,7 @@ class VoiceCreateViewModel extends BaseModel {
   List<UserPresentation> _friendUsers = List.empty(growable: true);
   List<UserPresentation> _searchedRecentUsers = List.empty(growable: true);
   List<UserPresentation> _searchedFriendUsers = List.empty(growable: true);
-  List<String> categoryCodeList = List.empty(growable: true);
+  List<String> _categoryCodeList = List.empty(growable: true);
 
   VoiceRoomType _type = VoiceRoomType.PUBLIC;
 
@@ -58,6 +58,7 @@ class VoiceCreateViewModel extends BaseModel {
   bool get collegeOnlyChecked => _collegeOnlyChecked;
   bool get majorOnlyChecked => _majorOnlyChecked;
   List<String> get selectedMemberLoginIds => _selectedMemberLoginIds;
+  List<String> get categoryCodeList => _categoryCodeList;
 
   void loadRecentTalkUsersAndFriends() async {
     setBusy(true);
@@ -213,20 +214,20 @@ class VoiceCreateViewModel extends BaseModel {
     VoiceRoom voiceRoom = await _voiceService.createVoiceRoom(
         title: titleController.text,
         selectedMemberLoginIds: selectedMemberLoginIds,
-        categoryCodeList: categoryCodeList);
+        categoryCodeList: _categoryCodeList);
     return voiceRoom;
   }
 
   void changecategoryCodeList(String categoryCodeName) {
     categoryCodeName = categoryCodeName.split('.').last;
-    if (categoryCodeList.contains(categoryCodeName)) {
-      categoryCodeList.remove(categoryCodeName);
+    if (_categoryCodeList.contains(categoryCodeName)) {
+      _categoryCodeList.remove(categoryCodeName);
     } else {
-      if (categoryCodeList.length >= 3) {
+      if (_categoryCodeList.length >= 3) {
         toastMessage("카테고리는 최대 3개까지입니다.");
         return;
       }
-      categoryCodeList.add(categoryCodeName);
+      _categoryCodeList.add(categoryCodeName);
     }
     notifyListeners();
   }

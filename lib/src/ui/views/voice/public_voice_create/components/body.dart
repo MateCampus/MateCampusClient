@@ -44,21 +44,16 @@ class Body extends StatelessWidget {
         ),
         SafeArea(
           child: BottomFixedBtnDecoBox(
-            child: vm.titleController.text.length < 5
-                ? const DisabledDefaultBtn(text: '다음')
-                : DefaultBtn(
+            child: (vm.titleController.text.length >= 5 &&
+                    vm.categoryCodeList.isNotEmpty)
+                ? DefaultBtn(
                     text: '다음',
                     press: () {
-                      if (vm.categoryCodeList.length < 1) {
-                        toastMessage("최소 1개의 카테고리를 선택해주세요.");
-                        return;
-                      }
-
-                      /// title이 선택되면 button 색깔도 변경되도록 구현.
                       Navigator.pushNamed(context, "/voiceCreateFriend",
                           arguments: VoiceCreateFriendScreenArgs(kMainColor));
                     },
-                  ),
+                  )
+                : const DisabledDefaultBtn(text: '다음'),
           ),
         ),
       ],

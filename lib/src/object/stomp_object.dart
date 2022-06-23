@@ -252,7 +252,8 @@ class StompObject {
               title: res["roomInfo"]["title"],
               type: res["roomInfo"]["type"],
               lastMessage: "대화를 시작해보세요!",
-              lastMsgCreatedAt: DateTime(2021, 5, 5),
+              lastMsgCreatedAt:
+                  DateTime(2021, 5, 5), //TODO: DateTime.now()로 바꾸기
               imageUrl: res["roomInfo"]["imageUrl"],
               unreadCount: 0);
           _chatService.insertChatRoom(chatRoom);

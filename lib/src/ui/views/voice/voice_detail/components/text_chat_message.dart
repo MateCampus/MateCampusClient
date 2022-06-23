@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
@@ -48,9 +49,9 @@ class TextChatMessage extends StatelessWidget {
                     ),
                     const HorizontalSpacing(of: 5),
                     Text(
-                      dateToTimeEng(message.createdAt),
+                      dateToTime(message.createdAt),
                       style: TextStyle(
-                          fontSize: resizeFont(11), color: Colors.grey),
+                          fontSize: kCreateAtFontSize, color: Colors.grey),
                     ),
                   ],
                 ),
