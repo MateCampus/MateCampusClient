@@ -56,6 +56,7 @@ class PostDetailScreenViewModel extends BaseModel {
           body: '',
           createdAt: '',
           likedCount: '',
+          viewCount: '',
           commentCount: '');
 
   PostDetailPresentation get postDetail => _postDetail;
@@ -107,11 +108,12 @@ class PostDetailScreenViewModel extends BaseModel {
                   PostCategoryData.korNameOf(category.name))
               .toList() ??
           [],
-      userNickname: postDetailResult.userNickname,
+      userNickname: "글쓴이",
       body: postDetailResult.body,
       createdAt: dateToElapsedTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.commentCount.toString(),
+      viewCount: postDetailResult.viewCount.toString(),
       imageUrls: postDetailResult.imageUrls,
     );
 
@@ -402,6 +404,7 @@ class PostDetailPresentation {
   String createdAt;
   String likedCount;
   String commentCount;
+  String viewCount;
   List<String> imageUrls;
 
   PostDetailPresentation({
@@ -413,6 +416,7 @@ class PostDetailPresentation {
     required this.createdAt,
     required this.likedCount,
     required this.commentCount,
+    required this.viewCount,
     required this.imageUrls,
   });
 }
