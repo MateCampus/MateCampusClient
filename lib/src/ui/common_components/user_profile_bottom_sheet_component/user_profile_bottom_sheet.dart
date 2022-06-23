@@ -16,7 +16,9 @@ import '../profile_bottom_sheet_component/components/waiting_friend_request.dart
 
 class UserProfileBottomSheet extends StatefulWidget {
   final String loginId;
-  const UserProfileBottomSheet({Key? key, required this.loginId})
+  final bool? bottomBtn;
+  const UserProfileBottomSheet(
+      {Key? key, required this.loginId, this.bottomBtn})
       : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
+    bool _hasBtn = widget.bottomBtn ?? true;
     return ChangeNotifierProvider.value(
         value: vm,
         child: Consumer<UserProfileViewModel>(builder: (context, vm, child) {
@@ -66,7 +69,9 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
                                     introduction: vm.userProfile.introduction,
                                   ),
                                   SizedBox(
-                                    height: getProportionateScreenHeight(250),
+                                    height: _hasBtn
+                                        ? getProportionateScreenHeight(250)
+                                        : getProportionateScreenHeight(300),
                                     child: ListView(
                                       controller: scrollController,
                                       children: [
@@ -75,7 +80,9 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
                                       ],
                                     ),
                                   ),
-                                  SafeArea(child: _bottomFixedBtn())
+                                  _hasBtn
+                                      ? SafeArea(child: _bottomFixedBtn())
+                                      : const SizedBox()
                                 ],
                               ),
                             )),
