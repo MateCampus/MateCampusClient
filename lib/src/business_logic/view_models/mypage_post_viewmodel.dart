@@ -42,7 +42,7 @@ class MypagePostViewModel extends BaseModel {
                   [],
               title: post.title,
               body: post.body,
-              createdAt: dateToTimeEng(post.createdAt),
+              createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
               viewCount: post.viewCount.toString(),
               commentCount: post.commentCount.toString(),

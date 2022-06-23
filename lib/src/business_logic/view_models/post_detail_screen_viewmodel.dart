@@ -90,12 +90,12 @@ class PostDetailScreenViewModel extends BaseModel {
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    createdAt: dateToTimeEng(
+                    createdAt: dateToElapsedTime(
                         nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children))
                 .toList(),
             createdAt:
-                dateToTimeEng(comment.createdAt ?? DateTime(2021, 05, 05))))
+                dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
 
     _postDetail = PostDetailPresentation(
@@ -111,7 +111,7 @@ class PostDetailScreenViewModel extends BaseModel {
       title: postDetailResult.title,
       userNickname: postDetailResult.userNickname,
       body: postDetailResult.body,
-      createdAt: dateToTimeEng(postDetailResult.createdAt),
+      createdAt: dateToElapsedTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
       commentCount: postDetailResult.commentCount.toString(),
       imageUrls: postDetailResult.imageUrls,
@@ -206,12 +206,12 @@ class PostDetailScreenViewModel extends BaseModel {
                 body: nestedComment.body,
                 deleted: nestedComment.deleted,
                 parentId: nestedComment.parentId,
-                createdAt: dateToPastTime(
+                createdAt: dateToElapsedTime(
                     nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                 children: nestedComment.children))
             .toList(),
         createdAt:
-            dateToPastTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
+            dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
     //총 댓글 수 카운트
     int _commentCount = 0;
@@ -313,6 +313,7 @@ class PostDetailScreenViewModel extends BaseModel {
       BuildContext context, String parentUserNickname, int parentId) {
     _parentId = parentId;
     if (overlayEntry == null) {
+      _focusNode.requestFocus();
       overlayEntry = showNestedCommentInput(parentUserNickname);
       Overlay.of(context)?.insert(overlayEntry!);
       print('createoverlay');
@@ -322,8 +323,12 @@ class PostDetailScreenViewModel extends BaseModel {
 
   // 대댓글 overlay 해제
   void removeNestedCommentOverlay() {
+    if (_focusNode.hasFocus) {
+      _focusNode.unfocus();
+    }
     overlayEntry?.remove();
     overlayEntry = null;
+    _nestedCommentTextController.clear();
     print('removeoverlay');
     notifyListeners();
   }

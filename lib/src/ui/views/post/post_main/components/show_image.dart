@@ -12,13 +12,14 @@ class ShowImage extends StatelessWidget {
     int restImg = images.length - 2;
     double imageHeight = getProportionateScreenHeight(175);
     double imageWidth = getProportionateScreenWidth(355);
-    double splitWidth = getProportionateScreenWidth(171);
+    double splitWidth = getProportionateScreenWidth(174.5);
+    Radius imageRadius = const Radius.circular(5);
     if (images.length == 1) {
       widget = SizedBox(
           width: imageWidth,
           height: imageHeight,
           child: ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(5)),
+            borderRadius: BorderRadius.vertical(top: imageRadius),
             child: images[0].startsWith('https')
                 ? CachedNetworkImage(
                     imageUrl: images[0],
@@ -40,8 +41,7 @@ class ShowImage extends StatelessWidget {
                 width: splitWidth,
                 height: imageHeight,
                 child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.only(topLeft: Radius.circular(5)),
+                  borderRadius: BorderRadius.only(topLeft: imageRadius),
                   child: images[0].startsWith('https')
                       ? CachedNetworkImage(
                           imageUrl: images[0],
@@ -57,8 +57,7 @@ class ShowImage extends StatelessWidget {
                 width: splitWidth,
                 height: imageHeight,
                 child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.only(topRight: Radius.circular(5)),
+                  borderRadius: BorderRadius.only(topRight: imageRadius),
                   child: images[1].startsWith('https')
                       ? CachedNetworkImage(
                           imageUrl: images[1],
@@ -84,8 +83,7 @@ class ShowImage extends StatelessWidget {
                 width: splitWidth,
                 height: imageHeight,
                 child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.only(topLeft: Radius.circular(5)),
+                  borderRadius: BorderRadius.only(topLeft: imageRadius),
                   child: images[0].startsWith('https')
                       ? CachedNetworkImage(
                           imageUrl: images[0],
@@ -101,8 +99,7 @@ class ShowImage extends StatelessWidget {
                   width: splitWidth,
                   height: imageHeight,
                   child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.only(topRight: Radius.circular(5)),
+                    borderRadius: BorderRadius.only(topRight: imageRadius),
                     child: images[1].startsWith('https')
                         ? CachedNetworkImage(
                             imageUrl: images[1],

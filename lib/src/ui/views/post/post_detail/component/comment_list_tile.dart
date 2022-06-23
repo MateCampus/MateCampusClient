@@ -32,7 +32,7 @@ class CommentListTile extends StatelessWidget {
                   children: [
                     comment.loginId == vm.postDetail.loginId
                         ? Text(
-                            comment.userNickname + '(작성자)',
+                            comment.userNickname,
                             style: TextStyle(
                                 color: kMainColor,
                                 fontSize: getProportionateScreenHeight(13),
@@ -45,13 +45,13 @@ class CommentListTile extends StatelessWidget {
                                 fontSize: getProportionateScreenHeight(13),
                                 fontWeight: FontWeight.bold),
                           ),
-                    const HorizontalSpacing(of: 10),
+                    const HorizontalSpacing(of: 8),
                     Text(
                       comment.createdAt,
                       style: TextStyle(
-                        fontSize: getProportionateScreenHeight(11),
-                        color: kPostBtnColor,
-                      ),
+                          fontSize: getProportionateScreenHeight(11),
+                          color: kPostBtnColor,
+                          fontWeight: FontWeight.w300),
                     ),
                   ],
                 ),

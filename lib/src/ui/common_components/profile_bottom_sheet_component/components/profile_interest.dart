@@ -18,7 +18,7 @@ class ProfileInterest extends StatelessWidget {
           getProportionateScreenWidth(8), getProportionateScreenHeight(0)),
       child: Wrap(
         runSpacing: getProportionateScreenHeight(2),
-        alignment: WrapAlignment.spaceBetween,
+        alignment: WrapAlignment.spaceEvenly,
         spacing: getProportionateScreenWidth(5),
         children: [
           ...profileInterests.map((interest) {

@@ -58,7 +58,8 @@ class PostHead extends StatelessWidget {
                   vm.postDetail.createdAt,
                   style: TextStyle(
                       fontSize: getProportionateScreenWidth(12),
-                      color: kPostBtnColor),
+                      color: kPostBtnColor,
+                      fontWeight: FontWeight.w300),
                 ),
                 const HorizontalSpacing(of: 15),
                 //        Icon(

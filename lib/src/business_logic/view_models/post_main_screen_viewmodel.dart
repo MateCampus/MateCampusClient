@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
-import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -27,6 +26,8 @@ class PostMainScreenViewModel extends BaseModel {
   ScrollController get postScrollController => _scrollController;
   GlobalKey<RefreshIndicatorState> get postMainKey =>
       _postMainRefreshIndicatorKey;
+
+  final RegExp bodyRegexp = RegExp(r"\n+");
 
   void initData() async {
     if (isInit) return;
@@ -73,8 +74,8 @@ class PostMainScreenViewModel extends BaseModel {
                       .toList() ??
                   [],
               title: post.title,
-              body: post.body,
-              createdAt: dateToTimeEng(post.createdAt),
+              body: post.body.replaceAll(bodyRegexp, " "),
+              createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
               viewCount: post.viewCount.toString(),
               commentCount: post.commentCount.toString(),
@@ -109,8 +110,8 @@ class PostMainScreenViewModel extends BaseModel {
                     .toList() ??
                 [],
             title: post.title,
-            body: post.body,
-            createdAt: dateToTimeEng(post.createdAt),
+            body: post.body.replaceAll(bodyRegexp, " "),
+            createdAt: dateToElapsedTime(post.createdAt),
             likedCount: post.likedCount.toString(),
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),

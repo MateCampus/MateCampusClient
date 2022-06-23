@@ -16,6 +16,11 @@ class PostCreateScreen extends StatefulWidget {
 
 class _PostCreateScreenState extends State<PostCreateScreen> {
   PostCreateScreenViewModel vm = serviceLocator<PostCreateScreenViewModel>();
+  @override
+  void initState() {
+    vm.detectTextController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +37,20 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                 titleText: '글쓰기',
                 isCenter: true,
                 actions: [
-                  TextButton(
-                    onPressed: () {
-                      vm.createPost(context);
-                    },
-                    child: const Text('등록'),
-                    style: TextButton.styleFrom(
-                      primary: kMainColor,
-                    ),
-                  )
+                  vm.bodyTextController.text.isEmpty
+                      ? const TextButton(
+                          onPressed: null,
+                          child: Text('등록'),
+                        )
+                      : TextButton(
+                          onPressed: () {
+                            vm.createPost(context);
+                          },
+                          child: const Text('등록'),
+                          style: TextButton.styleFrom(
+                            primary: kMainColor,
+                          ),
+                        )
                 ],
               ),
               backgroundColor: Colors.white,

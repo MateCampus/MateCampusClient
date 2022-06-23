@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 
 class PostBtns extends StatefulWidget {
   final PostDetailScreenViewModel vm;
@@ -27,35 +29,36 @@ class _PostBtnsState extends State<PostBtns> {
             icon: widget.vm.isliked
                 ? Icon(
                     CupertinoIcons.heart_fill,
-                    size: getProportionateScreenWidth(20),
+                    size: kPostDetailIconSizeCP,
                     color: kMainColor,
                   )
                 : Icon(
                     CupertinoIcons.heart,
-                    size: getProportionateScreenWidth(20),
-                    color: Colors.black,
+                    size: kPostDetailIconSizeCP,
+                    color: kPostBtnColor,
                   ),
             label: Text(
               widget.vm.postDetail.likedCount,
               style: TextStyle(
-                  fontSize: getProportionateScreenWidth(15),
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  fontSize: resizeFont(16),
+                  fontWeight: FontWeight.w400,
+                  color: kPostBtnColor),
             ),
           ),
+          const HorizontalSpacing(of: 5),
           TextButton.icon(
             onPressed: null,
             icon: Icon(
               CupertinoIcons.bubble_left,
-              size: getProportionateScreenWidth(20),
-              color: Colors.black,
+              size: kPostDetailIconSizeCP,
+              color: kPostBtnColor,
             ),
             label: Text(
               widget.vm.postDetail.commentCount,
               style: TextStyle(
-                  fontSize: getProportionateScreenWidth(15),
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black),
+                  fontSize: resizeFont(16),
+                  fontWeight: FontWeight.w400,
+                  color: kPostBtnColor),
             ),
           ),
           const Spacer(),
@@ -66,13 +69,13 @@ class _PostBtnsState extends State<PostBtns> {
             icon: widget.vm.isBookMarked
                 ? Icon(
                     CupertinoIcons.bookmark_fill,
-                    size: getProportionateScreenWidth(20),
+                    size: kPostDetailIconSizeCP,
                     color: Colors.orangeAccent,
                   )
                 : Icon(
                     CupertinoIcons.bookmark,
-                    size: getProportionateScreenWidth(20),
-                    color: Colors.black,
+                    size: kPostDetailIconSizeCP,
+                    color: kPostBtnColor,
                   ),
           ),
         ],
