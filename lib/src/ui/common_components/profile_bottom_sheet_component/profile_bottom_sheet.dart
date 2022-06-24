@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -21,7 +20,8 @@ import 'components/interest_same_chip.dart';
 /// Friend Profile bottom sheet로 이름 변경 예정
 class ProfileBottomSheet extends StatefulWidget {
   final int friendId;
-  const ProfileBottomSheet({Key? key, required this.friendId})
+  final bool? bottomBtn;
+  const ProfileBottomSheet({Key? key, required this.friendId, this.bottomBtn})
       : super(key: key);
 
   @override
@@ -41,8 +41,9 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<ProfileViewModel>(
-        create: (context) => vm,
+    bool _hasBtn = widget.bottomBtn ?? true;
+    return ChangeNotifierProvider.value(
+        value: vm,
         child: Consumer<ProfileViewModel>(builder: (context, vm, child) {
           return makeDismissible(
             child: DraggableScrollableSheet(
@@ -62,7 +63,7 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                               controller: scrollController,
                               child: Column(
                                 children: [
-                                  const ProfileHeader(),
+                                  ProfileHeader(vm: vm),
                                   ProfileInfo(
                                     imageUrl: vm.profile.imageUrl,
                                     nickname: vm.profile.nickname,
@@ -85,7 +86,9 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                                     //           vm.interests[index]);
                                     //     }),
                                     SizedBox(
-                                      height: getProportionateScreenHeight(255),
+                                      height: _hasBtn
+                                          ? getProportionateScreenHeight(250)
+                                          : getProportionateScreenHeight(300),
                                       child: ListView(
                                         // controller: scrollController,
                                         children: [
@@ -95,7 +98,9 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
                                       ),
                                     ),
                                   ]),
-                                  SafeArea(child: _bottomFixedBtn())
+                                  _hasBtn
+                                      ? SafeArea(child: _bottomFixedBtn())
+                                      : const SizedBox()
                                 ],
                               ),
                             )),

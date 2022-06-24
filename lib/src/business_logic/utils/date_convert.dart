@@ -66,6 +66,7 @@ String dateToTimeEng(DateTime time) {
 }
 
 //Chat Main에서 사용 1분전 ~ 59분전 -> 1시간전 ~ 23시간전 -> 6월 23일
+//알림에서도 사용
 String dateToElapsedTimeOnChatMain(DateTime _date) {
   var duration = DateTime.now().difference(_date).inMinutes;
   String value = '';

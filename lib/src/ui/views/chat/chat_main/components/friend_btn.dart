@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
@@ -27,8 +26,6 @@ class FriendBtn extends StatelessWidget {
             },
             child: Container(
               //그림자 효과위해서 쓴다
-              //height: getProportionateScreenHeight(76),
-              //width: getProportionateScreenWidth(335),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10.0),

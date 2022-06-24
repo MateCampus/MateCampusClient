@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -27,12 +28,12 @@ class FriendListTile extends StatelessWidget {
               buildWidget: ProfileBottomSheet(friendId: friend.id));
         },
         child: ListTile(
-            contentPadding: const EdgeInsets.all(0),
+            contentPadding: EdgeInsets.zero,
             leading: Stack(
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.grey,
-                  radius: getProportionateScreenHeight(27),
+                  radius: getProportionateScreenHeight(25),
                   backgroundImage: friend.imageUrl.startsWith('https')
                       ? CachedNetworkImageProvider(friend.imageUrl)
                           as ImageProvider
@@ -62,17 +63,20 @@ class FriendListTile extends StatelessWidget {
             ),
             title: Text(
               friend.nickname,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                  fontSize: resizeFont(14),
+                  color: Colors.black87,
+                  fontWeight: FontWeight.w500),
             ),
             trailing: friend.friendRequestStatus == FriendRequestStatus.ACCEPTED
                 ? IconButton(
                     onPressed: () {
                       vm.gotoChatroom(friend.loginId);
                     },
-                    icon: const Icon(Icons.more_horiz_outlined),
-                    iconSize: getProportionateScreenWidth(20),
-                    color: Colors.black,
-                    splashRadius: getProportionateScreenWidth(20),
+                    icon: const Icon(CupertinoIcons.ellipsis),
+                    iconSize: getProportionateScreenWidth(18),
+                    color: Colors.black87,
+                    splashRadius: getProportionateScreenWidth(18),
                   )
                 : TextButton(
                     onPressed: null,

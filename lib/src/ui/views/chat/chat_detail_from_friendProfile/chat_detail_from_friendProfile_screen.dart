@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -62,7 +63,7 @@ class _ChatDetailFromFriendProfileScreenState
                 actions: [
                   IconButton(
                     icon: const Icon(CupertinoIcons.ellipsis),
-                    iconSize: getProportionateScreenHeight(20),
+                    iconSize: kAppBarIconSizeCP,
                     color: Colors.black,
                     onPressed: () {},
                   ),

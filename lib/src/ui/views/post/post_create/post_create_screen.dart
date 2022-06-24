@@ -37,7 +37,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                 titleText: '글쓰기',
                 isCenter: true,
                 actions: [
-                  vm.bodyTextController.text.isEmpty
+                  vm.bodyTextController.text.length < 5
                       ? const TextButton(
                           onPressed: null,
                           child: Text('등록'),

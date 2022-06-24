@@ -28,7 +28,7 @@ class Body extends StatelessWidget {
                     PostBody(vm: vm), //본문
                     PostBtns(vm: vm), //좋아요, 북마크 버튼
                     const HorizontalDividerCustom(
-                        thickness: 10, color: kMainScreenBackgroundColor),
+                        thickness: 8, color: kMainScreenBackgroundColor),
                     CommentList(vm: vm) // 댓글
                   ],
                 ))),

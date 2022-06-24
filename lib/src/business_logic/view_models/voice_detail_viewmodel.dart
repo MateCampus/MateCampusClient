@@ -150,7 +150,6 @@ class VoiceDetailViewModel extends BaseModel {
 
   Future<void> presentVoiceRoom(VoiceRoom voiceRoom) async {
     //뷰에 필요한 룸 정보 매핑
-    print('presentVoiceRoom 시작');
     _voiceRoom = VoiceRoomPresentation(
         id: voiceRoom.id,
         roomId: voiceRoom.roomId!,
@@ -226,6 +225,7 @@ class VoiceDetailViewModel extends BaseModel {
     for (String existLoginId in _recentTalkUserLoginIds) {
       if (existLoginId == loginId) {
         _recentTalkUserLoginIds.remove(loginId);
+        break;
       }
     }
     _recentTalkUserLoginIds.add(loginId);

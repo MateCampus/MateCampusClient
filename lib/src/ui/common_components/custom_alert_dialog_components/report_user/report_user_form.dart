@@ -7,16 +7,15 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_components/report_title_text.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_components/report_type_list.dart';
 
-class ReportPostForm extends StatefulWidget {
-  int? postId;
-  int? commentId;
-  ReportPostForm({Key? key, this.postId, this.commentId}) : super(key: key);
+class ReportUserForm extends StatefulWidget {
+  final String loginId;
+  const ReportUserForm({Key? key, required this.loginId}) : super(key: key);
 
   @override
-  _ReportPostFormState createState() => _ReportPostFormState();
+  _ReportUserFormState createState() => _ReportUserFormState();
 }
 
-class _ReportPostFormState extends State<ReportPostForm> {
+class _ReportUserFormState extends State<ReportUserForm> {
   ReportViewModel vm = serviceLocator<ReportViewModel>();
   @override
   Widget build(BuildContext context) {
@@ -48,12 +47,7 @@ class _ReportPostFormState extends State<ReportPostForm> {
               ),
               CupertinoDialogAction(
                 onPressed: () {
-                  if (widget.postId != null) {
-                    vm.reportPost(context, widget.postId!);
-                  } else if (widget.commentId != null) {
-                    vm.reportComment(context, widget.commentId!);
-                  }
-                  // vm.reportUser(context, widget.loginId);
+                  vm.reportUser(context, widget.loginId);
                 },
                 child: const Text('신고'),
                 textStyle: TextStyle(

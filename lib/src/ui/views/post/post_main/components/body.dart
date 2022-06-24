@@ -44,7 +44,9 @@ class Body extends StatelessWidget {
                   color: kAppBarIconColor,
                 ),
                 IconButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/notification');
+                  },
                   icon: const Icon(FontAwesomeIcons.bell),
                   iconSize: kAppBarIconSizeFA,
                   color: kAppBarIconColor,
