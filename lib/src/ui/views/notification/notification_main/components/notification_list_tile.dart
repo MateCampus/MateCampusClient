@@ -47,7 +47,7 @@ class NotificationListTile extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.black87,
                     height: 1.0,
-                    fontSize: getProportionateScreenWidth(15),
+                    fontSize: getProportionateScreenWidth(13),
                     fontWeight: FontWeight.w700),
                 children: <TextSpan>[
                   TextSpan(

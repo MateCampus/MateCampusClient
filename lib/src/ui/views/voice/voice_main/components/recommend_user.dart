@@ -48,21 +48,28 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
           child: Row(
             children: [
               Text(
-                'NOW\u{1F34A}',
+                '음성대화방 \u{1F4AC}',
                 style: TextStyle(
                     fontFamily: 'Gmarket',
                     fontSize: getProportionateScreenWidth(18),
-                    fontWeight: FontWeight.w700),
+                    fontWeight: FontWeight.w500),
               ),
               const Spacer(),
-              IconButton(
+              TextButton.icon(
                 onPressed: () {
                   vm.refreshPage();
                 },
-                icon: const Icon(CupertinoIcons.arrow_clockwise),
-                color: Colors.grey,
-                iconSize: getProportionateScreenWidth(18),
-              )
+                icon: const Icon(CupertinoIcons.arrow_clockwise, size: 0),
+                label: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: const [
+                      Text(
+                        "새로고침 ",
+                        style: TextStyle(fontSize: 13),
+                      ),
+                      Icon(CupertinoIcons.arrow_clockwise, size: 13)
+                    ]),
+              ),
             ],
           ),
         )

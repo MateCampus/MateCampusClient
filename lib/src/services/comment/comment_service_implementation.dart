@@ -64,8 +64,7 @@ class CommentServiceImpl implements CommentService {
 
   @override
   Future<List<Comment>> fetchMyComments() async {
-    final response = await http.get(
-        Uri.parse(devServer + "/api/post/comment/my"),
+    final response = await http.get(Uri.parse(devServer + "/api/comment/my"),
         headers: AuthService.get_auth_header());
 
     if (response.statusCode == 200) {

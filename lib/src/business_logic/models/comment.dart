@@ -5,7 +5,7 @@ class Comment {
   final String body;
   bool deleted;
   final int parentId;
-  List<Comment> children;
+  List<Comment>? children;
   DateTime? createdAt;
 
   Comment({
@@ -23,12 +23,12 @@ class Comment {
     return Comment(
       id: json['id'],
       loginId: json['loginId'],
-      userNickname: json['userNickname'],
+      userNickname: json['userNickname'] ?? "",
       body: json['body'],
       deleted: json['deleted'],
       parentId: json['parentId'],
       children: json['children']
-          .map<Comment>((json) => Comment.fromJson(json))
+          ?.map<Comment>((json) => Comment.fromJson(json))
           .toList(),
       createdAt: DateTime.parse(json['createdAt']),
       // createdAt: DateTime(2021, 05, 05),

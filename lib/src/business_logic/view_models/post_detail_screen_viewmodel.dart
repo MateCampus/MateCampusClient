@@ -79,17 +79,18 @@ class PostDetailScreenViewModel extends BaseModel {
             deleted: comment.deleted,
             parentId: comment.parentId,
             children: comment.children
-                .map((nestedComment) => CommentPresentation(
-                    id: nestedComment.id,
-                    loginId: nestedComment.loginId,
-                    userNickname: nestedComment.userNickname,
-                    body: nestedComment.body,
-                    deleted: nestedComment.deleted,
-                    parentId: nestedComment.parentId,
-                    createdAt: dateToElapsedTime(
-                        nestedComment.createdAt ?? DateTime(2021, 05, 05)),
-                    children: nestedComment.children))
-                .toList(),
+                    ?.map((nestedComment) => CommentPresentation(
+                        id: nestedComment.id,
+                        loginId: nestedComment.loginId,
+                        userNickname: nestedComment.userNickname,
+                        body: nestedComment.body,
+                        deleted: nestedComment.deleted,
+                        parentId: nestedComment.parentId,
+                        createdAt: dateToElapsedTime(
+                            nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                        children: nestedComment.children ?? []))
+                    .toList() ??
+                [],
             createdAt:
                 dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
@@ -195,17 +196,18 @@ class PostDetailScreenViewModel extends BaseModel {
         deleted: comment.deleted,
         parentId: comment.parentId,
         children: comment.children
-            .map((nestedComment) => CommentPresentation(
-                id: nestedComment.id,
-                loginId: nestedComment.loginId,
-                userNickname: nestedComment.userNickname,
-                body: nestedComment.body,
-                deleted: nestedComment.deleted,
-                parentId: nestedComment.parentId,
-                createdAt: dateToElapsedTime(
-                    nestedComment.createdAt ?? DateTime(2021, 05, 05)),
-                children: nestedComment.children))
-            .toList(),
+                ?.map((nestedComment) => CommentPresentation(
+                    id: nestedComment.id,
+                    loginId: nestedComment.loginId,
+                    userNickname: nestedComment.userNickname,
+                    body: nestedComment.body,
+                    deleted: nestedComment.deleted,
+                    parentId: nestedComment.parentId,
+                    createdAt: dateToElapsedTime(
+                        nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                    children: nestedComment.children ?? []))
+                .toList() ??
+            [],
         createdAt:
             dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
