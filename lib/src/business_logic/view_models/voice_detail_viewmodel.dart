@@ -259,6 +259,21 @@ class VoiceDetailViewModel extends BaseModel {
     notifyListeners();
   }
 
+  void updateNewOwner(String newOwnerLoginId) {
+    int len = _voiceRoomMembers.length;
+    int index = -1;
+    for (int i = 0; i < len; i++) {
+      if (_voiceRoomMembers[i].loginId == newOwnerLoginId) {
+        index = i;
+        break;
+      }
+    }
+    if (index != -1) {
+      _voiceRoomMembers[index].isHost = true;
+    }
+    notifyListeners();
+  }
+
   void scrollToEnd() async {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       //리스트 뷰를 reverse로 그리고 있기 때문에 제일 처음 위치로 스크롤을 떙겨야함.
