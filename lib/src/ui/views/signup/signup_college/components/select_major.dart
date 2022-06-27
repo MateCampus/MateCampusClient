@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_college/components/college_list_tile.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_college/components/major_list_tile.dart';
 
 class SelectMajor extends StatefulWidget {
   final SignUpViewModel vm;
@@ -16,22 +20,6 @@ class SelectMajor extends StatefulWidget {
 }
 
 class _SelectMajorState extends State<SelectMajor> {
-  //드롭다운 리스트
-  final _majorList = majorList;
-
-  // 드롭박스.
-  OverlayEntry? _overlayEntry;
-  final LayerLink _layerLink = LayerLink();
-  final double _dropdownWidth =
-      SizeConfig.screenWidth! - getProportionateScreenWidth(40);
-  final double _dropdownHeight = getProportionateScreenHeight(48);
-
-  @override
-  void dispose() {
-    _overlayEntry?.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,125 +27,80 @@ class _SelectMajorState extends State<SelectMajor> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            '학과/학부',
+            style: TextStyle(
+                fontSize: kLabelFontSize,
+                color: Colors.black54,
+                fontWeight: FontWeight.w500),
+          ),
           Padding(
             padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenHeight(10)),
-            child: Text(
-              '내 학과',
-              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              if (_overlayEntry == null) {
-                _createOverlay();
-              } else {
-                _removeOverlay();
-              }
-            },
             child: CompositedTransformTarget(
-              link: _layerLink,
-              child: Container(
-                width: _dropdownWidth,
-                height: _dropdownHeight,
-                padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(20)),
-                decoration: BoxDecoration(
-                  color: kTextFieldColor,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // 선택값.
-                    (widget.vm.selectedMajor == '')
-                        ? const Text(
-                            '학과를 선택해주세요',
-                            style: TextStyle(
-                                color: Color(0xFFADADAD), fontSize: 14),
-                          )
-                        : Text(
-                            widget.vm.selectedMajor,
-                            style: const TextStyle(
-                              fontSize: 14,
-                            ),
-                          ),
-                    const Icon(
-                      Icons.arrow_drop_down,
-                    ),
-                  ],
+              link: widget.vm.majorLayerLink,
+              child: TextFormField(
+                keyboardType: TextInputType.multiline,
+                style: TextStyle(
+                    fontSize: kTextFieldInnerFontSize, color: Colors.black87),
+                controller: widget.vm.majorController,
+                maxLines: 1,
+                onTap: () {
+                  widget.vm.scrollMajorFieldToTop();
+                  if (widget.vm.majorOverlayEntry == null) {
+                    widget.vm
+                        .createMajorOverlay(context, _majorOverlayWidget());
+                  } else {
+                    widget.vm.removeMajorOverlay();
+                  }
+                },
+                autocorrect: false,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    FontAwesomeIcons.school,
+                    color: kTextFieldHintColor,
+                    size: kTextFieldIconSizeFA,
+                  ),
+                  hintText: "학과 혹은 학부명을 입력해주세요",
+                  hintStyle: TextStyle(
+                      color: kTextFieldHintColor,
+                      fontSize: kTextFieldInnerFontSize),
+                  fillColor: kTextFieldColor,
+                  filled: true,
+                  border: const OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 
-// 드롭다운 생성.
-  void _createOverlay() {
-    if (_overlayEntry == null) {
-      _overlayEntry = _customDropdown();
-      Overlay.of(context)?.insert(_overlayEntry!);
-    }
-  }
-
-  // 드롭다운 해제.
-  void _removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
-
-  //드롭다운 모양
-  OverlayEntry _customDropdown() {
+  OverlayEntry _majorOverlayWidget() {
     return OverlayEntry(
       maintainState: true,
       builder: (context) => Positioned(
-        width: _dropdownWidth,
+        width: SizeConfig.screenWidth! - getProportionateScreenWidth(40),
         child: CompositedTransformFollower(
-          link: _layerLink,
-          offset: Offset(0, _dropdownHeight + getProportionateScreenHeight(5)),
+          link: widget.vm.majorLayerLink,
+          offset: Offset(0, getProportionateScreenHeight(57)),
           child: Material(
             child: Container(
-              height: getProportionateScreenHeight(200),
+              height: getProportionateScreenHeight(260),
               decoration: BoxDecoration(
                 color: kTextFieldColor,
-                //border: Border.all(color: Colors.grey),
+                border: Border.all(color: kTextFieldHintColor, width: 0.5),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: ListView.separated(
+              child: ListView.builder(
                 physics: const ClampingScrollPhysics(),
-                padding: EdgeInsets.symmetric(
-                    vertical: getProportionateScreenHeight(0)),
-                itemCount: _majorList.length,
+                padding: EdgeInsets.zero,
+                itemCount: widget.vm.searchingMajors.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      widget.vm.selectMajor(_majorList.elementAt(index));
-                      _removeOverlay();
-                    },
-                    child: Container(
-                      height: _dropdownHeight,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: getProportionateScreenWidth(20)),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          MajorData.korNameOf(_majorList.elementAt(index).name),
-                          //_collegeList.elementAt(index),
-                          style: const TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const HorizontalDividerCustom(
-                    color: Colors.white,
-                  );
+                  return MajorListTile(vm: widget.vm, index: index);
                 },
               ),
             ),

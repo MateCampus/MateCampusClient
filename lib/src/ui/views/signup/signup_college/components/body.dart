@@ -18,10 +18,11 @@ class Body extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            controller: vm.scrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20),
-                  vertical: getProportionateScreenHeight(10)),
+                horizontal: getProportionateScreenWidth(20),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -35,8 +36,8 @@ class Body extends StatelessWidget {
         ),
         SafeArea(
           child: BottomFixedBtnDecoBox(
-            child: (vm.selectedCollege != '' &&
-                    vm.selectedMajor != '' &&
+            child: (vm.isSelectedCollege != '' &&
+                    vm.isSelectedMajor != '' &&
                     vm.studentIdImgPath != '')
                 ? DefaultBtn(
                     text: '다음',

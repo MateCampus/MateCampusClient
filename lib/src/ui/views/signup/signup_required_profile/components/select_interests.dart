@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -37,8 +38,8 @@ class SelectInterests extends StatelessWidget {
                           Text(
                             interest.title,
                             style: TextStyle(
-                                fontSize: getProportionateScreenWidth(12),
-                                fontWeight: FontWeight.w500),
+                              fontSize: kInterestTextFontSize,
+                            ),
                           )
                         ],
                       )
@@ -58,8 +59,8 @@ class SelectInterests extends StatelessWidget {
                           Text(
                             interest.title,
                             style: TextStyle(
-                                fontSize: getProportionateScreenWidth(12),
-                                fontWeight: FontWeight.w500),
+                              fontSize: kInterestTextFontSize,
+                            ),
                           )
                         ],
                       ))

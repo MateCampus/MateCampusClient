@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -27,13 +28,15 @@ class _SignUpAccountScreenState extends State<SignUpAccountScreen> {
               FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
           child: Scaffold(
             appBar: SubAppbar(
+              titleText: '계정 정보 입력',
+              isCenter: true,
               leadingOnPress: () {
                 serviceLocator.resetLazySingleton<SignUpViewModel>(
                     instance: vm);
                 Navigator.pop(context);
               },
             ),
-            backgroundColor: Colors.white,
+            backgroundColor: kSubScreenBackgroundColor,
             body: Body(vm: vm),
           ),
         );
