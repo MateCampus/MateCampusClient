@@ -9,7 +9,8 @@ const kMainScreenBackgroundColor = Color(0xfff8f8f8);
 const kSubScreenBackgroundColor = Colors.white;
 const kPostBtnColor = Color(0xff818181);
 
-const kTextFieldColor = Color(0xfff8f8f8); //나중에 테두리랑 나눠서 써야하면 이름 바꾸기
+const kTextFieldColor = Color(0xfff8f8f8); //텍스트 필드 내부 색
+const kTextFieldHintColor = Color(0xffADADAD); // 텍스트 필드 힌트 텍스트, 혹은 아이콘 색
 
 final kDefaultShadowOnlyTop = BoxShadow(
   color: Colors.grey.withOpacity(0.1),

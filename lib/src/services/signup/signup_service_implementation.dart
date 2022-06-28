@@ -74,4 +74,21 @@ class SignUpServiceImpl implements SignUpService {
       throw Exception("회원가입 오류");
     }
   }
+
+  @override
+  Future<bool> requestMajor({required String body}) async {
+    String bodyJson = jsonEncode({"body": body});
+
+    final response = await http
+        .post(Uri.parse(devServer + "/api/signup/request"), body: bodyJson);
+
+    if (response.statusCode == 201) {
+      print('학과 요청 성공');
+      return true;
+    } else {
+      print('요청 실패');
+      // return false;
+      return true;
+    }
+  }
 }

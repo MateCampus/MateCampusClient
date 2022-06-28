@@ -8,3 +8,6 @@ double kPostDetailIconSizeCP = getProportionateScreenWidth(18);
 double kPostMainIconSizeCP = getProportionateScreenWidth(15);
 
 double kBottomNavigationBarIconSize = getProportionateScreenWidth(25);
+
+double kTextFieldIconSizeCP = getProportionateScreenWidth(16);
+double kTextFieldIconSizeFA = getProportionateScreenWidth(13.5);

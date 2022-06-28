@@ -12,6 +12,6 @@ class CollegeData {
     'college0004': {'name': '홍익대학교', 'image': '\u{2708}'},
     'college0005': {'name': '중앙대학교', 'image': '\u{2600}'},
     'college0006': {'name': '경희대학교', 'image': '\u{1F308}'},
-    'college0007': {'name': '한국외대학교', 'image': '\u{1F3AE}'},
+    'college0007': {'name': '한국외국어대학교', 'image': '\u{1F3AE}'},
   };
 }

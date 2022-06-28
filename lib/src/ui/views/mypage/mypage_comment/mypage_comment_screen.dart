@@ -45,7 +45,7 @@ class _MypageCommentScreenState extends State<MypageCommentScreen> {
                             sentence: '댓글이 존재하지 않습니다',
                             bottomSpace: 100,
                           )
-                        : Body(commentList: vm.comments)),
+                        : Body(vm: vm, commentList: vm.comments)),
           );
         },
       ),

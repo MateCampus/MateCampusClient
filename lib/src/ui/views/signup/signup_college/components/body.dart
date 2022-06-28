@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/certification.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/select_college.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/select_major.dart';
@@ -18,15 +19,17 @@ class Body extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            controller: vm.scrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(20),
-                  vertical: getProportionateScreenHeight(10)),
+                horizontal: getProportionateScreenWidth(20),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SelectCollege(vm: vm),
                   SelectMajor(vm: vm),
+                  const VerticalSpacing(),
                   Certification(vm: vm)
                 ],
               ),
@@ -35,8 +38,8 @@ class Body extends StatelessWidget {
         ),
         SafeArea(
           child: BottomFixedBtnDecoBox(
-            child: (vm.selectedCollege != '' &&
-                    vm.selectedMajor != '' &&
+            child: (vm.isSelectedCollege != '' &&
+                    vm.isSelectedMajor != '' &&
                     vm.studentIdImgPath != '')
                 ? DefaultBtn(
                     text: '다음',

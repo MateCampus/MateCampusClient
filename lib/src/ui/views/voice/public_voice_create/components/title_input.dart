@@ -40,7 +40,7 @@ class _TitleInputState extends State<TitleInput> {
           //autofocus: true,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.done,
-          style: TextStyle(fontSize: kTextFieldInnerFontSize),
+          style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
           controller: widget.vm.titleController,
           maxLines: 1,
           autovalidateMode:
@@ -50,7 +50,7 @@ class _TitleInputState extends State<TitleInput> {
           decoration: InputDecoration(
             hintText: "어떤 얘기를 나눠볼까요?",
             hintStyle: TextStyle(
-                color: Color(0xFFADADAD), fontSize: kTextFieldInnerFontSize),
+                color: kTextFieldHintColor, fontSize: kTextFieldInnerFontSize),
             fillColor: kTextFieldColor,
             filled: true,
             border: const OutlineInputBorder(

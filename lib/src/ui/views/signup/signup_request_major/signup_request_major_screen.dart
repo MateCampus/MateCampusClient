@@ -5,16 +5,17 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_account/components/body.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_request_major/components/body.dart';
 
-class SignUpAccountScreen extends StatefulWidget {
-  const SignUpAccountScreen({Key? key}) : super(key: key);
+class SignUpRequestMajorScreen extends StatefulWidget {
+  const SignUpRequestMajorScreen({Key? key}) : super(key: key);
 
   @override
-  _SignUpAccountScreenState createState() => _SignUpAccountScreenState();
+  _SignUpRequestMajorScreenState createState() =>
+      _SignUpRequestMajorScreenState();
 }
 
-class _SignUpAccountScreenState extends State<SignUpAccountScreen> {
+class _SignUpRequestMajorScreenState extends State<SignUpRequestMajorScreen> {
   SignUpViewModel vm = serviceLocator<SignUpViewModel>();
 
   @override
@@ -28,13 +29,8 @@ class _SignUpAccountScreenState extends State<SignUpAccountScreen> {
               FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
           child: Scaffold(
             appBar: SubAppbar(
-              titleText: '계정 정보 입력',
+              titleText: '학과 요청',
               isCenter: true,
-              leadingOnPress: () {
-                serviceLocator.resetLazySingleton<SignUpViewModel>(
-                    instance: vm);
-                Navigator.pop(context);
-              },
             ),
             backgroundColor: kSubScreenBackgroundColor,
             body: Body(vm: vm),

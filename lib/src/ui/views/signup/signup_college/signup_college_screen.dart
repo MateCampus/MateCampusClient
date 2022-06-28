@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -17,6 +18,19 @@ class _SignUpCollegeScreenState extends State<SignUpCollegeScreen> {
   SignUpViewModel vm = serviceLocator<SignUpViewModel>();
 
   @override
+  void initState() {
+    super.initState();
+    vm.setCollegeList();
+    vm.setMajorList();
+    vm.collegeController.addListener(() {
+      vm.searchCollege();
+    });
+    vm.majorController.addListener(() {
+      vm.searchMajor();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return ChangeNotifierProvider<SignUpViewModel>.value(
@@ -29,8 +43,14 @@ class _SignUpCollegeScreenState extends State<SignUpCollegeScreen> {
             appBar: SubAppbar(
               titleText: '학교 정보 입력',
               isCenter: true,
+              leadingOnPress: () {
+                //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
+                vm.removeCollegeOverlay();
+                vm.removeMajorOverlay();
+                Navigator.of(context).pop();
+              },
             ),
-            backgroundColor: Colors.white,
+            backgroundColor: kSubScreenBackgroundColor,
             body: Body(vm: vm),
           ),
         );

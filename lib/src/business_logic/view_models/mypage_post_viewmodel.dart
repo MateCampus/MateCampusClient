@@ -16,6 +16,8 @@ class MypagePostViewModel extends BaseModel {
   List<PostPresentation> get posts => _posts;
   // List<PostPresentation> get myFeedPosts => _myFeedPosts;
 
+  final RegExp bodyRegexp = RegExp(r"\n+");
+
   Future<void> loadMypagePosts(String isFrom) async {
     setBusy(true);
     List<Post> postResult = List.empty(growable: true);
@@ -40,7 +42,7 @@ class MypagePostViewModel extends BaseModel {
                           PostCategoryData.korNameOf(category.name))
                       .toList() ??
                   [],
-              body: post.body,
+              body: post.body.replaceAll(bodyRegexp, " "),
               createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
               viewCount: post.viewCount.toString(),

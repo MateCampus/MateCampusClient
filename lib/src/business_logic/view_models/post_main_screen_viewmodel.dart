@@ -73,7 +73,7 @@ class PostMainScreenViewModel extends BaseModel {
                           PostCategoryData.korNameOf(category.name))
                       .toList() ??
                   [],
-              body: post.body.replaceAll(bodyRegexp, " "),
+              body: post.body.replaceFirst(bodyRegexp, "\n...\n"),
               createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
               viewCount: post.viewCount.toString(),

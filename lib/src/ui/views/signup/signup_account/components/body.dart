@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_account/components/user_id_input.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_account/components/user_password_input.dart';
 
@@ -25,6 +26,7 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   UserIdInput(vm: vm),
+                  const VerticalSpacing(of: 25),
                   UserPasswordInput(vm: vm),
                 ],
               ),

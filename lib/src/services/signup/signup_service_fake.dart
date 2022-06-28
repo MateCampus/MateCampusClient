@@ -28,4 +28,9 @@ class FakeSignUpService implements SignUpService {
       String? introduce}) async {
     return true;
   }
+
+  @override
+  Future<bool> requestMajor({required String body}) async {
+    return true;
+  }
 }
