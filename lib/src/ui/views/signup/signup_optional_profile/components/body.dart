@@ -3,6 +3,7 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/select_profile_image.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/user_introduce_input.dart';
 
@@ -24,6 +25,9 @@ class Body extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SelectProfileImage(vm: vm),
+                  const VerticalSpacing(
+                    of: 20,
+                  ),
                   UserIntroduceInput(vm: vm)
                 ],
               ),

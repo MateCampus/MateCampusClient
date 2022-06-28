@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="431" height="164" viewBox="0 0 431 164">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_7449" data-name="사각형 7449" width="417.624" height="101.626" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="그룹_35969" data-name="그룹 35969" transform="translate(-62.419 -349.486)">
+    <g id="그룹_35667" data-name="그룹 35667" transform="translate(62 397.071)">
+      <g id="그룹_35666" data-name="그룹 35666" transform="translate(7.026 6.952)">
+        <path id="패스_6026" data-name="패스 6026" d="M3.16,10.583V21.049H18.608v7.1L0,46.23l7.245,7.508L24.909,38.033,41.531,53.207l7.613-7.352-17.809-17.7V21.049H45.963V10.583Z" transform="translate(0 4.867)" fill="#fff"/>
+        <path id="패스_6027" data-name="패스 6027" d="M40.761,0V57.745H52.973V35.6H67.392V25.031H52.973V0Z" transform="translate(18.745 0)" fill="#fff"/>
+        <g id="그룹_35665" data-name="그룹 35665" transform="translate(0.001 0)">
+          <g id="그룹_35664" data-name="그룹 35664" clip-path="url(#clip-path)">
+            <path id="패스_6028" data-name="패스 6028" d="M89.065,42.477c-10.882,0-19.085,7.41-19.085,17.232,0,9.6,8.383,17.13,19.085,17.13,10.882,0,19.085-7.365,19.085-17.13,0-9.822-8.2-17.232-19.085-17.232m0,24.207c-3.581,0-7.39-2.444-7.39-6.975,0-4.365,3.758-6.972,7.39-6.972,3.553,0,7.39,2.666,7.39,6.972,0,4.366-3.756,6.975-7.39,6.975" transform="translate(32.181 19.533)" fill="#fff"/>
+            <path id="패스_6029" data-name="패스 6029" d="M100.535,38.285h13.394V2.892h-39.2V38.285H88.119v7.254H58.536V56.106h71.582V45.539H100.535Zm1.387-10.362H86.733V13.254h15.188Z" transform="translate(26.919 1.329)" fill="#fff"/>
+            <path id="패스_6030" data-name="패스 6030" d="M137.232,80.892H180.14v-35.8H137.232Zm30.8-10.362H149.239V55.448h18.793Z" transform="translate(63.108 20.733)" fill="#fff"/>
+            <path id="패스_6031" data-name="패스 6031" d="M111.891,22.2h23.174v9.829H111.478V42.595h23.587V56.4h12.212V11.218H111.891Z" transform="translate(51.265 5.158)" fill="#fff"/>
+            <path id="패스_6032" data-name="패스 6032" d="M219.736,21.086h9.685V10.724H176.728V21.086H186.2V42.245h-9.476V52.606H229.42V42.245h-9.685Zm-11.9,21.159H198V21.086h9.832Z" transform="translate(81.271 4.931)" fill="#fff"/>
+            <path id="패스_6033" data-name="패스 6033" d="M249.248,39.047l.729.765,20.2-15.749L290.4,39.822l7.3-7.955-21.21-18.359V0H263.97V13.508L242.8,31.841l.753.88c1.9,2.216,3.765,4.285,5.7,6.326" transform="translate(111.653 -0.001)" fill="#fff"/>
+            <rect id="사각형_7448" data-name="사각형 7448" width="71.582" height="10.568" transform="translate(346.042 48.104)" fill="#fff"/>
+            <path id="패스_6034" data-name="패스 6034" d="M165.7,27.091h-8.6V0h-11.9V57.745h11.9V37.865h8.6v19.88h11.9V0H165.7Z" transform="translate(66.775 0)" fill="#fff"/>
+            <path id="패스_6035" data-name="패스 6035" d="M226.106,28.946H212.713V39.514h13.393V57.746h12.212V0H226.106Z" transform="translate(97.82 -0.001)" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+      <rect id="사각형_7450" data-name="사각형 7450" width="431" height="116" transform="translate(0.419 0.415)" fill="none"/>
+    </g>
+    <text id="나와_너_그리고_우리들의_캠퍼스_이야기" data-name="나와 너, 그리고 우리들의 캠퍼스 이야기" transform="translate(272.419 373.486)" fill="#fff" font-size="25" font-family="SpoqaHanSansNeo-Medium, Spoqa Han Sans Neo" font-weight="500"><tspan x="-200.688" y="0">나와 너, 그리고 우리들의 캠퍼스 이야기</tspan></text>
+  </g>
+</svg>

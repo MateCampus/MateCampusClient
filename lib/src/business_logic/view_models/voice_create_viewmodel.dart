@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
-import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
@@ -154,17 +152,17 @@ class VoiceCreateViewModel extends BaseModel {
     notifyListeners();
   }
 
-//같은 학교만 만나기
-  void setCollegeOption(bool value) {
-    _collegeOnlyChecked = value;
-    notifyListeners();
-  }
+// //같은 학교만 만나기
+//   void setCollegeOption(bool value) {
+//     _collegeOnlyChecked = value;
+//     notifyListeners();
+//   }
 
-//같은 학과만 만나기
-  void setMajorOption(bool value) {
-    _majorOnlyChecked = value;
-    notifyListeners();
-  }
+// //같은 학과만 만나기
+//   void setMajorOption(bool value) {
+//     _majorOnlyChecked = value;
+//     notifyListeners();
+//   }
 
   //최근 대화친구 검색
   void searchRecentTalkUsers() {

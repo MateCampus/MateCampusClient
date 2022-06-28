@@ -322,8 +322,8 @@ class PostDetailScreenViewModel extends BaseModel {
                     RichText(
                         text: TextSpan(
                             text: targetUserNickname,
-                            style: const TextStyle(
-                              fontSize: 13,
+                            style: TextStyle(
+                              fontSize: resizeFont(13),
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),

@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/login_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
@@ -44,9 +47,9 @@ class _LoginFormState extends State<LoginForm> {
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
-            Icons.person,
-            color: Colors.grey,
-            size: getProportionateScreenHeight(20),
+            CupertinoIcons.person_fill,
+            color: kTextFieldHintColor,
+            size: kTextFieldIconSizeCP,
           ),
           contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
           hintText: "아이디를 입력해주세요",
@@ -82,9 +85,9 @@ class _LoginFormState extends State<LoginForm> {
         maxLines: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
-            Icons.vpn_key,
-            color: Colors.grey,
-            size: getProportionateScreenHeight(20),
+            CupertinoIcons.lock_fill,
+            color: kTextFieldHintColor,
+            size: kTextFieldIconSizeCP,
           ),
           contentPadding: EdgeInsets.all(getProportionateScreenHeight(17)),
           hintText: "비밀번호를 입력해주세요",

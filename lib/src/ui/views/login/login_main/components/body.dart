@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
@@ -19,7 +20,7 @@ class Body extends StatelessWidget {
         backgroundImg(),
         Column(children: [
           logo(),
-          const VerticalSpacing(of: 80),
+          const VerticalSpacing(of: 70),
           LoginForm(vm: vm),
           gotoSignUp(context)
         ]),
@@ -33,7 +34,7 @@ class Body extends StatelessWidget {
       height: SizeConfig.screenHeight,
       width: SizeConfig.screenWidth,
       fit: BoxFit.cover,
-      color: Colors.black.withOpacity(0.35),
+      color: Colors.black.withOpacity(0.20),
       colorBlendMode: BlendMode.srcATop,
     );
   }
@@ -42,9 +43,10 @@ class Body extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(20)),
       child: SvgPicture.asset(
-        'assets/images/svg/textlogo.svg',
-        height: getProportionateScreenHeight(68),
-        width: getProportionateScreenWidth(252),
+        'assets/images/svg/login_logo.svg',
+        height: getProportionateScreenHeight(100),
+        width: getProportionateScreenWidth(262),
+        fit: BoxFit.cover,
       ),
     );
   }
@@ -59,24 +61,35 @@ class Body extends StatelessWidget {
             '아직 회원이 아니신가요?',
             style: TextStyle(
                 color: Colors.white,
-                fontSize: getProportionateScreenWidth(14),
+                fontSize: resizeFont(14),
                 fontWeight: FontWeight.w500),
           ),
           const Spacer(),
           TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/signUpAccount');
-              },
-              // style: TextButton.styleFrom(
-              //     backgroundColor: Colors.white.withOpacity(0.6),
-              //     side: BorderSide(color: kMainColor)),
-              child: Text(
-                '회원가입',
-                style: TextStyle(
-                    fontSize: getProportionateScreenWidth(14),
-                    decoration: TextDecoration.underline,
-                    color: kMainColor),
-              ))
+            onPressed: () {
+              Navigator.of(context).pushNamed('/signUpAccount');
+            },
+            // style: TextButton.styleFrom(
+            //     backgroundColor: Colors.white.withOpacity(0.6),
+            //     side: BorderSide(color: kMainColor)),
+            child: Row(
+              children: [
+                Text(
+                  '회원가입',
+                  style: TextStyle(
+                      fontSize: resizeFont(15),
+                      fontWeight: FontWeight.w700,
+                      // decoration: TextDecoration.underline,
+                      color: kMainColor),
+                ),
+                Icon(
+                  CupertinoIcons.arrow_right_circle_fill,
+                  color: Colors.white,
+                  size: getProportionateScreenWidth(18),
+                )
+              ],
+            ),
+          )
         ],
       ),
     );

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
@@ -48,28 +47,29 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
           child: Row(
             children: [
               Text(
-                '음성대화방 \u{1F4AC}',
+                '실시간 대화방 \u{1F4AC}',
                 style: TextStyle(
                     fontFamily: 'Gmarket',
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.w500),
               ),
               const Spacer(),
-              TextButton.icon(
-                onPressed: () {
-                  vm.refreshPage();
-                },
-                icon: const Icon(CupertinoIcons.arrow_clockwise, size: 0),
-                label: Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: const [
+              TextButton(
+                  onPressed: () {
+                    vm.refreshPage();
+                  },
+                  child: Row(
+                    children: [
                       Text(
-                        "새로고침 ",
-                        style: TextStyle(fontSize: 13),
+                        '새로고침 ',
+                        style: TextStyle(
+                            fontSize: resizeFont(13),
+                            fontWeight: FontWeight.w400),
                       ),
-                      Icon(CupertinoIcons.arrow_clockwise, size: 13)
-                    ]),
-              ),
+                      Icon(CupertinoIcons.arrow_clockwise,
+                          size: getProportionateScreenWidth(13)),
+                    ],
+                  )),
             ],
           ),
         )

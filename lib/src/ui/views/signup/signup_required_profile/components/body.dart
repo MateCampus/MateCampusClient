@@ -3,9 +3,9 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/middle_text.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/nickname_input.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/select_interests.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/temp_text.dart';
 
 class Body extends StatelessWidget {
   final SignUpViewModel vm;
@@ -17,7 +17,7 @@ class Body extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch, //temptext 왼쪽 정렬위함 ->추후 수정
       children: [
         NicknameInput(vm: vm),
-        const TempText(), // 임시방편 -> 나중에 수정할것
+        const MiddleText(),
         Expanded(child: SelectInterests(vm: vm)),
         SafeArea(
             child: BottomFixedBtnDecoBox(

@@ -31,27 +31,29 @@ class _UserIntroduceInputState extends State<UserIntroduceInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           '내 소개',
-          style: TextStyle(fontSize: 12, color: Colors.black87),
+          style: TextStyle(
+              fontSize: kLabelFontSize,
+              color: Colors.black54,
+              fontWeight: FontWeight.w500),
         ),
         Padding(
             padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenHeight(10)),
             child: TextFormField(
               keyboardType: TextInputType.multiline,
-              style: TextStyle(fontSize: kTextFieldInnerFontSize),
+              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
               controller: widget.vm.userIntroduceController,
-              maxLines: 5,
+              maxLines: 7,
+              autocorrect: false,
               decoration: InputDecoration(
                 hintText: "본인을 자유롭게 표현해주세요",
                 hintStyle: TextStyle(
-                    color: Color(0xFFADADAD),
+                    color: kTextFieldHintColor,
                     fontSize: kTextFieldInnerFontSize),
                 fillColor: kTextFieldColor,
                 filled: true,
-                contentPadding:
-                    EdgeInsets.all(getProportionateScreenHeight(10)),
                 border: const OutlineInputBorder(
                     borderSide: BorderSide.none,
                     borderRadius: BorderRadius.all(Radius.circular(5))),

@@ -46,6 +46,7 @@ class _CommentInputState extends State<CommentInput> {
                 ? widget.vm.commentTextController
                 : widget.vm.nestedCommentTextController,
             focusNode: widget.vm.focusNode,
+            autocorrect: false,
             //키보드offset관련
             // onTap: () {
             //   print(widget.vm.commentScrollController.offset);
@@ -59,7 +60,7 @@ class _CommentInputState extends State<CommentInput> {
             decoration: InputDecoration(
               hintText: '소중한 댓글을 남겨주세요',
               hintStyle: TextStyle(
-                  color: const Color(0xFFADADAD),
+                  color: kTextFieldHintColor,
                   fontSize: kTextFieldInnerFontSize),
               border: const OutlineInputBorder(borderSide: BorderSide.none),
               contentPadding: EdgeInsets.zero,

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -15,9 +16,6 @@ class MypageCommentViewModel extends BaseModel {
     setBusy(true);
 
     List<Comment> commentResult = await _commentService.fetchMyComments();
-    //테스트용
-    // List<Comment> commentResult =
-    //     await _commentService.fetchComments(postId: 1);
     presentationComments(commentResult);
     setBusy(false);
   }
@@ -34,5 +32,20 @@ class MypageCommentViewModel extends BaseModel {
             children: [],
             deleted: comment.deleted))
         .toList();
+  }
+
+  void deleteMyComment(
+      BuildContext context, CommentPresentation comment) async {
+    bool isDeleted = await _commentService.deleteComment(commentId: comment.id);
+    if (isDeleted) {
+      Navigator.pop(context);
+      _comments.remove(comment);
+      print('댓글 삭제 성공');
+    } else {
+      Navigator.pop(context);
+      print('댓글 삭제 오류');
+    }
+
+    notifyListeners();
   }
 }
