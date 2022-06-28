@@ -31,15 +31,15 @@ class NotificationViewModel extends BaseModel {
   String changeTypeToWord(int type) {
     switch (type) {
       case 1:
-        return "님이 피드에 댓글을 달았습니다.";
+        return "님이 내 피드에 댓글을 달았습니다.";
       case 2:
         return "님이 새로운 메세지를 보냈습니다";
       case 3:
         return "님이 음성대화방에 초대했습니다.";
       case 4:
-        return "님에게 친구 신청이 도착했습니다.";
+        return "님에게 친구 신청이 왔습니다.";
       case 5:
-        return "님이 당신의 친구 요청을 수락했습니다.";
+        return "님이 친구 요청을 수락했습니다.";
       default:
         break;
     }
@@ -93,25 +93,25 @@ List<NotificationZC> fakeNotificationList = [
       imageUrl: 'assets/images/user/user1.jpg',
       createdAt: DateTime(22, 06, 21)),
   NotificationZC(
-      type: 1,
+      type: 2,
       loginId: "bbb",
       userNickname: "나비야",
       imageUrl: 'assets/images/user/user2.jpg',
       createdAt: DateTime(22, 06, 22)),
   NotificationZC(
-      type: 1,
+      type: 3,
       loginId: "ccc",
       userNickname: "다람쥐",
       imageUrl: 'assets/images/user/user3.jpg',
       createdAt: DateTime(22, 06, 23)),
   NotificationZC(
-      type: 1,
+      type: 4,
       loginId: "ddd",
       userNickname: "라디오헤드",
       imageUrl: 'assets/images/user/user4.jpg',
       createdAt: DateTime(22, 06, 21)),
   NotificationZC(
-      type: 1,
+      type: 5,
       loginId: "eee",
       userNickname: "마동석짱",
       createdAt: DateTime(22, 06, 21)),
