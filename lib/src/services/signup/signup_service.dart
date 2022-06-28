@@ -13,4 +13,5 @@ abstract class SignUpService {
       required List<String> interestCodes,
       XFile? profileImg,
       String? introduce});
+  Future<bool> requestMajor({required String body});
 }

@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/certification.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/select_college.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/select_major.dart';
@@ -28,6 +29,7 @@ class Body extends StatelessWidget {
                 children: [
                   SelectCollege(vm: vm),
                   SelectMajor(vm: vm),
+                  const VerticalSpacing(),
                   Certification(vm: vm)
                 ],
               ),

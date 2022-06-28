@@ -61,7 +61,8 @@ class _SelectMajorState extends State<SelectMajor> {
                     color: kTextFieldHintColor,
                     size: kTextFieldIconSizeFA,
                   ),
-                  hintText: "학과 혹은 학부명을 입력해주세요",
+                  hintText:
+                      (widget.vm.isRequested) ? "신청 완료" : "학과 혹은 학부명을 입력해주세요",
                   hintStyle: TextStyle(
                       color: kTextFieldHintColor,
                       fontSize: kTextFieldInnerFontSize),
@@ -71,10 +72,28 @@ class _SelectMajorState extends State<SelectMajor> {
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.all(Radius.circular(5))),
                 ),
+                enabled: (widget.vm.isRequested) ? false : true,
               ),
             ),
           ),
+          _findMajorBtn()
         ],
+      ),
+    );
+  }
+
+  Widget _findMajorBtn() {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, "/signUpRequestMajor");
+      },
+      child: Text(
+        '찾는 학교/학과가 없으신가요?',
+        style: TextStyle(
+            fontSize: kLabelFontSize,
+            color: kMainColor,
+            decoration: TextDecoration.underline,
+            fontWeight: FontWeight.w400),
       ),
     );
   }

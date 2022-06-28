@@ -57,6 +57,12 @@ class SignUpViewModel extends BaseModel {
   List<String> get searchingColleges => _searchingColleges;
   List<String> get searchingMajors => _searchingMajors;
 
+  //학과,학교 요청 관련 변수
+  final TextEditingController _requestController = TextEditingController();
+  bool _isRequested = false;
+  TextEditingController get requestController => _requestController;
+  bool get isRequested => _isRequested;
+
   ///학생증 이미지 관련 변수
   final ImagePicker picker = ImagePicker();
   XFile? _studentIdImg; //for server
@@ -260,9 +266,9 @@ class SignUpViewModel extends BaseModel {
     //학과 선택시 커서 맨 끝으로
     _majorController.selection = TextSelection.fromPosition(
         TextPosition(offset: _majorController.text.length));
-    notifyListeners();
 
     FocusScope.of(context).unfocus();
+    notifyListeners();
   }
 
   //학과 검색
@@ -280,6 +286,21 @@ class SignUpViewModel extends BaseModel {
         break;
     }
 
+    notifyListeners();
+  }
+
+  // 학과 요청
+  Future<void> requestMajor(BuildContext context) async {
+    bool value =
+        await _signUpService.requestMajor(body: _requestController.text);
+    if (value) {
+      _isRequested = true;
+      //서버로 보낼 학과 값을 major.0000 으로 지정
+      _selectedMajorCode = _majorCodes.first.name;
+      print(_selectedMajorCode);
+      Navigator.pop(context);
+      FocusScope.of(context).unfocus();
+    } else {}
     notifyListeners();
   }
 
