@@ -56,6 +56,7 @@ class SplashViewModel extends BaseModel {
     _isBuild = true;
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
+        barrierColor: Colors.transparent,
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

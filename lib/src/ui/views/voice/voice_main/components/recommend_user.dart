@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
@@ -49,70 +47,29 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
           child: Row(
             children: [
               Text(
-                // '실시간 대화방\u{1F399}',
-                '실시간 대화방 ',
+                '실시간 대화방 \u{1F4AC}',
                 style: TextStyle(
                     fontFamily: 'Gmarket',
                     fontSize: getProportionateScreenWidth(18),
                     fontWeight: FontWeight.w500),
               ),
-              Icon(
-                FontAwesomeIcons.microphone,
-                size: getProportionateScreenHeight(18),
-              ),
               const Spacer(),
-              ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  children: [
-                    Text(
-                      '새로고침 ',
-                      style: TextStyle(
-                          fontSize: resizeFont(12),
-                          fontWeight: FontWeight.w400),
-                    ),
-                    Icon(CupertinoIcons.arrow_clockwise,
-                        size: getProportionateScreenWidth(12)),
-                  ],
-                ),
-                style: ElevatedButton.styleFrom(
-                    elevation: 1.5,
-                    primary: Colors.grey.shade400,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    )),
-              ),
-              // ElevatedButton.icon(
-              //   onPressed: () {},
-              //   icon: Icon(CupertinoIcons.arrow_clockwise,
-              //       size: getProportionateScreenWidth(12)),
-              //   label: Text(
-              //     '새로고침',
-              //     style: TextStyle(
-              //         fontSize: resizeFont(12), fontWeight: FontWeight.w300),
-              //   ),
-              //   style: ElevatedButton.styleFrom(
-              //       elevation: 1.5,
-              //       primary: Color(0xffAFABAB),
-              //       shape: RoundedRectangleBorder(
-              //         borderRadius: BorderRadius.circular(20),
-              //       )),
-              // ),
-              // TextButton.icon(
-              //   onPressed: () {
-              //     vm.refreshPage();
-              //   },
-              //   icon: const Icon(CupertinoIcons.arrow_clockwise, size: 0),
-              //   label: Wrap(
-              //       crossAxisAlignment: WrapCrossAlignment.center,
-              //       children: const [
-              //         Text(
-              //           "새로고침 ",
-              //           style: TextStyle(fontSize: 13),
-              //         ),
-              //         Icon(CupertinoIcons.arrow_clockwise, size: 13)
-              //       ]),
-              // ),
+              TextButton(
+                  onPressed: () {
+                    vm.refreshPage();
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        '새로고침 ',
+                        style: TextStyle(
+                            fontSize: resizeFont(13),
+                            fontWeight: FontWeight.w400),
+                      ),
+                      Icon(CupertinoIcons.arrow_clockwise,
+                          size: getProportionateScreenWidth(13)),
+                    ],
+                  )),
             ],
           ),
         )
