@@ -38,7 +38,7 @@ class _NotificationMainScreenState extends State<NotificationMainScreen> {
               actions: [
                 TextButton(
                     onPressed: () {
-                      vm.insertItem();
+                      // vm.insertItem();
                     },
                     child: const Text(
                       "새로운 알림 추가",

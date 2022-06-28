@@ -43,7 +43,7 @@ class NotificationListTile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             text: TextSpan(
-                text: notification.nickname,
+                // text: notification.nickname,
                 style: TextStyle(
                     color: Colors.black87,
                     height: 1.0,

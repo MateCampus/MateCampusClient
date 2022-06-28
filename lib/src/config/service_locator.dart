@@ -30,6 +30,8 @@ import 'package:zamongcampus/src/services/interest/interest_service.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
 import 'package:zamongcampus/src/services/login/login_service_fake.dart';
 import 'package:zamongcampus/src/services/login/login_service_implementation.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
+import 'package:zamongcampus/src/services/notification/notification_service_implementation.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/post/post_service_fake.dart';
 import 'package:zamongcampus/src/services/post/post_service_implementation.dart';
@@ -87,6 +89,8 @@ void setupServiceLocator() {
   serviceLocator.registerLazySingleton<UserService>(() => UserServiceImpl());
   serviceLocator
       .registerLazySingleton<ReportService>(() => ReportServiceImpl());
+  serviceLocator.registerLazySingleton<NotificationService>(
+      () => NotificationServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
