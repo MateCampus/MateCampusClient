@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_header.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/profile_interest.dart';
+import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
+import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 
 import '../../../business_logic/models/enums/friendRequestStatus.dart';
@@ -17,8 +18,9 @@ import '../profile_bottom_sheet_component/components/waiting_friend_request.dart
 class UserProfileBottomSheet extends StatefulWidget {
   final String loginId;
   final bool? bottomBtn;
+  final bool? isFromVoiceRoom;
   const UserProfileBottomSheet(
-      {Key? key, required this.loginId, this.bottomBtn})
+      {Key? key, required this.loginId, this.bottomBtn, this.isFromVoiceRoom})
       : super(key: key);
 
   @override
@@ -103,7 +105,10 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
   Widget _bottomFixedBtn() {
     switch (vm.profile.friendRequestStatus) {
       case FriendRequestStatus.ACCEPTED:
-        return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
+        return (widget.isFromVoiceRoom == true)
+            ? const BottomFixedBtnDecoBox(
+                child: DisabledDefaultBtn(text: '대화 하기'))
+            : GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
       case FriendRequestStatus.UNACCEPTED:
         return const WaitingFriendRequest();
       default:

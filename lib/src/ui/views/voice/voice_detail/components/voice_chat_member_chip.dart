@@ -49,7 +49,9 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                         showCustomModalBottomSheet(
                             context: context,
                             buildWidget: UserProfileBottomSheet(
-                                loginId: widget.member.loginId));
+                              loginId: widget.member.loginId,
+                              isFromVoiceRoom: true,
+                            ));
                       },
                       size: getProportionateScreenWidth(56))),
           Positioned(
@@ -104,7 +106,9 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                       showCustomModalBottomSheet(
                           context: context,
                           buildWidget: UserProfileBottomSheet(
-                              loginId: widget.member.loginId));
+                            loginId: widget.member.loginId,
+                            isFromVoiceRoom: true,
+                          ));
                     },
                     size: getProportionateScreenWidth(56))),
         _nicknameBox()
