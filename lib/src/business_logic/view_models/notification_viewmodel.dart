@@ -1,62 +1,119 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/notificationType.dart';
 import 'package:zamongcampus/src/business_logic/models/notificationZC.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
 import 'package:zamongcampus/src/ui/views/notification/notification_main/components/notification_list_tile.dart';
+import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 class NotificationViewModel extends BaseModel {
+  final NotificationService _notificationService =
+      serviceLocator<NotificationService>();
   List<NotificationPresentation> _notifications = List.empty(growable: true);
   final _listKey = GlobalKey<AnimatedListState>();
 
   List<NotificationPresentation> get notifications => _notifications;
   GlobalKey<AnimatedListState> get listKey => _listKey;
+  final RegExp bodyRegexp = RegExp(r"\n+");
 
-  void loadNotifications() {
+  void loadNotifications() async {
     setBusy(true);
-    List<NotificationZC> notiResult = fakeNotificationList; //일단은 페이크데이터
+    List<NotificationZC> notiResult =
+        await _notificationService.fetchMyNotification();
     _notifications = notiResult
-        .map(
-          (notification) => NotificationPresentation(
-              body: changeTypeToWord(notification.type),
-              loginId: notification.loginId,
-              nickname: notification.userNickname,
-              imageUrl: notification.imageUrl ??
-                  "assets/images/user/general_user.png",
-              createdAt: dateToElapsedTimeOnChatMain(notification.createdAt)),
-        )
+        .map((notification) => NotificationPresentation(
+            type: notification.type,
+            id: notification.id,
+            body: changeToBody(notification),
+            imageUrl:
+                notification.imageUrl ?? 'assets/images/user/general_user.png',
+            createdAt: dateToElapsedTime(notification.createdAt),
+            isUnRead: notification.isUnRead,
+            voiceRoomId: notification.voiceRoomId,
+            postId: notification.postId))
         .toList();
     setBusy(false);
   }
 
-  String changeTypeToWord(int type) {
-    switch (type) {
-      case 1:
-        return "님이 내 피드에 댓글을 달았습니다.";
-      case 2:
-        return "님이 새로운 메세지를 보냈습니다";
-      case 3:
-        return "님이 음성대화방에 초대했습니다.";
-      case 4:
-        return "님에게 친구 신청이 왔습니다.";
-      case 5:
-        return "님이 친구 요청을 수락했습니다.";
+  String changeToBody(NotificationZC notificationZC) {
+    switch (notificationZC.type) {
+      case NotificationType.post:
+        String body = (notificationZC.title == null
+            ? ""
+            : notificationZC.title!.replaceAll(bodyRegexp, " "));
+        if (body.length > 22) {
+          body = "\'" + body.substring(0, 22) + "...\'";
+        } else {
+          body = "\'" + body + "\'";
+        }
+        return body + "\n피드에 새로운 댓글이 달렸습니다!";
+      case NotificationType.friend:
+        return (notificationZC.nickname ?? "error") + "님의 친구 신청이 도착했습니다!";
+      case NotificationType.voiceroom:
+        return (notificationZC.nickname ?? "error") +
+            "님이" +
+            "\'" +
+            (notificationZC.title == null
+                ? ""
+                : notificationZC.title!.replaceAll(bodyRegexp, " ")) +
+            "\'" +
+            "\n음성대화방에 초대했습니다!";
       default:
         break;
     }
     return "";
   }
 
-  void insertItem() {
-    final newNotification = NotificationPresentation(
-        body: changeTypeToWord(fakeNewNoti.type),
-        loginId: fakeNewNoti.loginId,
-        nickname: fakeNewNoti.userNickname,
-        imageUrl: fakeNewNoti.imageUrl ?? "assets/images/user/general_user.png",
-        createdAt: dateToElapsedTimeOnChatMain(fakeNewNoti.createdAt));
-    _notifications.insert(0, newNotification);
-    listKey.currentState!.insertItem(0);
+  void navigateAndSetRead(NotificationPresentation notificationPresentation,
+      BuildContext context, int index) async {
+    // 반환 값이 남은 알림 수.
+    int remainUnreadNoti = await _notificationService.updateMyNotificationRead(
+        id: notificationPresentation.id);
+    if (remainUnreadNoti != -1) {
+      _notifications[index] = _notifications[index].changeUnReadToFalse();
+      if (remainUnreadNoti < 1) {
+        HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+        homeViewModel.changeNotificationExist(false);
+      }
+      notifyListeners();
+    }
+    switch (notificationPresentation.type) {
+      case NotificationType.post:
+        if (notificationPresentation.postId != null) {
+          Navigator.pushNamed(context, PostDetailScreen.routeName,
+              arguments:
+                  PostDetailScreenArgs(notificationPresentation.postId!));
+        }
+        break;
+      case NotificationType.friend:
+        Navigator.pushNamed(context, "/friend");
+        break;
+      case NotificationType.voiceroom:
+        if (notificationPresentation.voiceRoomId != null) {
+          Navigator.pushNamed(context, VoiceDetailScreen.routeName,
+              arguments: VoiceDetailScreenArgs(
+                  id: notificationPresentation.voiceRoomId));
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
-    notifyListeners();
+  void setAllNotiRead() async {
+    bool isSuccess = await _notificationService.updateAllMyNotificationRead();
+    if (isSuccess) {
+      _notifications.forEach((element) {
+        element.changeUnReadToFalse();
+      });
+      notifyListeners();
+    }
   }
 
   void removeItem(int index) {
@@ -71,60 +128,27 @@ class NotificationViewModel extends BaseModel {
 }
 
 class NotificationPresentation {
+  final NotificationType type;
+  final int id;
   final String body;
-  final String loginId;
-  final String nickname;
   final String imageUrl;
   final String createdAt;
+  bool isUnRead;
+  int? voiceRoomId;
+  int? postId;
 
   NotificationPresentation(
-      {required this.body,
-      required this.loginId,
-      required this.nickname,
+      {required this.type,
+      required this.id,
+      required this.body,
       required this.imageUrl,
-      required this.createdAt});
+      required this.createdAt,
+      required this.isUnRead,
+      this.voiceRoomId,
+      this.postId});
+
+  NotificationPresentation changeUnReadToFalse() {
+    isUnRead = false;
+    return this;
+  }
 }
-
-List<NotificationZC> fakeNotificationList = [
-  NotificationZC(
-      type: 1,
-      loginId: "aaa",
-      userNickname: "가나초코릿",
-      imageUrl: 'assets/images/user/user1.jpg',
-      createdAt: DateTime(22, 06, 21)),
-  NotificationZC(
-      type: 2,
-      loginId: "bbb",
-      userNickname: "나비야",
-      imageUrl: 'assets/images/user/user2.jpg',
-      createdAt: DateTime(22, 06, 22)),
-  NotificationZC(
-      type: 3,
-      loginId: "ccc",
-      userNickname: "다람쥐",
-      imageUrl: 'assets/images/user/user3.jpg',
-      createdAt: DateTime(22, 06, 23)),
-  NotificationZC(
-      type: 4,
-      loginId: "ddd",
-      userNickname: "라디오헤드",
-      imageUrl: 'assets/images/user/user4.jpg',
-      createdAt: DateTime(22, 06, 21)),
-  NotificationZC(
-      type: 5,
-      loginId: "eee",
-      userNickname: "마동석짱",
-      createdAt: DateTime(22, 06, 21)),
-  NotificationZC(
-      type: 1,
-      loginId: "fff",
-      userNickname: "바름이",
-      createdAt: DateTime(22, 06, 21)),
-];
-
-NotificationZC fakeNewNoti = NotificationZC(
-    type: 1,
-    loginId: "abbaba",
-    userNickname: '사과주스',
-    imageUrl: 'assets/images/user/user5.jpg',
-    createdAt: DateTime.now());

@@ -1,9 +1,11 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/main_appbar_components/main_appbar.dart';
+import 'package:zamongcampus/src/ui/common_widgets/notification_alarm_in_appbar.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_main/components/body.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
@@ -36,16 +38,9 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
                   iconSize: kAppBarIconSizeG,
                   color: kAppBarIconColor,
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/notification');
-                  },
-                  icon: const Icon(
-                    FontAwesomeIcons.bell,
-                  ),
-                  iconSize: kAppBarIconSizeFA,
-                  color: kAppBarIconColor,
-                ),
+                NotificationAlarmInAppbar(
+                  iconColor: kAppBarIconColor,
+                )
               ],
             ),
             backgroundColor: kMainScreenBackgroundColor,

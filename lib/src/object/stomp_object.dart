@@ -23,7 +23,9 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
+import '../business_logic/arguments/post_detail_screen_args.dart';
 import '../business_logic/models/enums/messageType.dart';
 
 class StompObject {
@@ -71,31 +73,55 @@ class StompObject {
           await FirebaseMessaging.instance.getInitialMessage();
       if (remoteMessage != null) {
         print(remoteMessage.data);
-        if (remoteMessage.data["navigate"] == "/chatDetail") {
-          HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-          homeViewModel.changeCurrentIndex(2);
+        if (remoteMessage.data["navigate"] != null &&
+            remoteMessage.data["navigate"] != "/chatDetail") {
+          NotificationService notificationService =
+              serviceLocator<NotificationService>();
+          notificationService.updateMyNotificationRead(
+              id: int.parse(remoteMessage.data["notificationId"]));
+        }
+        switch (remoteMessage.data["navigate"]) {
+          case "/chatDetail":
+            HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+            homeViewModel.changeCurrentIndex(2);
 
-          /// 1. load local 값 or 새로운 값 생성
-          ChatService chatService = serviceLocator<ChatService>();
-          ChatRoom chatRoom = await chatService
-                  .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
-              ChatRoom(
-                  roomId: remoteMessage.data["roomId"],
-                  title: remoteMessage.data["title"],
-                  type: remoteMessage.data["type"],
-                  lastMessage: "",
-                  lastMsgCreatedAt: DateTime(2021, 05, 05),
-                  imageUrl: remoteMessage.data["imageUrl"],
-                  unreadCount: 0);
+            /// 1. load local 값 or 새로운 값 생성
+            ChatService chatService = serviceLocator<ChatService>();
+            ChatRoom chatRoom = await chatService
+                    .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
+                ChatRoom(
+                    roomId: remoteMessage.data["roomId"],
+                    title: remoteMessage.data["title"],
+                    type: remoteMessage.data["type"],
+                    lastMessage: "",
+                    lastMsgCreatedAt: DateTime(2021, 05, 05),
+                    imageUrl: remoteMessage.data["imageUrl"],
+                    unreadCount: 0);
 
-          NavigationService().pushNamedAndRemoveUntil(
-              "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
-        } else if (remoteMessage.data["navigate"] == "/voiceDetail") {
-          NavigationService().pushNamedAndRemoveUntil(
-              "/voiceDetail",
-              "/",
-              VoiceDetailScreenArgs(
-                  id: int.parse(remoteMessage.data["voiceRoomId"])));
+            NavigationService().pushNamedAndRemoveUntil(
+                "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+            break;
+          case "/voiceDetail":
+            NavigationService().pushNamedAndRemoveUntil(
+                "/voiceDetail",
+                "/",
+                VoiceDetailScreenArgs(
+                    id: int.parse(remoteMessage.data["voiceRoomId"])));
+            break;
+          case "/postDetail":
+            NavigationService().pushNamedAndRemoveUntil("/postDetail", "/",
+                PostDetailScreenArgs(int.parse(remoteMessage.data["postId"])));
+            HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+            homeViewModel.changeCurrentIndex(1);
+            break;
+          case "/friend":
+            NavigationService()
+                .pushNamedAndRemoveUntilWithoutArgs("/friend", "/");
+            HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+            homeViewModel.changeCurrentIndex(2);
+            break;
+          default:
+            break;
         }
       }
       subscribeChatRoom(FirebaseObject.deviceFcmToken);

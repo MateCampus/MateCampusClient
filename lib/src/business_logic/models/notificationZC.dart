@@ -1,24 +1,38 @@
+import 'package:zamongcampus/src/business_logic/models/enums/notificationType.dart';
+
 class NotificationZC {
-  final int type;
-  final String loginId;
-  final String userNickname;
+  final NotificationType type;
+  final int id;
   String? imageUrl;
+  String? nickname;
+  String? title;
+  bool isUnRead;
+  int? voiceRoomId;
+  int? postId;
   DateTime createdAt;
 
   NotificationZC(
       {required this.type,
-      required this.loginId,
-      required this.userNickname,
+      required this.id,
       this.imageUrl,
+      this.nickname,
+      this.title,
+      required this.isUnRead,
+      this.voiceRoomId,
+      this.postId,
       required this.createdAt});
 
 //필요없을지도..?
   factory NotificationZC.fromJson(Map<String, dynamic> json) {
     return NotificationZC(
-        type: json['type'],
-        loginId: json['loginId'],
-        userNickname: json['userNickname'],
-        createdAt: DateTime.parse(json['createdAt']),
-        imageUrl: json['imageUrls']);
+        type: NotificationType.values.byName(json['type'].toLowerCase()),
+        id: json['id'],
+        imageUrl: json['imageUrl'],
+        nickname: json['nickname'],
+        isUnRead: json['unRead'],
+        title: json['title'],
+        voiceRoomId: json['voiceRoomId'],
+        postId: json['postId'],
+        createdAt: DateTime.parse(json['createdAt']));
   }
 }

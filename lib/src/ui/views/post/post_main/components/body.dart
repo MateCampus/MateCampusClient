@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,6 +8,7 @@ import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_vie
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
+import 'package:zamongcampus/src/ui/common_widgets/notification_alarm_in_appbar.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/post_tab_btns.dart';
 import 'post_list_tile.dart';
 
@@ -45,14 +47,9 @@ class Body extends StatelessWidget {
                   iconSize: kAppBarIconSizeFA,
                   color: kAppBarIconColor,
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/notification');
-                  },
-                  icon: const Icon(FontAwesomeIcons.bell),
-                  iconSize: kAppBarIconSizeFA,
-                  color: kAppBarIconColor,
-                ),
+                NotificationAlarmInAppbar(
+                  iconColor: kAppBarIconColor,
+                )
               ],
               elevation: 0.0,
               backgroundColor: kMainScreenBackgroundColor,
