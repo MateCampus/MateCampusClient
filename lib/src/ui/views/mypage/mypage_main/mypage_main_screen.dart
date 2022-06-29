@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,7 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/main_appbar_components/main_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
+import 'package:zamongcampus/src/ui/common_widgets/notification_alarm_in_appbar.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/body.dart';
 
 class MypageMainScreen extends StatefulWidget {
@@ -44,14 +46,9 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
                   iconSize: kAppBarIconSizeG,
                   color: kAppBarIconColor,
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/notification');
-                  },
-                  icon: const Icon(FontAwesomeIcons.bell),
-                  iconSize: kAppBarIconSizeFA,
-                  color: kAppBarIconColor,
-                ),
+                NotificationAlarmInAppbar(
+                  iconColor: kAppBarIconColor,
+                )
               ],
             ),
             backgroundColor: kMainScreenBackgroundColor,

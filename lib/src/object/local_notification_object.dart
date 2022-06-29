@@ -15,6 +15,7 @@ import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
 class LocalNotificationObject {
   static final _flutterLocalNotificationsPlugin =
@@ -40,6 +41,12 @@ class LocalNotificationObject {
     print("$payload");
     if (payload == null) return;
     var res = await jsonDecode(payload);
+    if (res["navigate"] != null) {
+      NotificationService notificationService =
+          serviceLocator<NotificationService>();
+      notificationService.updateMyNotificationRead(
+          id: int.parse(res['notificationId']));
+    }
     switch (res["navigate"]) {
       case "/chatDetail":
 

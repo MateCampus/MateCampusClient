@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,6 +9,7 @@ import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/notification_alarm_in_appbar.dart';
 
 import 'components/body.dart';
 
@@ -46,13 +48,9 @@ class _VoiceMainScreenState extends State<VoiceMainScreen> {
                   title: SvgPicture.asset('assets/images/svg/appbarLogo.svg'),
                   systemOverlayStyle: SystemUiOverlayStyle.light,
                   centerTitle: false,
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/notification');
-                      },
-                      icon: const Icon(FontAwesomeIcons.bell),
-                      iconSize: kAppBarIconSizeFA,
+                  actions: const [
+                    NotificationAlarmInAppbar(
+                      badgeColor: Color(0xff00FFBA),
                     )
                   ],
                   backgroundColor: kMainColor,

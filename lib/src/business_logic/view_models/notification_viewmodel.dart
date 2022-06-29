@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/models/enums/notificationType.da
 import 'package:zamongcampus/src/business_logic/models/notificationZC.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/notification/notification_service.dart';
 import 'package:zamongcampus/src/ui/views/notification/notification_main/components/notification_list_tile.dart';
@@ -33,6 +34,7 @@ class NotificationViewModel extends BaseModel {
             imageUrl:
                 notification.imageUrl ?? 'assets/images/user/general_user.png',
             createdAt: dateToElapsedTime(notification.createdAt),
+            isUnRead: notification.isUnRead,
             voiceRoomId: notification.voiceRoomId,
             postId: notification.postId))
         .toList();
@@ -40,7 +42,6 @@ class NotificationViewModel extends BaseModel {
   }
 
   String changeToBody(NotificationZC notificationZC) {
-    // notification.body.replaceAll(bodyRegexp, " "),
     switch (notificationZC.type) {
       case NotificationType.post:
         String body = (notificationZC.title == null
@@ -69,8 +70,19 @@ class NotificationViewModel extends BaseModel {
     return "";
   }
 
-  void navigateToContent(
-      NotificationPresentation notificationPresentation, BuildContext context) {
+  void navigateAndSetRead(NotificationPresentation notificationPresentation,
+      BuildContext context, int index) async {
+    // 반환 값이 남은 알림 수.
+    int remainUnreadNoti = await _notificationService.updateMyNotificationRead(
+        id: notificationPresentation.id);
+    if (remainUnreadNoti != -1) {
+      _notifications[index] = _notifications[index].changeUnReadToFalse();
+      if (remainUnreadNoti < 1) {
+        HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+        homeViewModel.changeNotificationExist(false);
+      }
+      notifyListeners();
+    }
     switch (notificationPresentation.type) {
       case NotificationType.post:
         if (notificationPresentation.postId != null) {
@@ -94,6 +106,16 @@ class NotificationViewModel extends BaseModel {
     }
   }
 
+  void setAllNotiRead() async {
+    bool isSuccess = await _notificationService.updateAllMyNotificationRead();
+    if (isSuccess) {
+      _notifications.forEach((element) {
+        element.changeUnReadToFalse();
+      });
+      notifyListeners();
+    }
+  }
+
   void removeItem(int index) {
     final removeItem = _notifications[index];
     _notifications.removeAt(index);
@@ -111,6 +133,7 @@ class NotificationPresentation {
   final String body;
   final String imageUrl;
   final String createdAt;
+  bool isUnRead;
   int? voiceRoomId;
   int? postId;
 
@@ -120,6 +143,12 @@ class NotificationPresentation {
       required this.body,
       required this.imageUrl,
       required this.createdAt,
+      required this.isUnRead,
       this.voiceRoomId,
       this.postId});
+
+  NotificationPresentation changeUnReadToFalse() {
+    isUnRead = false;
+    return this;
+  }
 }

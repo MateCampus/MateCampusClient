@@ -34,6 +34,7 @@ class AuthService extends ChangeNotifier {
     _loginId = loginId;
     _token = token;
     HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
     homeViewModel.changeCurrentIndex(0);
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     await chatViewModel.loadChatRooms();

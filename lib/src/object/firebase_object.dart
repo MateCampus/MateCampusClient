@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/local_notification_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
 import '../business_logic/models/chatRoom.dart';
 
@@ -68,6 +69,12 @@ class FirebaseObject {
       // background 상태일 때, msg가 오는지 sub은 잘 살아있는지에 따라 다를 수도.
       // 만약 살아있다면 얘도 load할 필요가 없음.
       print(message.data);
+      if (message.data["navigate"] != null) {
+        NotificationService notificationService =
+            serviceLocator<NotificationService>();
+        notificationService.updateMyNotificationRead(
+            id: int.parse(message.data["notificationId"]));
+      }
       switch (message.data["navigate"]) {
         case "/chatDetail":
           HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();

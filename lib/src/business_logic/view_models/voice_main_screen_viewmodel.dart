@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/majorCode.dart';
+import 'package:zamongcampus/src/business_logic/models/notificationZC.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
@@ -11,8 +12,10 @@ import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/voice_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 
@@ -27,6 +30,7 @@ class VoiceMainScreenViewModel extends BaseModel {
   List<UserPresentation> _recommendUsers = List.empty(growable: true);
   int _voiceRoomNextPageToken = 0;
   int _recommendNextPageToken = 0;
+
   final ScrollController _scrollController = ScrollController();
   final _voiceMainRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 

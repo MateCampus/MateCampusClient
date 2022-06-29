@@ -6,6 +6,7 @@ class NotificationZC {
   String? imageUrl;
   String? nickname;
   String? title;
+  bool isUnRead;
   int? voiceRoomId;
   int? postId;
   DateTime createdAt;
@@ -16,6 +17,7 @@ class NotificationZC {
       this.imageUrl,
       this.nickname,
       this.title,
+      required this.isUnRead,
       this.voiceRoomId,
       this.postId,
       required this.createdAt});
@@ -27,6 +29,7 @@ class NotificationZC {
         id: json['id'],
         imageUrl: json['imageUrl'],
         nickname: json['nickname'],
+        isUnRead: json['unRead'],
         title: json['title'],
         voiceRoomId: json['voiceRoomId'],
         postId: json['postId'],

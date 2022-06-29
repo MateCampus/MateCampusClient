@@ -7,4 +7,28 @@ class FakeNotificationService implements NotificationService {
     // TODO: implement fetchMyNotification
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> deleteMyNotification({required int id}) {
+    // TODO: implement deleteMyNotification
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> updateAllMyNotificationRead() {
+    // TODO: implement updateAllMyNotificationRead
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> updateMyNotificationRead({required int id}) {
+    // TODO: implement updateMyNotificationRead
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<NotificationZC>> fetchMyUnreadNotification() {
+    // TODO: implement fetchMyUnreadNotification
+    throw UnimplementedError();
+  }
 }

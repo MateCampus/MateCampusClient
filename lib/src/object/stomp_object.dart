@@ -23,6 +23,7 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
 import '../business_logic/arguments/post_detail_screen_args.dart';
 import '../business_logic/models/enums/messageType.dart';
@@ -72,6 +73,12 @@ class StompObject {
           await FirebaseMessaging.instance.getInitialMessage();
       if (remoteMessage != null) {
         print(remoteMessage.data);
+        if (remoteMessage.data["navigate"] != null) {
+          NotificationService notificationService =
+              serviceLocator<NotificationService>();
+          notificationService.updateMyNotificationRead(
+              id: int.parse(remoteMessage.data["notificationId"]));
+        }
         switch (remoteMessage.data["navigate"]) {
           case "/chatDetail":
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
