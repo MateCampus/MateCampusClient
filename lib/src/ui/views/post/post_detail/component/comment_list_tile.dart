@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
@@ -61,10 +62,7 @@ class CommentListTile extends StatelessWidget {
                       vertical: getProportionateScreenHeight(7)),
                   child: Text(
                     comment.body,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: getProportionateScreenHeight(13),
-                        height: 1.3),
+                    style: kPostCommentBodyStyle,
                   ),
                 ),
                 Row(

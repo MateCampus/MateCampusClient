@@ -16,9 +16,11 @@ class _VoiceChatState extends State<VoiceChat> {
   Widget build(BuildContext context) {
     return Container(
       width: SizeConfig.screenWidth,
-      padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(20),
-          vertical: getProportionateScreenHeight(15)),
+      padding: EdgeInsets.fromLTRB(
+          getProportionateScreenWidth(20),
+          getProportionateScreenHeight(20),
+          getProportionateScreenWidth(20),
+          getProportionateScreenHeight(10)),
       child: Wrap(
         alignment: WrapAlignment.start,
         spacing: getProportionateScreenWidth(23),

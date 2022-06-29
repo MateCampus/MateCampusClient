@@ -20,6 +20,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         VoiceRoomHead(voiceRoom: widget.vm.voiceRoom),
         VoiceChat(vm: widget.vm),
@@ -30,8 +31,8 @@ class _BodyState extends State<Body> {
               Container(
                 margin: EdgeInsets.only(top: getProportionateScreenHeight(10)),
                 height: (widget.vm.voiceRoomMembers.length < 5)
-                    ? getProportionateScreenHeight(425)
-                    : getProportionateScreenHeight(317),
+                    ? getProportionateScreenHeight(395)
+                    : getProportionateScreenHeight(285),
                 alignment: Alignment.bottomCenter,
                 decoration: BoxDecoration(
                     borderRadius:
@@ -81,9 +82,9 @@ class _BodyState extends State<Body> {
               color: Color(0xffFFE8D8),
               borderRadius: BorderRadius.all(Radius.circular(20))),
           child: Text(
-            '공지? 소개글? 뭐라고 적어야하지...',
+            '\u{1F4E2}\t실명 언급 금지\u{1F6AB}\t\t부적절한 언행 시 신고\u{1F6A8}',
             style: TextStyle(
-                fontSize: resizeFont(13), fontWeight: FontWeight.w700),
+                fontSize: resizeFont(13), fontWeight: FontWeight.w500),
           ),
         ),
       ),

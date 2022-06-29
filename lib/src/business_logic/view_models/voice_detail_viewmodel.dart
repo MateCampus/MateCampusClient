@@ -1,19 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
-import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/voice_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
-import 'package:zamongcampus/src/config/dummy_data.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
-import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
@@ -44,12 +39,17 @@ class VoiceDetailViewModel extends BaseModel {
   String _ownerLoginId = ''; //방장 아이디
   MediaQueryData? mediaQueryData;
 
+  OverlayEntry? voiceFilterOverlayEntry;
+  final LayerLink voiceFilterLayerLink = LayerLink();
+  String _filterName = 'ORIGINAL';
+
   VoiceRoomPresentation get voiceRoom => _voiceRoom;
   List<MemberPresentation> get voiceRoomMembers => _voiceRoomMembers;
   List<ChatMessage> get textChatMessages => _textChatMessages;
   List<TextChatPresentation> get textChatMembers => _textChatMembers;
   ScrollController get textChatScrollController => _scrollController;
   FocusNode get focusNode => _focusNode;
+  String get filterName => _filterName;
 
   ///init
   voiceDetailInit(
@@ -283,14 +283,33 @@ class VoiceDetailViewModel extends BaseModel {
     });
   }
 
+  void createVoiceFilterOverlay(
+      BuildContext context, OverlayEntry overlayWidget) {
+    if (voiceFilterOverlayEntry == null) {
+      voiceFilterOverlayEntry = overlayWidget;
+      Overlay.of(context)?.insert(voiceFilterOverlayEntry!);
+    }
+    notifyListeners();
+  }
+
+  void removeVoiceFilterOverlay() {
+    voiceFilterOverlayEntry?.remove();
+    voiceFilterOverlayEntry = null;
+    notifyListeners();
+  }
+
   void setVoiceFilter1() {
+    _filterName = 'FILTER1';
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
     _engine!.setLocalVoicePitch(2.0);
+    notifyListeners();
   }
 
   void setVoiceFilter2() {
+    _filterName = 'FILTER2';
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
     _engine!.setLocalVoicePitch(0.5);
+    notifyListeners();
   }
 
   void setVoiceFilter3() {
@@ -299,8 +318,10 @@ class VoiceDetailViewModel extends BaseModel {
   }
 
   void setOriginalVoice() {
+    _filterName = 'ORIGINAL';
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
     _engine!.setLocalVoicePitch(1.0);
+    notifyListeners();
   }
 
   void resetData() {

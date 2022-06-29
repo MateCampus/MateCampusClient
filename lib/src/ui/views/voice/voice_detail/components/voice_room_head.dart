@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 import '../../../../../business_logic/models/enums/voiceRoomType.dart';
 
@@ -23,37 +24,26 @@ class VoiceRoomHead extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Wrap(
+          alignment: WrapAlignment.start,
+          spacing: getProportionateScreenWidth(8),
           children: [
-            ...voiceRoom.categories.map((category) => Padding(
-                  padding: EdgeInsets.only(
-                      bottom: getProportionateScreenHeight(10),
-                      right: getProportionateScreenWidth(8)),
-                  child: Text(
-                    category,
-                    style: TextStyle(fontSize: resizeFont(13)),
-                  ),
+            ...voiceRoom.categories.map((category) => Chip(
+                  label: Text(category),
+                  labelStyle: TextStyle(fontSize: resizeFont(11)),
+                  backgroundColor: kMainScreenBackgroundColor,
                 ))
           ],
         ),
-
-        // Wrap(
-        //   alignment: WrapAlignment.start,
-        //   spacing: getProportionateScreenWidth(8),
-        //   children: [
-        //     ...voiceRoom.categories.map((category) => Chip(
-        //           label: Text(category),
-        //           labelStyle: TextStyle(fontSize: resizeFont(11)),
-        //           backgroundColor: Colors.white,
-        //         ))
-        //   ],
-        // ),
+        const VerticalSpacing(of: 10),
         voiceRoom.type == VoiceRoomType.PUBLIC
             ? Text(
                 voiceRoom.title,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: kTitleFontSize, fontWeight: FontWeight.bold),
+                    fontSize: kTitleFontSize,
+                    color: Colors.grey.shade900,
+                    fontWeight: FontWeight.bold),
               )
             : Text(
                 '\u{1F512} ' + voiceRoom.title,

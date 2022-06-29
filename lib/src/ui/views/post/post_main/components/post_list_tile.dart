@@ -62,10 +62,10 @@ class PostListTile extends StatelessWidget {
             //카테고리 나열 -> viewmodel에서 Row로 정렬되게끔 바꾸기
             children: [
               ...post.categories.map((category) => Text(
-                    category + "\t\t",
+                    category + "\t\t\t",
                     style: TextStyle(
                         fontSize: kInterestTextFontSize,
-                        color: Colors.black87,
+                        color: Colors.grey.shade700,
                         fontWeight: FontWeight.w500),
                   ))
             ],
