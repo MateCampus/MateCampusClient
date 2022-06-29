@@ -73,7 +73,8 @@ class StompObject {
           await FirebaseMessaging.instance.getInitialMessage();
       if (remoteMessage != null) {
         print(remoteMessage.data);
-        if (remoteMessage.data["navigate"] != null) {
+        if (remoteMessage.data["navigate"] != null &&
+            remoteMessage.data["navigate"] != "/chatDetail") {
           NotificationService notificationService =
               serviceLocator<NotificationService>();
           notificationService.updateMyNotificationRead(

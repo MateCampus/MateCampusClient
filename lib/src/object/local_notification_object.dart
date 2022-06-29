@@ -41,7 +41,7 @@ class LocalNotificationObject {
     print("$payload");
     if (payload == null) return;
     var res = await jsonDecode(payload);
-    if (res["navigate"] != null) {
+    if (res["navigate"] != null && res["navigate"] != "/chatDetail") {
       NotificationService notificationService =
           serviceLocator<NotificationService>();
       notificationService.updateMyNotificationRead(

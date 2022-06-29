@@ -57,6 +57,7 @@ class FirebaseObject {
     // stomp_object.dart */
     /* 사용하고 있는 상태(Foreground messages) */
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // 일반적으로 오는 곳 update배찌숫자.
       print('foreground으로 메세지 받기 완료 Message data: ${message.data}');
 
       if (message.notification != null) {
@@ -69,7 +70,8 @@ class FirebaseObject {
       // background 상태일 때, msg가 오는지 sub은 잘 살아있는지에 따라 다를 수도.
       // 만약 살아있다면 얘도 load할 필요가 없음.
       print(message.data);
-      if (message.data["navigate"] != null) {
+      if (message.data["navigate"] != null &&
+          message.data["navigate"] != "/chatDetail") {
         NotificationService notificationService =
             serviceLocator<NotificationService>();
         notificationService.updateMyNotificationRead(
