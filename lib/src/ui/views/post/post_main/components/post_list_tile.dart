@@ -88,7 +88,7 @@ class PostListTile extends StatelessWidget {
   Widget _onlyBody() {
     return Column(
       children: [
-        VerticalSpacing(of: 15),
+        const VerticalSpacing(of: 15),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(13)),
@@ -99,7 +99,6 @@ class PostListTile extends StatelessWidget {
             style: kPostBodyStyle,
           ),
         ),
-        VerticalSpacing(of: 0),
       ],
     );
   }

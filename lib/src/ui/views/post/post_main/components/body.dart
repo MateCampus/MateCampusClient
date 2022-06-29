@@ -19,10 +19,12 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
         key: vm.postMainKey,
-        displacement: 150,
+        edgeOffset: getProportionateScreenHeight(110),
+        displacement: 10,
         onRefresh: () => vm.refreshPostAfterCreateUpdate(),
         child: CustomScrollView(
           controller: vm.postScrollController,
+          physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverAppBar(
               title: Text(
