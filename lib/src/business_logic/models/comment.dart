@@ -7,31 +7,31 @@ class Comment {
   final int parentId;
   List<Comment>? children;
   DateTime? createdAt;
+  int? postId;
 
-  Comment({
-    required this.id,
-    required this.loginId,
-    required this.userNickname,
-    required this.body,
-    required this.deleted,
-    required this.parentId,
-    required this.children,
-    this.createdAt,
-  });
+  Comment(
+      {required this.id,
+      required this.loginId,
+      required this.userNickname,
+      required this.body,
+      required this.deleted,
+      required this.parentId,
+      required this.children,
+      this.createdAt,
+      this.postId});
 
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(
-      id: json['id'],
-      loginId: json['loginId'],
-      userNickname: json['userNickname'] ?? "",
-      body: json['body'],
-      deleted: json['deleted'],
-      parentId: json['parentId'],
-      children: json['children']
-          ?.map<Comment>((json) => Comment.fromJson(json))
-          .toList(),
-      createdAt: DateTime.parse(json['createdAt']),
-      // createdAt: DateTime(2021, 05, 05),
-    );
+        id: json['id'],
+        loginId: json['loginId'],
+        userNickname: json['userNickname'] ?? "",
+        body: json['body'],
+        deleted: json['deleted'],
+        parentId: json['parentId'],
+        children: json['children']
+            ?.map<Comment>((json) => Comment.fromJson(json))
+            .toList(),
+        createdAt: DateTime.parse(json['createdAt']),
+        postId: json['postId']);
   }
 }
