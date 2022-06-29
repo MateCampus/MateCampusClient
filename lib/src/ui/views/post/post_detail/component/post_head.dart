@@ -25,7 +25,8 @@ class PostHead extends StatelessWidget {
                   children: [
                     ...vm.postDetail.categories.map((category) => Chip(
                           label: Text(category),
-                          labelStyle: const TextStyle(fontSize: 12),
+                          labelStyle:
+                              TextStyle(fontSize: kInterestTextFontSize),
                           backgroundColor: kMainScreenBackgroundColor,
                         ))
                   ],

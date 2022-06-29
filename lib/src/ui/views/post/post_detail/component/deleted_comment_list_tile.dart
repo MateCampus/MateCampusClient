@@ -25,7 +25,11 @@ class DeletedCommentListTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('삭제된 댓글입니다'),
+                Text(
+                  '삭제된 댓글입니다',
+                  style: TextStyle(
+                      fontSize: resizeFont(12), color: Colors.grey.shade700),
+                ),
                 (comment.children.isNotEmpty)
                     ? Padding(
                         padding: EdgeInsets.only(

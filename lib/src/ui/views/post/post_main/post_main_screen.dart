@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
