@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 class NotificationListTile extends StatelessWidget {
   final NotificationPresentation notification;
   final Animation<double> animation;
+  // animateList 때문에 callback으로 둔 것. (chatscreen 참고)
   final VoidCallback onClicked;
 
   const NotificationListTile(
@@ -28,6 +29,10 @@ class NotificationListTile extends StatelessWidget {
   Widget buildItem(BuildContext context) => InkWell(
         onTap: () {},
         child: ListTile(
+          onTap: () {
+            print('클릭이요');
+            onClicked();
+          },
           contentPadding: EdgeInsets.symmetric(
               horizontal: getProportionateScreenWidth(20),
               vertical: getProportionateScreenHeight(5)),
@@ -43,67 +48,58 @@ class NotificationListTile extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             text: TextSpan(
-                // text: notification.nickname,
+                text: notification.body,
                 style: TextStyle(
                     color: Colors.black87,
                     height: 1.0,
+                    letterSpacing: 1.0,
                     fontSize: getProportionateScreenWidth(13),
-                    fontWeight: FontWeight.w700),
-                children: <TextSpan>[
-                  TextSpan(
-                      text: notification.body,
-                      style: TextStyle(
-                          color: Colors.black87,
-                          height: 1.0,
-                          letterSpacing: 1.0,
-                          fontSize: getProportionateScreenWidth(13),
-                          fontWeight: FontWeight.w500)),
-                ]),
+                    fontWeight: FontWeight.w500)),
           ),
           subtitle: Text(
             notification.createdAt,
             style: TextStyle(fontSize: kCreateAtFontSize, color: Colors.grey),
           ),
-          trailing: IconButton(
-            padding:
-                EdgeInsets.symmetric(vertical: getProportionateScreenHeight(8)),
-            constraints: const BoxConstraints(),
-            iconSize: getProportionateScreenWidth(18),
-            icon: const Icon(CupertinoIcons.trash, color: Colors.grey),
-            onPressed: () {
-              _deleteNotification(context);
-            },
-          ),
+          // trailing: IconButton(
+          //   padding:
+          //       EdgeInsets.symmetric(vertical: getProportionateScreenHeight(8)),
+          //   constraints: const BoxConstraints(),
+          //   iconSize: getProportionateScreenWidth(18),
+          //   icon: const Icon(CupertinoIcons.trash, color: Colors.grey),
+          //   onPressed: () {
+          //     _deleteNotification(context);
+          //   },
+          // ),
         ),
       );
 
-  _deleteNotification(BuildContext context) {
-    showAdaptiveActionSheet(
-      context: context,
-      actions: <BottomSheetAction>[
-        BottomSheetAction(
-          title: Text(
-            '삭제하기',
-            style: TextStyle(
-              fontSize: resizeFont(15.0),
-              color: Colors.black87,
-            ),
-          ),
-          onPressed: () {
-            onClicked();
-            Navigator.pop(context);
-          },
-        )
-      ],
-      cancelAction: CancelAction(
-          title: Text(
-            '취소',
-            style: TextStyle(
-                fontSize: resizeFont(16.0), fontWeight: FontWeight.w500),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          }),
-    );
-  }
+  // _deleteNotification(BuildContext context) {
+  //   showAdaptiveActionSheet(
+  //     context: context,
+  //     actions: <BottomSheetAction>[
+  //       BottomSheetAction(
+  //         title: Text(
+  //           '삭제하기',
+  //           style: TextStyle(
+  //             fontSize: resizeFont(15.0),
+  //             color: Colors.black87,
+  //           ),
+  //         ),
+  //         onPressed: () {
+  //           onClicked();
+  //           Navigator.pop(context);
+  //         },
+  //       )
+  //     ],
+  //     cancelAction: CancelAction(
+  //         title: Text(
+  //           '취소',
+  //           style: TextStyle(
+  //               fontSize: resizeFont(16.0), fontWeight: FontWeight.w500),
+  //         ),
+  //         onPressed: () {
+  //           Navigator.pop(context);
+  //         }),
+  //   );
+  // }
 }

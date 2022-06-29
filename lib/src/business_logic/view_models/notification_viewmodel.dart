@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/notificationType.dart';
 import 'package:zamongcampus/src/business_logic/models/notificationZC.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
@@ -6,6 +8,8 @@ import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/notification/notification_service.dart';
 import 'package:zamongcampus/src/ui/views/notification/notification_main/components/notification_list_tile.dart';
+import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 class NotificationViewModel extends BaseModel {
   final NotificationService _notificationService =
@@ -39,12 +43,15 @@ class NotificationViewModel extends BaseModel {
     // notification.body.replaceAll(bodyRegexp, " "),
     switch (notificationZC.type) {
       case NotificationType.post:
-        return "\'" +
-            (notificationZC.title == null
-                ? ""
-                : notificationZC.title!.replaceAll(bodyRegexp, " ")) +
-            "\'" +
-            "\n피드에 새로운 댓글이 달렸습니다!";
+        String body = (notificationZC.title == null
+            ? ""
+            : notificationZC.title!.replaceAll(bodyRegexp, " "));
+        if (body.length > 22) {
+          body = "\'" + body.substring(0, 22) + "...\'";
+        } else {
+          body = "\'" + body + "\'";
+        }
+        return body + "\n피드에 새로운 댓글이 달렸습니다!";
       case NotificationType.friend:
         return (notificationZC.nickname ?? "error") + "님의 친구 신청이 도착했습니다!";
       case NotificationType.voiceroom:
@@ -61,18 +68,31 @@ class NotificationViewModel extends BaseModel {
     }
     return "";
   }
-  // void insertItem() {
-  //   final newNotification = NotificationPresentation(
-  //       body: changeTypeToWord(fakeNewNoti.type),
-  //       loginId: fakeNewNoti.loginId,
-  //       nickname: fakeNewNoti.userNickname,
-  //       imageUrl: fakeNewNoti.imageUrl ?? "assets/images/user/general_user.png",
-  //       createdAt: dateToElapsedTimeOnChatMain(fakeNewNoti.createdAt));
-  //   _notifications.insert(0, newNotification);
-  //   listKey.currentState!.insertItem(0);
 
-  //   notifyListeners();
-  // }
+  void navigateToContent(
+      NotificationPresentation notificationPresentation, BuildContext context) {
+    switch (notificationPresentation.type) {
+      case NotificationType.post:
+        if (notificationPresentation.postId != null) {
+          Navigator.pushNamed(context, PostDetailScreen.routeName,
+              arguments:
+                  PostDetailScreenArgs(notificationPresentation.postId!));
+        }
+        break;
+      case NotificationType.friend:
+        Navigator.pushNamed(context, "/friend");
+        break;
+      case NotificationType.voiceroom:
+        if (notificationPresentation.voiceRoomId != null) {
+          Navigator.pushNamed(context, VoiceDetailScreen.routeName,
+              arguments: VoiceDetailScreenArgs(
+                  id: notificationPresentation.voiceRoomId));
+        }
+        break;
+      default:
+        break;
+    }
+  }
 
   void removeItem(int index) {
     final removeItem = _notifications[index];

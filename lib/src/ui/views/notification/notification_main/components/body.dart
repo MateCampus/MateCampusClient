@@ -26,7 +26,7 @@ class Body extends StatelessWidget {
               notification: vm.notifications[index],
               animation: animation,
               onClicked: () {
-                vm.removeItem(index);
+                vm.navigateToContent(vm.notifications[index], context);
               },
             ),
           ),

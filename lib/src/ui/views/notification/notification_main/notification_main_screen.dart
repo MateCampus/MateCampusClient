@@ -34,17 +34,6 @@ class _NotificationMainScreenState extends State<NotificationMainScreen> {
         return Scaffold(
             appBar: SubAppbar(
               titleText: '알림',
-              //새로운 알림 추가하는 버튼 임시로 놔둠
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      // vm.insertItem();
-                    },
-                    child: const Text(
-                      "새로운 알림 추가",
-                      style: TextStyle(color: kMainColor),
-                    ))
-              ],
             ),
             backgroundColor: kSubScreenBackgroundColor,
             body: SafeArea(

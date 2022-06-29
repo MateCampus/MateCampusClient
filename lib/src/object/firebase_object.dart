@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
@@ -67,34 +68,54 @@ class FirebaseObject {
       // background 상태일 때, msg가 오는지 sub은 잘 살아있는지에 따라 다를 수도.
       // 만약 살아있다면 얘도 load할 필요가 없음.
       print(message.data);
-      if (message.data["navigate"] == "/chatDetail") {
-        HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-        homeViewModel.changeCurrentIndex(2);
+      switch (message.data["navigate"]) {
+        case "/chatDetail":
+          HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+          homeViewModel.changeCurrentIndex(2);
 
-        /// 이미 해당 방이면 따로 navigate는 안함.
-        ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-        if (message.data["roomId"] == chatViewModel.insideRoomId) return;
+          /// 이미 해당 방이면 따로 navigate는 안함.
+          ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+          if (message.data["roomId"] == chatViewModel.insideRoomId) return;
 
-        /// 1. load local 값 or 새로운 값 생성
-        ChatService chatService = serviceLocator<ChatService>();
-        ChatRoom chatRoom =
-            await chatService.getChatRoomByRoomId(message.data["roomId"]) ??
-                ChatRoom(
-                    roomId: message.data["roomId"],
-                    title: message.data["title"],
-                    type: message.data["type"],
-                    lastMessage: "",
-                    lastMsgCreatedAt: DateTime(2021, 05, 05),
-                    imageUrl: message.data["imageUrl"],
-                    unreadCount: 0);
+          /// 1. load local 값 or 새로운 값 생성
+          ChatService chatService = serviceLocator<ChatService>();
+          ChatRoom chatRoom =
+              await chatService.getChatRoomByRoomId(message.data["roomId"]) ??
+                  ChatRoom(
+                      roomId: message.data["roomId"],
+                      title: message.data["title"],
+                      type: message.data["type"],
+                      lastMessage: "",
+                      lastMsgCreatedAt: DateTime(2021, 05, 05),
+                      imageUrl: message.data["imageUrl"],
+                      unreadCount: 0);
 
-        NavigationService().pushNamedAndRemoveUntil(
-            "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
-      } else if (message.data["navigate"] == "/voiceDetail") {
-        NavigationService().pushNamedAndRemoveUntil("/voiceDetail", "/",
-            VoiceDetailScreenArgs(id: int.parse(message.data["voiceRoomId"])));
-        HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-        homeViewModel.changeCurrentIndex(0);
+          NavigationService().pushNamedAndRemoveUntil(
+              "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+          break;
+        case "/voiceDetail":
+          NavigationService().pushNamedAndRemoveUntil(
+              "/voiceDetail",
+              "/",
+              VoiceDetailScreenArgs(
+                  id: int.parse(message.data["voiceRoomId"])));
+          HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+          homeViewModel.changeCurrentIndex(0);
+          break;
+        case "/postDetail":
+          NavigationService().pushNamedAndRemoveUntil("/postDetail", "/",
+              PostDetailScreenArgs(int.parse(message.data["postId"])));
+          HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+          homeViewModel.changeCurrentIndex(1);
+          break;
+        case "/friend":
+          NavigationService()
+              .pushNamedAndRemoveUntilWithoutArgs("/friend", "/");
+          HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+          homeViewModel.changeCurrentIndex(2);
+          break;
+        default:
+          break;
       }
     });
 

@@ -45,14 +45,6 @@ class _FriendMainScreenState extends State<FriendMainScreen> {
               child: Scaffold(
                 appBar: SubAppbar(
                   titleText: '내 친구',
-                  actions: [
-                    IconButton(
-                      icon: const Icon(CupertinoIcons.bars),
-                      iconSize: kAppBarIconSizeCP,
-                      color: Colors.black,
-                      onPressed: () {},
-                    )
-                  ],
                   bottom: PreferredSize(
                     preferredSize:
                         Size.fromHeight(getProportionateScreenHeight(40)),
