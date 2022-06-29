@@ -4,7 +4,6 @@ import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_ar
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
@@ -41,10 +40,13 @@ class VoiceRoomListTile extends StatelessWidget {
                 //카테고리 나열
                 children: [
                   ...voiceRoom.categories.map((category) => Text(
-                        category + "  ",
-                        maxLines: 2,
+                        category + "\t\t\t",
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: kInterestTextFontSize),
+                        style: TextStyle(
+                            fontSize: kInterestTextFontSize,
+                            color: Colors.grey.shade700,
+                            fontWeight: FontWeight.w500),
                       ))
                 ],
               ),
@@ -54,11 +56,13 @@ class VoiceRoomListTile extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontWeight: FontWeight.w700, fontSize: resizeFont(15)),
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey.shade800,
+                    fontSize: resizeFont(15)),
               ),
               const VerticalSpacing(of: 10),
               Row(
-                //대화방 참여자 나열 -> 참여자가 많아졌을 때 overflow되는거 고쳐야함. listview? 아니면 Text overflow처럼 처리할 수 없나?
+                //TODO:대화방 참여자 나열 -> 참여자가 많아졌을 때 overflow되는거 고쳐야함. listview? 아니면 Text overflow처럼 처리할 수 없나?
                 children: [
                   ...voiceRoom.memberImgUrls.map((imageUrl) => Container(
                         width: getProportionateScreenWidth(25),

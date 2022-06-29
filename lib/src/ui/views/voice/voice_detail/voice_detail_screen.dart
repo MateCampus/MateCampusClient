@@ -50,9 +50,10 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
         return GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
+            //PreferredSize => Appbar 크기를 줄여서 body에 더 많은 내용을 보여주기 위함
             appBar: PreferredSize(
               preferredSize: Size(
-                  SizeConfig.screenWidth!, getProportionateScreenHeight(40)),
+                  SizeConfig.screenWidth!, getProportionateScreenHeight(45)),
               child: AppBar(
                 leading: IconButton(
                   icon: const Icon(Icons.expand_more_outlined),
@@ -60,6 +61,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   iconSize: kAppBarIconSizeG,
                   onPressed: () {
                     Navigator.pop(context);
+                    vm.removeVoiceFilterOverlay();
                   },
                 ),
                 actions: [
