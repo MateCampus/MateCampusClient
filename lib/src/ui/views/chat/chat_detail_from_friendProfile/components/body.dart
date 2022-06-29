@@ -22,7 +22,6 @@ class Body extends StatelessWidget {
                   )
                 : Container(),
             Expanded(
-              //이거 때문에 자꾸 채팅방 키보드 내려갔을 때 젤 밑에 공간생김.. 근데 expanded없이는 하단에 채팅입력바를 고정시킬 수 없음(아직 방법 못찾음..)
               child: SingleChildScrollView(
                 controller: vm.scrollController,
                 child: Scrollbar(

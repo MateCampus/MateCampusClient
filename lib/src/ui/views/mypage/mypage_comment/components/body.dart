@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_comment_viewmodel.dart';
-import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_comment/components/my_comment_list_tile.dart';
 
 class Body extends StatelessWidget {
   final MypageCommentViewModel vm;
-  final List<CommentPresentation> commentList;
+  final List<MyCommentPresentation> commentList;
   const Body({Key? key, required this.vm, required this.commentList})
       : super(key: key);
 

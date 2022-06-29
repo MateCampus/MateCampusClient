@@ -20,7 +20,7 @@ class PostListTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, PostDetailScreen.routeName,
-            arguments: PostDetailScreenArgs(post.id, post.likedCount));
+            arguments: PostDetailScreenArgs(post.id));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(
