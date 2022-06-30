@@ -84,6 +84,7 @@ class _VoiceDetailScreenState extends State<VoiceDetailScreen> {
                   IconButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      vm.removeVoiceFilterOverlay();
                     },
                     icon: const Icon(Icons.logout_outlined),
                     color: Colors.black,
