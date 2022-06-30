@@ -81,6 +81,10 @@ class VoiceDetailViewModel extends BaseModel {
     await [Permission.microphone].request();
     _engine = await RtcEngine.create(appIdForAgora);
     await _engine!.enableAudio();
+    await _engine!.setDefaultAudioRouteToSpeakerphone(true);
+    await _engine!.setAudioProfile(
+        AudioProfile.MusicHighQuality, AudioScenario.ChatRoomGaming);
+    await _engine!.enableDeepLearningDenoise(true);
     await _engine!.setChannelProfile(ChannelProfile
         .Communication); // 이게 정확히 어떤 역할인지는 모르겠음.. 무조건 channel join전에만 설정가능
     await _engine!.enableAudioVolumeIndication(200, 3, true); //말하는 사람 구분하기 위함
@@ -104,6 +108,38 @@ class VoiceDetailViewModel extends BaseModel {
       //테스트 후 삭제
       print('setEventHandler의 leaveChannel 작동');
     }, audioVolumeIndication: (List<AudioVolumeInfo> speakers, int volume) {
+      // speakers.forEach((speaker) {
+      //   if (speaker.volume > 50) {
+      //     _voiceRoomMembers.forEach((element) {
+      //       print(element.nickname);
+      //       print(element.uid);
+      //     });
+      //     print('스피커 uid' + speaker.uid.toString());
+      //   }
+
+      //   if (speaker.volume > 50) {
+      //     try {
+      //       _voiceRoomMembers.forEach((member) {
+      //         if (speaker.uid == 0 && member.loginId == AuthService.loginId) {
+      //           member.isSpeaking = true;
+      //           print('1');
+      //           notifyListeners();
+      //         } else if (member.uid.compareTo(speaker.uid) == 0) {
+      //           member.isSpeaking = true;
+      //           print('2');
+      //           notifyListeners();
+      //         } else {
+      //           member.isSpeaking = false;
+      //           print('3');
+      //           notifyListeners();
+      //         }
+      //       });
+      //     } catch (error) {
+      //       print('Error:${error.toString()}');
+      //     }
+      //   }
+      // });
+
       speakers.forEach((speaker) {
         if (speaker.volume > 5) {
           try {
@@ -111,17 +147,9 @@ class VoiceDetailViewModel extends BaseModel {
               if (speaker.uid == 0 && member.loginId == AuthService.loginId) {
                 member.isSpeaking = true;
                 notifyListeners();
-                print(member.uid.toString() +
-                    '  ' +
-                    speaker.uid.toString() +
-                    '가 volume $volume로 말하고 있음. 그게 나야');
               } else if (member.uid == speaker.uid) {
                 member.isSpeaking = true;
                 notifyListeners();
-                print(member.uid.toString() +
-                    '  ' +
-                    speaker.uid.toString() +
-                    '가 volume $volume로 말하고 있음');
               }
             }
           } catch (error) {
@@ -167,7 +195,7 @@ class VoiceDetailViewModel extends BaseModel {
     _ownerLoginId = voiceRoom.ownerLoginId!;
     _voiceRoomMembers = voiceRoom.memberInfos!
         .map((memberInfo) => MemberPresentation(
-            uid: memberInfo.id ?? -1,
+            uid: memberInfo.id ?? -5,
             loginId: memberInfo.loginId,
             nickname: memberInfo.loginId == AuthService.loginId
                 ? memberInfo.nickname + '(나)'
@@ -194,7 +222,7 @@ class VoiceDetailViewModel extends BaseModel {
   //stomp_object의 subscribeVoiceRoomChat안에서 쓴다. 새로운 멤버가 들어오면 그 멤버의 정보를 맵핑해주고 멤버리스트에 추가
   void addChatMemberInfo(ChatMemberInfo chatMemberInfo) {
     _voiceRoomMembers.add(MemberPresentation(
-        uid: chatMemberInfo.id ?? -1,
+        uid: chatMemberInfo.id ?? -5,
         loginId: chatMemberInfo.loginId,
         nickname: chatMemberInfo.nickname,
         imageUrl:
@@ -211,6 +239,10 @@ class VoiceDetailViewModel extends BaseModel {
     saveAddedUser(chatMemberInfo.loginId);
     notifyListeners();
   }
+
+  // Future<int> setRemoteUserUid(int uid) async {
+  //   return uid;
+  // }
 
   void saveExistingUsers(List<ChatMemberInfo> chatMemberInfos) {
     for (ChatMemberInfo chatMemberInfo in chatMemberInfos) {
@@ -301,20 +333,15 @@ class VoiceDetailViewModel extends BaseModel {
   void setVoiceFilter1() {
     _filterName = 'FILTER1';
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
-    _engine!.setLocalVoicePitch(2.0);
+    _engine!.setLocalVoicePitch(1.5);
     notifyListeners();
   }
 
   void setVoiceFilter2() {
     _filterName = 'FILTER2';
     _engine!.setAudioEffectPreset(AudioEffectPreset.AudioEffectOff);
-    _engine!.setLocalVoicePitch(0.5);
+    _engine!.setLocalVoicePitch(0.7);
     notifyListeners();
-  }
-
-  void setVoiceFilter3() {
-    _engine!.setAudioEffectPreset(
-        AudioEffectPreset.VoiceChangerEffectSister); //별로 목소리 차이가 안남..
   }
 
   void setOriginalVoice() {

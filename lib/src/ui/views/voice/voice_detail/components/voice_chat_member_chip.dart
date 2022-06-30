@@ -160,13 +160,15 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
         height: getProportionateScreenHeight(45),
         // width: getProportionateScreenWidth(150),
         child: CompositedTransformFollower(
+          targetAnchor: Alignment.topCenter,
+          followerAnchor: Alignment.topCenter,
           link: widget.vm.voiceFilterLayerLink,
-          offset: Offset(-getProportionateScreenWidth(45),
-              -getProportionateScreenHeight(53)),
+          offset: Offset(0, -getProportionateScreenHeight(50)),
           child: Material(
+            color: Colors.transparent,
             child: Container(
               height: getProportionateScreenHeight(45),
-              width: getProportionateScreenWidth(150),
+              width: getProportionateScreenWidth(120),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
@@ -178,13 +180,16 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                       widget.vm.setOriginalVoice();
                       widget.vm.removeVoiceFilterOverlay();
                     },
-                    child: const Icon(FontAwesomeIcons.solidUser),
+                    child: Icon(
+                      FontAwesomeIcons.solidUser,
+                      size: getProportionateScreenWidth(18),
+                    ),
                     style: ElevatedButton.styleFrom(
                         primary: (widget.vm.filterName == 'ORIGINAL')
                             ? kMainColor
                             : Colors.grey,
-                        minimumSize: Size(getProportionateScreenWidth(40),
-                            getProportionateScreenHeight(40)),
+                        minimumSize: Size(getProportionateScreenWidth(35),
+                            getProportionateScreenHeight(35)),
                         shape: const CircleBorder(),
                         padding: EdgeInsets.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap),
@@ -194,16 +199,18 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                       widget.vm.setVoiceFilter1();
                       widget.vm.removeVoiceFilterOverlay();
                     },
-                    child: const Icon(FontAwesomeIcons.cat),
+                    child: Icon(
+                      FontAwesomeIcons.cat,
+                      size: getProportionateScreenWidth(18),
+                    ),
                     style: ElevatedButton.styleFrom(
                         primary: (widget.vm.filterName == 'FILTER1')
                             ? kMainColor
                             : Colors.grey,
-                        minimumSize: Size(getProportionateScreenWidth(40),
-                            getProportionateScreenHeight(40)),
+                        minimumSize: Size(getProportionateScreenWidth(35),
+                            getProportionateScreenHeight(35)),
                         shape: const CircleBorder(),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: getProportionateScreenWidth(10)),
+                        padding: EdgeInsets.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap),
                   ),
                   ElevatedButton(
@@ -211,13 +218,16 @@ class _VoiceChatMemberChipState extends State<VoiceChatMemberChip> {
                       widget.vm.setVoiceFilter2();
                       widget.vm.removeVoiceFilterOverlay();
                     },
-                    child: const Icon(FontAwesomeIcons.ghost),
+                    child: Icon(
+                      FontAwesomeIcons.ghost,
+                      size: getProportionateScreenWidth(18),
+                    ),
                     style: ElevatedButton.styleFrom(
                         primary: (widget.vm.filterName == 'FILTER2')
                             ? kMainColor
                             : Colors.grey,
-                        minimumSize: Size(getProportionateScreenWidth(40),
-                            getProportionateScreenHeight(40)),
+                        minimumSize: Size(getProportionateScreenWidth(35),
+                            getProportionateScreenHeight(35)),
                         shape: const CircleBorder(),
                         padding: EdgeInsets.zero,
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap),
