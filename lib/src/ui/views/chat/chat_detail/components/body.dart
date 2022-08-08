@@ -25,17 +25,17 @@ class Body extends StatelessWidget {
                   : Container(),
               Expanded(
                 child: SingleChildScrollView(
+                  reverse: true,
                   controller: vm.scrollController,
                   child: Scrollbar(
                       controller: vm.scrollController,
                       thickness: 3,
                       child: Container(
-                        height: SizeConfig.screenHeight,
                         alignment: Alignment.bottomCenter,
                         child: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
-                            reverse: true,
                             shrinkWrap: true,
+                            reverse: true,
                             padding: EdgeInsets.zero,
                             itemCount: vm.chatMessages.length,
                             itemBuilder: (BuildContext context, int index) {

@@ -10,11 +10,11 @@ double kHorizontalPadding = getProportionateScreenWidth(20);
 //     ? "https://93e7-211-198-109-254.ngrok.io"
 //     : "https://93e7-211-198-109-254.ngrok.io";
 
-final devServer =
-    Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
-
 // final devServer =
-//     Platform.isAndroid ? "http://3.36.41.198:8080" : "http://3.36.41.198:8080";
+//     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
+
+final devServer =
+    Platform.isAndroid ? "http://3.36.41.198:8080" : "http://3.36.41.198:8080";
 
 const dankookEmail = "@dankook.ac.kr";
 

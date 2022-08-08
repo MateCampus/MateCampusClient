@@ -104,11 +104,11 @@ class ChatDetailViewModel extends BaseModel {
 //listview가 reverse여서 scroll도 반대로 생각해줘야함
   void _onScrollEvent() {
     if (scrollController.position.pixels ==
-        scrollController.position.minScrollExtent) {
+        scrollController.position.maxScrollExtent) {
       print("위 도착 load morez");
       loadMoreChatMessages();
     } else if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+        scrollController.position.minScrollExtent) {
       print("아래 도착");
     } else {}
   }
@@ -116,7 +116,7 @@ class ChatDetailViewModel extends BaseModel {
   void changeScrollToLowest() {
     SchedulerBinding.instance?.addPostFrameCallback((_) {
       scrollController.animateTo(
-        scrollController.position.maxScrollExtent,
+        scrollController.position.minScrollExtent,
         duration: const Duration(milliseconds: 50),
         curve: Curves.easeOut,
       );

@@ -63,23 +63,28 @@ class _ChatInputFieldState extends State<ChatInputField> {
     return SizedBox(
         height: getProportionateScreenHeight(36),
         width: getProportionateScreenWidth(265),
-        child: Center(
-          child: TextField(
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            controller: _textController,
-            onSubmitted: _sendMessage,
-            style: TextStyle(fontSize: kTextFieldInnerFontSize),
-            decoration: InputDecoration(
-              hintText: '메세지를 입력하세요',
-              hintStyle: TextStyle(
-                  color: Color(0xFFADADAD), fontSize: kTextFieldInnerFontSize),
-              border: const OutlineInputBorder(borderSide: BorderSide.none),
-              contentPadding: EdgeInsets.zero,
-              isDense: true,
+        child: Column(
+          children: [
+            Expanded(
+              child: TextField(
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                controller: _textController,
+                onSubmitted: _sendMessage,
+                style: TextStyle(fontSize: kTextFieldInnerFontSize),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 10.0),
+                  hintText: '메세지를 입력하세요',
+                  hintStyle: TextStyle(
+                      color: Color(0xFFADADAD),
+                      fontSize: kTextFieldInnerFontSize),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
+                  isDense: true,
+                ),
+                cursorColor: kMainColor,
+              ),
             ),
-            cursorColor: kMainColor,
-          ),
+          ],
         ));
   }
 

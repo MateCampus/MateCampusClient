@@ -32,6 +32,7 @@ class SplashViewModel extends BaseModel {
     _firstRoute = await Init.initialize();
     print(_firstRoute + " 로 이동!");
     if (_firstRoute == "/") {
+      await Future.delayed(const Duration(milliseconds: 2000));
       Navigator.of(context).pushNamedAndRemoveUntil(
           _firstRoute, (Route<dynamic> route) => false);
     } else if (_firstRoute == "/login") {
