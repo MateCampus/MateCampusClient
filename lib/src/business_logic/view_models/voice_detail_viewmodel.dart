@@ -84,7 +84,7 @@ class VoiceDetailViewModel extends BaseModel {
     await _engine!.setDefaultAudioRouteToSpeakerphone(true);
     await _engine!.setAudioProfile(
         AudioProfile.MusicHighQuality, AudioScenario.ChatRoomGaming);
-    await _engine!.enableDeepLearningDenoise(true);
+    // await _engine!.enableDeepLearningDenoise(true);
     await _engine!.setChannelProfile(ChannelProfile
         .Communication); // 이게 정확히 어떤 역할인지는 모르겠음.. 무조건 channel join전에만 설정가능
     await _engine!.enableAudioVolumeIndication(200, 3, true); //말하는 사람 구분하기 위함
