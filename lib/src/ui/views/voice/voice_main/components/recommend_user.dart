@@ -47,7 +47,7 @@ class RecommendUser extends SliverPersistentHeaderDelegate {
           child: Row(
             children: [
               Text(
-                '브랜치테스트 \u{1F4AC}',
+                '1029브랜치테스트 \u{1F4AC}',
                 style: TextStyle(
                     fontFamily: 'Gmarket',
                     fontSize: getProportionateScreenWidth(18),
