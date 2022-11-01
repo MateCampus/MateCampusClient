@@ -19,7 +19,7 @@ class HomeViewModel extends BaseModel {
   bool isNotificationExist = false;
 
   final List<Widget> screens = [
-    const VoiceMainScreen(),
+    // const VoiceMainScreen(),
     const PostMainScreen(),
     const ChatMainScreen(),
     const MypageMainScreen()

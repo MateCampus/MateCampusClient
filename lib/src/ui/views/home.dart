@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
@@ -36,73 +37,58 @@ class _HomeState extends State<Home> {
             ),
             floatingActionButton: FloatingActionButton(
               child: Icon(
-                CupertinoIcons.add,
-                size: getProportionateScreenWidth(27),
+                FontAwesomeIcons.penToSquare,
+                size: getProportionateScreenWidth(25),
               ),
               backgroundColor: kMainColor,
               onPressed: () {
-                showCustomModalBottomSheet(
-                    context: context,
-                    buildWidget: const VoiceRoomCreateBottomSheet());
+                Navigator.pushNamed(context, '/postCreate');
               },
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
+            //플로팅버튼 우측하단으로
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             bottomNavigationBar: BottomAppBar(
-              shape: const CircularNotchedRectangle(),
-              notchMargin: getProportionateScreenWidth(5),
+              // shape: const CircularNotchedRectangle(),
+              // notchMargin: getProportionateScreenWidth(5),
               elevation: 4,
-              child: SizedBox(
-                height: getProportionateScreenHeight(53),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        MaterialButton(
-                            onPressed: () {
-                              vm.changeCurrentIndex(0);
-                            },
-                            child: vm.currentTab == 0
-                                ? _activeIcon(
-                                    CupertinoIcons.house_alt_fill, '홈')
-                                : _deactiveIcon(CupertinoIcons.house_alt, '홈')),
-                        MaterialButton(
-                            onPressed: () {
-                              vm.changeCurrentIndex(1);
-                            },
-                            child: vm.currentTab == 1
-                                ? _activeIcon(
-                                    CupertinoIcons.square_favorites_alt_fill,
-                                    '피드')
-                                : _deactiveIcon(
-                                    CupertinoIcons.square_favorites_alt, '피드')),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        MaterialButton(
-                            onPressed: () {
-                              vm.changeCurrentIndex(2);
-                            },
-                            child: vm.currentTab == 2
-                                ? _activeIcon(
-                                    CupertinoIcons.ellipses_bubble_fill, '채팅')
-                                : _deactiveIcon(
-                                    CupertinoIcons.ellipses_bubble, '채팅')),
-                        MaterialButton(
-                            onPressed: () {
-                              vm.changeCurrentIndex(3);
-                            },
-                            child: vm.currentTab == 3
-                                ? _activeIcon(CupertinoIcons.person_fill, '내정보')
-                                : _deactiveIcon(CupertinoIcons.person, '내정보')),
-                      ],
-                    )
-                  ],
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // MaterialButton(
+                  //     onPressed: () {
+                  //       vm.changeCurrentIndex(0);
+                  //     },
+                  //     child: vm.currentTab == 0
+                  //         ? _activeIcon(
+                  //             CupertinoIcons.house_alt_fill, '홈')
+                  //         : _deactiveIcon(CupertinoIcons.house_alt, '홈')),
+                  MaterialButton(
+                      onPressed: () {
+                        vm.changeCurrentIndex(0);
+                      },
+                      child: vm.currentTab == 0
+                          ? _activeIcon(
+                              CupertinoIcons.square_favorites_alt_fill, '피드')
+                          : _deactiveIcon(
+                              CupertinoIcons.square_favorites_alt, '피드')),
+                  MaterialButton(
+                      onPressed: () {
+                        vm.changeCurrentIndex(1);
+                      },
+                      child: vm.currentTab == 1
+                          ? _activeIcon(
+                              CupertinoIcons.ellipses_bubble_fill, '채팅')
+                          : _deactiveIcon(
+                              CupertinoIcons.ellipses_bubble, '채팅')),
+                  MaterialButton(
+                      onPressed: () {
+                        vm.changeCurrentIndex(2);
+                      },
+                      child: vm.currentTab == 2
+                          ? _activeIcon(CupertinoIcons.person_fill, '프로필')
+                          : _deactiveIcon(CupertinoIcons.person, '프로필'))
+                ],
               ),
             ),
           );
@@ -110,38 +96,44 @@ class _HomeState extends State<Home> {
   }
 
   Widget _activeIcon(IconData icon, String name) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: kBottomNavigationBarIconSize,
-          color: Colors.black87,
-        ),
-        const VerticalSpacing(of: 4),
-        Text(
-          name,
-          style: kBottomNavigationBarTextStyle,
-        )
-      ],
+    return SizedBox(
+      height: getProportionateScreenHeight(56),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: kBottomNavigationBarIconSize,
+            color: kMainColor,
+          ),
+          const VerticalSpacing(of: 4),
+          Text(
+            name,
+            style: kBottomNavigationBarTextStyle_active,
+          )
+        ],
+      ),
     );
   }
 
   Widget _deactiveIcon(IconData icon, String name) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          icon,
-          size: kBottomNavigationBarIconSize,
-          color: Colors.black54,
-        ),
-        const VerticalSpacing(of: 4),
-        Text(
-          name,
-          style: kBottomNavigationBarTextStyle,
-        )
-      ],
+    return SizedBox(
+      height: getProportionateScreenHeight(56),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: kBottomNavigationBarIconSize,
+            color: Colors.black54,
+          ),
+          const VerticalSpacing(of: 4),
+          Text(
+            name,
+            style: kBottomNavigationBarTextStyle_deactive,
+          )
+        ],
+      ),
     );
   }
 }
