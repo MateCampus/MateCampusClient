@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
           const VerticalSpacing(of: 4),
           Text(
             name,
-            style: kBottomNavigationBarTextStyle_active,
+            style: kBottomNavigationBarTextStyleActive,
           )
         ],
       ),
@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
           const VerticalSpacing(of: 4),
           Text(
             name,
-            style: kBottomNavigationBarTextStyle_deactive,
+            style: kBottomNavigationBarTextStyleDeactive,
           )
         ],
       ),

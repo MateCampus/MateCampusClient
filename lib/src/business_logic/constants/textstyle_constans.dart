@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
 TextStyle kPostBodyStyle = TextStyle(
@@ -10,7 +11,10 @@ TextStyle kPostCommentBodyStyle = TextStyle(
     fontWeight: FontWeight.w500,
     height: 1.3);
 
-TextStyle kBottomNavigationBarTextStyle = TextStyle(
+TextStyle kBottomNavigationBarTextStyleDeactive = TextStyle(
     fontSize: resizeFont(10),
     color: Colors.black87,
     fontWeight: FontWeight.w300);
+
+TextStyle kBottomNavigationBarTextStyleActive = TextStyle(
+    fontSize: resizeFont(10), color: kMainColor, fontWeight: FontWeight.w300);
