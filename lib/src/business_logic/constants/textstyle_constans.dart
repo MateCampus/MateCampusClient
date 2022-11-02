@@ -18,3 +18,8 @@ TextStyle kBottomNavigationBarTextStyleDeactive = TextStyle(
 
 TextStyle kBottomNavigationBarTextStyleActive = TextStyle(
     fontSize: resizeFont(10), color: kMainColor, fontWeight: FontWeight.w300);
+
+TextStyle kLabelTextStyle = TextStyle(
+    fontSize: resizeFont(13),
+    color: const Color(0xFF111111),
+    fontWeight: FontWeight.w700);

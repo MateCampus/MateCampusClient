@@ -95,7 +95,7 @@ class PostListTile extends StatelessWidget {
             fontWeight: FontWeight.w500),
       ),
       subtitle: Text(
-        post.collegeName + '\t\u{00B7}\t' + post.createdAt,
+        post.collegeName + ' \u{00B7} ' + post.createdAt,
         style: TextStyle(
             fontSize: resizeFont(12),
             color: Color(0xff767676),
