@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/postCategoryCode.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
@@ -231,98 +232,6 @@ List<ChatMessage> chatMessageDummy = [
       text: "헬로우",
       type: MessageType.TALK,
       createdAt: DateTime(2022, 02, 17)),
-];
-
-List<Post> postDummy1 = [
-  Post(
-      id: 1,
-      loginId: "sye",
-      // categories: categoryDummy[Random().nextInt(2)],
-      userNickname: "폼포코팡팡",
-      body:
-          "저는 묶은머리를 좋아해요. 뒷머리는 산뜻하게 묶고 옆머리는 흘러내리는 얼마전에 동기가 그 머리를 하고 왔어요. 완전 내 이상형",
-      createdAt: DateTime(2022, 2, 3),
-      likedCount: 874,
-      viewCount: 3123,
-      commentCount: 671,
-      imageUrls: [],
-      comments: commentDummy),
-  Post(
-      //post detail fake data로 사용
-      id: 2,
-      loginId: "zamong",
-      // categories: categoryDummy[Random().nextInt(2)],
-      userNickname: "자몽쟁이",
-      body:
-          "서울 밖 외곽 쪽으로 나오면 용인에 위치해있는 단국대 죽전을 만나볼 수 있는데 특히 이곳에서도 유명하다고 불리는 맛집들이 있어서 학생들이 종종 찾아가는 편이야.\n\n그래서 오늘은 죽전에서 유명하다고 하는 단국대학교 맛집을 소개해보려고 해.",
-      createdAt: DateTime(2022, 2, 13),
-      likedCount: 789,
-      viewCount: 2132,
-      commentCount: 345,
-      imageUrls: [
-        "assets/images/event/event1.jpg",
-        "assets/images/event/event2.jpg",
-        "assets/images/event/event3.jpg",
-        "assets/images/event/event2.jpg",
-        "assets/images/event/event2.jpg",
-      ],
-      comments: commentDummy),
-  Post(
-    id: 3,
-    loginId: "suss",
-    // categories: categoryDummy[Random().nextInt(2)],
-    userNickname: "미완성작품",
-    body:
-        "고양이들 코 시려우면 이런대ㅇㅇ 근데 추워서라기보단 흥분해서 코가 촉촉해지면 그러는거임. 너무 귀엽지 않니? 그런의미에서 우리 집 고양이 사진 올려두고감",
-    createdAt: DateTime(2022, 1, 31),
-    likedCount: 688,
-    viewCount: 897,
-    commentCount: 156,
-    imageUrls: [],
-    comments: [],
-  ),
-  Post(
-    id: 4,
-    loginId: "suss",
-    // categories: categoryDummy[Random().nextInt(2)],
-    userNickname: "미완성작품",
-    body:
-        "고양이들 코 시려우면 이런대ㅇㅇ 근데 추워서라기보단 흥분해서 코가 촉촉해지면 그러는거임. 너무 귀엽지 않니? 그런의미에서 우리 집 고양이 사진 올려두고감",
-    createdAt: DateTime(2022, 1, 31),
-    likedCount: 688,
-    viewCount: 897,
-    commentCount: 156,
-    imageUrls: [],
-    comments: [],
-  ),
-  Post(
-    id: 5,
-    loginId: "suss",
-    // categories: categoryDummy[Random().nextInt(2)],
-    userNickname: "미완성작품",
-    body:
-        "고양이들 코 시려우면 이런대ㅇㅇ 근데 추워서라기보단 흥분해서 코가 촉촉해지면 그러는거임. 너무 귀엽지 않니? 그런의미에서 우리 집 고양이 사진 올려두고감",
-    createdAt: DateTime(2022, 1, 31),
-    likedCount: 688,
-    viewCount: 897,
-    commentCount: 156,
-    imageUrls: [],
-    comments: [],
-  ),
-  Post(
-    id: 6,
-    loginId: "suss",
-    // categories: categoryDummy[Random().nextInt(2)],
-    userNickname: "미완성작품",
-    body:
-        "고양이들 코 시려우면 이런대ㅇㅇ 근데 추워서라기보단 흥분해서 코가 촉촉해지면 그러는거임. 너무 귀엽지 않니? 그런의미에서 우리 집 고양이 사진 올려두고감",
-    createdAt: DateTime(2022, 1, 31),
-    likedCount: 688,
-    viewCount: 897,
-    commentCount: 156,
-    imageUrls: [],
-    comments: [],
-  ),
 ];
 
 List<Comment> commentDummy = [

@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:zamongcampus/src/config/dummy/post_dummy.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 
 import '../../business_logic/models/post.dart';
@@ -23,7 +25,7 @@ class FakePostService implements PostService {
       required int nextPageToken,
       required bool collegeFilter}) async {
     List<Post> list = [];
-    list.addAll(postDummy1);
+    list.addAll(postMainTestDummy);
 
     return list;
   }
@@ -31,14 +33,18 @@ class FakePostService implements PostService {
   @override
   Future<Post> fetchPostDetail({required int postId}) async {
     Post post;
-    post = postDummy1[1];
+    post = postMainTestDummy[1];
     return post;
   }
 
   @override
-  Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() {
-    // TODO: implement fetchMyLikeBookmarkPostIds
-    throw UnimplementedError();
+  Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() async {
+    Map<String, List<int>> ids = {};
+    ids.addAll({
+      "myLikePostIds": [1, 3],
+      "myBookMarkIds": []
+    });
+    return ids;
   }
 
   @override
