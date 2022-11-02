@@ -1,5 +1,6 @@
 //사용중
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 
 class HorizontalDividerCustom extends StatelessWidget {
   final double? thickness;
@@ -13,7 +14,7 @@ class HorizontalDividerCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: thickness ?? 1,
+      height: thickness ?? getProportionateScreenHeight(1),
       width: width,
       color: color ?? Colors.grey.withOpacity(0.3),
     );

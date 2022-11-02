@@ -29,6 +29,7 @@ class Body extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverAppBar(
+              centerTitle: false,
               title: Text(
                 '\t피드',
                 style: TextStyle(
@@ -39,14 +40,14 @@ class Body extends StatelessWidget {
                     fontWeight: FontWeight.w500),
               ),
               actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/postCreate');
-                  },
-                  icon: const Icon(FontAwesomeIcons.penToSquare),
-                  iconSize: kAppBarIconSizeFA,
-                  color: kAppBarIconColor,
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     Navigator.pushNamed(context, '/postCreate');
+                //   },
+                //   icon: const Icon(FontAwesomeIcons.penToSquare),
+                //   iconSize: kAppBarIconSizeFA,
+                //   color: kAppBarIconColor,
+                // ),
                 NotificationAlarmInAppbar(
                   iconColor: kAppBarIconColor,
                 )

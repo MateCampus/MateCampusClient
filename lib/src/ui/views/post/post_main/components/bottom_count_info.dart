@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
@@ -14,8 +15,23 @@ class BottomCountInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(13),
-          vertical: getProportionateScreenHeight(15)),
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(12)),
+      child: Row(
+        children: [
+          _likePostBtn(),
+          const HorizontalSpacing(of: 15),
+          _commentBtn(),
+          const Spacer(),
+          _likedListBtn()
+        ],
+      ),
+    );
+  }
+
+  Widget _likePostBtn() {
+    return InkWell(
+      onTap: () {},
       child: Row(
         children: [
           Icon(
@@ -31,8 +47,17 @@ class BottomCountInfo extends StatelessWidget {
               color: kPostBtnColor,
               fontSize: resizeFont(13),
             ),
-          ),
-          const HorizontalSpacing(of: 15),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _commentBtn() {
+    return InkWell(
+      onTap: () {},
+      child: Row(
+        children: [
           Icon(
             CupertinoIcons.bubble_left,
             size: kPostMainIconSizeCP,
@@ -47,29 +72,28 @@ class BottomCountInfo extends StatelessWidget {
               fontSize: resizeFont(13),
             ),
           ),
-          const HorizontalSpacing(of: 15),
-          Icon(
-            CupertinoIcons.eye,
-            size: kPostMainIconSizeCP,
-            color: kPostBtnColor,
-          ),
-          const HorizontalSpacing(of: 5),
+        ],
+      ),
+    );
+  }
+
+  Widget _likedListBtn() {
+    return InkWell(
+      onTap: () {},
+      child: Row(
+        children: [
           Text(
-            post.viewCount,
+            '좋아요\t' + post.likedCount,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kPostBtnColor,
               fontSize: resizeFont(13),
             ),
           ),
-          const Spacer(),
-          Text(
-            post.createdAt,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: kPostBtnColor,
-                fontSize: kCreateAtFontSize,
-                fontWeight: FontWeight.w300),
+          Icon(
+            CupertinoIcons.chevron_right,
+            size: getProportionateScreenWidth(13),
+            color: kPostBtnColor,
           )
         ],
       ),
