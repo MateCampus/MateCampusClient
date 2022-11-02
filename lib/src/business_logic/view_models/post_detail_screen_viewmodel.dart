@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/reportType.dart';
+import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -24,7 +27,7 @@ class PostDetailScreenViewModel extends BaseModel {
   int _parentId = -1; //대댓글 생성할 때 쓰는용도
   bool _isliked = false;
   bool _isBookMarked = false;
-  final String _postProfileImgPath = 'assets/images/user/general_user.png';
+  // final String _postProfileImgPath = 'assets/images/user/general_user.png';
   final _commentTextController = TextEditingController();
   final _nestedCommentTextController = TextEditingController();
   final _focusNode = FocusNode();
@@ -34,7 +37,7 @@ class PostDetailScreenViewModel extends BaseModel {
   OverlayEntry? overlayEntry;
   final LayerLink layerLink = LayerLink();
 
-  String get postProfileImgPath => _postProfileImgPath;
+  // String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
   TextEditingController get nestedCommentTextController =>
       _nestedCommentTextController;
@@ -44,10 +47,12 @@ class PostDetailScreenViewModel extends BaseModel {
   static final PostDetailPresentation
       defaultPostDetail = //postDetailPresentation 초기값 설정
       PostDetailPresentation(
-          id: 0,
+          id: -1,
           loginId: '',
-          categories: [],
           userNickname: '',
+          categories: [],
+          collegeName: '',
+          userImageUrl: 'assets/images/user/general_user.png',
           imageUrls: [],
           body: '',
           createdAt: '',
@@ -98,14 +103,17 @@ class PostDetailScreenViewModel extends BaseModel {
     _postDetail = PostDetailPresentation(
       id: postDetailResult.id,
       loginId: postDetailResult.loginId,
+      userNickname: postDetailResult.userNickname,
       categories: postDetailResult.postCategoryCodes
-              ?.map<String>((category) =>
-                  PostCategoryData.iconOf(category.name) +
-                  " " +
-                  PostCategoryData.korNameOf(category.name))
+              ?.map<String>(
+                  (category) => PostCategoryData.korNameOf(category.name))
               .toList() ??
           [],
-      userNickname: "글쓴이",
+      collegeName: CollegeData.korNameOf(describeEnum(
+          postDetailResult.userCollegeCode ?? CollegeCode.college0000)),
+      userImageUrl: postDetailResult.userImageUrl.isNotEmpty
+          ? postDetailResult.userImageUrl
+          : defaultPostDetail.userImageUrl,
       body: postDetailResult.body,
       createdAt: dateToElapsedTime(postDetailResult.createdAt),
       likedCount: postDetailResult.likedCount.toString(),
@@ -360,8 +368,10 @@ class PostDetailScreenViewModel extends BaseModel {
 class PostDetailPresentation {
   final int id;
   final String loginId;
-  final List<String> categories;
   final String userNickname;
+  final List<String> categories;
+  final String collegeName;
+  String userImageUrl;
   final String body;
   String createdAt;
   String likedCount;
@@ -372,8 +382,10 @@ class PostDetailPresentation {
   PostDetailPresentation({
     required this.id,
     required this.loginId,
-    required this.categories,
     required this.userNickname,
+    required this.categories,
+    required this.collegeName,
+    required this.userImageUrl,
     required this.body,
     required this.createdAt,
     required this.likedCount,
