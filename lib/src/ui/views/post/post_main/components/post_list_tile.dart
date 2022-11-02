@@ -26,6 +26,7 @@ class PostListTile extends StatelessWidget {
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //유저정보영역 -> 이 영역을 누르면 상대방 프로필 창으로 넘어감
               GestureDetector(
