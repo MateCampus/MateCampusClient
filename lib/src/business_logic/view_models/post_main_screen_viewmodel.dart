@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
+import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -14,7 +17,7 @@ class PostMainScreenViewModel extends BaseModel {
   List<PostPresentation> _posts = List.empty(growable: true);
   List<int> likepostIds = [];
   List<int> bookmarkpostIds = [];
-  String _sortType = "popular";
+  String _sortType = "recent";
   final ScrollController _scrollController = ScrollController();
   int _nextPageToken = 0;
   bool _collegeFilter = false;
@@ -66,13 +69,17 @@ class PostMainScreenViewModel extends BaseModel {
         .map((post) => PostPresentation(
               id: post.id,
               loginId: post.loginId,
+              userNickname: post.userNickname,
               categories: post.postCategoryCodes
                       ?.map<String>((category) =>
-                          PostCategoryData.iconOf(category.name) +
-                          " " +
                           PostCategoryData.korNameOf(category.name))
                       .toList() ??
                   [],
+              collegeName: CollegeData.korNameOf(describeEnum(
+                  post.userCollegeCode ?? CollegeCode.college0000)),
+              userImageUrl: post.userImageUrl.isNotEmpty
+                  ? post.userImageUrl
+                  : 'assets/images/user/general_user.png',
               body: post.body.replaceFirst(bodyRegexp, "\n...\n"),
               createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
@@ -101,13 +108,17 @@ class PostMainScreenViewModel extends BaseModel {
       _posts.addAll(additionalPosts.map((post) => PostPresentation(
             id: post.id,
             loginId: post.loginId,
+            userNickname: post.userNickname,
             categories: post.postCategoryCodes
-                    ?.map<String>((category) =>
-                        PostCategoryData.iconOf(category.name) +
-                        " " +
-                        PostCategoryData.korNameOf(category.name))
+                    ?.map<String>(
+                        (category) => PostCategoryData.korNameOf(category.name))
                     .toList() ??
                 [],
+            collegeName: CollegeData.korNameOf(
+                describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+            userImageUrl: post.userImageUrl.isNotEmpty
+                ? post.userImageUrl
+                : 'assets/images/user/general_user.png',
             body: post.body.replaceAll(bodyRegexp, " "),
             createdAt: dateToElapsedTime(post.createdAt),
             likedCount: post.likedCount.toString(),
@@ -178,7 +189,10 @@ class PostMainScreenViewModel extends BaseModel {
 class PostPresentation {
   final int id;
   final String loginId;
+  String userNickname;
   final List<String> categories;
+  final String collegeName;
+  String userImageUrl;
   final String body;
   String createdAt;
   String likedCount;
@@ -189,7 +203,10 @@ class PostPresentation {
   PostPresentation(
       {required this.id,
       required this.loginId,
+      required this.userNickname,
       required this.categories,
+      required this.collegeName,
+      required this.userImageUrl,
       required this.body,
       required this.createdAt,
       required this.likedCount,
