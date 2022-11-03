@@ -148,11 +148,11 @@ class PostMainScreenViewModel extends BaseModel {
     }
   }
 
-  void setCollegeFilter() {
+  Future<void> setCollegeFilter() async{
     _posts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
     _collegeFilter = !_collegeFilter;
-    loadPosts();
+    await loadPosts();
   }
 
   void loadPostsByType(int value) {

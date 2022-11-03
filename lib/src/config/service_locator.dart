@@ -61,9 +61,9 @@ void setupServiceLocator() {
   /* services */
   /* 1. 실제 가능한 services */
   // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
-  serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
-  serviceLocator
-      .registerLazySingleton<CommentService>(() => FakeCommentService());
+  // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
+  // serviceLocator
+  //     .registerLazySingleton<CommentService>(() => FakeCommentService());
   // serviceLocator
   //     .registerLazySingleton<FriendService>(() => FakeFriendService());
   // serviceLocator
@@ -79,9 +79,9 @@ void setupServiceLocator() {
 
   /* 3. 실제 services */
   serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
-  // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
-  // serviceLocator
-  //     .registerLazySingleton<CommentService>(() => CommentServiceImpl());
+  serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  serviceLocator
+      .registerLazySingleton<CommentService>(() => CommentServiceImpl());
   serviceLocator
       .registerLazySingleton<FriendService>(() => FriendServiceImpl());
   serviceLocator.registerLazySingleton<VoiceService>(() => VoiceServiceImpl());

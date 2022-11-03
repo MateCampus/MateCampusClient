@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_liked_list_viewmodel.dart';
+import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
+import 'package:zamongcampus/src/ui/views/post/post_liked_list/components/liked_user_list_tile.dart';
 
 class Body extends StatelessWidget {
   final PostLikedListViewModel vm;
@@ -7,8 +9,16 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('좋아요 성공ㅁ런ㄷ리먼랴ㅣㅁㄴ'),
+    return Padding(
+      padding: EdgeInsets.all(0),
+      child: vm.likedUsers.isEmpty
+      ? const CenterSentence(sentence: '요청된 친구 신청이 없습니다', bottomSpace: 150)
+      : ListView.builder(
+        shrinkWrap: true,
+        itemCount: vm.likedUsers.length,
+        itemBuilder: (BuildContext context, int index) {
+                return LikedUserListTile(vm: vm, likeduser: vm.likedUsers[index]);
+              })
     );
   }
 }

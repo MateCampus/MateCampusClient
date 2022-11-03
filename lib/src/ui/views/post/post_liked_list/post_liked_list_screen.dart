@@ -21,8 +21,7 @@ class _PostLikedListScreenState extends State<PostLikedListScreen> {
 
   @override
   void initState() {
-    print(widget.postId);
-    // vm.initData(widget.postId);
+    vm.initData(widget.postId);
     super.initState();
   }
 
@@ -41,7 +40,7 @@ class _PostLikedListScreenState extends State<PostLikedListScreen> {
 
             backgroundColor: Colors.white,
             //extendBodyBehindAppBar: true,
-            body: vm.busy ? const IsLoading() : Body(vm: vm),
+            body: vm.busy ? const IsLoading() : SafeArea(child: Body(vm: vm)),
           );
         },
       ),
