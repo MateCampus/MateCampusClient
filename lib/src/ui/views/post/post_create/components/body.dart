@@ -9,7 +9,7 @@ import 'package:zamongcampus/src/ui/views/voice/public_voice_create/components/c
 
 class Body extends StatelessWidget {
   final PostCreateScreenViewModel vm;
-  Body({Key? key, required this.vm}) : super(key: key);
+  const Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

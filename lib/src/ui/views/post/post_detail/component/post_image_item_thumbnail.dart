@@ -25,6 +25,7 @@ class PostImageItemThumbnail extends StatelessWidget {
         child: hasMoreImg
             ? Stack(
                 alignment: AlignmentDirectional.center,
+                fit: StackFit.expand,
                 children: [
                   postImageItem.resource.startsWith('https')
                       ? CachedNetworkImage(
@@ -50,13 +51,14 @@ class PostImageItemThumbnail extends StatelessWidget {
                           color: Colors.black.withOpacity(0.4),
                           colorBlendMode: BlendMode.darken,
                         ),
-                  Text(
-                    '+' + restImg.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: getProportionateScreenHeight(30),
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                  Center(
+                    child: Text(
+                      '+' + restImg.toString(),
+                      style: TextStyle(
+                          fontSize: getProportionateScreenHeight(20),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               )
