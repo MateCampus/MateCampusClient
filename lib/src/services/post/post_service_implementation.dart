@@ -139,9 +139,23 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<User>> fetchLikedUsers({required int postId}) {
-    // TODO: implement fetchLikedUsers
-    throw UnimplementedError();
+  Future<List<User>> fetchLikedUsers({required int postId}) async{
+   final response = await http.get(
+        Uri.parse(
+          devServer +
+              "/api/post/like/" +
+              postId.toString() +
+              "/users" 
+        ),
+        headers: AuthService.get_auth_header());
+    if (response.statusCode ==200){
+      List<User> likedUsers = await jsonDecode(utf8.decode(response.bodyBytes))
+          .map<User>((json)=>User.fromJson(json))
+          .toList();
+    return likedUsers;
+    }else {
+      throw Exception('좋아요 유저 리스트 서버에서 가져오기 실패');
+    }
   }
 
   @override
