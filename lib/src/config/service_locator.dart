@@ -11,6 +11,7 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart'
 import 'package:zamongcampus/src/business_logic/view_models/notification_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_liked_list_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/report_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
@@ -60,9 +61,9 @@ void setupServiceLocator() {
   /* services */
   /* 1. 실제 가능한 services */
   // serviceLocator.registerLazySingleton<LoginService>(() => FakeLoginService());
-  // serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
-  // serviceLocator
-  //     .registerLazySingleton<CommentService>(() => FakeCommentService());
+  serviceLocator.registerLazySingleton<PostService>(() => FakePostService());
+  serviceLocator
+      .registerLazySingleton<CommentService>(() => FakeCommentService());
   // serviceLocator
   //     .registerLazySingleton<FriendService>(() => FakeFriendService());
   // serviceLocator
@@ -78,9 +79,9 @@ void setupServiceLocator() {
 
   /* 3. 실제 services */
   serviceLocator.registerLazySingleton<LoginService>(() => LoginServiceImpl());
-  serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
-  serviceLocator
-      .registerLazySingleton<CommentService>(() => CommentServiceImpl());
+  // serviceLocator.registerLazySingleton<PostService>(() => PostServiceImpl());
+  // serviceLocator
+  //     .registerLazySingleton<CommentService>(() => CommentServiceImpl());
   serviceLocator
       .registerLazySingleton<FriendService>(() => FriendServiceImpl());
   serviceLocator.registerLazySingleton<VoiceService>(() => VoiceServiceImpl());
@@ -134,4 +135,7 @@ void setupServiceLocator() {
       .registerLazySingleton<ReportViewModel>(() => ReportViewModel());
   serviceLocator.registerLazySingleton<NotificationViewModel>(
       () => NotificationViewModel());
+
+  serviceLocator.registerLazySingleton<PostLikedListViewModel>(
+      () => PostLikedListViewModel());
 }

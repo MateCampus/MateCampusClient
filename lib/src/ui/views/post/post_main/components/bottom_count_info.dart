@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/post_liked_list_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
+import 'package:zamongcampus/src/ui/views/post/post_liked_list/post_liked_list_screen.dart';
 
 class BottomCountInfo extends StatelessWidget {
   final PostPresentation post;
@@ -23,7 +25,7 @@ class BottomCountInfo extends StatelessWidget {
           const HorizontalSpacing(of: 15),
           _commentBtn(),
           const Spacer(),
-          _likedListBtn()
+          _likedListBtn(context)
         ],
       ),
     );
@@ -77,9 +79,12 @@ class BottomCountInfo extends StatelessWidget {
     );
   }
 
-  Widget _likedListBtn() {
+  Widget _likedListBtn(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, PostLikedListScreen.routeName,
+            arguments: PostLikedListScreenArgs(post.id));
+      },
       child: Row(
         children: [
           Text(
