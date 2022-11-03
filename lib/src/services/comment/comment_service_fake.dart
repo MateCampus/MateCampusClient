@@ -28,8 +28,10 @@ class FakeCommentService implements CommentService {
   }
 
   @override
-  Future<bool> deleteComment({required int commentId}) {
+  Future<bool> deleteComment({required int commentId}) async {
     // TODO: implement deleteComment
-    throw UnimplementedError();
+    print('삭제 페이크 성공');
+    bool val = true;
+    return val;
   }
 }

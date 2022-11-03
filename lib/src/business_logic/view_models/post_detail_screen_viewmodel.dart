@@ -80,6 +80,11 @@ class PostDetailScreenViewModel extends BaseModel {
             id: comment.id,
             loginId: comment.loginId,
             userNickname: comment.userNickname,
+            collegeName: CollegeData.korNameOf(describeEnum(
+                comment.userCollegeCode ?? CollegeCode.college0000)),
+            userImageUrl: comment.userImageUrl.isNotEmpty
+                ? comment.userImageUrl
+                : 'assets/images/user/general_user.png',
             body: comment.body,
             deleted: comment.deleted,
             parentId: comment.parentId,
@@ -88,16 +93,21 @@ class PostDetailScreenViewModel extends BaseModel {
                         id: nestedComment.id,
                         loginId: nestedComment.loginId,
                         userNickname: nestedComment.userNickname,
+                        collegeName: CollegeData.korNameOf(describeEnum(
+                            comment.userCollegeCode ??
+                                CollegeCode.college0000)),
+                        userImageUrl: comment.userImageUrl.isNotEmpty
+                            ? comment.userImageUrl
+                            : 'assets/images/user/general_user.png',
                         body: nestedComment.body,
                         deleted: nestedComment.deleted,
                         parentId: nestedComment.parentId,
-                        createdAt: dateToElapsedTime(
-                            nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                        createdAt:
+                            dateToElapsedTime(nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                         children: nestedComment.children ?? []))
                     .toList() ??
                 [],
-            createdAt:
-                dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
+            createdAt: dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
 
     _postDetail = PostDetailPresentation(
@@ -200,6 +210,11 @@ class PostDetailScreenViewModel extends BaseModel {
         id: comment.id,
         loginId: comment.loginId,
         userNickname: comment.userNickname,
+        collegeName: CollegeData.korNameOf(
+            describeEnum(comment.userCollegeCode ?? CollegeCode.college0000)),
+        userImageUrl: comment.userImageUrl.isNotEmpty
+            ? comment.userImageUrl
+            : 'assets/images/user/general_user.png',
         body: comment.body,
         deleted: comment.deleted,
         parentId: comment.parentId,
@@ -208,6 +223,11 @@ class PostDetailScreenViewModel extends BaseModel {
                     id: nestedComment.id,
                     loginId: nestedComment.loginId,
                     userNickname: nestedComment.userNickname,
+                    collegeName: CollegeData.korNameOf(describeEnum(
+                        comment.userCollegeCode ?? CollegeCode.college0000)),
+                    userImageUrl: comment.userImageUrl.isNotEmpty
+                        ? comment.userImageUrl
+                        : 'assets/images/user/general_user.png',
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
@@ -216,8 +236,7 @@ class PostDetailScreenViewModel extends BaseModel {
                     children: nestedComment.children ?? []))
                 .toList() ??
             [],
-        createdAt:
-            dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
+        createdAt: dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
     //총 댓글 수 카운트
     int _commentCount = 0;
@@ -335,10 +354,11 @@ class PostDetailScreenViewModel extends BaseModel {
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
-                            children: const [
+                            children: [
                           TextSpan(
-                              text: '님에게 댓글을 다는 중',
+                              text: ' 님에게 답글 남기는 중',
                               style: TextStyle(
+                                  fontSize: resizeFont(12),
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300))
                         ])),
@@ -399,6 +419,8 @@ class CommentPresentation {
   final int id;
   final String loginId;
   final String userNickname;
+  final String collegeName;
+  String userImageUrl;
   final String body;
   bool deleted;
   final int parentId;
@@ -409,6 +431,8 @@ class CommentPresentation {
     required this.id,
     required this.loginId,
     required this.userNickname,
+    required this.collegeName,
+    required this.userImageUrl,
     required this.body,
     required this.deleted,
     required this.parentId,
