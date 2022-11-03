@@ -1,6 +1,7 @@
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/postCategoryCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
+import 'package:zamongcampus/src/config/dummy/comment_dummy.dart';
 
 List<Post> postMainTestDummy = [
   //사진 x, 카테고리 ㅇ, 유저프사 ㅇ
@@ -27,7 +28,7 @@ List<Post> postMainTestDummy = [
   Post(
       //post detail fake data로 사용
       id: 2,
-      loginId: "zamong",
+      loginId: "user1",
       postCategoryCodes: [
         PostCategoryCode.postcategory0002,
         PostCategoryCode.postcategory0006
@@ -45,10 +46,10 @@ List<Post> postMainTestDummy = [
         "assets/images/event/event1.jpg",
         "assets/images/event/event2.jpg",
         "assets/images/event/event3.jpg",
-        "assets/images/event/event2.jpg",
-        "assets/images/event/event2.jpg",
+        // "assets/images/event/event2.jpg",
+        // "assets/images/event/event2.jpg",
       ],
-      comments: []),
+      comments: commentDummy),
   //사진x, 카테고리 x, 유저프사 x,
   Post(
     id: 3,

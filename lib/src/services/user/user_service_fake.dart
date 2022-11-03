@@ -1,6 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
-import 'package:zamongcampus/src/config/dummy_data.dart';
+import 'package:zamongcampus/src/config/dummy/user_dummny.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 class FakeUserService implements UserService {
