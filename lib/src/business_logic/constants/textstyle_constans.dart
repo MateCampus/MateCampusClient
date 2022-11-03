@@ -6,9 +6,9 @@ TextStyle kPostBodyStyle = TextStyle(
     fontSize: resizeFont(14.5), color: Colors.grey.shade900, height: 1.5);
 
 TextStyle kPostCommentBodyStyle = TextStyle(
-    fontSize: resizeFont(12.5),
-    color: Colors.grey.shade900,
-    fontWeight: FontWeight.w500,
+    fontSize: resizeFont(13),
+    color: Color(0xff111111),
+    fontWeight: FontWeight.w400,
     height: 1.3);
 
 TextStyle kBottomNavigationBarTextStyleDeactive = TextStyle(
