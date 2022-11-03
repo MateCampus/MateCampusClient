@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/config/dummy/post_dummy.dart';
+import 'package:zamongcampus/src/config/dummy/user_dummny.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
 
 import '../../business_logic/models/post.dart';
@@ -60,6 +62,14 @@ class FakePostService implements PostService {
   }
 
   @override
+  Future<List<User>> fetchLikedUsers({required int postId}) async {
+    List<User> list = [];
+    list.addAll(userDummyLikedPost);
+
+    return list;
+  }
+
+  @override
   Future<Map<String, int>> likePost({required int postId}) async {
     Map<String, int> result = {};
     result.addAll({"postId": 1, "likeCount": Random().nextInt(100)});
@@ -73,8 +83,10 @@ class FakePostService implements PostService {
   }
 
   @override
-  Future<bool> deletePost({required int postId}) {
+  Future<bool> deletePost({required int postId}) async {
     // TODO: implement deletePost
-    throw UnimplementedError();
+    print('삭제 페이크 성공');
+    bool val = true;
+    return val;
   }
 }

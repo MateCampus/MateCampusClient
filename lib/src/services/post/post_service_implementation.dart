@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/user.dart';
 
 import '../../business_logic/models/post.dart';
 import '../../business_logic/utils/constants.dart';
@@ -135,6 +136,12 @@ class PostServiceImpl implements PostService {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('내 피드 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
     }
+  }
+
+  @override
+  Future<List<User>> fetchLikedUsers({required int postId}) {
+    // TODO: implement fetchLikedUsers
+    throw UnimplementedError();
   }
 
   @override
