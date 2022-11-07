@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_liked_list_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
@@ -7,6 +8,7 @@ import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
+import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_liked_list/post_liked_list_screen.dart';
 
 class BottomCountInfo extends StatelessWidget {
@@ -23,7 +25,7 @@ class BottomCountInfo extends StatelessWidget {
         children: [
           _likePostBtn(),
           const HorizontalSpacing(of: 15),
-          _commentBtn(),
+          _commentBtn(context),
           const Spacer(),
           _likedListBtn(context)
         ],
@@ -55,9 +57,12 @@ class BottomCountInfo extends StatelessWidget {
     );
   }
 
-  Widget _commentBtn() {
+  Widget _commentBtn(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, PostDetailScreen.routeName,
+                      arguments: PostDetailScreenArgs(post.id));
+      },
       child: Row(
         children: [
           Icon(
