@@ -35,18 +35,18 @@ class _HomeState extends State<Home> {
               child: vm.currentScreen,
               bucket: bucket,
             ),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(
-                FontAwesomeIcons.penToSquare,
-                size: getProportionateScreenWidth(25),
-              ),
-              backgroundColor: kMainColor,
-              onPressed: () {
-                Navigator.pushNamed(context, '/postCreate');
-              },
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   child: Icon(
+            //     FontAwesomeIcons.penToSquare,
+            //     size: getProportionateScreenWidth(25),
+            //   ),
+            //   backgroundColor: kMainColor,
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, '/postCreate');
+            //   },
+            // ),
             //플로팅버튼 우측하단으로
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             bottomNavigationBar: BottomAppBar(
               // shape: const CircularNotchedRectangle(),
               // notchMargin: getProportionateScreenWidth(5),
