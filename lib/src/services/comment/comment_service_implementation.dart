@@ -88,6 +88,7 @@ class CommentServiceImpl implements CommentService {
       print('삭제 완료');
       return true;
     } else {
+      print(response.statusCode);
       print('오류: 댓글 삭제 실패');
       return false;
     }
