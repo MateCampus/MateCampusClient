@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
@@ -59,17 +60,17 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               appBar: SubAppbar(
                 titleText: vm.chatRoom.title,
                 isCenter: true,
-                backgroundColor: const Color(0xfffff8f3).withOpacity(0.9),
+                backgroundColor: kMainScreenBackgroundColor,
                 actions: [
                   IconButton(
-                    icon: const Icon(CupertinoIcons.ellipsis),
+                    icon: const Icon(CupertinoIcons.ellipsis_vertical),
                     iconSize: kAppBarIconSizeCP,
                     color: Colors.black,
                     onPressed: () {},
                   ),
                 ],
               ),
-              backgroundColor: const Color(0xfffff8f3),
+              backgroundColor: kMainScreenBackgroundColor,
               body: SafeArea(child: Body(vm: vm)),
             ),
           );

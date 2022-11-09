@@ -43,35 +43,17 @@ class Message extends StatelessWidget {
                   : MainAxisAlignment.start,
               children: [
                 if (message.loginId != AuthService.loginId) ...[
-                  Padding(
-                      padding:
-                          EdgeInsets.only(top: getProportionateScreenHeight(3)),
-                      child: CircleImageBtn(
-                          imageUrl: loginIdToImageUrl(message.loginId),
-                          press: () {
-                            showCustomModalBottomSheet(
-                                context: context,
-                                buildWidget: UserProfileBottomSheet(
-                                  loginId: message.loginId,
-                                  bottomBtn: false,
-                                ));
-                          },
-                          size: getProportionateScreenWidth(35))
-
-                      // CircleAvatar(
-                      //   backgroundColor: Colors.grey,
-                      //   radius: getProportionateScreenWidth(17),
-                      //   backgroundImage:
-                      //       // TODO: aws 적용 부분
-                      //       // Image.network(message.imageUrl).image,
-                      //       // loginIdToImageUrl(message.loginId),
-                      //       loginIdToImageUrl(message.loginId).startsWith('https')
-                      //           ? CachedNetworkImageProvider(
-                      //                   loginIdToImageUrl(message.loginId))
-                      //               as ImageProvider
-                      //           : AssetImage(loginIdToImageUrl(message.loginId)),
-                      // ),
-                      ),
+                  CircleImageBtn(
+                      imageUrl: loginIdToImageUrl(message.loginId),
+                      press: () {
+                        showCustomModalBottomSheet(
+                            context: context,
+                            buildWidget: UserProfileBottomSheet(
+                              loginId: message.loginId,
+                              bottomBtn: false,
+                            ));
+                      },
+                      size: getProportionateScreenWidth(35)),
                   const HorizontalSpacing(of: 8),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +67,7 @@ class Message extends StatelessWidget {
                           loginIdToNickname(message.loginId),
                           style: TextStyle(
                               fontSize: resizeFont(12),
-                              color: Colors.grey[800],
+                              color: Color(0xff111111),
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -99,16 +81,17 @@ class Message extends StatelessWidget {
                                   horizontal: getProportionateScreenWidth(10),
                                   vertical: getProportionateScreenHeight(8)),
                               decoration: const BoxDecoration(
-                                color: kMainColor, //컬러바꾸기
+                                color: Colors.white, //컬러바꾸기
                                 borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
+                                    // topLeft: Radius.circular(10),
                                     topRight: Radius.circular(10),
+                                    bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10)),
                               ),
                               child: Text(
                                 message.text,
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Color(0xff111111),
                                     fontSize: resizeFont(14),
                                     height: 1.2),
                               )),
@@ -139,7 +122,7 @@ class Message extends StatelessWidget {
                         horizontal: getProportionateScreenWidth(10),
                         vertical: getProportionateScreenHeight(8)),
                     decoration: const BoxDecoration(
-                        color: Color(0xffFFE8D8), //컬러체인지해야함
+                        color: kMainColor, //컬러체인지해야함
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
                             topRight: Radius.circular(10),
@@ -147,7 +130,7 @@ class Message extends StatelessWidget {
                     child: Text(
                       message.text,
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: resizeFont(14),
                           height: 1.2),
                     ),
