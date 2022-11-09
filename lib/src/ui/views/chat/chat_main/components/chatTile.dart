@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 
 class ChatTile extends StatefulWidget {
   final ChatRoom chatRoom;
@@ -31,25 +32,20 @@ class _ChatTileState extends State<ChatTile> {
     );
   }
 
-  Widget buildItem(BuildContext context) => Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: getProportionateScreenWidth(20),
-            vertical: getProportionateScreenHeight(5)),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [kShadowForTile],
-          ),
-          child: ListTile(
+  Widget buildItem(BuildContext context) => Column(
+        children: [
+          ListTile(
+              // onLongPress: widget.onDeleted,
               onTap: widget.onClicked,
               contentPadding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(10),
+                  horizontal: getProportionateScreenWidth(20),
                   vertical: getProportionateScreenHeight(5)),
               minVerticalPadding: 0,
+              dense: true,
+              visualDensity: VisualDensity(horizontal: -2),
               leading: CircleAvatar(
                 backgroundColor: Colors.grey,
-                radius: getProportionateScreenWidth(25),
+                radius: getProportionateScreenWidth(23),
                 // TODO: aws 이미지 403이면 일반 이미지 보여주도록 구현해야함.
                 // backgroundImage: widget.chatRoom.image.image ??
                 //     Image.asset(
@@ -68,16 +64,17 @@ class _ChatTileState extends State<ChatTile> {
               title: Text(
                 widget.chatRoom.title,
                 style: TextStyle(
-                    fontSize: getProportionateScreenHeight(15),
-                    fontWeight: FontWeight.w700,
+                    fontSize: resizeFont(14),
+                    color: Color(0xff111111),
+                    fontWeight: FontWeight.w600,
                     overflow: TextOverflow.ellipsis),
               ),
               subtitle: Text(
                 widget.chatRoom.lastMessage,
                 maxLines: 1,
                 style: TextStyle(
-                  fontSize: getProportionateScreenHeight(13),
-                  color: Colors.grey,
+                  fontSize: resizeFont(13),
+                  color: Color(0xff767676),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -90,7 +87,9 @@ class _ChatTileState extends State<ChatTile> {
                       dateToElapsedTimeOnChatMain(
                           widget.chatRoom.lastMsgCreatedAt),
                       style: TextStyle(
-                          fontSize: kCreateAtFontSize, color: Colors.grey),
+                          fontSize: kCreateAtFontSize,
+                          color: Color(0xff767676),
+                          fontWeight: FontWeight.w300),
                     ),
                     // ** TODO: unread 부분 수정
                     widget.chatRoom.unreadCount == 0
@@ -115,6 +114,9 @@ class _ChatTileState extends State<ChatTile> {
                             ),
                           )
                   ])),
-        ),
+          const HorizontalDividerCustom(
+            color: Color(0xfff0f0f6),
+          )
+        ],
       );
 }

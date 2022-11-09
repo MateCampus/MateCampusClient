@@ -32,12 +32,6 @@ class _ChatMainScreenState extends State<ChatMainScreen> {
             appBar: MainAppBar(
               titleText: '채팅',
               actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.maps_ugc_outlined),
-                  iconSize: kAppBarIconSizeG,
-                  color: kAppBarIconColor,
-                ),
                 NotificationAlarmInAppbar(
                   iconColor: kAppBarIconColor,
                 )

@@ -19,7 +19,7 @@ class Body extends StatelessWidget {
         child: Column(
       children: [
         const ChatTopBanner(),
-        FriendBtn(),
+        // FriendBtn(),
         const VerticalSpacing(of: 15),
         ChatList(vm: vm)
       ],
