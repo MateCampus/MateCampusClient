@@ -16,6 +16,7 @@ import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.da
 import 'package:zamongcampus/src/business_logic/view_models/report_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/splash_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
@@ -138,4 +139,6 @@ void setupServiceLocator() {
 
   serviceLocator.registerLazySingleton<PostLikedListViewModel>(
       () => PostLikedListViewModel());
+  serviceLocator.registerLazySingleton<UserProfileDemandSurveyViewModel>(
+      () => UserProfileDemandSurveyViewModel());
 }

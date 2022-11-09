@@ -18,6 +18,7 @@ import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_arg
 import 'package:zamongcampus/src/business_logic/arguments/mypage_post_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_liked_list_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/user_profile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/voice_invite_friend_screen_args.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail/chat_detail_screen.dart';
@@ -25,6 +26,7 @@ import 'package:zamongcampus/src/ui/views/chat/chat_detail_from_friendProfile/ch
 import 'package:zamongcampus/src/ui/views/mypage/mypage_post/mypage_post_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_liked_list/post_liked_list_screen.dart';
+import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_invite_friend/voice_invite_friend_screen.dart';
 
@@ -72,6 +74,13 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => PostLikedListScreen(
                   postId: args.postId,
+                ));
+      case "/userProfile":
+        final args = settings.arguments as UserProfileScreenArgs;
+        return MaterialPageRoute(
+            builder: (_) => UserProfileScreen(
+                  loginId: args.loginId,
+                  hasBottomBtn: args.hasBottomBtn,
                 ));
       default:
         return _errorRoute();
