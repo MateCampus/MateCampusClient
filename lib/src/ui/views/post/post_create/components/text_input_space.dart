@@ -34,7 +34,7 @@ class _TextInputSpaceState extends State<TextInputSpace> {
               controller: widget.vm.bodyTextController,
               style: TextStyle(fontSize: kTextFieldInnerFontSize),
               // style: TextStyle(fontSize: 150), //테스트용
-              maxLength: 150,
+              maxLength: 250,
               maxLines: 8,
               minLines: 8, //이걸로 사이즈 조절
               decoration: InputDecoration(
