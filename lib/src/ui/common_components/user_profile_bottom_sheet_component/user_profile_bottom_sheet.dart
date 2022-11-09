@@ -103,19 +103,20 @@ class _UserProfileBottomSheetState extends State<UserProfileBottomSheet> {
       );
 
   Widget _bottomFixedBtn() {
-    switch (vm.profile.friendRequestStatus) {
-      case FriendRequestStatus.ACCEPTED:
-        return (widget.isFromVoiceRoom == true)
-            ? const BottomFixedBtnDecoBox(
-                child: DisabledDefaultBtn(text: '대화 하기'))
-            : GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
-      case FriendRequestStatus.UNACCEPTED:
-        return const WaitingFriendRequest();
-      default:
-        return FriendRequestBtn(
-          vm: vm,
-          profileLoginId: vm.profile.loginId,
-        );
-    }
+    return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
+    // switch (vm.profile.friendRequestStatus) {
+    //   case FriendRequestStatus.ACCEPTED:
+    //     return (widget.isFromVoiceRoom == true)
+    //         ? const BottomFixedBtnDecoBox(
+    //             child: DisabledDefaultBtn(text: '대화 하기'))
+    //         : GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
+    //   case FriendRequestStatus.UNACCEPTED:
+    //     return const WaitingFriendRequest();
+    //   default:
+    //     return FriendRequestBtn(
+    //       vm: vm,
+    //       profileLoginId: vm.profile.loginId,
+    //     );
+    // }
   }
 }

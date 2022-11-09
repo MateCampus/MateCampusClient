@@ -1,3 +1,4 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                     icon: const Icon(CupertinoIcons.ellipsis_vertical),
                     iconSize: kAppBarIconSizeCP,
                     color: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      _chatOptions();
+                    },
                   ),
                 ],
               ),
@@ -75,5 +78,47 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ),
           );
         }));
+  }
+
+  //나가기 혹은 차단하기 용도
+  _chatOptions() {
+    showAdaptiveActionSheet(
+      context: context,
+      actions: <BottomSheetAction>[
+        BottomSheetAction(
+          title: Text(
+            '차단하기',
+            style: TextStyle(
+              fontSize: resizeFont(15.0),
+              color: Colors.black87,
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        BottomSheetAction(
+          title: Text(
+            '대화방 나가기',
+            style: TextStyle(
+              fontSize: resizeFont(15.0),
+              color: Colors.black87,
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+      cancelAction: CancelAction(
+          title: Text(
+            '취소',
+            style: TextStyle(
+                fontSize: resizeFont(16.0), fontWeight: FontWeight.w500),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
+    );
   }
 }

@@ -119,17 +119,18 @@ class _ProfileBottomSheetState extends State<ProfileBottomSheet> {
       );
 
   Widget _bottomFixedBtn() {
-    switch (vm.profile.friendRequestStatus) {
-      case FriendRequestStatus.ACCEPTED:
-        return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
-      case FriendRequestStatus.UNACCEPTED:
-        return const WaitingFriendRequest();
-      default:
-        return FriendRequestBtn(
-          vm: vm,
-          profileLoginId: vm.profile.loginId,
-        );
-    }
+    return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
+    // switch (vm.profile.friendRequestStatus) {
+    //   case FriendRequestStatus.ACCEPTED:
+    //     return GoToChatRoomBtn(profileLoginId: vm.profile.loginId);
+    //   case FriendRequestStatus.UNACCEPTED:
+    //     return const WaitingFriendRequest();
+    //   default:
+    //     return FriendRequestBtn(
+    //       vm: vm,
+    //       profileLoginId: vm.profile.loginId,
+    //     );
+    // }
   }
 
   Widget _buildInterestChip(InterestPresentation interestPresentation) {

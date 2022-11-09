@@ -28,10 +28,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   void initState() {
-    // vm.loadUserProfile(widget.loginId);
-    print(widget.loginId);
-    print(widget.hasBottomBtn);
-
+    vm.loadUserProfile(widget.loginId);
     super.initState();
   }
 
@@ -53,7 +50,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               )
             ],
           ),
-          body: vm.busy ? const IsLoading() : Body(vm: vm),
+          body: vm.busy
+              ? const IsLoading()
+              : Body(vm: vm, hasBottomBtn: widget.hasBottomBtn),
         );
       }),
     );

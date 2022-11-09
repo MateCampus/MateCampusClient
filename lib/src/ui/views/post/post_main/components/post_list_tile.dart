@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/arguments/user_profile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -13,6 +15,7 @@ import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/bottom_count_info.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/show_image.dart';
+import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart';
 
 class PostListTile extends StatelessWidget {
   final PostPresentation post;
@@ -30,7 +33,17 @@ class PostListTile extends StatelessWidget {
             children: [
               //유저정보영역 -> 이 영역을 누르면 상대방 프로필 창으로 넘어감
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  post.loginId == AuthService.loginId
+                      ? Navigator.pushNamed(
+                          context, UserProfileScreen.routeName,
+                          arguments: UserProfileScreenArgs(
+                              loginId: post.loginId, hasBottomBtn: false))
+                      : Navigator.pushNamed(
+                          context, UserProfileScreen.routeName,
+                          arguments: UserProfileScreenArgs(
+                              loginId: post.loginId, hasBottomBtn: true));
+                },
                 child: _postUser(),
               ),
 
