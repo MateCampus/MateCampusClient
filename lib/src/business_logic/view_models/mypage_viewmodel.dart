@@ -34,8 +34,6 @@ class MypageViewModel extends BaseModel {
     commentCount: '-1',
   );
 
-  final ScrollController _scrollController = ScrollController();
-
   //관심사 관련 변수
   final List<InterestPresentation> _allInterestsAfterLoad =
       List.empty(growable: true);
@@ -68,7 +66,6 @@ class MypageViewModel extends BaseModel {
   bool get isValidNickname => _isValidNickname;
   TextEditingController get introductionController => _introductionController;
   bool get isValidIntroduction => _isValidIntroduction;
-  ScrollController get myPageScrollController => _scrollController;
 
   void loadMyInfo() async {
     setBusy(true);

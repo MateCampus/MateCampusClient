@@ -6,6 +6,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class ShowInfo extends StatelessWidget {
   final MypageViewModel vm;
@@ -18,73 +19,69 @@ class ShowInfo extends StatelessWidget {
           vertical: getProportionateScreenHeight(5),
           horizontal: kHorizontalPadding),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            children: [
+              vm.changedProfileImgPath.isEmpty
+                  ? CircleImageBtn(
+                      imageUrl: vm.myInfo.imageUrl,
+                      press: () {
+                        showOriginalProfileImage(
+                            context,
+                            vm.changedProfileImgPath.isEmpty
+                                ? vm.myInfo.imageUrl
+                                : vm.changedProfileImgPath);
+                      },
+                      size: getProportionateScreenHeight(80))
+                  : CircleImageBtn(
+                      imageUrl: vm.changedProfileImgPath,
+                      press: () {
+                        showOriginalProfileImage(
+                            context,
+                            vm.changedProfileImgPath.isEmpty
+                                ? vm.myInfo.imageUrl
+                                : vm.changedProfileImgPath);
+                      },
+                      size: getProportionateScreenHeight(80)),
+              Padding(
+                padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      vm.myInfo.nickname,
+                      style: TextStyle(
+                          color: Color(0xff111111),
+                          fontSize: resizeFont(18),
+                          fontWeight: FontWeight.w700),
+                    ),
+                    const VerticalSpacing(of: 5),
+                    Text(
+                      vm.myInfo.collegeName,
+                      style: TextStyle(
+                          fontSize: resizeFont(13),
+                          color: Colors.black.withOpacity(0.5)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const VerticalSpacing(),
+          //소개글 영역
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(15)),
-            child: Stack(
-              children: [
-                vm.changedProfileImgPath.isEmpty
-                    ? CircleImageBtn(
-                        imageUrl: vm.myInfo.imageUrl,
-                        press: () {
-                          showOriginalProfileImage(
-                              context,
-                              vm.changedProfileImgPath.isEmpty
-                                  ? vm.myInfo.imageUrl
-                                  : vm.changedProfileImgPath);
-                        },
-                        size: getProportionateScreenHeight(100))
-                    : CircleImageBtn(
-                        imageUrl: vm.changedProfileImgPath,
-                        press: () {
-                          showOriginalProfileImage(
-                              context,
-                              vm.changedProfileImgPath.isEmpty
-                                  ? vm.myInfo.imageUrl
-                                  : vm.changedProfileImgPath);
-                        },
-                        size: getProportionateScreenHeight(100)),
-                Positioned(
-                  bottom: 1,
-                  right: -1,
-                  child: _profileEditBtn(context),
-                )
-              ],
+              horizontal: getProportionateScreenWidth(5),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: getProportionateScreenHeight(3)),
             child: Text(
-              vm.myInfo.nickname,
+              vm.myInfo.introduction,
               style: TextStyle(
-                  fontSize: getProportionateScreenWidth(18),
-                  fontWeight: FontWeight.w700),
+                color: Color(0xff111111),
+                fontSize: resizeFont(14),
+              ),
             ),
           ),
-          vm.myInfo.majorName.isEmpty
-              ? Padding(
-                  padding:
-                      EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
-                  child: Text(
-                    vm.myInfo.collegeName,
-                    style: TextStyle(
-                        fontSize: getProportionateScreenWidth(13),
-                        color: Colors.black.withOpacity(0.5)),
-                  ),
-                )
-              : Padding(
-                  padding:
-                      EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
-                  child: Text(
-                    vm.myInfo.collegeName + ' / ' + vm.myInfo.majorName,
-                    style: TextStyle(
-                        fontSize: getProportionateScreenWidth(13),
-                        color: Colors.black.withOpacity(0.5),
-                        letterSpacing: 0.5),
-                  ),
-                ),
-          _interestEditBtn(context)
         ],
       ),
     );

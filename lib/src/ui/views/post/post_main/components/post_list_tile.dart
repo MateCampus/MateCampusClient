@@ -56,7 +56,7 @@ class PostListTile extends StatelessWidget {
                             padding: EdgeInsets.only(
                                 bottom: getProportionateScreenHeight(20)),
                             child: _postImg(),
-                          )
+                          ),
                   ],
                 ),
               ),
@@ -70,7 +70,7 @@ class PostListTile extends StatelessWidget {
         BottomCountInfo(post: post),
         //하단 아래 구분선
         HorizontalDividerCustom(
-          thickness: getProportionateScreenHeight(8),
+          thickness: getProportionateScreenHeight(5),
           color: const Color(0xfff0f0f6),
         )
       ],

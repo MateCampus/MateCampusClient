@@ -27,6 +27,7 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
             letterSpacing: 2,
             fontWeight: FontWeight.w500),
       ),
+      centerTitle: false,
       actions: actions,
       bottom: bottom,
       elevation: 0,

@@ -35,13 +35,24 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
       value: vm,
       child: Consumer<MypageViewModel>(builder: (context, vm, child) {
         return Scaffold(
-            appBar:  AppBar(
-                toolbarHeight: 0,
-                backgroundColor: kMainScreenBackgroundColor,
-                elevation: 0,
-              ),
+            appBar: MainAppBar(
+              titleText: '내정보',
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/settings');
+                  },
+                  icon: const Icon(Icons.settings_outlined),
+                  iconSize: kAppBarIconSizeG,
+                  color: kAppBarIconColor,
+                ),
+                NotificationAlarmInAppbar(
+                  iconColor: kAppBarIconColor,
+                )
+              ],
+            ),
             backgroundColor: kMainScreenBackgroundColor,
-            body: vm.busy ? const IsLoading() : SafeArea(child: Body(vm: vm)));
+            body: vm.busy ? const IsLoading() : Body(vm: vm));
       }),
     );
   }
