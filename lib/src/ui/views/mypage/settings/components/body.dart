@@ -17,7 +17,11 @@ class Body extends StatelessWidget {
         const HorizontalDividerCustom(),
         _tabBtn(text: '내 학과 설정', onTap: () {}),
         const HorizontalDividerCustom(),
-        _tabBtn(text: '알림 설정', onTap: () {}),
+        _tabBtn(
+            text: '알림 설정(추천유저보기)',
+            onTap: () {
+              Navigator.pushNamed(context, "/voiceMain");
+            }),
         const HorizontalDividerCustom(),
         _tabBtn(
             text: '로그아웃',

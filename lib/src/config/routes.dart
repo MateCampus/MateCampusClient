@@ -20,6 +20,7 @@ import 'package:zamongcampus/src/ui/views/splash.dart';
 import 'package:zamongcampus/src/ui/views/voice/private_voice_create/private_voice_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/public_voice_create/public_voice_create_screen.dart';
 import 'package:zamongcampus/src/ui/views/voice/voice_create_friend/voice_create_friend_screen.dart';
+import 'package:zamongcampus/src/ui/views/voice/voice_main/voice_main_screen.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/": (BuildContext context) => const Home(),
@@ -51,4 +52,5 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/notification": (BuildContext context) => const NotificationMainScreen(),
   "/signUpRequestMajor": (BuildContext context) =>
       const SignUpRequestMajorScreen(),
+  "/voiceMain": (BuildContext context) => const VoiceMainScreen()
 };
