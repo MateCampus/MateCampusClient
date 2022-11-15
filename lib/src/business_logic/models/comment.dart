@@ -34,7 +34,7 @@ class Comment {
         userCollegeCode: json['writerCollegeCode'] != null
             ? CollegeCode.values.byName(json['writerCollegeCode'].toLowerCase())
             : null,
-        userImageUrl: json['writerProfileImageUrl'],
+        userImageUrl: json['writerProfileImageUrl']?? "",
         body: json['body'],
         deleted: json['deleted'],
         parentId: json['parentId'],
