@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -50,6 +51,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               )
             ],
           ),
+          backgroundColor: kMainScreenBackgroundColor,
           body: vm.busy
               ? const IsLoading()
               : Body(vm: vm, hasBottomBtn: widget.hasBottomBtn),

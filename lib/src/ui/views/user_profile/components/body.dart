@@ -23,7 +23,7 @@ class Body extends StatelessWidget {
         )),
         SafeArea(
             child: hasBottomBtn
-                ? GoToChatRoomBtn(profileLoginId: 'profileLoginId')
+                ? GoToChatRoomBtn(profileLoginId: vm.userProfile.loginId)
                 : SizedBox())
       ],
     );
