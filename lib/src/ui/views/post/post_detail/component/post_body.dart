@@ -21,8 +21,9 @@ class PostBody extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(10)),
+            padding: EdgeInsets.only(
+                top: getProportionateScreenHeight(5),
+                bottom: getProportionateScreenHeight(20)),
             child: Text(
               vm.postDetail.body,
               style: kPostBodyStyle,

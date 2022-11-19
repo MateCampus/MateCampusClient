@@ -120,7 +120,7 @@ class PostListTile extends StatelessWidget {
 
   Widget _postBody() {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(10)),
+      padding: EdgeInsets.only(bottom: getProportionateScreenHeight(10)),
       child: Text(
         post.body,
         maxLines: 3,
@@ -131,24 +131,27 @@ class PostListTile extends StatelessWidget {
   }
 
   Widget _postCategories() {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: getProportionateScreenWidth(8),
-      children: [
-        ...post.categories.map((category) => Chip(
-              padding: EdgeInsets.zero,
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              visualDensity: const VisualDensity(vertical: -4),
-              label: Text(category),
-              labelStyle: TextStyle(
-                fontSize: resizeFont(12),
-                color: kMainColor,
-                fontWeight: FontWeight.w500,
-              ),
-              backgroundColor: Colors.white,
-              side: BorderSide(color: Color(0xffF8E9E7), width: 1.2),
-            ))
-      ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: getProportionateScreenHeight(10)),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        spacing: getProportionateScreenWidth(8),
+        children: [
+          ...post.categories.map((category) => Chip(
+                padding: EdgeInsets.zero,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: const VisualDensity(vertical: -4),
+                label: Text(category),
+                labelStyle: TextStyle(
+                  fontSize: resizeFont(12),
+                  color: kMainColor,
+                  fontWeight: FontWeight.w500,
+                ),
+                backgroundColor: Colors.white,
+                side: BorderSide(color: Color(0xffF8E9E7), width: 1.2),
+              ))
+        ],
+      ),
     );
   }
 
