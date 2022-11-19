@@ -23,29 +23,38 @@ class ShowInfo extends StatelessWidget {
         children: [
           Row(
             children: [
-              vm.changedProfileImgPath.isEmpty
-                  ? CircleImageBtn(
-                      imageUrl: vm.myInfo.imageUrl,
-                      press: () {
-                        showOriginalProfileImage(
-                            context,
-                            vm.changedProfileImgPath.isEmpty
-                                ? vm.myInfo.imageUrl
-                                : vm.changedProfileImgPath);
-                      },
-                      size: getProportionateScreenHeight(80))
-                  : CircleImageBtn(
-                      imageUrl: vm.changedProfileImgPath,
-                      press: () {
-                        showOriginalProfileImage(
-                            context,
-                            vm.changedProfileImgPath.isEmpty
-                                ? vm.myInfo.imageUrl
-                                : vm.changedProfileImgPath);
-                      },
-                      size: getProportionateScreenHeight(80)),
+              Stack(
+                children: [
+                  vm.changedProfileImgPath.isEmpty
+                      ? CircleImageBtn(
+                          imageUrl: vm.myInfo.imageUrl,
+                          press: () {
+                            showOriginalProfileImage(
+                                context,
+                                vm.changedProfileImgPath.isEmpty
+                                    ? vm.myInfo.imageUrl
+                                    : vm.changedProfileImgPath);
+                          },
+                          size: getProportionateScreenHeight(95))
+                      : CircleImageBtn(
+                          imageUrl: vm.changedProfileImgPath,
+                          press: () {
+                            showOriginalProfileImage(
+                                context,
+                                vm.changedProfileImgPath.isEmpty
+                                    ? vm.myInfo.imageUrl
+                                    : vm.changedProfileImgPath);
+                          },
+                          size: getProportionateScreenHeight(95)),
+                  Positioned(
+                    bottom: 1,
+                    right: -1,
+                    child: _profileEditBtn(context),
+                  )
+                ],
+              ),
               Padding(
-                padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
+                padding: EdgeInsets.only(left: getProportionateScreenWidth(15)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -53,15 +62,14 @@ class ShowInfo extends StatelessWidget {
                       vm.myInfo.nickname,
                       style: TextStyle(
                           color: Color(0xff111111),
-                          fontSize: resizeFont(18),
+                          fontSize: resizeFont(20),
                           fontWeight: FontWeight.w700),
                     ),
                     const VerticalSpacing(of: 5),
                     Text(
                       vm.myInfo.collegeName,
                       style: TextStyle(
-                          fontSize: resizeFont(13),
-                          color: Colors.black.withOpacity(0.5)),
+                          fontSize: resizeFont(14), color: Color(0xff767676)),
                     ),
                   ],
                 ),
@@ -70,18 +78,18 @@ class ShowInfo extends StatelessWidget {
           ),
           const VerticalSpacing(),
           //소개글 영역
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: getProportionateScreenWidth(5),
-            ),
-            child: Text(
-              vm.myInfo.introduction,
-              style: TextStyle(
-                color: Color(0xff111111),
-                fontSize: resizeFont(14),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(
+          //     horizontal: getProportionateScreenWidth(5),
+          //   ),
+          //   child: Text(
+          //     vm.myInfo.introduction,
+          //     style: TextStyle(
+          //       color: Color(0xff111111),
+          //       fontSize: resizeFont(14),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

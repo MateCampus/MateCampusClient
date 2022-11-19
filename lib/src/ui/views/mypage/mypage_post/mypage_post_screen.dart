@@ -23,7 +23,9 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
 
   @override
   void initState() {
-    vm.loadMypagePosts(widget.isFrom);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.initData();
+    });
     super.initState();
   }
 
@@ -48,7 +50,7 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
             body: SafeArea(
                 child: vm.busy
                     ? const IsLoading()
-                    : vm.posts.isEmpty
+                    : vm.myPosts.isEmpty
                         ? const CenterSentence(
                             sentence: '게시물이 존재하지 않습니다',
                             bottomSpace: 100,

@@ -18,7 +18,7 @@ class MyInterestEditBtn extends StatelessWidget {
       child: Chip(
         padding: EdgeInsets.zero,
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        visualDensity: const VisualDensity(vertical: -4),
+        visualDensity: const VisualDensity(vertical: -2),
         label: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -33,7 +33,7 @@ class MyInterestEditBtn extends StatelessWidget {
           ],
         ),
         labelStyle: TextStyle(
-          fontSize: resizeFont(12),
+          fontSize: resizeFont(14),
           color: kMainColor,
           fontWeight: FontWeight.w500,
         ),

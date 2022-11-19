@@ -20,8 +20,10 @@ class ShowInterest extends StatelessWidget {
         children: [
           Text(
             '관심사',
-            style:
-                TextStyle(color: Color(0xff776677), fontSize: resizeFont(12)),
+            style: TextStyle(
+                color: Color(0xff776677),
+                fontSize: resizeFont(14),
+                fontWeight: FontWeight.w500),
           ),
           const VerticalSpacing(of: 10),
           Wrap(
@@ -32,10 +34,10 @@ class ShowInterest extends StatelessWidget {
               ...vm.selectedInterestCodes.map((interest) => Chip(
                     padding: EdgeInsets.zero,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: const VisualDensity(vertical: -4),
+                    visualDensity: const VisualDensity(vertical: -2),
                     label: Text(InterestData.korNameOf(interest.name)),
                     labelStyle: TextStyle(
-                      fontSize: resizeFont(12),
+                      fontSize: resizeFont(14),
                       color: const Color(0xff111111),
                       fontWeight: FontWeight.w500,
                     ),

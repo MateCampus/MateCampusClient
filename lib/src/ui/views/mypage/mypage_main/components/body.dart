@@ -34,23 +34,26 @@ class Body extends StatelessWidget {
           //프로필 정보 보여줌
           ShowInfo(vm: vm),
           //프로필 수정 버튼
-          MyInfoEditBtn(vm: vm),
-          const VerticalSpacing(of: 20),
+          // MyInfoEditBtn(vm: vm),
+          // const VerticalSpacing(of: 20),
           //관심사영역
           ShowInterest(vm: vm),
-          const VerticalSpacing(of: 30),
+          const VerticalSpacing(of: 40),
 
           // HorizontalDividerCustom(
           //   color: Color(0xfff0f0f6),
           //   thickness: getProportionateScreenHeight(8),
           // ),
-          const VerticalSpacing(of: 15),
+          // const VerticalSpacing(of: 15),
           //내피드, 내 댓글 버튼
-          HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+          const HorizontalDividerCustom(
+            color: Color(0xfff0f0f6),
+            thickness: 8,
+          ),
           _myPost(context),
-          HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+          const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
           _myComment(context),
-          HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+          const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
         ],
       ),
     );
@@ -68,11 +71,15 @@ class Body extends StatelessWidget {
             EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
         title: Text(
           '내 피드',
-          style: TextStyle(color: Color(0xff111111), fontSize: resizeFont(14)),
+          style: TextStyle(
+              color: Color(0xff111111),
+              fontSize: resizeFont(16),
+              fontWeight: FontWeight.w500),
         ),
         trailing: Icon(
           CupertinoIcons.chevron_forward,
-          size: getProportionateScreenWidth(18),
+          size: getProportionateScreenWidth(20),
+          color: Color(0xff767676),
         ),
       ),
     );
@@ -89,11 +96,15 @@ class Body extends StatelessWidget {
             EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(10)),
         title: Text(
           '내 댓글',
-          style: TextStyle(color: Color(0xff111111), fontSize: resizeFont(14)),
+          style: TextStyle(
+              color: Color(0xff111111),
+              fontSize: resizeFont(16),
+              fontWeight: FontWeight.w500),
         ),
         trailing: Icon(
           CupertinoIcons.chevron_forward,
-          size: getProportionateScreenWidth(18),
+          size: getProportionateScreenWidth(20),
+          color: Color(0xff767676),
         ),
       ),
     );
