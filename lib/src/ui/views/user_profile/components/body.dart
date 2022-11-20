@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/goto_chatroom_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/user_info.dart';
+import 'package:zamongcampus/src/ui/views/user_profile/components/user_info_has_interests.dart';
 
 class Body extends StatelessWidget {
   final UserProfileDemandSurveyViewModel vm;
@@ -17,9 +20,20 @@ class Body extends StatelessWidget {
             child: NestedScrollView(
           controller: vm.userProfileScrollController,
           headerSliverBuilder: (context, innerBoxScrolled) => [
-            SliverPersistentHeader(delegate: UserInfo(vm: vm)),
+            SliverPersistentHeader(
+                delegate: vm.userInterests.isEmpty
+                    ? UserInfo(vm: vm)
+                    : UserInfoHasInterests(vm: vm)),
           ],
-          body: Text('피드 올 부분'),
+          body: Column(
+            children: [
+              HorizontalDividerCustom(
+                thickness: getProportionateScreenHeight(8),
+                color: const Color(0xfff0f0f6),
+              ),
+              Text('피드 올 부분'),
+            ],
+          ),
         )),
         SafeArea(
             child: hasBottomBtn

@@ -7,10 +7,9 @@ import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/show_user_interest.dart';
 
-//관심사 없는 유저
-class UserInfo extends SliverPersistentHeaderDelegate {
+class UserInfoHasInterests extends SliverPersistentHeaderDelegate {
   UserProfileDemandSurveyViewModel vm;
-  UserInfo({required this.vm});
+  UserInfoHasInterests({required this.vm});
 
   @override
   Widget build(
@@ -26,6 +25,9 @@ class UserInfo extends SliverPersistentHeaderDelegate {
           vm.userProfile.introduction == null
               ? const VerticalSpacing(of: 10)
               : _introduction(),
+          const VerticalSpacing(),
+          //관심사
+          ShowUserInterest(vm: vm, userInterests: vm.userInterests)
         ],
       ),
     );
@@ -66,27 +68,22 @@ class UserInfo extends SliverPersistentHeaderDelegate {
   }
 
   Widget _introduction() {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenWidth(5),
-      ),
-      child: Text(
-        vm.userProfile.introduction!,
-        style: TextStyle(
-          color: Color(0xff111111),
-          fontSize: resizeFont(14),
-        ),
+    return Text(
+      vm.userProfile.introduction!,
+      style: TextStyle(
+        color: Color(0xff111111),
+        fontSize: resizeFont(14),
       ),
     );
   }
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => getProportionateScreenHeight(250);
+  double get maxExtent => getProportionateScreenHeight(350);
 
   @override
   // TODO: implement minExtent
-  double get minExtent => getProportionateScreenHeight(250);
+  double get minExtent => getProportionateScreenHeight(350);
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

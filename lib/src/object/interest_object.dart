@@ -22,7 +22,8 @@ class InterestObject {
     myInterests = newInterests;
   }
 
-  static List<InterestPresentation> mapInterests(
+// 모든 관심사에 대해서 분류(기존 방식)
+  static List<InterestPresentation> mapAllInterests(
       List<Interest>? otherInterests) {
     List<InterestPresentation> interestPresentations = [];
     for (var systemInterest in InterestCode.values) {
@@ -48,6 +49,28 @@ class InterestObject {
                 " " +
                 InterestData.korNameOf(systemInterest.name),
             status: InterestStatus.NONE));
+      }
+    }
+    return interestPresentations;
+  }
+
+//open demand survey용
+  static List<InterestPresentation> mapInterests(
+      List<Interest>? otherInterests) {
+    List<InterestPresentation> interestPresentations = [];
+    for (var systemInterest in InterestCode.values) {
+      if (otherInterests!.any((otherInterest) =>
+              otherInterest.codeNum.name == systemInterest.name) &&
+          myInterests.any((otherInterest) =>
+              otherInterest.codeNum.name == systemInterest.name)) {
+        interestPresentations.add(InterestPresentation(
+            title: InterestData.korNameOf(systemInterest.name),
+            status: InterestStatus.SAME));
+      } else if (otherInterests.any((otherInterest) =>
+          otherInterest.codeNum.name == systemInterest.name)) {
+        interestPresentations.add(InterestPresentation(
+            title: InterestData.korNameOf(systemInterest.name),
+            status: InterestStatus.DIFFERENT));
       }
     }
     return interestPresentations;
