@@ -10,7 +10,10 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);
     return Scaffold(
-      appBar: SubAppbar(titleText: '설정'),
+      appBar: SubAppbar(
+        titleText: '설정',
+        isCenter: true,
+      ),
       backgroundColor: Colors.white,
       body: const Body(),
     );
