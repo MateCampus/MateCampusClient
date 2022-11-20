@@ -89,4 +89,11 @@ class FakePostService implements PostService {
     bool val = true;
     return val;
   }
+
+  @override
+  Future<List<Post>> fetchUserPosts(
+      {required String targetLoginId, required int nextPageToken}) {
+    // TODO: implement fetchUserPosts
+    throw UnimplementedError();
+  }
 }

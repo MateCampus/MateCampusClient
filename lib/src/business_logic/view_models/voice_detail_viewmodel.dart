@@ -71,7 +71,7 @@ class VoiceDetailViewModel extends BaseModel {
     await presentVoiceRoom(voiceRoom);
     await initAgoraRtcEngine(voiceRoom);
     addAgoraEventHandlers(_engine!);
-    unsubscribeFn = StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
+    unsubscribeFn = await StompObject.subscribeVoiceRoomChat(voiceRoom.roomId!);
 
     saveExistingUsers(voiceRoom.memberInfos!);
     setBusy(false);
@@ -351,15 +351,16 @@ class VoiceDetailViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void resetData() {
-    // 1. agora 해제 2. stomp unsubscribe 3. server participant에서 제거
-    //TODO: 4. recentTalkuser 추가해야함!!!
-    if (!isFull) {
-      leaveChannel();
-      unsubscribeFn!(unsubscribeHeaders: AuthService.get_auth_header());
-      _voiceService.exitVoiceRoom(id: voiceRoom.id);
-    }
-  }
+  ///헤더 부분때문에.. 바꿔줘야할것같은데  일단 보이스를 안쓰니까 주석처리~~~
+  // void resetData() {
+  //   // 1. agora 해제 2. stomp unsubscribe 3. server participant에서 제거
+  //   //TODO: 4. recentTalkuser 추가해야함!!!
+  //   if (!isFull) {
+  //     leaveChannel();
+  //     unsubscribeFn!(unsubscribeHeaders: AuthService.get_auth_header());
+  //     _voiceService.exitVoiceRoom(id: voiceRoom.id);
+  //   }
+  // }
 }
 
 class VoiceRoomPresentation {

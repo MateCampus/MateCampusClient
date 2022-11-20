@@ -22,18 +22,22 @@ import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
 import '../business_logic/arguments/post_detail_screen_args.dart';
 import '../business_logic/models/enums/messageType.dart';
 
+//TODO: 지금 헤더쓰는 부분들을 죄다 async로 바꿨는데 이러면 속도적인 부분에서 느려지지 않는지 확인이 필요함. 특히 채팅 메세지 보내는 부분..
 class StompObject {
   static late StompClient _stompClient;
 
   static StompClient get stompClient => _stompClient;
 
-  static connectStomp() {
+  static Future<void> connectStomp() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     print("stomp init start");
     _stompClient = StompClient(
       config: StompConfig.SockJS(
@@ -43,8 +47,10 @@ class StompObject {
           print('stomp 연결 중 ...');
         },
         onWebSocketError: (dynamic error) => print(error.toString()),
-        stompConnectHeaders: AuthService.get_auth_header(),
-        webSocketConnectHeaders: AuthService.get_auth_header(),
+        stompConnectHeaders: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
+        webSocketConnectHeaders: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
       ),
     );
     _stompClient.activate(); // 서버 실행
@@ -130,7 +136,10 @@ class StompObject {
   }
 
   // roomId로 오는 메세지
-  static void subscribeChatRoom(String? roomId) {
+  static Future<void> subscribeChatRoom(String? roomId) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
+
     ChatService _chatService = serviceLocator<ChatService>();
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
 
@@ -139,7 +148,8 @@ class StompObject {
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
     dynamic unsubscribeFn = stompClient.subscribe(
-      headers: AuthService.get_auth_header(),
+      headers: AuthService.get_auth_header(
+          accessToken: accessToken, refreshToken: refreshToken),
       destination: '/sub/chat/room/$roomId',
       callback: (frame) {
         // ** 메시지 도착 시점
@@ -307,8 +317,10 @@ class StompObject {
     stompClient.deactivate();
   }
 
-  static void sendMessage(
-      String roomId, String text, String type, String chatRoomType) {
+  static Future<void> sendMessage(
+      String roomId, String text, String type, String chatRoomType) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     print("-----메세지 전송 => 내용: $text, 방번호: ${roomId}");
     stompClient.send(
         destination: '/pub/chat/message',
@@ -319,7 +331,8 @@ class StompObject {
           "type": type,
           "chatRoomType": chatRoomType,
         }),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
   }
 
   static void _changeMemberInfo(ChatMemberInfo chatMemberInfo) async {
@@ -367,9 +380,12 @@ class StompObject {
     });
   }
 
-  static StompUnsubscribe subscribeVoiceRoomChat(String roomId) {
+  static Future<StompUnsubscribe> subscribeVoiceRoomChat(String roomId) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     StompUnsubscribe unsubscribeFn = stompClient.subscribe(
-        headers: AuthService.get_auth_header(),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
         destination: '/sub/chat/room/$roomId',
         callback: (frame) {
           VoiceDetailViewModel voiceDetailViewModel =

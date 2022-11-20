@@ -10,6 +10,7 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,20 +20,28 @@ import '../utils/constants.dart';
 /// 그렇지 않다면 ChangeNotifier를 뺴도 될 듯. (22.04.30)
 class AuthService extends ChangeNotifier {
   static String? _loginId;
-  static String? _token;
+  static String? _acccesToken;
+  static String? _refreshToken;
 
-  bool get isLogined => _token?.isNotEmpty ?? false;
+  bool get isLogined => _acccesToken?.isNotEmpty ?? false;
   static String? get loginId => _loginId;
-  static String? get token => _token;
+  static String? get token => _acccesToken;
+  static String? get refreshToken => _refreshToken;
 
   /// login하면서 loginId(user)에 해당되는 데이터들 불러옴
-  /// 1. token,loginId 값 넣기
+  /// 1. access token,refresh token,loginId 값 넣기
   /// 2. 밀린 메시지 불러오고, 채팅방 초기화(+채팅방 불러오기)
   /// 3. 추천친구,추천대화방 load (이건 추후 변경할수도. 주석처리)
   static Future<void> setGlobalLoginIdTokenAndInitUserData(
-      {required String token, required String loginId}) async {
+      {required String loginId,
+      required String token,
+      required String refreshToken}) async {
     _loginId = loginId;
-    _token = token;
+    _acccesToken = token;
+    _refreshToken = refreshToken;
+
+    print(
+        'setGlobal data/ loginId: $_loginId /accessToken: $_acccesToken /refreshToken: $_refreshToken');
     HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
     await homeViewModel.loadNotificationExist();
     homeViewModel.changeCurrentIndex(0);
@@ -55,12 +64,15 @@ class AuthService extends ChangeNotifier {
   }
 
   static updateUserDeviceToken() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final body = jsonEncode({"deviceToken": FirebaseObject.deviceFcmToken});
     try {
       final response = await http.post(
           Uri.parse(devServer + "/api/user/updateDeviceToken"),
           body: body,
-          headers: AuthService.get_auth_header());
+          headers: AuthService.get_auth_header(
+              accessToken: accessToken, refreshToken: refreshToken));
       if (response.statusCode == 200) {
         print("서버 user의 devicetoken 변경 완료");
       } else {
@@ -73,7 +85,8 @@ class AuthService extends ChangeNotifier {
   }
 
   static Future<void> logout(BuildContext context) async {
-    PrefsObject.removeLoginIdAndToken();
+    await PrefsObject.deleteLoginId();
+    await SecureStorageObject.deleteAllToken();
     StompObject.deactivateStomp();
     Navigator.pushReplacementNamed(context, "/login");
     // postmainviewmodel 삭제 필요.
@@ -88,15 +101,24 @@ class AuthService extends ChangeNotifier {
     toastMessage("로그아웃하셨습니다!");
   }
 
-  static Map<String, String> get_auth_header() {
+  static Map<String, String> get_auth_header(
+      {required String? accessToken, required String? refreshToken}) {
+    print('서버로 전달하려는 헤더 accessToken: $accessToken');
+    print('서버로 전달하려는 헤더 refreshToken: $refreshToken');
     return {
       "Content-Type": "application/json",
-      "Authorization": _token!,
+      "Authorization": accessToken!,
+      "cookie": refreshToken!
     };
+  }
+
+  static Future<void> setAllTokenToAuthService() async {
+    _acccesToken = await SecureStorageObject.getAccessToken();
+    _refreshToken = await SecureStorageObject.getRefreshToken();
   }
 
   @override
   String toString() {
-    return 'AuthToken{loginId: $_loginId, token: $_token}';
+    return 'AuthToken{loginId: $_loginId, token: $_acccesToken, refreshToken: $_refreshToken}';
   }
 }

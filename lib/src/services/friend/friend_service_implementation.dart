@@ -2,6 +2,7 @@ import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/friend/friend_service_fake.dart';
 import 'dart:convert';
 import 'friend_service.dart';
@@ -10,9 +11,13 @@ import 'friend_service_fake.dart';
 class FriendServiceImpl implements FriendService {
   @override
   Future<void> requestFriend({required String targetLoginId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     var body = jsonEncode({"targetLoginId": targetLoginId});
     final response = await http.post(Uri.parse(devServer + "/api/friend"),
-        headers: AuthService.get_auth_header(), body: body);
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
+        body: body);
     if (response.statusCode == 200) {
       print('친구 신청 완료');
     } else {
@@ -22,8 +27,11 @@ class FriendServiceImpl implements FriendService {
 
   @override
   Future<List<Friend>> fetchFriends() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(Uri.parse(devServer + "/api/friend"),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       List<Friend> friends = await jsonDecode(utf8.decode(response.bodyBytes))
           .map<Friend>((json) => Friend.fromJson(json))
@@ -36,9 +44,12 @@ class FriendServiceImpl implements FriendService {
 
   @override
   Future<List<Friend>> fetchApprovedTypeFriends() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(
         Uri.parse(devServer + "/api/friend/approve"),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       List<Friend> friends = await jsonDecode(utf8.decode(response.bodyBytes))
           .map<Friend>((json) => Friend.fromJson(json))
@@ -51,10 +62,13 @@ class FriendServiceImpl implements FriendService {
 
   @override
   Future<Friend> fetchFriend(int friendId) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     // TODO: implement fetchFriend
     final response = await http.get(
         Uri.parse(devServer + "/api/friend/" + friendId.toString()),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       Friend friend =
           await Friend.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -66,10 +80,13 @@ class FriendServiceImpl implements FriendService {
 
   @override
   Future<void> approveFriend({required String targetLoginId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     var body = jsonEncode({"targetLoginId": targetLoginId});
     final response = await http.put(
         Uri.parse(devServer + "/api/friend/approve"),
-        headers: AuthService.get_auth_header(),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
         body: body);
     if (response.statusCode == 200) {
       print('친구 수락 완료');
@@ -80,9 +97,13 @@ class FriendServiceImpl implements FriendService {
 
   @override
   Future<void> refuseFriend({required String targetLoginId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     var body = jsonEncode({"targetLoginId": targetLoginId});
     final response = await http.put(Uri.parse(devServer + "/api/friend/refuse"),
-        headers: AuthService.get_auth_header(), body: body);
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
+        body: body);
     if (response.statusCode == 200) {
       print('친구 거절 완료');
     } else {

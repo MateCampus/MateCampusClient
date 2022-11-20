@@ -4,18 +4,22 @@ import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
 
 class CommentServiceImpl implements CommentService {
   @override
   Future<bool> createComment(
       {required int postId, required String body}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     String commentJson = jsonEncode({
       "body": body,
     });
     final response = await http.post(
         Uri.parse(devServer + "/api/post/" + postId.toString() + "/comment"),
-        headers: AuthService.get_auth_header(),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
         body: commentJson);
     if (response.statusCode == 201) {
       print("댓글 생성 성공");
@@ -30,11 +34,14 @@ class CommentServiceImpl implements CommentService {
       {required int postId,
       required int parentId,
       required String body}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     String nestedCommentJson = jsonEncode({"body": body, "parentId": parentId});
 
     final response = await http.post(
         Uri.parse(devServer + "/api/post/" + postId.toString() + "/comment"),
-        headers: AuthService.get_auth_header(),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
         body: nestedCommentJson);
 
     if (response.statusCode == 201) {
@@ -48,9 +55,12 @@ class CommentServiceImpl implements CommentService {
 
   @override
   Future<List<Comment>> fetchComments({required int postId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(
         Uri.parse(devServer + "/api/post/" + postId.toString() + '/comment'),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
 
     if (response.statusCode == 200) {
       List<Comment> comments = await jsonDecode(utf8.decode(response.bodyBytes))
@@ -64,8 +74,11 @@ class CommentServiceImpl implements CommentService {
 
   @override
   Future<List<Comment>> fetchMyComments() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(Uri.parse(devServer + "/api/comment/my"),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
 
     if (response.statusCode == 200) {
       List<Comment> myComments =
@@ -80,9 +93,13 @@ class CommentServiceImpl implements CommentService {
 
   @override
   Future<bool> deleteComment({required int commentId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
+
     final response = await http.delete(
         Uri.parse(devServer + "/api/comment/" + commentId.toString()),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
 
     if (response.statusCode == 204) {
       print('삭제 완료');

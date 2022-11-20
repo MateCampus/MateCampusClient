@@ -1,6 +1,7 @@
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/voice_room.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/voice/voice_service.dart';
 
 import 'package:http/http.dart' as http;
@@ -9,8 +10,11 @@ import 'dart:convert';
 class VoiceServiceImpl implements VoiceService {
   @override
   Future<List<VoiceRoom>> fetchVoiceRooms({required int nextPageToken}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(Uri.parse(devServer + "/api/voiceRoom"),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
 
     if (response.statusCode == 200) {
       List<VoiceRoom> voiceRooms =
@@ -26,9 +30,12 @@ class VoiceServiceImpl implements VoiceService {
 
   @override
   Future<VoiceRoom> fetchVoiceRoom({required int id}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(
         Uri.parse(devServer + "/api/voiceRoom/" + id.toString()),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       VoiceRoom voiceRoom =
           VoiceRoom.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
@@ -43,6 +50,8 @@ class VoiceServiceImpl implements VoiceService {
       {required String title,
       required List<String> selectedMemberLoginIds,
       required List<String> categoryCodeList}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     // 중복제거
     selectedMemberLoginIds = [
       ...{...selectedMemberLoginIds}
@@ -54,7 +63,9 @@ class VoiceServiceImpl implements VoiceService {
     });
 
     final response = await http.post(Uri.parse(devServer + "/api/voiceRoom"),
-        headers: AuthService.get_auth_header(), body: voiceRoomJson);
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
+        body: voiceRoomJson);
     if (response.statusCode == 201) {
       VoiceRoom createdVoiceRoom =
           VoiceRoom.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
@@ -68,9 +79,12 @@ class VoiceServiceImpl implements VoiceService {
 
   @override
   Future<void> exitVoiceRoom({required int id}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.put(
         Uri.parse(devServer + "/api/voiceRoom/exit/" + id.toString()),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       print('나가기 성공');
     } else {
@@ -81,6 +95,8 @@ class VoiceServiceImpl implements VoiceService {
   @override
   Future<bool> inviteUsers(
       {required int id, required List<String> selectedMemberLoginIds}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     // 중복제거
     selectedMemberLoginIds = [
       ...{...selectedMemberLoginIds}
@@ -90,7 +106,8 @@ class VoiceServiceImpl implements VoiceService {
 
     final response = await http.put(
         Uri.parse(devServer + "/api/voiceRoom/" + id.toString() + "/invite"),
-        headers: AuthService.get_auth_header(),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
         body: voiceRoomJson);
     if (response.statusCode == 204) {
       print("초대 성공");

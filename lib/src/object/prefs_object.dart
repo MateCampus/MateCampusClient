@@ -5,10 +5,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 // 없다면 굳이 구분지을 필요 없이. 한 곳에 두는 것이 좋다(authservice와 storagekeys)
 // 4.6(목)
 class StorageKeys {
-  static const String token = "TOKEN";
+  // static const String token = "TOKEN";
   static const String loginId = "LOGINID";
   static const String totalLastMsgCreatedAt = "TOTALLASTMSGCREATEDAT";
   static const String recentTalkUsers = "RECENTTALKUSERS";
+
+  static const String cookie = "COOKIE";
 }
 
 class PrefsObject {
@@ -21,23 +23,32 @@ class PrefsObject {
     return _prefs;
   }
 
+  ///getter, setter for cookie -> 쿠키를 ;를 기준으로 잘라서 리스트에다 넣어둔 것. 그 중 첫번째가 refresh토큰 값인데
+  ///이 값은 SecureStorage에도 저장을 해둔다. 혹시 몰라서 전체 잘라진 쿠키도 여기다 저장해두는 것.
+
+  static List<String>? getCookie() {
+    return _prefs.getStringList(StorageKeys.cookie);
+  }
+
+  static void setCookie(List<String> cookies) async {
+    _prefs.setStringList(StorageKeys.cookie, cookies);
+  }
+
   /// getter, setter for loginId, token
   static Future<String?> getLoginId() async {
     return _prefs.getString(StorageKeys.loginId);
   }
 
-  static Future<String?> getToken() async {
-    return _prefs.getString(StorageKeys.token);
-  }
+  // static Future<String?> getToken() async {
+  //   return _prefs.getString(StorageKeys.token);
+  // }
 
-  static void setPrefsLoginIdToken(String loginId, String token) async {
+  static Future<void> setPrefsLoginId(String loginId) async {
     _prefs.setString(StorageKeys.loginId, loginId);
-    _prefs.setString(StorageKeys.token, token);
   }
 
-  static void removeLoginIdAndToken() async {
+  static Future<void> deleteLoginId() async {
     _prefs.remove(StorageKeys.loginId);
-    _prefs.remove(StorageKeys.token);
   }
 
   /// getter, setter for totalLastMsgCreatedAt

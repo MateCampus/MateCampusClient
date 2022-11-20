@@ -5,6 +5,7 @@ import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/services/chat/sqflite/chatMemberInfo_db_helper.dart';
@@ -23,9 +24,13 @@ class ChatServiceImpl implements ChatService {
 
   @override
   createOrGetChatRoom({required String otherLoginId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final jsonBody = jsonEncode({"otherLoginId": otherLoginId});
     final response = await http.post(Uri.parse(devServer + "/api/chat/room"),
-        body: jsonBody, headers: AuthService.get_auth_header());
+        body: jsonBody,
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 201) {
       var res = await jsonDecode(utf8.decode(response.bodyBytes));
       // ChatRoom, MemberInfo, ChatRoomMemberInfo 3가지 만들어서 보내자.
@@ -63,6 +68,8 @@ class ChatServiceImpl implements ChatService {
 
   @override
   Future<dynamic> fetchUnReceivedMessages() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     String totalLastMsgCreatedAt =
         await PrefsObject.getTotalLastMsgCreatedAt() ??
             DateTime(2021, 5, 5).toIso8601String();
@@ -73,7 +80,8 @@ class ChatServiceImpl implements ChatService {
         Uri.parse(devServer +
             "/api/chat/message?totalLastMsgCreatedAt=" +
             totalLastMsgCreatedAt),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       dynamic newMessages = jsonDecode(utf8.decode(response.bodyBytes));
       // 여기서 json으로 변경 해야해ㅐㅐㅐㅐㅐ!!
