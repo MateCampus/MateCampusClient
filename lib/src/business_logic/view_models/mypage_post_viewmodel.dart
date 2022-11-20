@@ -13,20 +13,21 @@ import 'package:zamongcampus/src/services/post/post_service.dart';
 
 import '../utils/post_category_data.dart';
 
+///TODO: 추후에 북마크 기능이 추가된다면 여길 아예 분리해버리는게 나을 수도 있다.
 class MypagePostViewModel extends BaseModel {
-  bool isInit = false;
   final PostService _postService = serviceLocator<PostService>();
-  List<PostPresentation> _myPosts = List.empty(growable: true);
-  final ScrollController _scrollController = ScrollController();
-  int _nextPageToken = 0;
   final _myPostRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  final ScrollController _scrollController = ScrollController();
+  List<PostPresentation> _myPosts = List.empty(growable: true);
   //List<PostPresentation> _myFeedPosts = List.empty(growable: true);
+  bool isInit = false;
+  int _nextPageToken = 0;
 
   List<PostPresentation> get myPosts => _myPosts;
+  // List<PostPresentation> get myFeedPosts => _myFeedPosts;
   ScrollController get myPostScrollController => _scrollController;
   GlobalKey<RefreshIndicatorState> get myPostMainKey =>
       _myPostRefreshIndicatorKey;
-  // List<PostPresentation> get myFeedPosts => _myFeedPosts;
 
   final RegExp bodyRegexp = RegExp(r"\n+");
 
