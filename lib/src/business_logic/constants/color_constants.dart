@@ -3,8 +3,8 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 const kMainColor = Color(0xFFFF6F5E);
 const kSubColor = Color(0xFFFFC45E);
-final kAppBarIconColor = Colors.black.withOpacity(0.7);
-final kAppBarTextColor = Colors.black.withOpacity(0.9);
+const kAppBarIconColor = Color(0xff111111);
+const kAppBarTextColor = Color(0xff111111);
 const kMainScreenBackgroundColor = Colors.white;
 const kSubScreenBackgroundColor = Colors.white;
 const kPostBtnColor = Color(0xff818181);

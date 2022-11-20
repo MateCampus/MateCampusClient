@@ -35,6 +35,7 @@ class _MypageCommentScreenState extends State<MypageCommentScreen> {
           return Scaffold(
             appBar: SubAppbar(
               titleText: "내 댓글",
+              isCenter: true,
             ),
             backgroundColor: kSubScreenBackgroundColor,
             body: SafeArea(

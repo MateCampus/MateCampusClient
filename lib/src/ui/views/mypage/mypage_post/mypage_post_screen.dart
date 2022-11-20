@@ -45,6 +45,7 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
           return Scaffold(
             appBar: SubAppbar(
               titleText: (widget.isFrom == "BookMark") ? "북마크" : "내 피드",
+              isCenter: true,
             ),
             backgroundColor: kSubScreenBackgroundColor,
             body: SafeArea(
