@@ -8,26 +8,20 @@ class ReportTileText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-          left: getProportionateScreenWidth(5),
-          bottom: getProportionateScreenHeight(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '\u{1F6A8} 신고 사유 선택',
-            style: TextStyle(
-                fontWeight: FontWeight.w700, fontSize: kTitleFontSize),
-          ),
-          const VerticalSpacing(of: 5),
-          Text(
-            '정확한 사유 1개를 선택해주세요.',
-            style: TextStyle(
-                fontSize: resizeFont(12), color: Colors.black.withOpacity(0.6)),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        Text(
+          '\u{1F6A8} 신고 사유 선택',
+          style:
+              TextStyle(fontWeight: FontWeight.w700, fontSize: kTitleFontSize),
+        ),
+        const VerticalSpacing(of: 5),
+        Text(
+          '정확한 사유 1개를 선택해주세요.',
+          style: TextStyle(
+              fontSize: resizeFont(12), color: Colors.black.withOpacity(0.6)),
+        ),
+      ],
     );
   }
 }

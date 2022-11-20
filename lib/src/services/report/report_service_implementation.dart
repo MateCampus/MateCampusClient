@@ -72,4 +72,31 @@ class ReportServiceImpl implements ReportService {
       return "실패";
     }
   }
+
+  @override
+  Future<bool> report(
+      {required String targetUserLoginId,
+      required String body,
+      required String reportCategoryIndex}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
+
+    String reportJson = jsonEncode({
+      "targetUserId": targetUserLoginId,
+      "reportContent": body,
+      "reportCategory": reportCategoryIndex
+    });
+
+    final response = await http.post(Uri.parse(devServer + "/api/report"),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
+        body: reportJson);
+    //TODO: 이거 원래 201인게 맞다. 근데 미친 왜 자꾸 여기서는 200으로 넘어오는지 모르겠음.. 일단 해결방법 알기 전까지는 200으로 해둠
+    if (response.statusCode == 200) {
+      print('신고 성공');
+      return true;
+    } else {
+      throw Exception("신고하기 오류");
+    }
+  }
 }

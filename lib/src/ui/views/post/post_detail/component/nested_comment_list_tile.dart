@@ -10,6 +10,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/commemt_deleted_msg.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report/report_form.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_post/report_post_form.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
@@ -204,7 +205,9 @@ class NestedCommentListTile extends StatelessWidget {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ReportPostForm(commentId: nestedComment.id);
+                        return ReportForm(
+                            targetUserLoginId: nestedComment.loginId,
+                            reportCategoryIndex: "3");
                       });
                 },
               ),

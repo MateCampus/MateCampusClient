@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_v
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/post_deleted_msg.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report/report_form.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_post/report_post_form.dart';
 import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
@@ -116,7 +117,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ReportPostForm(postId: vm.postDetail.id);
+                        return ReportForm(
+                            targetUserLoginId: vm.postDetail.loginId,
+                            reportCategoryIndex: "2");
                       });
                 },
               ),
