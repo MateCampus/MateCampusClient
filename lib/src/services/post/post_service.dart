@@ -18,6 +18,8 @@ abstract class PostService {
   Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds();
   Future<List<Post>> fetchBookmarkPosts({required int nextPageToken});
   Future<List<Post>> fetchMyPosts({required int nextPageToken});
+  Future<List<Post>> fetchUserPosts(
+      {required String targetLoginId, required int nextPageToken});
   Future<List<User>> fetchLikedUsers({required int postId});
   Future<Map<String, int>> likePost({required int postId});
   Future<int> bookMarkPost({required int postId});
