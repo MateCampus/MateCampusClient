@@ -15,36 +15,39 @@ class ShowUserInterest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '관심사',
-          style: TextStyle(
-              color: Color(0xff776677),
-              fontSize: resizeFont(14),
-              fontWeight: FontWeight.w500),
-        ),
-        const VerticalSpacing(of: 10),
-        Wrap(
-          alignment: WrapAlignment.start,
-          runSpacing: getProportionateScreenHeight(10),
-          spacing: getProportionateScreenWidth(8),
-          children: [
-            ...userInterests.map((interest) {
-              switch (interest.status) {
-                case InterestStatus.SAME:
-                  return _sameChip(interest);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '관심사',
+            style: TextStyle(
+                color: Color(0xff776677),
+                fontSize: resizeFont(14),
+                fontWeight: FontWeight.w500),
+          ),
+          const VerticalSpacing(of: 10),
+          Wrap(
+            alignment: WrapAlignment.start,
+            runSpacing: getProportionateScreenHeight(10),
+            spacing: getProportionateScreenWidth(8),
+            children: [
+              ...userInterests.map((interest) {
+                switch (interest.status) {
+                  case InterestStatus.SAME:
+                    return _sameChip(interest);
 
-                case InterestStatus.DIFFERENT:
-                  return _differentChip(interest);
-                default: //status.none 상태인데 바뀐 정책에서는 안보여주니까 그냥 이렇게두자.
-                  return const SizedBox();
-              }
-            })
-          ],
-        ),
-      ],
+                  case InterestStatus.DIFFERENT:
+                    return _differentChip(interest);
+                  default: //status.none 상태인데 바뀐 정책에서는 안보여주니까 그냥 이렇게두자.
+                    return const SizedBox();
+                }
+              })
+            ],
+          ),
+        ],
+      ),
     );
   }
 

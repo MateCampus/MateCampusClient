@@ -6,9 +6,11 @@ import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/goto_chatroom_btn.dart';
 import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/body.dart';
+import 'package:zamongcampus/src/ui/views/user_profile/components/chat_btn.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static const routeName = "/userProfile";
@@ -29,8 +31,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   void initState() {
-    vm.loadUserProfile(widget.loginId);
+    vm.initData(widget.loginId);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    serviceLocator.resetLazySingleton<UserProfileDemandSurveyViewModel>(
+        instance: vm);
+    super.dispose();
   }
 
   @override
@@ -54,7 +63,15 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
           backgroundColor: kMainScreenBackgroundColor,
           body: vm.busy
               ? const IsLoading()
-              : Body(vm: vm, hasBottomBtn: widget.hasBottomBtn),
+              : Body(
+                  vm: vm,
+                  hasBottomBtn: widget.hasBottomBtn,
+                  userLoginId: widget.loginId),
+          floatingActionButton: widget.hasBottomBtn
+              ? ChatBtn(profileLoginId: vm.userProfile.loginId)
+              : const SizedBox(),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         );
       }),
     );
