@@ -1,4 +1,4 @@
 abstract class LoginService {
-  Future<dynamic> login({required String id, required String password});
-  Future<dynamic> checkTokenValidation();
+  Future<bool> login({required String id, required String password});
+  Future<void> reissueToken();
 }

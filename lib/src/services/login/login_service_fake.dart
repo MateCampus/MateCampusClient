@@ -6,18 +6,19 @@ import 'package:zamongcampus/src/services/login/login_service.dart';
 
 class FakeLoginService implements LoginService {
   @override
-  Future login({required String id, required String password}) async {
+  Future<bool> login({required String id, required String password}) async {
     Map<String, String> body = HashMap();
     body.putIfAbsent("loginId", () => id);
     body.putIfAbsent(
         "password", () => sha256.convert(utf8.encode(password)).toString());
     print("fake login");
-    return FakeRes(
-        statusCode: 200, headers: {"authorization": "fakeauthtoken"});
+    return true;
+    // FakeRes(
+    //     statusCode: 200, headers: {"authorization": "fakeauthtoken"});
   }
 
   @override
-  Future checkTokenValidation() {
+  Future<void> reissueToken() async {
     // TODO: implement checkTokenValidation
     throw UnimplementedError();
   }
