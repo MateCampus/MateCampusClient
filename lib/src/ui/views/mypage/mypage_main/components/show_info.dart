@@ -25,27 +25,12 @@ class ShowInfo extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  vm.changedProfileImgPath.isEmpty
-                      ? CircleImageBtn(
-                          imageUrl: vm.myInfo.imageUrl,
-                          press: () {
-                            showOriginalProfileImage(
-                                context,
-                                vm.changedProfileImgPath.isEmpty
-                                    ? vm.myInfo.imageUrl
-                                    : vm.changedProfileImgPath);
-                          },
-                          size: getProportionateScreenHeight(95))
-                      : CircleImageBtn(
-                          imageUrl: vm.changedProfileImgPath,
-                          press: () {
-                            showOriginalProfileImage(
-                                context,
-                                vm.changedProfileImgPath.isEmpty
-                                    ? vm.myInfo.imageUrl
-                                    : vm.changedProfileImgPath);
-                          },
-                          size: getProportionateScreenHeight(95)),
+                  CircleImageBtn(
+                      imageUrl: vm.myInfo.imageUrl,
+                      press: () {
+                        showOriginalProfileImage(context, vm.myInfo.imageUrl);
+                      },
+                      size: getProportionateScreenHeight(95)),
                   Positioned(
                     bottom: 1,
                     right: -1,

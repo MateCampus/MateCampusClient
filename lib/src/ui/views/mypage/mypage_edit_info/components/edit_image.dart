@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
@@ -23,7 +24,7 @@ class _EditImageState extends State<EditImage> {
         children: [
           CircleAvatar(
               backgroundColor: Colors.grey,
-              radius: getProportionateScreenHeight(50),
+              radius: getProportionateScreenHeight(70),
               backgroundImage: (widget.vm.changedProfileImgPath.isEmpty)
                   ? widget.vm.myInfo.imageUrl.startsWith('https')
                       ? CachedNetworkImageProvider(widget.vm.myInfo.imageUrl)
@@ -41,8 +42,8 @@ class _EditImageState extends State<EditImage> {
                   widget.vm.getProfileImgFromGallery();
                 },
                 child: Container(
-                  width: getProportionateScreenWidth(30),
-                  height: getProportionateScreenHeight(30),
+                  width: getProportionateScreenWidth(35),
+                  height: getProportionateScreenHeight(35),
                   decoration: BoxDecoration(
                     color: kMainColor,
                     shape: BoxShape.circle,
@@ -52,7 +53,7 @@ class _EditImageState extends State<EditImage> {
                         style: BorderStyle.solid),
                   ),
                   child: Icon(
-                    Icons.add,
+                    CupertinoIcons.camera_fill,
                     color: Colors.white,
                     size: getProportionateScreenHeight(15),
                   ),
