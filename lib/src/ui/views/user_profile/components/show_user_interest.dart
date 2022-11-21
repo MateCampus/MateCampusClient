@@ -30,8 +30,8 @@ class ShowUserInterest extends StatelessWidget {
           const VerticalSpacing(of: 10),
           Wrap(
             alignment: WrapAlignment.start,
-            runSpacing: getProportionateScreenHeight(10),
-            spacing: getProportionateScreenWidth(8),
+            runSpacing: getProportionateScreenHeight(8),
+            spacing: getProportionateScreenWidth(6),
             children: [
               ...userInterests.map((interest) {
                 switch (interest.status) {
@@ -58,9 +58,9 @@ class ShowUserInterest extends StatelessWidget {
       visualDensity: const VisualDensity(vertical: -2),
       label: Text(interest.title),
       labelStyle: TextStyle(
-        fontSize: resizeFont(14),
+        fontSize: resizeFont(12),
         color: const Color(0xff111111),
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
       ),
       backgroundColor: const Color(0xffE5E5EC),
       side: const BorderSide(color: Color(0xffE5E5EC), width: 1.2),
@@ -74,9 +74,9 @@ class ShowUserInterest extends StatelessWidget {
       visualDensity: const VisualDensity(vertical: -2),
       label: Text(interest.title),
       labelStyle: TextStyle(
-        fontSize: resizeFont(14),
+        fontSize: resizeFont(12),
         color: Colors.white,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w400,
       ),
       backgroundColor: kMainColor,
       side: const BorderSide(color: kMainColor, width: 1.2),

@@ -12,63 +12,61 @@ class SelectInterests extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
-      child: ListView(
-        children: [
-          Center(
-            child: Wrap(
-              runSpacing: getProportionateScreenHeight(15), //세로 간격
-              spacing: getProportionateScreenWidth(25),
-              children: [
-                ...vm.systemInterests.map((interest) => interest.isSelected
-                    ? Column(
-                        children: [
-                          ChoiceChip(
-                            label: SelectedInterestChip(icon: interest.icon),
-                            selected: interest.isSelected,
-                            selectedColor: Colors.white,
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.zero,
-                            labelPadding: EdgeInsets.zero,
-                            onSelected: (bool value) {
-                              vm.selectInterest(interest, value);
-                            },
+    return ListView(
+      children: [
+        Center(
+          child: Wrap(
+            alignment: WrapAlignment.spaceAround,
+            runSpacing: getProportionateScreenHeight(15), //세로 간격
+            spacing: getProportionateScreenWidth(25),
+            children: [
+              ...vm.systemInterests.map((interest) => interest.isSelected
+                  ? Column(
+                      children: [
+                        ChoiceChip(
+                          label: SelectedInterestChip(icon: interest.icon),
+                          selected: interest.isSelected,
+                          selectedColor: Colors.white,
+                          backgroundColor: Colors.white,
+                          padding: EdgeInsets.zero,
+                          labelPadding: EdgeInsets.zero,
+                          onSelected: (bool value) {
+                            vm.selectInterest(interest, value);
+                          },
+                        ),
+                        Text(
+                          interest.title,
+                          style: TextStyle(
+                            fontSize: kInterestTextFontSize,
                           ),
-                          Text(
-                            interest.title,
-                            style: TextStyle(
-                              fontSize: kInterestTextFontSize,
-                            ),
-                          )
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          ChoiceChip(
-                            label: UnselectedInterestChip(icon: interest.icon),
-                            selected: interest.isSelected,
-                            selectedColor: Colors.white,
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.zero,
-                            labelPadding: EdgeInsets.zero,
-                            onSelected: (bool value) {
-                              vm.selectInterest(interest, value);
-                            },
+                        )
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        ChoiceChip(
+                          label: UnselectedInterestChip(icon: interest.icon),
+                          selected: interest.isSelected,
+                          selectedColor: Colors.white,
+                          backgroundColor: Colors.white,
+                          padding: EdgeInsets.zero,
+                          labelPadding: EdgeInsets.zero,
+                          onSelected: (bool value) {
+                            vm.selectInterest(interest, value);
+                          },
+                        ),
+                        Text(
+                          interest.title,
+                          style: TextStyle(
+                            fontSize: kInterestTextFontSize,
                           ),
-                          Text(
-                            interest.title,
-                            style: TextStyle(
-                              fontSize: kInterestTextFontSize,
-                            ),
-                          )
-                        ],
-                      ))
-              ],
-            ),
-          )
-        ],
-      ),
+                        )
+                      ],
+                    ))
+            ],
+          ),
+        )
+      ],
     );
   }
 }

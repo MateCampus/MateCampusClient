@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 
@@ -13,59 +15,57 @@ class Certification extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '학생증 인증',
-            style: TextStyle(
-                fontSize: kLabelFontSize,
-                color: Colors.black54,
-                fontWeight: FontWeight.w500),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(10)),
-            child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-                _selectPhoto(context);
-              },
-              child: Container(
-                  height: getProportionateScreenHeight(200),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: kTextFieldColor,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          '학생증 인증',
+          style: kLabelTextStyle,
+        ),
+        Padding(
+          padding:
+              EdgeInsets.symmetric(vertical: getProportionateScreenHeight(10)),
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              _selectPhoto(context);
+            },
+            child: Container(
+                height: getProportionateScreenHeight(200),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Color(0xffe5e5ec)),
                     borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: (vm.studentIdImgPath == '')
-                      ? const Center(
-                          child: Icon(
-                          Icons.add,
-                          color: Color(0xFFADADAD),
-                          size: 30,
-                        ))
-                      : Image.file(
-                          File(vm.studentIdImgPath),
-                          fit: BoxFit.cover,
-                        )),
-            ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 0,
+                        blurRadius: 6,
+                        offset: Offset(2, 4), // changes position of shadow
+                      ),
+                    ]),
+                child: (vm.studentIdImgPath == '')
+                    ? const Center(
+                        child: Icon(
+                        CupertinoIcons.add,
+                        color: Color(0xFF767676),
+                        size: 30,
+                      ))
+                    : Image.file(
+                        File(vm.studentIdImgPath),
+                        fit: BoxFit.cover,
+                      )),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(10)),
-            child: Text(
-              '인증은 최대 24시간이 소요될 수 있습니다',
-              style: TextStyle(
-                  fontSize: kLabelFontSize,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w500),
-            ),
-          )
-        ],
-      ),
+        ),
+        Text(
+          '인증은 최대 24시간이 소요될 수 있습니다',
+          style: TextStyle(
+              fontSize: kLabelFontSize,
+              color: Color(0xff767676),
+              fontWeight: FontWeight.w500),
+        )
+      ],
     );
   }
 

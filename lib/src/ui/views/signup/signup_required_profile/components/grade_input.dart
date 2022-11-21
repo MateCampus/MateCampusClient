@@ -1,27 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
-import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
-class UserPasswordInput extends StatefulWidget {
+class GradeInput extends StatefulWidget {
   final SignUpViewModel vm;
-  const UserPasswordInput({Key? key, required this.vm}) : super(key: key);
+  const GradeInput({Key? key, required this.vm}) : super(key: key);
 
   @override
-  _UserPasswordInputState createState() => _UserPasswordInputState();
+  _GradeInputState createState() => _GradeInputState();
 }
 
-class _UserPasswordInputState extends State<UserPasswordInput> {
+class _GradeInputState extends State<GradeInput> {
   @override
   void initState() {
     super.initState();
 
-    widget.vm.userPwController.addListener(() {});
+    widget.vm.userGradeController.addListener(() {});
   }
 
   @override
@@ -30,7 +25,7 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '비밀번호',
+          '학년',
           style: kLabelTextStyle,
         ),
         TextFormField(
@@ -38,16 +33,12 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.next,
           style: TextStyle(fontSize: kLabelFontSize),
-          controller: widget.vm.userPwController,
+          controller: widget.vm.userGradeController,
           maxLines: 1,
-          autovalidateMode:
-              AutovalidateMode.onUserInteraction, //값이 들어오는 순간부터 자동 유효성 검사
-          validator: (value) => widget.vm.pwValidator(value),
+
           autocorrect: false,
-          obscureText: true,
-          obscuringCharacter: '*',
           decoration: InputDecoration(
-            hintText: "비밀번호를 입력해주세요",
+            hintText: "학년을 입력해주세요.(ex. 1학년)",
             hintStyle: TextStyle(
                 color: const Color(0xFF999999),
                 fontSize: kTextFieldInnerFontSize),

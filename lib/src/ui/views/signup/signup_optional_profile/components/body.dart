@@ -3,6 +3,7 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/sign_up_rich_text.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/select_profile_image.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/components/user_introduce_input.dart';
@@ -17,6 +18,7 @@ class Body extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            controller: vm.optionalProfileScrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: getProportionateScreenWidth(20),
@@ -24,10 +26,11 @@ class Body extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const VerticalSpacing(of: 30),
+                  const SignUpRichText(colorText: '프로필', postPositionText: '을'),
+                  const VerticalSpacing(of: 30),
                   SelectProfileImage(vm: vm),
-                  const VerticalSpacing(
-                    of: 20,
-                  ),
+                  const VerticalSpacing(of: 30),
                   UserIntroduceInput(vm: vm)
                 ],
               ),
@@ -36,25 +39,12 @@ class Body extends StatelessWidget {
         ),
         SafeArea(
           child: BottomFixedBtnDecoBox(
-            child:
-                // (vm.userImgPath != '' && vm.userIntroduceController.text != '')
-                //     ? DefaultBtn(
-                //         text: '회원가입 완료',
-                //         press: () {
-                //           vm.createUser(context);
-                //         },
-                //       )
-                //     : DefaultBtn(
-                //         text: '회원가입 완료',
-                //         btnColor: Colors.grey.withOpacity(0.5),
-                //         press: () {
-                //           vm.createUser(context);
-                //         },
-                //       ),
-                DefaultBtn(
-              text: '회원가입 완료',
+            child: DefaultBtn(
+              text: '건너뛰기',
               press: () {
-                vm.createUser(context);
+                // FocusScope.of(context).unfocus();
+                Navigator.pushNamed(context, "/signUpInterest");
+                // vm.createUser(context);
               },
             ),
           ),

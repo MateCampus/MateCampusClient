@@ -85,6 +85,16 @@ class SignUpViewModel extends BaseModel {
   TextEditingController get userNicknameController => _userNicknameController;
   bool get isValidNickname => _isValidNickname;
 
+  //학년 관련 변수
+  final TextEditingController _userGradeController = TextEditingController();
+  TextEditingController get userGradeController => _userGradeController;
+
+  //성별 관련 변수
+
+  //생년월일 관련 변수
+  final TextEditingController _userBirthDayController = TextEditingController();
+  TextEditingController get userBirthDayController => _userBirthDayController;
+
   ///관심사 관련 변수
   static final List<InterestPresentation> _systemInterests = InterestCode.values
       .map((interestCode) => InterestPresentation(
@@ -109,8 +119,12 @@ class SignUpViewModel extends BaseModel {
 
   ///scrollController
   //college 페이지에서 사용
-  final ScrollController _scrollController = ScrollController();
-  ScrollController get scrollController => _scrollController;
+  final ScrollController _collegeScrollController = ScrollController();
+  ScrollController get collegeScrollController => _collegeScrollController;
+  //opntional 페이지에서 사용
+  final ScrollController _optionalProfileScrollController = ScrollController();
+  ScrollController get optionalProfileScrollController =>
+      _optionalProfileScrollController;
 
   ///overlay
   //college 페이지에서 사용
@@ -120,34 +134,41 @@ class SignUpViewModel extends BaseModel {
   final LayerLink majorLayerLink = LayerLink();
 
   // 아이디 중복확인
-  void checkIdRedundancy() async {
+  Future<void> checkIdRedundancy(BuildContext context) async {
+    FocusScope.of(context).unfocus();
     bool value =
         await _signUpService.checkIdRedundancy(id: _userIdController.text);
     _isValidId = value;
-    _userIdFormKey.currentState!.validate(); //유효성 검사
+    _userIdFormKey.currentState!
+        .validate(); //유효성 검사 -> 결국 여기서 idValidator가 실행됨.
   }
 
   //아이디 validator
-  String? idValidator(String? value) {
-    if (value!.length < 5) {
-      _isValidId = false;
-      toastMessage('아이디는 5자 이상이어야 합니다');
+  String? idValidator(String? value, BuildContext context) {
+    if (_isValidId && _isValidPW) {
+      //다음페이지로 이동
+      Navigator.pushNamed(context, "/signUpCollege");
       return null;
-    } else if (value.length >= 5 && !_isValidId) {
-      _isValidId = false;
-      toastMessage('이미 사용중인 아이디 입니다');
+    } else if (_isValidId && !_isValidPW) {
       return null;
     } else {
-      toastMessage('사용 가능한 아이디입니다');
-      return null;
+      return '이미 사용중인 아이디 입니다';
     }
   }
 
   //비밀번호 validator -> 추후 정책에따라 변경. ex) 특수문자+영어+숫자
   String? pwValidator(String? value) {
     if (value!.length < 5) {
+      _isValidPW = false;
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        notifyListeners();
+      });
       return '비밀번호가 너무 짧아요!';
     } else {
+      _isValidPW = true;
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
+        notifyListeners();
+      });
       return null;
     }
   }
@@ -170,26 +191,29 @@ class SignUpViewModel extends BaseModel {
   }
 
   //닉네임 중복확인
-  void checkNicknameRedundancy() async {
+  void checkNicknameRedundancy(BuildContext context) async {
+    FocusScope.of(context).unfocus();
     bool value = await _signUpService.checkNicknameRedundancy(
         nickname: _userNicknameController.text);
     _isValidNickname = value;
-    _userNicknameFormKey.currentState!.validate(); //유효성 검사
+    _userNicknameFormKey.currentState!
+        .validate(); //유효성 검사 -> nicknameValidator실행
   }
 
   //닉네임 validator
   String? nicknameValidator(BuildContext context, String? value) {
-    if (value!.length < 2) {
-      _isValidNickname = false;
-      toastMessage('두 글자 이상 입력해주세요!');
+    //닉네임이 유효하고, 모든 항목들이 다 채워져야 다음장으로 넘어갈수있음 근데 일단 모든 항목들이 다 채워지지 않으면 다음이 활성화가 안돼야하니까..
+    //그럼 결국 닉네임의 유효성 유무만 판단하면 되는게 아닐까?
+    if (_isValidNickname) {
+      //다음페이지로 이동해야함
+      Navigator.pushNamed(context, '/signUpOptionalProfile');
+      // toastMessage('두 글자 이상 입력해주세요!');
       return null;
-    } else if (value.length >= 2 && !_isValidNickname) {
-      _isValidNickname = false;
-      toastMessage('이미 사용 중인 닉네임입니다');
-      return null;
+    } else if (!_isValidNickname) {
+      // toastMessage('이미 사용 중인 닉네임입니다');
+      return '이미 사용 중인 닉네임입니다';
     } else {
-      FocusScope.of(context).unfocus();
-      toastMessage('사용 가능한 닉네임 입니다');
+      // FocusScope.of(context).unfocus();
       return null;
     }
   }
@@ -242,9 +266,28 @@ class SignUpViewModel extends BaseModel {
   //학과 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수
   void scrollMajorFieldToTop() async {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _scrollController.animateTo(getProportionateScreenHeight(100),
+      _collegeScrollController.animateTo(getProportionateScreenHeight(220),
           duration: const Duration(milliseconds: 400),
           curve: Curves.fastOutSlowIn);
+    });
+  }
+
+  //학교 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수
+  void scrollCollegeFieldToTop() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _collegeScrollController.animateTo(getProportionateScreenHeight(120),
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.fastOutSlowIn);
+    });
+  }
+
+  //내 소개 눌렀을 때 스크롤 업 해주는 함수
+  void scrollIntroduceFieldToTop() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _optionalProfileScrollController.animateTo(
+          getProportionateScreenHeight(100),
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOut);
     });
   }
 

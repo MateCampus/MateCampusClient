@@ -173,26 +173,28 @@ class PostListTile extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
           )),
-      Positioned(
-        bottom: getProportionateScreenHeight(15),
-        right: getProportionateScreenWidth(15),
-        child: Container(
-          width: getProportionateScreenWidth(32),
-          height: getProportionateScreenHeight(24),
-          decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.7),
-              borderRadius: BorderRadius.circular((2))),
-          child: Center(
-            child: Text(
-              '+' + restImg.toString(),
-              style: TextStyle(
-                  fontSize: resizeFont(12),
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      )
+      (restImg == 0)
+          ? SizedBox()
+          : Positioned(
+              bottom: getProportionateScreenHeight(15),
+              right: getProportionateScreenWidth(15),
+              child: Container(
+                width: getProportionateScreenWidth(32),
+                height: getProportionateScreenHeight(24),
+                decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.7),
+                    borderRadius: BorderRadius.circular((2))),
+                child: Center(
+                  child: Text(
+                    '+' + restImg.toString(),
+                    style: TextStyle(
+                        fontSize: resizeFont(12),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            )
     ]);
   }
 }

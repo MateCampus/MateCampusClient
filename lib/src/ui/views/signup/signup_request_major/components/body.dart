@@ -18,7 +18,6 @@ class Body extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            controller: vm.scrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
                 vertical: getProportionateScreenHeight(20),

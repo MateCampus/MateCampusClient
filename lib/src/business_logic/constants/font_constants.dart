@@ -3,7 +3,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 //크기
 double kLabelFontSize = resizeFont(11);
-double kTextFieldInnerFontSize = resizeFont(13);
+double kTextFieldInnerFontSize = resizeFont(14);
 
 double kCreateAtFontSize = resizeFont(11);
 

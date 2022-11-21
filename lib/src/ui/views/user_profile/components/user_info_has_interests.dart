@@ -18,7 +18,7 @@ class UserInfoHasInterests extends SliverPersistentHeaderDelegate {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        VerticalSpacing(of: 15),
+        VerticalSpacing(of: 10),
         _nicknameCollegeImage(context),
         const VerticalSpacing(),
         vm.userProfile.introduction == null
@@ -30,7 +30,7 @@ class UserInfoHasInterests extends SliverPersistentHeaderDelegate {
         Spacer(),
         HorizontalDividerCustom(
           color: Color(0xfff0f0f6),
-          thickness: getProportionateScreenHeight(8),
+          thickness: getProportionateScreenHeight(10),
         ),
       ],
     );
@@ -80,6 +80,7 @@ class UserInfoHasInterests extends SliverPersistentHeaderDelegate {
         vm.userProfile.introduction!,
         style: TextStyle(
           color: Color(0xff111111),
+          height: 1.5,
           fontSize: resizeFont(14),
         ),
       ),
@@ -88,11 +89,11 @@ class UserInfoHasInterests extends SliverPersistentHeaderDelegate {
 
   @override
   // TODO: implement maxExtent
-  double get maxExtent => getProportionateScreenHeight(340);
+  double get maxExtent => getProportionateScreenHeight(380);
 
   @override
   // TODO: implement minExtent
-  double get minExtent => getProportionateScreenHeight(340);
+  double get minExtent => getProportionateScreenHeight(380);
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

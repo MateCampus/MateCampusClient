@@ -1,10 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/college_list_tile.dart';
 
 class SelectCollege extends StatefulWidget {
@@ -25,47 +29,45 @@ class _SelectCollegeState extends State<SelectCollege> {
         children: [
           Text(
             '학교',
-            style: TextStyle(
-                fontSize: kLabelFontSize,
-                color: Colors.black54,
-                fontWeight: FontWeight.w500),
+            style: kLabelTextStyle,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: getProportionateScreenHeight(10)),
-            child: CompositedTransformTarget(
-              link: widget.vm.collegeLayerLink,
-              child: TextFormField(
-                keyboardType: TextInputType.multiline,
-                style: TextStyle(
-                    fontSize: kTextFieldInnerFontSize, color: Colors.black87),
-                controller: widget.vm.collegeController,
-                maxLines: 1,
-                onTap: () {
-                  if (widget.vm.collegeOverlayEntry == null) {
-                    widget.vm
-                        .createCollegeOverlay(context, _collegeOverlayWidget());
-                  } else {
-                    widget.vm.removeCollegeOverlay();
-                  }
-                },
-                autocorrect: false,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    FontAwesomeIcons.school,
-                    color: kTextFieldHintColor,
-                    size: kTextFieldIconSizeFA,
-                  ),
-                  hintText: "학교명을 입력해주세요",
-                  hintStyle: TextStyle(
-                      color: kTextFieldHintColor,
-                      fontSize: kTextFieldInnerFontSize),
-                  fillColor: kTextFieldColor,
-                  filled: true,
-                  border: const OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
+          const VerticalSpacing(of: 15),
+          CompositedTransformTarget(
+            link: widget.vm.collegeLayerLink,
+            child: TextFormField(
+              keyboardType: TextInputType.multiline,
+              style: TextStyle(fontSize: kTextFieldInnerFontSize),
+              controller: widget.vm.collegeController,
+              maxLines: 1,
+              onTap: () {
+                widget.vm.scrollCollegeFieldToTop();
+                if (widget.vm.collegeOverlayEntry == null) {
+                  widget.vm
+                      .createCollegeOverlay(context, _collegeOverlayWidget());
+                } else {
+                  widget.vm.removeCollegeOverlay();
+                }
+              },
+              autocorrect: false,
+              decoration: InputDecoration(
+                suffixIcon: Icon(
+                  CupertinoIcons.arrowtriangle_down_fill,
+                  color: Color(0xff767676),
+                  size: kTextFieldIconSizeFA,
                 ),
+                hintText: "학교를 선택해주세요",
+                hintStyle: TextStyle(
+                    color: const Color(0xFF999999),
+                    fontSize: kTextFieldInnerFontSize),
+                enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                border: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                    borderRadius: BorderRadius.all(Radius.circular(5))),
               ),
             ),
           ),
@@ -84,15 +86,18 @@ class _SelectCollegeState extends State<SelectCollege> {
           offset: Offset(0, getProportionateScreenHeight(57)),
           child: Material(
             child: Container(
-              height: getProportionateScreenHeight(160),
+              height: getProportionateScreenHeight(220),
               decoration: BoxDecoration(
-                color: kTextFieldColor,
-                border: Border.all(color: kTextFieldHintColor, width: 0.5),
+                // color: kTextFieldColor,
+                border: Border.all(color: Color(0xffe5e5ec), width: 1),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: ListView.builder(
+              child: ListView.separated(
                 physics: const ClampingScrollPhysics(),
-                padding: EdgeInsets.zero,
+                separatorBuilder: (BuildContext context, int index) =>
+                    const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+                padding: EdgeInsets.symmetric(
+                    vertical: getProportionateScreenHeight(5)),
                 itemCount: widget.vm.searchingColleges.length,
                 itemBuilder: (context, index) {
                   return CollegeListTile(vm: widget.vm, index: index);

@@ -39,15 +39,7 @@ class Body extends StatelessWidget {
                     letterSpacing: 2,
                     fontWeight: FontWeight.w500),
               ),
-              actions: [
-                // IconButton(
-                //   onPressed: () {
-                //     Navigator.pushNamed(context, '/postCreate');
-                //   },
-                //   icon: const Icon(FontAwesomeIcons.penToSquare),
-                //   iconSize: kAppBarIconSizeFA,
-                //   color: kAppBarIconColor,
-                // ),
+              actions: const [
                 NotificationAlarmInAppbar(
                   iconColor: kAppBarIconColor,
                 )

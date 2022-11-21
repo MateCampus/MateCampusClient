@@ -12,6 +12,7 @@ import 'package:zamongcampus/src/ui/views/notification/notification_main/notific
 import 'package:zamongcampus/src/ui/views/signup/signup_account/signup_account_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_authentication/signup_authentication_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/signup_college_screen.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_interest/signup_interest_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_optional_profile/signup_optional_profile_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_request_major/signup_request_major_screen.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/signup_required_profile_screen.dart';
@@ -46,6 +47,7 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
       const SignUpRequiredProfileScreen(),
   "/signUpOptionalProfile": (BuildContext context) =>
       const SignUpOptionalProfileScreen(),
+  "/signUpInterest": (BuildContext context) => const SignUpInterestScreen(),
   "/dummy": (BuildContext context) => DummyScreen(),
   "/postCreate": (BuildContext context) => const PostCreateScreen(),
   "/mypageComment": (BuildContext context) => const MypageCommentScreen(),

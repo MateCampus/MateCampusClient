@@ -109,7 +109,7 @@ class _EditTextState extends State<EditText> {
             ),
             const VerticalSpacing(of: 15),
             Text(
-              '자기 소개',
+              '내 소개',
               style: kLabelTextStyle,
             ),
             Padding(
@@ -117,10 +117,12 @@ class _EditTextState extends State<EditText> {
                   vertical: getProportionateScreenHeight(10)),
               child: TextFormField(
                 keyboardType: TextInputType.multiline,
-                style: TextStyle(fontSize: kTextFieldInnerFontSize),
+                style:
+                    TextStyle(fontSize: kTextFieldInnerFontSize, height: 1.5),
                 controller: widget.vm.introductionController,
-                maxLines: 7,
-                maxLength: 150,
+                autocorrect: false,
+                maxLines: 5,
+                maxLength: 100,
                 decoration: InputDecoration(
                   hintText: "본인을 자유롭게 표현해주세요",
                   hintStyle: TextStyle(

@@ -7,8 +7,8 @@ double kHorizontalPadding = getProportionateScreenWidth(20);
 
 // server
 final devServer = Platform.isAndroid
-    ? "https://69df-211-33-138-227.jp.ngrok.io"
-    : "https://69df-211-33-138-227.jp.ngrok.io";
+    ? "https://a7c8-106-253-227-235.ngrok.io"
+    : "https://a7c8-106-253-227-235.ngrok.io";
 
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";

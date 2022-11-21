@@ -11,3 +11,4 @@ double kBottomNavigationBarIconSize = getProportionateScreenWidth(25);
 
 double kTextFieldIconSizeCP = getProportionateScreenWidth(16);
 double kTextFieldIconSizeFA = getProportionateScreenWidth(13.5);
+double kTextFieldIconSizeG = getProportionateScreenWidth(20);

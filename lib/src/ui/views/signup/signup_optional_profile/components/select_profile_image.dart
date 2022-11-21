@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
@@ -11,49 +12,46 @@ class SelectProfileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(20)),
-      child: SizedBox(
-        width: double.infinity,
-        child: Center(
-          child: Stack(
-            children: [
-              CircleAvatar(
-                  backgroundColor: Colors.grey,
-                  radius: getProportionateScreenHeight(50),
-                  backgroundImage: (vm.userImgPath == '')
-                      ? const AssetImage('assets/images/user/general_user.png')
-                      : vm.userImgPath.startsWith('https')
-                          ? CachedNetworkImageProvider(vm.userImgPath)
-                              as ImageProvider
-                          : AssetImage(vm.userImgPath)),
-              Positioned(
-                  bottom: 1,
-                  right: -1,
-                  child: InkWell(
-                    onTap: () {
-                      vm.getUserImgFromGallery();
-                    },
-                    child: Container(
-                      width: getProportionateScreenWidth(30),
-                      height: getProportionateScreenHeight(30),
-                      decoration: BoxDecoration(
-                        color: kMainColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            color: Colors.white,
-                            width: 3.0,
-                            style: BorderStyle.solid),
-                      ),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: getProportionateScreenHeight(15),
-                      ),
+    return SizedBox(
+      width: double.infinity,
+      child: Center(
+        child: Stack(
+          children: [
+            CircleAvatar(
+                backgroundColor: Colors.grey,
+                radius: getProportionateScreenHeight(55),
+                backgroundImage: (vm.userImgPath == '')
+                    ? const AssetImage('assets/images/user/general_user.png')
+                    : vm.userImgPath.startsWith('https')
+                        ? CachedNetworkImageProvider(vm.userImgPath)
+                            as ImageProvider
+                        : AssetImage(vm.userImgPath)),
+            Positioned(
+                bottom: 1,
+                right: -1,
+                child: InkWell(
+                  onTap: () {
+                    vm.getUserImgFromGallery();
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(35),
+                    height: getProportionateScreenHeight(35),
+                    decoration: BoxDecoration(
+                      color: kMainColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: Colors.white,
+                          width: 3.0,
+                          style: BorderStyle.solid),
                     ),
-                  ))
-            ],
-          ),
+                    child: Icon(
+                      CupertinoIcons.add,
+                      color: Colors.white,
+                      size: getProportionateScreenHeight(18),
+                    ),
+                  ),
+                ))
+          ],
         ),
       ),
     );

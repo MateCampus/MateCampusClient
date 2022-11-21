@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/sign_up_rich_text.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/certification.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/select_college.dart';
@@ -19,7 +20,7 @@ class Body extends StatelessWidget {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            controller: vm.scrollController,
+            controller: vm.collegeScrollController,
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: getProportionateScreenWidth(20),
@@ -27,9 +28,13 @@ class Body extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const VerticalSpacing(of: 30),
+                  const SignUpRichText(
+                      colorText: '학교 정보', postPositionText: '를'),
+                  const VerticalSpacing(of: 30),
                   SelectCollege(vm: vm),
                   SelectMajor(vm: vm),
-                  const VerticalSpacing(),
+                  const VerticalSpacing(of: 15),
                   Certification(vm: vm)
                 ],
               ),
