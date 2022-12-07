@@ -162,6 +162,7 @@ class StompObject {
               ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
           // 1. 메세지 저장
           _chatService.insertMessage(chatMessage);
+          print('ㅅ;빌');
           // 2. local db의 chatroom 내용 변경 => 이미 그 방 안이면 0, 아니면 1 추가
           _chatService.updateChatRoom(
               lastMsg: chatMessage.text,
