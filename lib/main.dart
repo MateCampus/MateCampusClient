@@ -9,6 +9,7 @@ import 'package:zamongcampus/src/config/route_generators.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'src/business_logic/constants/color_constants.dart';
 import 'src/config/routes.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timeago/timeago.dart' as timeago;
 // import 'firebase_options.dart';
 
@@ -45,6 +46,14 @@ class MyApp extends StatelessWidget {
           },
           title: 'zamongCampus',
           debugShowCheckedModeBanner: false,
+           localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ko', ''),
+        Locale('en', ''),
+      ],
           theme: ThemeData(primarySwatch: Palette.kToDark, fontFamily: 'Spoqa'),
           routes: routes,
           initialRoute: "/splash",
