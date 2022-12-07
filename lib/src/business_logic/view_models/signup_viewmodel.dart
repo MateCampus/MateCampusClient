@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zamongcampus/src/business_logic/models/major.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -11,7 +12,6 @@ import 'package:zamongcampus/src/services/signup/signup_service.dart';
 
 import '../models/enums/collegeCode.dart';
 import '../models/enums/interestCode.dart';
-import '../models/enums/majorCode.dart';
 
 class SignUpViewModel extends BaseModel {
   final SignUpService _signUpService = serviceLocator<SignUpService>();
@@ -43,19 +43,17 @@ class SignUpViewModel extends BaseModel {
   String _selectedCollegeCode = ''; //for server
 
   ///학과선택 관련 변수
-  final List<MajorCode> _majorCodes = MajorCode.values.toList();
-  List<String> _majorNames = List.empty(growable: true);
-  List<String> _searchingMajors = List.empty(growable: true);
+  List<MajorPresentation> _majors = List.empty(growable: true);
   final TextEditingController _majorController = TextEditingController();
-  String _selectedMajorCode = '';
-  int _majorIndex = -1;
+  MajorPresentation _selectedMajor =
+      MajorPresentation(title: '', seq: ''); //for server
 
   String get isSelectedCollege => _selectedCollegeCode;
-  String get isSelectedMajor => _selectedMajorCode;
+  MajorPresentation get isSelectedMajor => _selectedMajor;
   TextEditingController get collegeController => _collegeController;
   TextEditingController get majorController => _majorController;
   List<String> get searchingColleges => _searchingColleges;
-  List<String> get searchingMajors => _searchingMajors;
+  List<MajorPresentation> get majors => _majors;
 
   //학과,학교 요청 관련 변수
   final TextEditingController _requestController = TextEditingController();
@@ -86,14 +84,20 @@ class SignUpViewModel extends BaseModel {
   bool get isValidNickname => _isValidNickname;
 
   //학년 관련 변수
-  final TextEditingController _userGradeController = TextEditingController();
-  TextEditingController get userGradeController => _userGradeController;
+  final List<String> _gradeList = ['1학년', '2학년', '3학년', '4학년', '그 외'];
+  List<String> get gradeList => _gradeList;
+  int _gradeIndex = 0;
+  int get gradeIndex => _gradeIndex;
 
   //성별 관련 변수
+  final List<String> _genderList = ['여자', '남자'];
+  List<String> get genderList => _genderList;
+  int genderIndex = -1;
+  bool _genderValue = true;
 
   //생년월일 관련 변수
-  final TextEditingController _userBirthDayController = TextEditingController();
-  TextEditingController get userBirthDayController => _userBirthDayController;
+  String _birthday = '0000-00-00'; //for server
+  String get birthday => _birthday;
 
   ///관심사 관련 변수
   static final List<InterestPresentation> _systemInterests = InterestCode.values
@@ -203,17 +207,14 @@ class SignUpViewModel extends BaseModel {
   //닉네임 validator
   String? nicknameValidator(BuildContext context, String? value) {
     //닉네임이 유효하고, 모든 항목들이 다 채워져야 다음장으로 넘어갈수있음 근데 일단 모든 항목들이 다 채워지지 않으면 다음이 활성화가 안돼야하니까..
-    //그럼 결국 닉네임의 유효성 유무만 판단하면 되는게 아닐까?
+    //그럼 여기서는 그냥 닉네임의 유효성 유무만 판단하면 된다.
     if (_isValidNickname) {
       //다음페이지로 이동해야함
       Navigator.pushNamed(context, '/signUpOptionalProfile');
-      // toastMessage('두 글자 이상 입력해주세요!');
       return null;
     } else if (!_isValidNickname) {
-      // toastMessage('이미 사용 중인 닉네임입니다');
       return '이미 사용 중인 닉네임입니다';
     } else {
-      // FocusScope.of(context).unfocus();
       return null;
     }
   }
@@ -224,14 +225,6 @@ class SignUpViewModel extends BaseModel {
       _collegeNames.add(CollegeData.korNameOf(code.name));
     }
     // _collegeNames.removeAt(0);
-  }
-
-  void setMajorList() {
-    _majorNames.clear();
-    for (MajorCode code in _majorCodes) {
-      _majorNames.add(MajorData.korNameOf(code.name));
-    }
-    // _majorNames.removeAt(0);
   }
 
   //학교 선택
@@ -247,9 +240,9 @@ class SignUpViewModel extends BaseModel {
         TextPosition(offset: _collegeController.text.length));
 
     //학교를 선택하는 시점에서 이미 선택된 학과가 있다면 초기화 .(타 대학 동일학과 선택 방지위함)
-    _selectedMajorCode = '';
-    _majorController.clear();
-    searchMajor();
+    // _selectedMajorCode = '';
+    // _majorController.clear();
+    // searchMajor();
     FocusScope.of(context).unfocus();
     notifyListeners();
   }
@@ -263,7 +256,7 @@ class SignUpViewModel extends BaseModel {
     notifyListeners();
   }
 
-  //학과 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수
+  //학과 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수 -> 일단은 안씀
   void scrollMajorFieldToTop() async {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _collegeScrollController.animateTo(getProportionateScreenHeight(220),
@@ -292,19 +285,9 @@ class SignUpViewModel extends BaseModel {
   }
 
   //학과 선택
-  void selectMajor(BuildContext context, String major) {
-    _majorController.text = major;
-    switch (_selectedCollegeCode) {
-      case 'college0001':
-        _majorIndex = _majorNames.sublist(1, 45).indexOf(major) + 1;
-        break;
-      case 'college0002':
-        _majorIndex = _majorNames.sublist(45).indexOf(major) + 45;
-        break;
-    }
-    print("major index: " + _majorIndex.toString());
-    _selectedMajorCode = _majorCodes[_majorIndex].name; //서버에 보낼용도
-    print("major name: " + _selectedMajorCode);
+  void selectMajor(BuildContext context, MajorPresentation selectedMajor) {
+    _majorController.text = selectedMajor.title;
+    _selectedMajor = selectedMajor;
 
     //학과 선택시 커서 맨 끝으로
     _majorController.selection = TextSelection.fromPosition(
@@ -314,20 +297,15 @@ class SignUpViewModel extends BaseModel {
     notifyListeners();
   }
 
-  //학과 검색
-  void searchMajor() {
-    switch (_selectedCollegeCode) {
-      case 'college0001':
-        _searchingMajors = _majorNames.sublist(1, 45).where((majorName) {
-          return majorName.contains(_majorController.text);
-        }).toList();
-        break;
-      case 'college0002':
-        _searchingMajors = _majorNames.sublist(45).where((majorName) {
-          return majorName.contains(_majorController.text);
-        }).toList();
-        break;
-    }
+  //학과 검색 -> open api 사용
+  Future<void> searchMajor() async {
+    _majors.clear();
+    List<Major> majorResult =
+        await _signUpService.fetchMajors(searchText: _majorController.text);
+    _majors = majorResult
+        .map((major) =>
+            MajorPresentation(title: major.mClass, seq: major.majorSeq))
+        .toList();
 
     notifyListeners();
   }
@@ -339,8 +317,8 @@ class SignUpViewModel extends BaseModel {
     if (value) {
       _isRequested = true;
       //서버로 보낼 학과 값을 major.0000 으로 지정
-      _selectedMajorCode = _majorCodes.first.name;
-      print(_selectedMajorCode);
+      // _selectedMajorCode = _majorCodes.first.name;
+      // print(_selectedMajorCode);
       Navigator.pop(context);
       FocusScope.of(context).unfocus();
     } else {}
@@ -370,6 +348,31 @@ class SignUpViewModel extends BaseModel {
     }
   }
 
+  //set gradeIndex
+  void changeGradeIndex(int index) {
+    _gradeIndex = index;
+    print(_gradeIndex.toString());
+    notifyListeners();
+  }
+
+  //set gender
+  void changeGenderIndex(int index) {
+    genderIndex = index;
+    if (genderIndex == 0) {
+      _genderValue = false;
+    } else if (genderIndex == 1) {
+      _genderValue = true;
+    }
+    print(_genderValue.toString());
+    notifyListeners();
+  }
+
+  //생일지정 
+  void setBirthDay(DateTime date) {
+    _birthday = dateToYearMonthDay(date);
+    print(_birthday);
+  }
+
   //갤러리에서 이미지 가져옴(프사)
   void getUserImgFromGallery() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -388,6 +391,11 @@ class SignUpViewModel extends BaseModel {
     } else if (interest.isSelected == true) {
       _selectedInterests.add(interest);
     }
+
+    for(InterestPresentation i in _selectedInterests){
+      print(i.title);
+    }
+    
     notifyListeners();
   }
 
@@ -398,9 +406,13 @@ class SignUpViewModel extends BaseModel {
         id: _userIdController.text,
         pw: _userPwController.text,
         collegeCode: _selectedCollegeCode.toUpperCase(),
-        majorCode: _selectedMajorCode.toUpperCase(),
+        mClass: _selectedMajor.title,
+        majorSeq: _selectedMajor.seq,
         studentIdImg: _studentIdImg!,
         nickname: _userNicknameController.text,
+        grade: _gradeIndex.toString(),
+        gender: _genderValue.toString(),
+        birth: _birthday,
         interestCodes: _selectedInterests
             .map((selectedInterest) =>
                 selectedInterest.interestCode.name.toUpperCase())
@@ -458,4 +470,11 @@ class InterestPresentation {
       required this.title,
       required this.icon,
       required this.isSelected});
+}
+
+class MajorPresentation {
+  final String title;
+  final String seq;
+
+  MajorPresentation({required this.title, required this.seq});
 }

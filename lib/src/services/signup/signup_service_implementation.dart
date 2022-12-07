@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/major.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
@@ -60,9 +61,13 @@ class SignUpServiceImpl implements SignUpService {
       {required String id,
       required String pw,
       required String collegeCode,
-      required String majorCode,
+      required String mClass,
+      required String majorSeq,
       required XFile studentIdImg,
       required String nickname,
+      required String grade,
+      required String gender,
+      required String birth,
       required List<String> interestCodes,
       XFile? profileImg,
       String? introduce}) async {
@@ -75,20 +80,28 @@ class SignUpServiceImpl implements SignUpService {
     request.fields['deviceToken'] =
         FirebaseObject.deviceFcmToken ?? "fake token";
     request.fields['collegeCode'] = collegeCode;
-    request.fields['majorCode'] = majorCode;
+    request.fields['mClass'] = mClass;
+    request.fields['majorSeq'] = majorSeq;
+    request.fields['grade'] = grade;
+    request.fields['gender'] = gender;
+    request.fields['birth'] = birth;
     request.files.add(await http.MultipartFile.fromPath(
         'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
 
     //리스트 넘기는 법
     // TODO: 바꿔야할지도? join으로
-    String interestCodesJson = "";
-    interestCodes.forEach((interestCode) {
+     String interestCodesJson = "";
+    if(interestCodes.isEmpty){
+      request.fields["interestCodes"] = interestCodesJson;
+    }else{
+      interestCodes.forEach((interestCode) {
       interestCodesJson = interestCodesJson + interestCode + ",";
     });
     interestCodesJson =
         interestCodesJson.substring(0, interestCodesJson.length - 1);
     request.fields["interestCodes"] = interestCodesJson;
-
+    }
+   
     if (profileImg != null) {
       request.files.add(
           await http.MultipartFile.fromPath('profileImg', profileImg.path));
@@ -123,5 +136,28 @@ class SignUpServiceImpl implements SignUpService {
       // return false;
       return true;
     }
+  }
+
+  //open api 사용
+  @override
+  Future<List<Major>> fetchMajors({ required String searchText}) async{
+    
+    final response = await http.get(Uri.parse("https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=ea3d8e66e599ebdbef51186142b8e1a8&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list&thisPage=1&perPage=20&searchTitle="+searchText));
+
+    if (response.statusCode==200){
+      var jsonResponse = json.decode(response.body);
+      var data = jsonResponse['dataSearch']['content'];
+     
+      List<Major> majors = await data
+            .map<Major>((json)=>Major.fromJson(json))
+            .toList();
+      
+      return majors;
+
+    }else {
+      print(response.statusCode);
+      throw Exception('open api 서버 오류');
+    }
+   
   }
 }
