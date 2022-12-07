@@ -93,12 +93,7 @@ class UserServiceImpl implements UserService {
     }
   }
 
-  @override
-  Future<bool> checkNicknameRedundancy({required String nickname}) async {
-    // TODO: implement checkNicknameRedundancy
-    bool value = true;
-    return value;
-  }
+ 
 
   @override
   Future<User> updateMyInfo(

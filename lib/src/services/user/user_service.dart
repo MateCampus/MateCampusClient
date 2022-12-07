@@ -8,7 +8,6 @@ abstract class UserService {
   Future<User> fetchMyInfo();
   Future<User> fetchUserInfo({required String loginId});
 
-  Future<bool> checkNicknameRedundancy({required String nickname});
   Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg});
 }

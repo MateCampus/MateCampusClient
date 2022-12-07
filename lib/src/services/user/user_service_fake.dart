@@ -36,12 +36,7 @@ class FakeUserService implements UserService {
     return userProfile;
   }
 
-  @override
-  Future<bool> checkNicknameRedundancy({required String nickname}) async {
-    bool value = true;
-    return value;
-  }
-
+ 
   @override
   Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg}) async {

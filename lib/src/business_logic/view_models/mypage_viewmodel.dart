@@ -11,6 +11,7 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
+import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import '../../services/interest/interest_service.dart';
 import '../models/enums/collegeCode.dart';
@@ -19,6 +20,7 @@ import '../models/enums/majorCode.dart';
 
 class MypageViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
+  final SignUpService _signUpService = serviceLocator<SignUpService>();
   final InterestService _interestService = serviceLocator<InterestService>();
   MypagePresentation _myInfo = defaultInfo;
   static final MypagePresentation defaultInfo = MypagePresentation(
@@ -149,9 +151,10 @@ class MypageViewModel extends BaseModel {
 
   //닉네임 중복확인
   void checkNicknameRedundancy() async {
-    _isValidNickname =
-        await _userService.checkNicknameRedundancy(nickname: _changedNickname!);
+    bool value =
+        await _signUpService.checkNicknameRedundancy(nickname: _changedNickname!);
 
+    _isValidNickname = value;
     //유효성 검사 -> 이 때 nicknameValidator실행
     _nicknameFormKey.currentState!.validate();
     notifyListeners();
@@ -159,12 +162,12 @@ class MypageViewModel extends BaseModel {
 
   //닉네임 validator
   String? nicknameValidator(String? value) {
-    if (value!.length < 2) {
-      return '두글자 이상 입력해주세요';
-    } else if (value.length >= 2 && !_isValidNickname) {
-      return '사용중인 닉네임입니다';
-    } else {
+    if (_isValidNickname) {
       toastMessage('사용 가능한 닉네임 입니다');
+      return null;
+    } else if (!_isValidNickname) {
+      return '이미 사용 중인 닉네임입니다';
+    } else {
       return null;
     }
   }
