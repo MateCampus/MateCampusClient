@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
@@ -10,7 +9,6 @@ import 'package:zamongcampus/src/services/friend/friend_service.dart';
 import '../models/enums/collegeCode.dart';
 import '../models/enums/friendRequestStatus.dart';
 import '../models/enums/interestStatus.dart';
-import '../models/enums/majorCode.dart';
 
 class ProfileViewModel extends BaseModel {
   final FriendService _friendService = serviceLocator<FriendService>();
@@ -38,8 +36,7 @@ class ProfileViewModel extends BaseModel {
         imageUrl: friend.imageUrl ?? defaultProfile.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(friend.collegeCode ?? CollegeCode.college0000)),
-        majorName: MajorData.korNameOf(
-            describeEnum(friend.majorCode ?? MajorCode.major0000)),
+        majorName: friend.majorName??"",
         introduction: friend.introduction,
         friendRequestStatus: friend.friendRequestStatus);
     _interests = InterestObject.mapInterests(friend.interests);

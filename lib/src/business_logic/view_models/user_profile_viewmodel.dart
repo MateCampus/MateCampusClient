@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
@@ -12,7 +11,6 @@ import 'package:zamongcampus/src/services/user/user_service.dart';
 
 import '../models/enums/collegeCode.dart';
 import '../models/enums/friendRequestStatus.dart';
-import '../models/enums/majorCode.dart';
 
 class UserProfileViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
@@ -43,8 +41,7 @@ class UserProfileViewModel extends BaseModel {
         imageUrl: recommendUser.imageUrl ?? defaultUserProfile.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(recommendUser.collegeCode ?? CollegeCode.college0000)),
-        majorName: MajorData.korNameOf(
-            describeEnum(recommendUser.majorCode ?? MajorCode.major0000)),
+        majorName: recommendUser.majorName??"",
         introduction: recommendUser.introduction,
         friendRequestStatus:
             recommendUser.friendRequestStatus ?? FriendRequestStatus.NONE);

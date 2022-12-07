@@ -1,13 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/interestStatus.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/majorCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -78,8 +75,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
         imageUrl: user.imageUrl ?? defaultUserProfile.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(user.collegeCode ?? CollegeCode.college0000)),
-        majorName: MajorData.korNameOf(
-            describeEnum(user.majorCode ?? MajorCode.major0000)),
+        majorName: user.majorName??"",
         introduction: user.introduction);
     _interests = InterestObject.mapInterests(user.interests);
 

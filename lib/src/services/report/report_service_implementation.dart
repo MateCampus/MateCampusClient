@@ -91,8 +91,8 @@ class ReportServiceImpl implements ReportService {
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken),
         body: reportJson);
-    //TODO: 이거 원래 201인게 맞다. 근데 미친 왜 자꾸 여기서는 200으로 넘어오는지 모르겠음.. 일단 해결방법 알기 전까지는 200으로 해둠
-    if (response.statusCode == 200) {
+    //TODO: 이거 원래 201인게 맞다. 근데 미친 왜 자꾸 여기서는 200으로 넘어오는지 모르겠음.. 일단 해결방법 알기 전까지는 200으로 해둠 -> 201로 다시 변경(12.07)
+    if (response.statusCode == 201) {
       print('신고 성공');
       return true;
     } else {

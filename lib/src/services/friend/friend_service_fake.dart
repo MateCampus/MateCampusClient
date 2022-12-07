@@ -1,11 +1,8 @@
 import 'package:zamongcampus/src/business_logic/models/friend.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/services/friend/friend_service.dart';
 
 import '../../business_logic/models/enums/collegeCode.dart';
 import '../../business_logic/models/enums/friendRequestStatus.dart';
-import '../../business_logic/models/enums/majorCode.dart';
 
 class FakeFriendService implements FriendService {
   @override
@@ -102,5 +99,5 @@ Friend friendDetailDummy = Friend(
     requestorLoginId: 'hello2',
     imageUrl: "assets/images/user/user1.jpg",
     collegeCode: CollegeCode.college0001,
-    majorCode: MajorCode.major0001,
+    majorName: "페이크프렌드학과",
     introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!");

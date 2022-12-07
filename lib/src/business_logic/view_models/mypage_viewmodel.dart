@@ -4,9 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -16,7 +14,6 @@ import 'package:zamongcampus/src/services/user/user_service.dart';
 import '../../services/interest/interest_service.dart';
 import '../models/enums/collegeCode.dart';
 import '../models/enums/interestCode.dart';
-import '../models/enums/majorCode.dart';
 
 class MypageViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
@@ -79,8 +76,7 @@ class MypageViewModel extends BaseModel {
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(myInfoResult.collegeCode ?? CollegeCode.college0000)),
-        majorName: MajorData.korNameOf(
-            describeEnum(myInfoResult.majorCode ?? MajorCode.major0000)),
+        majorName: myInfoResult.majorName??"",
         introduction: myInfoResult.introduction ?? defaultInfo.introduction,
         interestCount: myInfoResult.interestCount.toString(),
         friendCount: myInfoResult.friendCount.toString(),

@@ -2,16 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_college/components/college_list_tile.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/major_list_tile.dart';
 
 class SelectMajor extends StatefulWidget {

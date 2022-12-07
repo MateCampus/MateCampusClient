@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/majorCode.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
@@ -30,8 +28,7 @@ class PostLikedListViewModel extends BaseModel {
             nickname: likedUser.nickname,
             collegeName: CollegeData.korNameOf(
                 describeEnum(likedUser.collegeCode ?? CollegeCode.college0000)),
-            majorName: MajorData.korNameOf(
-                describeEnum(likedUser.majorCode ?? MajorCode.major0000)),
+            majorName: likedUser.majorName??"",
             profileImageUrl:
                 likedUser.imageUrl ?? "assets/images/user/general_user.png"))
         .toList();

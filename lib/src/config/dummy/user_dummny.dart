@@ -1,6 +1,5 @@
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/interestCode.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/majorCode.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 
@@ -10,7 +9,7 @@ List<User> userDummy = [
       nickname: "가나초코릿",
       collegeCode: CollegeCode.college0001,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: MajorCode.major0001,
+      majorName: '소프트웨어학과',
       introduction: "자기개발, 꾸준함, 성실한 사람 좋아해요\n저랑 잘 맞는 친구 찾구싶어요!",
       isOnline: true,
       interests: [
@@ -23,7 +22,7 @@ List<User> userDummy = [
       nickname: "나비야훨훨",
       collegeCode: CollegeCode.college0002,
       imageUrl: null,
-      majorCode: MajorCode.major0002,
+      majorName: '경영학과',
       isOnline: false,
       interests: []),
   const User(
@@ -31,7 +30,7 @@ List<User> userDummy = [
       nickname: "다부지",
       collegeCode: CollegeCode.college0003,
       imageUrl: "assets/images/user/user3.jpg",
-      majorCode: MajorCode.major0003,
+      majorName: '안경공학과',
       isOnline: null,
       interests: []),
   const User(
@@ -39,7 +38,6 @@ List<User> userDummy = [
       nickname: "라디오꾼",
       collegeCode: CollegeCode.college0004,
       imageUrl: "assets/images/user/user4.jpg",
-      majorCode: MajorCode.major0004,
       isOnline: false,
       interests: []),
   const User(
@@ -47,7 +45,6 @@ List<User> userDummy = [
       nickname: "마라탕궈",
       collegeCode: CollegeCode.college0005,
       imageUrl: "assets/images/user/user5.jpg",
-      majorCode: MajorCode.major0005,
       isOnline: false,
       interests: []),
   const User(
@@ -55,7 +52,6 @@ List<User> userDummy = [
       nickname: "나비야훨훨",
       collegeCode: CollegeCode.college0002,
       imageUrl: null,
-      majorCode: MajorCode.major0002,
       isOnline: false,
       interests: []),
   const User(
@@ -63,7 +59,6 @@ List<User> userDummy = [
       nickname: "다부지",
       collegeCode: CollegeCode.college0003,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: MajorCode.major0003,
       isOnline: null,
       interests: []),
   const User(
@@ -71,7 +66,6 @@ List<User> userDummy = [
       nickname: "라디오꾼",
       collegeCode: CollegeCode.college0004,
       imageUrl: "assets/images/user/user4.jpg",
-      majorCode: MajorCode.major0004,
       isOnline: false,
       interests: []),
   const User(
@@ -79,7 +73,6 @@ List<User> userDummy = [
       nickname: "마라탕궈",
       collegeCode: CollegeCode.college0005,
       imageUrl: "assets/images/user/user5.jpg",
-      majorCode: MajorCode.major0005,
       isOnline: false,
       interests: []),
 ];
@@ -90,7 +83,6 @@ List<User> userDummy2 = [
       nickname: "바나나2",
       collegeCode: CollegeCode.college0001,
       imageUrl: "assets/images/user/user1.jpg",
-      majorCode: MajorCode.major0001,
       isOnline: true,
       interests: []),
   const User(
@@ -98,7 +90,6 @@ List<User> userDummy2 = [
       nickname: "사이다",
       collegeCode: CollegeCode.college0002,
       imageUrl: "assets/images/user/user2.jpg",
-      majorCode: MajorCode.major0002,
       isOnline: true,
       interests: []),
 ];
@@ -109,105 +100,90 @@ List<User> userDummyLikedPost = [
     loginId: "zm10",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0001,
-    majorCode: MajorCode.major0001,
     imageUrl: "assets/images/user/user1.jpg",
   ),
   const User(
     loginId: "zm11",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0002,
-    majorCode: MajorCode.major0002,
     imageUrl: "assets/images/user/user2.jpg",
   ),
   const User(
     loginId: "zm12",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0003,
-    majorCode: MajorCode.major0003,
     imageUrl: "assets/images/user/user3.jpg",
   ),
   const User(
     loginId: "zm13",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0004,
-    majorCode: MajorCode.major0004,
     imageUrl: "assets/images/user/user4.jpg",
   ),
   const User(
     loginId: "zm14",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0005,
-    majorCode: MajorCode.major0005,
     imageUrl: "assets/images/user/user5.jpg",
   ),
   const User(
     loginId: "zm10",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0001,
-    majorCode: MajorCode.major0001,
     imageUrl: "assets/images/user/user1.jpg",
   ),
   const User(
     loginId: "zm11",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0002,
-    majorCode: MajorCode.major0002,
     imageUrl: "assets/images/user/user2.jpg",
   ),
   const User(
     loginId: "zm12",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0003,
-    majorCode: MajorCode.major0003,
     imageUrl: "assets/images/user/user3.jpg",
   ),
   const User(
     loginId: "zm13",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0004,
-    majorCode: MajorCode.major0004,
     imageUrl: "assets/images/user/user4.jpg",
   ),
   const User(
     loginId: "zm14",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0005,
-    majorCode: MajorCode.major0005,
     imageUrl: "assets/images/user/user5.jpg",
   ),
   const User(
     loginId: "zm10",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0001,
-    majorCode: MajorCode.major0001,
     imageUrl: "assets/images/user/user1.jpg",
   ),
   const User(
     loginId: "zm11",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0002,
-    majorCode: MajorCode.major0002,
     imageUrl: "assets/images/user/user2.jpg",
   ),
   const User(
     loginId: "zm12",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0003,
-    majorCode: MajorCode.major0003,
     imageUrl: "assets/images/user/user3.jpg",
   ),
   const User(
     loginId: "zm13",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0004,
-    majorCode: MajorCode.major0004,
     imageUrl: "assets/images/user/user4.jpg",
   ),
   const User(
     loginId: "zm14",
     nickname: "가랑비",
     collegeCode: CollegeCode.college0005,
-    majorCode: MajorCode.major0005,
     imageUrl: "assets/images/user/user5.jpg",
   ),
 ];

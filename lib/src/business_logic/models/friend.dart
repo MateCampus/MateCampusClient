@@ -1,10 +1,6 @@
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
-
 import 'enums/collegeCode.dart';
 import 'enums/friendRequestStatus.dart';
 import 'enums/interestCode.dart';
-import 'enums/majorCode.dart';
 import 'interest.dart';
 
 class Friend {
@@ -15,7 +11,7 @@ class Friend {
   final FriendRequestStatus friendRequestStatus;
   final String? imageUrl;
   final CollegeCode? collegeCode;
-  final MajorCode? majorCode;
+  final String? majorName;
   final String? introduction;
   final List<Interest>? interests;
 
@@ -27,7 +23,7 @@ class Friend {
       required this.friendRequestStatus,
       this.imageUrl,
       this.collegeCode,
-      this.majorCode,
+      this.majorName,
       this.introduction,
       this.interests});
 
@@ -42,8 +38,8 @@ class Friend {
       collegeCode: json['collegeCode'] != null
           ? CollegeCode.values.byName(json['collegeCode'].toLowerCase())
           : null,
-      majorCode: json['majorCode'] != null
-          ? MajorCode.values.byName(json['majorCode'].toLowerCase())
+      majorName: (json['majorCode'] != null)
+          ? json['majorCode']
           : null,
       introduction: json['introduction'],
       interests: json['interests']
