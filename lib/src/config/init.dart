@@ -1,5 +1,6 @@
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/local_notification_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
@@ -7,6 +8,7 @@ import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:http/http.dart' as http;
+import 'package:zamongcampus/src/services/login/login_service.dart';
 
 /**
  * config init하는 함수
@@ -34,6 +36,8 @@ class Init {
       // token의 validation 확인
       // 이상 없으면 "/"
       // 아니면 loginId, token 삭제 후 "login"으로.
+      LoginService _loginService = serviceLocator<LoginService>();
+      await _loginService.reissueToken();
       try {
         AuthService.setGlobalLoginIdTokenAndInitUserData(
             token: token, loginId: loginId, refreshToken: refreshToken);

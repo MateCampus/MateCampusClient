@@ -103,8 +103,8 @@ class AuthService extends ChangeNotifier {
 
   static Map<String, String> get_auth_header(
       {required String? accessToken, required String? refreshToken}) {
-    print('서버로 전달하려는 헤더 accessToken: $accessToken');
-    print('서버로 전달하려는 헤더 refreshToken: $refreshToken');
+    // print('서버로 전달하려는 헤더 accessToken: $accessToken');
+    // print('서버로 전달하려는 헤더 refreshToken: $refreshToken');
     return {
       "Content-Type": "application/json",
       "Authorization": accessToken!,
