@@ -16,6 +16,10 @@ class SignUpInterestScreen extends StatefulWidget {
 
 class _SignUpInterestScreenState extends State<SignUpInterestScreen> {
   SignUpViewModel vm = serviceLocator<SignUpViewModel>();
+
+  
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);

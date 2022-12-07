@@ -9,9 +9,7 @@ import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/birthday_input.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/check_gender.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/grade_input.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/middle_text.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/nickname_input.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/select_interests.dart';
 
 class Body extends StatefulWidget {
   final SignUpViewModel vm;
@@ -56,7 +54,10 @@ class _BodyState extends State<Body> {
         // Expanded(child: SelectInterests(vm: vm)),
         SafeArea(
             child: BottomFixedBtnDecoBox(
-          child: (true)
+          child: (widget.vm.userNicknameController.text.isNotEmpty &&
+                  widget.vm.gradeIndex != 0 &&
+                  widget.vm.genderIndex != -1 &&
+                  widget.vm.birthday != '0000-00-00')
               ? DefaultBtn(
                   text: '다음',
                   press: () {

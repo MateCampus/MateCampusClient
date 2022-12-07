@@ -53,9 +53,9 @@ class _SelectCollegeState extends State<SelectCollege> {
                 suffixIcon: Icon(
                   CupertinoIcons.arrowtriangle_down_fill,
                   color: Color(0xff767676),
-                  size: kTextFieldIconSizeFA,
+                  size: kTextFieldIconSizeCP,
                 ),
-                hintText: "학교를 선택해주세요",
+                hintText: "학교를 검색해주세요",
                 hintStyle: TextStyle(
                     color: const Color(0xFF999999),
                     fontSize: kTextFieldInnerFontSize),

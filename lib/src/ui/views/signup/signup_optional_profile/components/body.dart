@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
@@ -41,10 +42,11 @@ class Body extends StatelessWidget {
           child: BottomFixedBtnDecoBox(
             child: DefaultBtn(
               text: '건너뛰기',
+              textColor: (vm.userImgPath.isNotEmpty&&vm.userIntroduceController.text.isNotEmpty) ? Colors.white: Color(0xff999999),
+              btnColor: (vm.userImgPath.isNotEmpty&&vm.userIntroduceController.text.isNotEmpty)?kMainColor:Color(0xffe5e5ec),
               press: () {
                 // FocusScope.of(context).unfocus();
                 Navigator.pushNamed(context, "/signUpInterest");
-                // vm.createUser(context);
               },
             ),
           ),

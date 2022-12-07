@@ -4,20 +4,20 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 
 class MajorListTile extends StatelessWidget {
   final SignUpViewModel vm;
-  final int index;
-  const MajorListTile({Key? key, required this.vm, required this.index})
+  final MajorPresentation major;
+  const MajorListTile({Key? key, required this.vm, required this.major})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        vm.selectMajor(context, vm.searchingMajors[index]);
+        vm.selectMajor(context, major);
         vm.removeMajorOverlay();
       },
       dense: true,
       title: Text(
-        vm.searchingMajors[index],
+        major.title,
         style:
             TextStyle(color: Colors.black87, fontSize: kTextFieldInnerFontSize),
       ),

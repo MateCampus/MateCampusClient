@@ -6,6 +6,7 @@ import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
@@ -42,22 +43,27 @@ class _SelectMajorState extends State<SelectMajor> {
               controller: widget.vm.majorController,
               maxLines: 1,
               onTap: () {
-                widget.vm.scrollMajorFieldToTop();
-                if (widget.vm.majorOverlayEntry == null) {
-                  widget.vm.createMajorOverlay(context, _majorOverlayWidget());
-                } else {
-                  widget.vm.removeMajorOverlay();
-                }
+                widget.vm.removeMajorOverlay();
               },
               autocorrect: false,
               decoration: InputDecoration(
-                suffixIcon: Icon(
-                  CupertinoIcons.arrowtriangle_down_fill,
-                  color: Color(0xff767676),
-                  size: kTextFieldIconSizeFA,
-                ),
-                hintText:
-                    (widget.vm.isRequested) ? "신청 완료" : "학과 혹은 학부를 선택해주세요",
+                suffixIcon: IconButton(
+                    onPressed: () async {
+                      if (widget.vm.majorController.text.isEmpty) {
+                        toastMessage('학과명을 입력해주세요');
+                      } else {
+                        await widget.vm.searchMajor();
+                        FocusScope.of(context).unfocus();
+                        widget.vm
+                            .createMajorOverlay(context, _majorOverlayWidget());
+                      }
+                    },
+                    icon: const Icon(
+                      CupertinoIcons.search,
+                      color: Color(0xff767676),
+                      // size: kTextFieldIconSizeCP,
+                    )),
+                hintText: (widget.vm.isRequested) ? "신청 완료" : "학과를 검색해주세요",
                 hintStyle: TextStyle(
                     color: const Color(0xFF999999),
                     fontSize: kTextFieldInnerFontSize),
@@ -75,7 +81,7 @@ class _SelectMajorState extends State<SelectMajor> {
             ),
           ),
           const VerticalSpacing(of: 10),
-          _findMajorBtn()
+          // _findMajorBtn()
         ],
       ),
     );
@@ -113,16 +119,16 @@ class _SelectMajorState extends State<SelectMajor> {
                 border: Border.all(color: Color(0xffe5e5ec), width: 1),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: ListView.separated(
+              child: ListView(
                 physics: const ClampingScrollPhysics(),
-                separatorBuilder: (BuildContext context, int index) =>
-                    const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+
                 padding: EdgeInsets.symmetric(
                     vertical: getProportionateScreenHeight(5)),
-                itemCount: widget.vm.searchingMajors.length,
-                itemBuilder: (context, index) {
-                  return MajorListTile(vm: widget.vm, index: index);
-                },
+                // itemCount: widget.vm.majors.length,
+                children: [
+                  ...widget.vm.majors.map(
+                      (major) => MajorListTile(vm: widget.vm, major: major))
+                ],
               ),
             ),
           ),

@@ -34,7 +34,6 @@ class Body extends StatelessWidget {
                   const VerticalSpacing(of: 30),
                   SelectCollege(vm: vm),
                   SelectMajor(vm: vm),
-                  const VerticalSpacing(of: 15),
                   Certification(vm: vm)
                 ],
               ),
@@ -44,7 +43,7 @@ class Body extends StatelessWidget {
         SafeArea(
           child: BottomFixedBtnDecoBox(
             child: (vm.isSelectedCollege != '' &&
-                    vm.isSelectedMajor != '' &&
+                    vm.isSelectedMajor.title != '' &&
                     vm.studentIdImgPath != '')
                 ? DefaultBtn(
                     text: '다음',

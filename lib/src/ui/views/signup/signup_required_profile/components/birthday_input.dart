@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
+import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class BirthdayInput extends StatefulWidget {
   final SignUpViewModel vm;
@@ -16,7 +20,6 @@ class _BirthdayInputState extends State<BirthdayInput> {
   void initState() {
     super.initState();
 
-    widget.vm.userBirthDayController.addListener(() {});
   }
 
   @override
@@ -28,20 +31,21 @@ class _BirthdayInputState extends State<BirthdayInput> {
           '생년월일',
           style: kLabelTextStyle,
         ),
-        TextFormField(
-          keyboardType: TextInputType.multiline,
-          textInputAction: TextInputAction.next,
-          style: TextStyle(fontSize: kLabelFontSize),
-          controller: widget.vm.userBirthDayController,
-          maxLines: 1,
-          autocorrect: false,
-          decoration: InputDecoration(
-            hintText: "EX) 2002-03-21",
-            hintStyle: TextStyle(
-                color: const Color(0xFF999999),
-                fontSize: kTextFieldInnerFontSize),
-          ),
-        ),
+        const VerticalSpacing(of: 10),
+        SizedBox(
+          height: getProportionateScreenHeight(150),
+          child: CupertinoDatePicker(
+            minimumYear: 1990,
+            maximumYear: DateTime.now().year,
+            initialDateTime: DateTime.now(),
+            mode: CupertinoDatePickerMode.date,
+            onDateTimeChanged: (dateTime){
+              widget.vm.setBirthDay(dateTime);
+            }),
+        )
+       
+        
+      
       ],
     );
   }

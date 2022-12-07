@@ -4,9 +4,8 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
-import 'package:zamongcampus/src/ui/common_widgets/sign_up_rich_text.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
-import 'package:zamongcampus/src/ui/views/signup/signup_required_profile/components/select_interests.dart';
+import 'package:zamongcampus/src/ui/views/signup/signup_interest/components/interest_select.dart';
 
 class Body extends StatelessWidget {
   final SignUpViewModel vm;
@@ -14,15 +13,15 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(20),
-          vertical: getProportionateScreenHeight(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const VerticalSpacing(of: 30),
-          RichText(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const VerticalSpacing(of: 30),
+        Padding(
+          padding: EdgeInsets.symmetric(
+        horizontal: getProportionateScreenWidth(20),
+        vertical: getProportionateScreenHeight(10)),
+          child: RichText(
               text: TextSpan(
                   text: '관심사',
                   style: TextStyle(
@@ -38,17 +37,24 @@ class Body extends StatelessWidget {
                         color: Color(0xff111111),
                         fontWeight: FontWeight.w500))
               ])),
-          const VerticalSpacing(of: 30),
-          Expanded(child: SelectInterests(vm: vm)),
-          SafeArea(
-              child: BottomFixedBtnDecoBox(
-                  child: DefaultBtn(
-                      text: '완료',
-                      press: () {
-                        vm.createUser(context);
-                      })))
-        ],
-      ),
+        ),
+        const VerticalSpacing(of: 30),
+        Expanded(child: Padding(
+          padding: EdgeInsets.symmetric(
+        horizontal: getProportionateScreenWidth(20),
+        ),
+          child: InterestSelect(vm: vm),
+        )),
+        SafeArea(
+            child: BottomFixedBtnDecoBox(
+                child: DefaultBtn(
+                    text: '완료',
+                    textColor:(vm.selectedInterests.length>=3)?Colors.white: Color(0xff999999),
+                    btnColor: (vm.selectedInterests.length>=3)?kMainColor:Color(0xffe5e5ec),
+                    press: () {
+                      vm.createUser(context);
+                    })))
+      ],
     );
   }
 }
