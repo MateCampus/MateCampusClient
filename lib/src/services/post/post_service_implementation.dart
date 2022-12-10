@@ -52,6 +52,7 @@ class PostServiceImpl implements PostService {
       required bool collegeFilter}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
+
     final response = await http.get(
         Uri.parse(
           devServer +
@@ -74,7 +75,6 @@ class PostServiceImpl implements PostService {
       LoginService loginService = serviceLocator<LoginService>();
       print('일단 재발행을 하는 모양인데 ..');
       await loginService.reissueToken();
-
       return fetchPosts(
           type: type,
           nextPageToken: nextPageToken,
