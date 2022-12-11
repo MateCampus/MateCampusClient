@@ -55,6 +55,10 @@ class NotificationViewModel extends BaseModel {
         return body + "\n피드에 새로운 댓글이 달렸습니다!";
       case NotificationType.friend:
         return (notificationZC.nickname ?? "error") + "님의 친구 신청이 도착했습니다!";
+      case NotificationType.postlike:
+        return (notificationZC.nickname ?? "error") + "님이 내 피드에 좋아요를 눌렀습니다!";
+        case NotificationType.postsubcomment:
+        return (notificationZC.nickname ?? "error") + "님이 대댓글을 달았습니다!";
       case NotificationType.voiceroom:
         return (notificationZC.nickname ?? "error") +
             "님이" +

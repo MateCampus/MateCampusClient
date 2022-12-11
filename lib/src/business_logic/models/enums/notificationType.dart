@@ -1,1 +1,1 @@
-enum NotificationType { post, friend, voiceroom }
+enum NotificationType { post, postlike, postsubcomment, friend, voiceroom }
