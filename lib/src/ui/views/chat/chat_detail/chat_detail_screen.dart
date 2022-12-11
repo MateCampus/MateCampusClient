@@ -107,6 +107,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
           ),
           onPressed: () {
             Navigator.pop(context);
+            vm.exitChatRoom(widget.index);
+            Navigator.pop(context);
           },
         ),
       ],

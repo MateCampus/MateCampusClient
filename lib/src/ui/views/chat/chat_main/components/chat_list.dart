@@ -37,9 +37,7 @@ class ChatList extends StatelessWidget {
                     arguments:
                         ChatDetailScreenArgs(vm.chatRooms[index], index));
               },
-              onDeleted: () {
-                vm.removeItem(index, vm.chatRooms[index].roomId);
-              }),
+              onDeleted: () {}),
         ),
       ],
     );

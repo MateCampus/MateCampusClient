@@ -45,7 +45,7 @@ class ChatRoomMemberInfoDBHelper {
     final db = await SqfliteObject.database;
     List res =
         await db!.rawQuery('DELETE FROM $tableName WHERE roomId = ?', [roomId]);
-    print(res);
+    // print(res);
   }
 
   // EXIST

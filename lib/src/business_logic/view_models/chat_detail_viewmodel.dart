@@ -134,4 +134,15 @@ class ChatDetailViewModel extends BaseModel {
     _loadMoreBusy = value;
     notifyListeners();
   }
+
+  Future<void> exitChatRoom(int chatRoomIndex) async {
+    resetData();
+    await chatService.exitChatRoom(roomId: chatRoom.roomId);
+    chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
+    chatService.deleteChatRoomByRoomId(chatRoom.roomId);
+    chatService.deleteMessageByRoomId(chatRoom.roomId);
+    // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
+  }
 }

@@ -46,7 +46,6 @@ class NotificationServiceImpl implements NotificationService {
     } else if (response.statusCode == 401) {
       LoginService loginService = serviceLocator<LoginService>();
       await loginService.reissueToken();
-      print('일단 재발행이 성공을 한모양입니다..');
       return fetchMyUnreadNotification();
     } else {
       throw Exception('fetchMyUnreadNotification 패치 오류');
