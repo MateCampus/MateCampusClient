@@ -8,6 +8,7 @@ abstract class ChatService {
   sendMessage(String roomId, String loginId, String text, String type,
       String title, String chatRoomType) {}
   fetchUnReceivedMessages() {}
+  exitChatRoom({required String roomId}) {}
 
   // chatMessageDB 시작
   insertMessage(ChatMessage chatMessage) {}
@@ -52,6 +53,7 @@ abstract class ChatService {
   insertOrUpdateMemberInfoOne(ChatMemberInfo chatMemberInfo) {}
   getMemberInfoes(String roomId) {}
   getAllMemberInfoes() {}
+  getMemberInfoByLoginId(String loginId) {}
   deleteMemberInfo(String loginId) {}
   deleteAllMemberInfo() {}
   // chatMemberInfoDB 끝

@@ -94,6 +94,22 @@ class ChatServiceImpl implements ChatService {
     }
   }
 
+  @override
+  Future<void> exitChatRoom({required String roomId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
+
+    final response = await http.put(
+        Uri.parse(devServer + "/api/chat/room/" + roomId + "/exit"),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
+    if (response.statusCode == 200) {
+      print('자몽캠퍼스랑 통신하는 채팅방나가기는 성공');
+    } else {
+      print('나가기 뭔가가 잘못됨');
+    }
+  }
+
   // chatMessageDB 시작
   @override
   insertMessage(ChatMessage chatMessage) async {
@@ -247,6 +263,11 @@ class ChatServiceImpl implements ChatService {
   @override
   getAllMemberInfoes() async {
     return await chatMemberInfoDBHelper.getAllMemberInfoes();
+  }
+
+  @override
+  getMemberInfoByLoginId(String loginId) async {
+    return await chatMemberInfoDBHelper.getMemberInfoByLoginId(loginId);
   }
 
   @override

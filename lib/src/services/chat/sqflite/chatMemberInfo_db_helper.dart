@@ -51,6 +51,17 @@ class ChatMemberInfoDBHelper {
     return memberInfoes;
   }
 
+  // READ: loginId에 해당하는 모든 정보 다 가져오기
+  Future<ChatMemberInfo> getMemberInfoByLoginId(String loginId) async {
+    final db = await SqfliteObject.database;
+    List res = await db!.rawQuery(
+        'SELECT loginId, nickname, imageUrl FROM $tableName WHERE loginId = ?',
+        [loginId]);
+    List<ChatMemberInfo> memberInfo =
+        res.isEmpty ? [] : res.map((c) => ChatMemberInfo.fromJson(c)).toList();
+    return memberInfo.first;
+  }
+
   // READ: 전체 다 가져오는 식
   Future<List<ChatMemberInfo>> getAllMemberInfoes() async {
     final db = await SqfliteObject.database;

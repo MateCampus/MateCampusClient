@@ -136,7 +136,7 @@ class StompObject {
   }
 
   // roomId로 오는 메세지
-  static Future<void> subscribeChatRoom(String? roomId) async {
+  static Future<StompUnsubscribe> subscribeChatRoom(String? roomId) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
 
@@ -147,11 +147,11 @@ class StompObject {
         serviceLocator<ChatDetailViewModel>();
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
-    dynamic unsubscribeFn = stompClient.subscribe(
+    StompUnsubscribe unsubscribeFn = stompClient.subscribe(
       headers: AuthService.get_auth_header(
           accessToken: accessToken, refreshToken: refreshToken),
       destination: '/sub/chat/room/$roomId',
-      callback: (frame) {
+      callback: (frame) async {
         // ** 메시지 도착 시점
         print("----- 새로운 메세지 도착 -----");
         var res = json.decode(frame.body ?? "");
@@ -162,7 +162,6 @@ class StompObject {
               ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
           // 1. 메세지 저장
           _chatService.insertMessage(chatMessage);
-          print('ㅅ;빌');
           // 2. local db의 chatroom 내용 변경 => 이미 그 방 안이면 0, 아니면 1 추가
           _chatService.updateChatRoom(
               lastMsg: chatMessage.text,
@@ -185,9 +184,10 @@ class StompObject {
           }
           // ** UI(chatsScreen) 변경
           int index = chatViewModel.getExistRoomIndex(chatMessage.roomId!);
-          ChatRoom chatRoom = chatViewModel.chatRooms[index];
+          // ChatRoom chatRoom = chatViewModel.chatRooms[index];
           if (index == 0) {
             // 최상단 : 업데이트만 => lastmsg, unreadcount, lastMsgCreatedAt
+            ChatRoom chatRoom = chatViewModel.chatRooms[index];
             chatRoom.lastMessage = chatMessage.text;
             chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
             // 해당 방 안에 아닐 때만 unreadcount 변경
@@ -202,6 +202,7 @@ class StompObject {
               // 기존에 있는 방: unreadCount, lastMsg, lastMsgCreatedAt 변경
               // 현재 그 방 안이라면 0으로 값 변경
               // 아니면 삭제(removeItem)하면서 unreadcount 반환 (그 값으로 변경)
+              ChatRoom chatRoom = chatViewModel.chatRooms[index];
               int unreadCount =
                   chatViewModel.removeItem(index, chatRoom.roomId);
               if (chatMessage.roomId == chatViewModel.insideRoomId) {
@@ -211,8 +212,30 @@ class StompObject {
               }
               chatRoom.lastMessage = chatMessage.text;
               chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
+              chatViewModel.insertItem(chatRoom);
+            } else if (index == -1) {
+              //한번 나간 방에서 다시 메세지가 올 때.
+
+              /* 1. 다시 chatRoom생성*/
+              //메세지 보낸 사람 로그인 아이디 받아옴
+              String loginId = chatMessage.loginId;
+              //그 로그인 아이디로 그 사람 닉네임, 이미지 가져옴. 이미 한번 나랑 대화한 사람이기때문에 chatMemberInfo에 남아있음.
+              ChatMemberInfo member =
+                  await _chatService.getMemberInfoByLoginId(loginId);
+
+              ChatRoom chatRoom = ChatRoom(
+                  roomId: res["roomId"],
+                  title: member.nickname,
+                  type: res["type"],
+                  lastMessage: chatMessage.text,
+                  lastMsgCreatedAt:
+                      chatMessage.createdAt, //TODO: DateTime.now()로 바꾸기
+                  imageUrl: member.imageUrl,
+                  unreadCount: 1);
+
+              // /* 3. chatsScreen 수정 */
+              chatViewModel.insertItem(chatRoom);
             }
-            chatViewModel.insertItem(chatRoom);
           }
         } else if (res["type"] == "enter") {
           /***** ENTER ******/
@@ -311,6 +334,7 @@ class StompObject {
       },
     );
     print('구독성공: $roomId번 방 ');
+    return unsubscribeFn;
   }
 
   static void deactivateStomp() {
@@ -334,6 +358,7 @@ class StompObject {
         }),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
+    print('일단 서버로 보냄');
   }
 
   static void _changeMemberInfo(ChatMemberInfo chatMemberInfo) async {
