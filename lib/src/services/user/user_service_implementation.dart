@@ -93,8 +93,6 @@ class UserServiceImpl implements UserService {
     }
   }
 
- 
-
   @override
   Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg}) async {
@@ -124,6 +122,22 @@ class UserServiceImpl implements UserService {
       return user;
     } else {
       throw Exception('업데이트 오류');
+    }
+  }
+
+  @override
+  Future<void> blockUser({required String targetLoginId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
+    final jsonBody = jsonEncode({"blockedUserLoginId": targetLoginId});
+    final response = await http.post(Uri.parse(devServer + "/api/blockedUser"),
+        body: jsonBody,
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
+    if (response.statusCode == 201) {
+      print('유저차단성공');
+    } else {
+      throw Exception('blockUser 서버 오류');
     }
   }
 }

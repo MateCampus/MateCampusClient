@@ -36,7 +36,6 @@ class FakeUserService implements UserService {
     return userProfile;
   }
 
- 
   @override
   Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg}) async {
@@ -44,5 +43,11 @@ class FakeUserService implements UserService {
       loginId: "zm",
       nickname: nickname!,
     );
+  }
+
+  @override
+  Future<void> blockUser({required String targetLoginId}) {
+    // TODO: implement blockUser
+    throw UnimplementedError();
   }
 }

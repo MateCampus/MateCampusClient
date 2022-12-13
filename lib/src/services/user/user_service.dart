@@ -10,4 +10,6 @@ abstract class UserService {
 
   Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg});
+
+  Future<void> blockUser({required String targetLoginId});
 }
