@@ -25,7 +25,7 @@ class NotificationServiceImpl implements NotificationService {
               .toList();
       return notifications;
     } else {
-      throw Exception('게시물 패치 오류');
+      throw Exception('내 알림 가져오기 패치 오류');
     }
   }
 

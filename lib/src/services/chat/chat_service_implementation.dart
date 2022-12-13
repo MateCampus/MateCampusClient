@@ -38,6 +38,7 @@ class ChatServiceImpl implements ChatService {
     }
     if (response.statusCode == 403) {
       print('차단된 유저라서 대화방 못만들어');
+      return false;
     } else {
       throw Exception();
     }

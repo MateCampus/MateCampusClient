@@ -31,7 +31,7 @@ class _ChatDetailFromFriendProfileScreenState
   @override
   void initState() {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      vm.chatDetailInit(widget.profileLoginId);
+      vm.chatDetailInit(widget.profileLoginId, context);
     });
     super.initState();
   }
@@ -94,6 +94,7 @@ class _ChatDetailFromFriendProfileScreenState
             ),
           ),
           onPressed: () {
+            vm.unsubscribetest();
             Navigator.pop(context);
           },
         ),

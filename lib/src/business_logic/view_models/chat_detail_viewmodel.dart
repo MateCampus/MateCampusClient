@@ -146,7 +146,7 @@ class ChatDetailViewModel extends BaseModel {
   Future<void> exitChatRoom(int chatRoomIndex) async {
     resetData();
     // await chatService.exitChatRoom(roomId: chatRoom.roomId);
-    _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
+    _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);  //얘도 안해도 되려나.. 
     // _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
@@ -155,19 +155,19 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   Future<void> blockUserAndExit(int chatRoomIndex) async {
-    // String targetLoginId = "";
-    // List<ChatMemberInfo> chatMemberInfos =
-    //     await _chatService.getMemberInfoes(chatRoom.roomId);
-    // for (var member in chatMemberInfos) {
-    //   if (member.loginId != AuthService.loginId) {
-    //     targetLoginId = member.loginId;
-    //   }
-    // }
-    // print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
-    // await _userService.blockUser(targetLoginId: targetLoginId);
-    unsubscribeFn = await StompObject.subscribeChatRoom(chatRoom.roomId);
-    unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
-    unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
+    String targetLoginId = "";
+    List<ChatMemberInfo> chatMemberInfos =
+        await _chatService.getMemberInfoes(chatRoom.roomId);
+    for (var member in chatMemberInfos) {
+      if (member.loginId != AuthService.loginId) {
+        targetLoginId = member.loginId;
+      }
+    }
+    print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
+    await _userService.blockUser(targetLoginId: targetLoginId);
+    // unsubscribeFn = await StompObject.subscribeChatRoom(chatRoom.roomId);
+    unsubscribeFn!(unsubscribeHeaders: {});
+    // unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
 
     exitChatRoom(chatRoomIndex);
   }
