@@ -94,10 +94,10 @@ class PostDetailScreenViewModel extends BaseModel {
                         loginId: nestedComment.loginId,
                         userNickname: nestedComment.userNickname,
                         collegeName: CollegeData.korNameOf(describeEnum(
-                            comment.userCollegeCode ??
+                            nestedComment.userCollegeCode ??
                                 CollegeCode.college0000)),
-                        userImageUrl: comment.userImageUrl.isNotEmpty
-                            ? comment.userImageUrl
+                        userImageUrl: nestedComment.userImageUrl.isNotEmpty
+                            ? nestedComment.userImageUrl
                             : 'assets/images/user/general_user.png',
                         body: nestedComment.body,
                         deleted: nestedComment.deleted,
@@ -224,9 +224,9 @@ class PostDetailScreenViewModel extends BaseModel {
                     loginId: nestedComment.loginId,
                     userNickname: nestedComment.userNickname,
                     collegeName: CollegeData.korNameOf(describeEnum(
-                        comment.userCollegeCode ?? CollegeCode.college0000)),
-                    userImageUrl: comment.userImageUrl.isNotEmpty
-                        ? comment.userImageUrl
+                        nestedComment.userCollegeCode ?? CollegeCode.college0000)),
+                    userImageUrl: nestedComment.userImageUrl.isNotEmpty
+                        ? nestedComment.userImageUrl
                         : 'assets/images/user/general_user.png',
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
