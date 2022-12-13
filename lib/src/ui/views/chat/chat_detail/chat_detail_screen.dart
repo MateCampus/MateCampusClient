@@ -94,6 +94,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ),
           ),
           onPressed: () {
+            FocusManager.instance.primaryFocus
+                ?.unfocus(); //혹시 키보드가 올라가있으면 내려준다.
+            Navigator.pop(context);
+            vm.blockUserAndExit(widget.index);
             Navigator.pop(context);
           },
         ),
@@ -106,6 +110,8 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             ),
           ),
           onPressed: () {
+            FocusManager.instance.primaryFocus
+                ?.unfocus(); //혹시 키보드가 올라가있으면 내려준다.
             Navigator.pop(context);
             vm.exitChatRoom(widget.index);
             Navigator.pop(context);

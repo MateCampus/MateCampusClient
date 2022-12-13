@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:stomp_dart_client/stomp_handler.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/user/user_service.dart';
 
 import 'base_model.dart';
 
 class ChatDetailViewModel extends BaseModel {
   bool _loadMoreBusy = false;
   bool get loadMoreBusy => _loadMoreBusy;
-  ChatService chatService = serviceLocator<ChatService>();
+  ChatService _chatService = serviceLocator<ChatService>();
+  UserService _userService = serviceLocator<UserService>();
+  StompUnsubscribe? unsubscribeFn;
+
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
       title: "",
@@ -51,16 +59,16 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   firstLoadForChatMessagesAndMember(String roomId) async {
-    _chatMessages.addAll(await chatService.getMessages(roomId, 0));
+    _chatMessages.addAll(await _chatService.getMessages(roomId, 0));
     List<ChatMemberInfo> chatMemberInfos =
-        await chatService.getMemberInfoes(roomId);
+        await _chatService.getMemberInfoes(roomId);
     for (var element in chatMemberInfos) {
       this.chatMemberInfos.addAll({element.loginId: element});
     }
   }
 
   changeUnreadCount(String roomId) {
-    chatService.updateUnreadCount(0, roomId);
+    _chatService.updateUnreadCount(0, roomId);
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     chatViewModel.changeUnreadCountToZero(roomId);
 
@@ -91,7 +99,7 @@ class ChatDetailViewModel extends BaseModel {
     /// local storage에 있는 메세지 더 불러오기
     changeLoadMoreBusy(true);
     List<ChatMessage> result =
-        await chatService.getMessages(chatRoom.roomId, nextPageToken);
+        await _chatService.getMessages(chatRoom.roomId, nextPageToken);
     chatMessages.insertAll(chatMessages.length, result); // ** 맨마지막에 더하기
     nextPageToken++;
     changeLoadMoreBusy(false);
@@ -137,12 +145,30 @@ class ChatDetailViewModel extends BaseModel {
 
   Future<void> exitChatRoom(int chatRoomIndex) async {
     resetData();
-    await chatService.exitChatRoom(roomId: chatRoom.roomId);
-    chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
-    chatService.deleteChatRoomByRoomId(chatRoom.roomId);
-    chatService.deleteMessageByRoomId(chatRoom.roomId);
+    // await chatService.exitChatRoom(roomId: chatRoom.roomId);
+    _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
+    // _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
+    _chatService.deleteMessageByRoomId(chatRoom.roomId);
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
+  }
+
+  Future<void> blockUserAndExit(int chatRoomIndex) async {
+    // String targetLoginId = "";
+    // List<ChatMemberInfo> chatMemberInfos =
+    //     await _chatService.getMemberInfoes(chatRoom.roomId);
+    // for (var member in chatMemberInfos) {
+    //   if (member.loginId != AuthService.loginId) {
+    //     targetLoginId = member.loginId;
+    //   }
+    // }
+    // print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
+    // await _userService.blockUser(targetLoginId: targetLoginId);
+    unsubscribeFn = await StompObject.subscribeChatRoom(chatRoom.roomId);
+    unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
+    unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
+
+    exitChatRoom(chatRoomIndex);
   }
 }

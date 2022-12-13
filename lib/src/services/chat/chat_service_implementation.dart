@@ -35,6 +35,9 @@ class ChatServiceImpl implements ChatService {
       var res = await jsonDecode(utf8.decode(response.bodyBytes));
       // ChatRoom, MemberInfo, ChatRoomMemberInfo 3가지 만들어서 보내자.
       return res;
+    }
+    if (response.statusCode == 403) {
+      print('차단된 유저라서 대화방 못만들어');
     } else {
       throw Exception();
     }
@@ -90,7 +93,6 @@ class ChatServiceImpl implements ChatService {
     } else {
       print("fetchChatrooms 서버 잘못된 경우");
       return {};
-      // throw Exception('Failed to load chatRooms');
     }
   }
 

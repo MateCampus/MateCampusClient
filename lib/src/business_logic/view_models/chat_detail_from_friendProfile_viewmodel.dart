@@ -58,6 +58,8 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     var res = await chatService.createOrGetChatRoom(otherLoginId: otherLoginId);
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     bool isExistRoom = false;
+    //이 부분은 채팅방 메인에서 리스트가 사라지면 안돌아감. 왜냐, ui 에서 지우려고 chatRooms를 지웠거든!
+    //따라서 분기를 하나 더 주고, 이미 구독되어있다면 존재한다고 판단해줘야함.
     for (var chatRoom in chatViewModel.chatRooms) {
       if (chatRoom.roomId == res["createDto"]["roomInfo"]["roomId"]) {
         isExistRoom = true;
