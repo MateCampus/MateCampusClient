@@ -31,21 +31,8 @@ class PostListTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //유저정보영역 -> 이 영역을 누르면 상대방 프로필 창으로 넘어감
-              GestureDetector(
-                onTap: () {
-                  post.loginId == AuthService.loginId
-                      ? Navigator.pushNamed(
-                          context, UserProfileScreen.routeName,
-                          arguments: UserProfileScreenArgs(
-                              loginId: post.loginId, hasBottomBtn: false))
-                      : Navigator.pushNamed(
-                          context, UserProfileScreen.routeName,
-                          arguments: UserProfileScreenArgs(
-                              loginId: post.loginId, hasBottomBtn: true));
-                },
-                child: _postUser(),
-              ),
+              //유저 정보 영역. 프로필 사진을 누르면 상대방 프로필 화면으로 넘어간다.
+              _postUser(context),
 
               //포스트 영역 -> 누르면 포스트디테일로 넘어감
               GestureDetector(
@@ -90,16 +77,27 @@ class PostListTile extends StatelessWidget {
     );
   }
 
-  Widget _postUser() {
+  Widget _postUser(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       dense: true,
-      leading: CircleAvatar(
-        backgroundColor: Colors.grey,
-        radius: getProportionateScreenHeight(18),
-        backgroundImage: post.userImageUrl.startsWith('https')
-            ? CachedNetworkImageProvider(post.userImageUrl) as ImageProvider
-            : AssetImage(post.userImageUrl),
+      leading: GestureDetector(
+        onTap: () {
+          post.loginId == AuthService.loginId
+              ? Navigator.pushNamed(context, UserProfileScreen.routeName,
+                  arguments: UserProfileScreenArgs(
+                      loginId: post.loginId, hasBottomBtn: false))
+              : Navigator.pushNamed(context, UserProfileScreen.routeName,
+                  arguments: UserProfileScreenArgs(
+                      loginId: post.loginId, hasBottomBtn: true));
+        },
+        child: CircleAvatar(
+          backgroundColor: Colors.grey,
+          radius: getProportionateScreenHeight(18),
+          backgroundImage: post.userImageUrl.startsWith('https')
+              ? CachedNetworkImageProvider(post.userImageUrl) as ImageProvider
+              : AssetImage(post.userImageUrl),
+        ),
       ),
       title: Text(
         post.userNickname,

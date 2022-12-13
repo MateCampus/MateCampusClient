@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/user_profile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
+import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart';
 
 class PostHead extends StatelessWidget {
   final PostDetailScreenViewModel vm;
@@ -16,7 +19,15 @@ class PostHead extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            vm.postDetail.loginId == AuthService.loginId
+                ? Navigator.pushNamed(context, UserProfileScreen.routeName,
+                    arguments: UserProfileScreenArgs(
+                        loginId: vm.postDetail.loginId, hasBottomBtn: false))
+                : Navigator.pushNamed(context, UserProfileScreen.routeName,
+                    arguments: UserProfileScreenArgs(
+                        loginId: vm.postDetail.loginId, hasBottomBtn: true));
+          },
           child: _postUser(),
         ),
         vm.postDetail.categories.isEmpty ? const SizedBox() : _postCategories()

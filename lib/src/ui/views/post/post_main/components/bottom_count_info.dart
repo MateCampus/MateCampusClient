@@ -23,7 +23,7 @@ class BottomCountInfo extends StatelessWidget {
           vertical: getProportionateScreenHeight(12)),
       child: Row(
         children: [
-          _likePostBtn(),
+          _likePostBtn(context),
           const HorizontalSpacing(of: 15),
           _commentBtn(context),
           const Spacer(),
@@ -33,9 +33,12 @@ class BottomCountInfo extends StatelessWidget {
     );
   }
 
-  Widget _likePostBtn() {
+  Widget _likePostBtn(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, PostLikedListScreen.routeName,
+            arguments: PostLikedListScreenArgs(post.id));
+      },
       child: Row(
         children: [
           Icon(
@@ -61,7 +64,7 @@ class BottomCountInfo extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, PostDetailScreen.routeName,
-                      arguments: PostDetailScreenArgs(post.id));
+            arguments: PostDetailScreenArgs(post.id));
       },
       child: Row(
         children: [

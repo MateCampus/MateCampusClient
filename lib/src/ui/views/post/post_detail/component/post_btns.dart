@@ -137,7 +137,7 @@ class _PostBtnsState extends State<PostBtns> {
         children: [
           Icon(
             CupertinoIcons.bubble_left,
-            size: kPostMainIconSizeCP,
+            size: kPostDetailIconSizeCP,
             color: kPostBtnColor,
           ),
           const HorizontalSpacing(of: 5),

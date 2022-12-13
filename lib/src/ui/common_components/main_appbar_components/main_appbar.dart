@@ -21,11 +21,11 @@ class MainAppBar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         '\t$titleText',
         style: TextStyle(
-            fontFamily: 'Gmarket',
+            fontFamily: 'Pretendard',
             color: kAppBarTextColor,
             fontSize: resizeFont(20),
-            letterSpacing: 2,
-            fontWeight: FontWeight.w500),
+            // letterSpacing: 2,
+            fontWeight: FontWeight.w700),
       ),
       centerTitle: false,
       actions: actions,

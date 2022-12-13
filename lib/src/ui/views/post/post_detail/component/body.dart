@@ -31,7 +31,7 @@ class Body extends StatelessWidget {
                           horizontal: getProportionateScreenWidth(20)),
                       child: Column(
                         children: [
-                          PostHead(vm: vm), //프로필 카테고리
+                          PostHead(vm: vm), //프로필, 카테고리
                           PostBody(vm: vm), //본문 (사진)
                         ],
                       ),

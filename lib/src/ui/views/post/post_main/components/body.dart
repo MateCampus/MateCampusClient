@@ -33,11 +33,11 @@ class Body extends StatelessWidget {
               title: Text(
                 '\t피드',
                 style: TextStyle(
-                    fontFamily: 'Gmarket',
+                    fontFamily: 'Pretendard',
                     color: kAppBarTextColor,
                     fontSize: resizeFont(20),
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.w500),
+                    // letterSpacing: 2,
+                    fontWeight: FontWeight.w700),
               ),
               actions: const [
                 NotificationAlarmInAppbar(
