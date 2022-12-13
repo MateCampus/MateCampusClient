@@ -129,11 +129,12 @@ class UserServiceImpl implements UserService {
   Future<void> blockUser({required String targetLoginId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final jsonBody = jsonEncode({"blockedUserLoginId": targetLoginId});
-    final response = await http.post(Uri.parse(devServer + "/api/blockedUser"),
-        body: jsonBody,
-        headers: AuthService.get_auth_header(
-            accessToken: accessToken, refreshToken: refreshToken));
+
+    var request = http.MultipartRequest("POST", Uri.parse(devServer + "/api/blockedUser"))
+            ..headers.addAll(AuthService.get_auth_header(accessToken: accessToken, refreshToken: refreshToken));
+    request.fields['blockedUserLoginId'] = targetLoginId;
+    var response = await request.send();
+    
     if (response.statusCode == 201) {
       print('유저차단성공');
     } else {
