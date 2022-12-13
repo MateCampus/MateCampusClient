@@ -67,7 +67,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
         // width: getProportionateScreenWidth(265),
         child: Center(
           child: TextField(
-            keyboardType: TextInputType.multiline,
+            keyboardType: TextInputType.text,
             maxLines: null,
             autocorrect: false,
             controller: _textController,
