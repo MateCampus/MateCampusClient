@@ -53,27 +53,20 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       child: Consumer<UserProfileDemandSurveyViewModel>(
           builder: (context, vm, child) {
         return Scaffold(
-          appBar: SubAppbar(
-            actions: [
-              IconButton(
-                icon: const Icon(CupertinoIcons.ellipsis_vertical),
-                color: Colors.black,
-                iconSize: kAppBarIconSizeCP,
-                onPressed: (widget.loginId == AuthService.loginId)
-                    ? null
-                    : () {
-                        _reportUser();
-                      },
-              )
-            ],
+          appBar: AppBar(
+            toolbarHeight: 0,
+            backgroundColor: kMainScreenBackgroundColor,
+            elevation: 0,
           ),
           backgroundColor: kMainScreenBackgroundColor,
           body: vm.busy
               ? const IsLoading()
-              : Body(
-                  vm: vm,
-                  hasBottomBtn: widget.hasBottomBtn,
-                  userLoginId: widget.loginId),
+              : SafeArea(
+                  child: Body(
+                      vm: vm,
+                      hasBottomBtn: widget.hasBottomBtn,
+                      userLoginId: widget.loginId),
+                ),
           floatingActionButton: widget.hasBottomBtn
               ? ChatBtn(profileLoginId: vm.userProfile.loginId)
               : const SizedBox(),
@@ -81,42 +74,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               FloatingActionButtonLocation.centerDocked,
         );
       }),
-    );
-  }
-
-  _reportUser() {
-    showAdaptiveActionSheet(
-      context: context,
-      actions: <BottomSheetAction>[
-        BottomSheetAction(
-          title: Text(
-            '신고하기',
-            style: TextStyle(
-              fontSize: resizeFont(15.0),
-              color: Colors.black87,
-            ),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return ReportForm(
-                      targetUserLoginId: widget.loginId,
-                      reportCategoryIndex: "1");
-                });
-          },
-        ),
-      ],
-      cancelAction: CancelAction(
-          title: Text(
-            '취소',
-            style: TextStyle(
-                fontSize: resizeFont(16.0), fontWeight: FontWeight.w500),
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          }),
     );
   }
 }

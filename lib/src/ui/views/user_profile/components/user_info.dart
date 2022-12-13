@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
@@ -8,7 +9,6 @@ import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart'
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/show_user_interest.dart';
 
-//관심사 없는 유저
 class UserInfo extends SliverPersistentHeaderDelegate {
   UserProfileDemandSurveyViewModel vm;
   UserInfo({required this.vm});
@@ -16,21 +16,14 @@ class UserInfo extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        VerticalSpacing(of: 10),
-        _nicknameCollegeImage(context),
-        const VerticalSpacing(),
-        vm.userProfile.introduction == null
-            ? const VerticalSpacing(of: 10)
-            : _introduction(),
-        Spacer(),
-        HorizontalDividerCustom(
-          color: Color(0xfff0f0f6),
-          thickness: getProportionateScreenHeight(10),
-        ),
-      ],
+    return Container(
+      decoration: const BoxDecoration(color: kMainScreenBackgroundColor),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _nicknameCollegeImage(context),
+        ],
+      ),
     );
   }
 
@@ -44,9 +37,9 @@ class UserInfo extends SliverPersistentHeaderDelegate {
               press: () {
                 showOriginalProfileImage(context, vm.userProfile.imageUrl);
               },
-              size: getProportionateScreenHeight(95)),
+              size: getProportionateScreenHeight(90)),
           Padding(
-            padding: EdgeInsets.only(left: getProportionateScreenWidth(15)),
+            padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -71,29 +64,13 @@ class UserInfo extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget _introduction() {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenWidth(15),
-      ),
-      child: Text(
-        vm.userProfile.introduction!,
-        style: TextStyle(
-          color: Color(0xff111111),
-          height: 1.5,
-          fontSize: resizeFont(14),
-        ),
-      ),
-    );
-  }
-
   @override
   // TODO: implement maxExtent
-  double get maxExtent => getProportionateScreenHeight(240);
+  double get maxExtent => getProportionateScreenHeight(100);
 
   @override
   // TODO: implement minExtent
-  double get minExtent => getProportionateScreenHeight(240);
+  double get minExtent => getProportionateScreenHeight(100);
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) =>

@@ -43,6 +43,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
     nickname: '',
     imageUrl: 'assets/images/user/general_user.png',
     collegeName: '',
+    introduction: '',
     isOnline: false,
   );
 
@@ -75,8 +76,8 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
         imageUrl: user.imageUrl ?? defaultUserProfile.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(user.collegeCode ?? CollegeCode.college0000)),
-        majorName: user.majorName??"",
-        introduction: user.introduction);
+        majorName: user.majorName ?? "",
+        introduction: user.introduction ?? "");
     _interests = InterestObject.mapInterests(user.interests);
 
     //피드 가져오는 부분
@@ -160,7 +161,7 @@ class UserProfilePresentation {
   final String imageUrl;
   final String collegeName;
   final String? majorName;
-  final String? introduction;
+  final String introduction;
   final bool? isOnline;
 
   UserProfilePresentation({
@@ -169,7 +170,7 @@ class UserProfilePresentation {
     required this.imageUrl,
     required this.collegeName,
     this.majorName,
-    this.introduction,
+    required this.introduction,
     this.isOnline,
   });
 }

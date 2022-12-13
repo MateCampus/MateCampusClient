@@ -17,7 +17,7 @@ class _ChatBtnState extends State<ChatBtn> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      icon: Icon(
+      icon: const Icon(
         CupertinoIcons.chat_bubble_2,
         color: Colors.white,
       ),

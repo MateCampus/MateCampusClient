@@ -39,10 +39,10 @@ class SubAppbar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         titleText ?? '',
         style: TextStyle(
-            fontFamily: 'Gmarket',
+            fontFamily: 'Pretendard',
             color: kAppBarTextColor,
             fontSize: kTitleFontSize,
-            fontWeight: FontWeight.w600),
+            fontWeight: FontWeight.w700),
       ),
       centerTitle: isCenter ?? false,
       actions: actions,

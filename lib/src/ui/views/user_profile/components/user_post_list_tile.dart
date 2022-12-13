@@ -19,7 +19,7 @@ class UserPostListTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        VerticalSpacing(),
+        VerticalSpacing(of: getProportionateScreenHeight(15)),
         Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
@@ -44,7 +44,7 @@ class UserPostListTile extends StatelessWidget {
                         ? const SizedBox()
                         : Padding(
                             padding: EdgeInsets.only(
-                                bottom: getProportionateScreenHeight(20)),
+                                bottom: getProportionateScreenHeight(10)),
                             child: _postImg(),
                           ),
                   ],
