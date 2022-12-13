@@ -23,13 +23,13 @@ class ShowInterest extends StatelessWidget {
             style: TextStyle(
                 color: Color(0xff776677),
                 fontSize: resizeFont(14),
-                fontWeight: FontWeight.w500),
+                fontWeight: FontWeight.w600),
           ),
-          const VerticalSpacing(of: 10),
+          const VerticalSpacing(of: 12),
           Wrap(
             alignment: WrapAlignment.start,
-            runSpacing: getProportionateScreenHeight(10),
-            spacing: getProportionateScreenWidth(8),
+            runSpacing: getProportionateScreenHeight(12),
+            spacing: getProportionateScreenWidth(10),
             children: [
               ...vm.selectedInterestCodes.map((interest) => Chip(
                     padding: EdgeInsets.zero,
@@ -39,7 +39,7 @@ class ShowInterest extends StatelessWidget {
                     labelStyle: TextStyle(
                       fontSize: resizeFont(14),
                       color: const Color(0xff111111),
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w400,
                     ),
                     backgroundColor: const Color(0xffE5E5EC),
                     side:

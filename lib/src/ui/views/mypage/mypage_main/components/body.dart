@@ -35,7 +35,7 @@ class Body extends StatelessWidget {
           ShowInfo(vm: vm),
           //프로필 수정 버튼
           // MyInfoEditBtn(vm: vm),
-          // const VerticalSpacing(of: 20),
+          const VerticalSpacing(of: 15),
           //관심사영역
           ShowInterest(vm: vm),
           const VerticalSpacing(of: 40),
