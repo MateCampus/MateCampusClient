@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
@@ -14,6 +15,7 @@ import 'dart:convert';
 import 'package:zamongcampus/src/services/chat/sqflite/chatMessage_db_helper.dart';
 import 'package:zamongcampus/src/services/chat/sqflite/chatRoom_db_helper.dart';
 import 'package:zamongcampus/src/services/chat/sqflite/chatRoom_memberInfo_db_helper.dart';
+import 'package:zamongcampus/src/services/login/login_service.dart';
 
 class ChatServiceImpl implements ChatService {
   ChatMessageDBHelper chatMessageDBHelper = ChatMessageDBHelper();
@@ -39,8 +41,13 @@ class ChatServiceImpl implements ChatService {
     if (response.statusCode == 403) {
       print('차단된 유저라서 대화방 못만들어');
       return false;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return createOrGetChatRoom(otherLoginId: otherLoginId);
     } else {
-      throw Exception();
+      throw Exception('createOrGetChatRoom 서버 오류');
     }
   }
 
@@ -65,6 +72,11 @@ class ChatServiceImpl implements ChatService {
     if (response.statusCode == 200) {
       print("Respond: ${response.body.toString()}");
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return sendMessage(roomId, loginId, text, type, title, chatRoomType);
     } else {
       return false;
     }
@@ -91,6 +103,11 @@ class ChatServiceImpl implements ChatService {
       // 여기서 json으로 변경 해야해ㅐㅐㅐㅐㅐ!!
       print("fetchUnReceivedMessages!");
       return newMessages;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchUnReceivedMessages();
     } else {
       print("fetchChatrooms 서버 잘못된 경우");
       return {};
@@ -98,6 +115,7 @@ class ChatServiceImpl implements ChatService {
   }
 
   @override
+  //일단은 안쓴다.12/14
   Future<void> exitChatRoom({required String roomId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();

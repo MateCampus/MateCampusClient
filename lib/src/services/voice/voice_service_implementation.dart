@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/services/voice/voice_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//401처리 안함.
 class VoiceServiceImpl implements VoiceService {
   @override
   Future<List<VoiceRoom>> fetchVoiceRooms({required int nextPageToken}) async {

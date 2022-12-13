@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
+import 'package:zamongcampus/src/services/login/login_service.dart';
 
 class CommentServiceImpl implements CommentService {
   @override
@@ -24,6 +26,11 @@ class CommentServiceImpl implements CommentService {
     if (response.statusCode == 201) {
       print("댓글 생성 성공");
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return createComment(postId: postId, body: body);
     } else {
       throw Exception("댓글 생성 오류");
     }
@@ -47,6 +54,12 @@ class CommentServiceImpl implements CommentService {
     if (response.statusCode == 201) {
       print("대댓글 생성 성공");
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return createNestedComment(
+          postId: postId, parentId: parentId, body: body);
     } else {
       print("성공? 응 아니야");
       return false;
@@ -67,6 +80,11 @@ class CommentServiceImpl implements CommentService {
           .map<Comment>((json) => Comment.fromJson(json))
           .toList();
       return comments;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchComments(postId: postId);
     } else {
       throw Exception('댓글 가져오기 실패');
     }
@@ -86,6 +104,11 @@ class CommentServiceImpl implements CommentService {
               .map<Comment>((json) => Comment.fromJson(json))
               .toList();
       return myComments;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchMyComments();
     } else {
       throw Exception('내 댓글 가져오기 실패');
     }
@@ -104,6 +127,11 @@ class CommentServiceImpl implements CommentService {
     if (response.statusCode == 204) {
       print('삭제 완료');
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return deleteComment(commentId: commentId);
     } else {
       print(response.statusCode);
       print('오류: 댓글 삭제 실패');

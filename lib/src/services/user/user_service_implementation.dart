@@ -6,8 +6,10 @@ import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/dummy_data.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
+import 'package:zamongcampus/src/services/login/login_service.dart';
 
 import 'user_service.dart';
 
@@ -25,6 +27,11 @@ class UserServiceImpl implements UserService {
           .map<User>((user) => User.fromJson(user))
           .toList();
       return users;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchRecommendUsers(nextPageToken: nextPageToken);
     } else {
       throw Exception('fetchMyInfo 서버 오류');
     }
@@ -55,6 +62,11 @@ class UserServiceImpl implements UserService {
             .toList()
       });
       return users;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchRecentTalkUsersAndFriends();
     } else {
       throw Exception('최근 대화한 사람, approve 친구 가져오기 오류');
     }
@@ -71,6 +83,11 @@ class UserServiceImpl implements UserService {
       User user =
           User.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
       return user;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchMyInfo();
     } else {
       throw Exception('fetchMyInfo 서버 오류');
     }
@@ -88,6 +105,11 @@ class UserServiceImpl implements UserService {
       User user =
           User.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
       return user;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchUserInfo(loginId: loginId);
     } else {
       throw Exception('fetchMyInfo 서버 오류');
     }
@@ -120,6 +142,11 @@ class UserServiceImpl implements UserService {
       User user =
           User.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
       return user;
+    } else if (streamedResponse.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return updateMyInfo();
     } else {
       throw Exception('업데이트 오류');
     }
@@ -130,13 +157,20 @@ class UserServiceImpl implements UserService {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
 
-    var request = http.MultipartRequest("POST", Uri.parse(devServer + "/api/blockedUser"))
-            ..headers.addAll(AuthService.get_auth_header(accessToken: accessToken, refreshToken: refreshToken));
+    var request =
+        http.MultipartRequest("POST", Uri.parse(devServer + "/api/blockedUser"))
+          ..headers.addAll(AuthService.get_auth_header(
+              accessToken: accessToken, refreshToken: refreshToken));
     request.fields['blockedUserLoginId'] = targetLoginId;
     var response = await request.send();
-    
+
     if (response.statusCode == 201) {
       print('유저차단성공');
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return blockUser(targetLoginId: targetLoginId);
     } else {
       throw Exception('blockUser 서버 오류');
     }

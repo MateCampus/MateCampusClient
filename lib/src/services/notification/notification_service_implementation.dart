@@ -24,6 +24,11 @@ class NotificationServiceImpl implements NotificationService {
               .map<NotificationZC>((json) => NotificationZC.fromJson(json))
               .toList();
       return notifications;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchMyNotification();
     } else {
       throw Exception('내 알림 가져오기 패치 오류');
     }
@@ -62,6 +67,11 @@ class NotificationServiceImpl implements NotificationService {
             accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 204) {
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return updateAllMyNotificationRead();
     } else {
       return false;
     }
@@ -79,6 +89,11 @@ class NotificationServiceImpl implements NotificationService {
 
     if (response.statusCode == 200) {
       return jsonDecode(utf8.decode(response.bodyBytes));
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return updateMyNotificationRead(id: id);
     } else {
       return -1;
     }
@@ -94,6 +109,11 @@ class NotificationServiceImpl implements NotificationService {
             accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 204) {
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return deleteMyNotification(id: id);
     } else {
       return false;
     }

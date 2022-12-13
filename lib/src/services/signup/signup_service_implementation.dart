@@ -37,6 +37,7 @@ class SignUpServiceImpl implements SignUpService {
   }
 
   @override
+  //이거는 내정보 수정하기에서도 쓰긴하는데 어차피 헤더에 아무것도 안넣고 보내기때문에 굳이 401로직이 필요없을것같음
   Future<bool> checkNicknameRedundancy({required String nickname}) async {
     bool isDuplicated = false;
     final response = await http.get(
@@ -90,18 +91,18 @@ class SignUpServiceImpl implements SignUpService {
 
     //리스트 넘기는 법
     // TODO: 바꿔야할지도? join으로
-     String interestCodesJson = "";
-    if(interestCodes.isEmpty){
+    String interestCodesJson = "";
+    if (interestCodes.isEmpty) {
       request.fields["interestCodes"] = interestCodesJson;
-    }else{
+    } else {
       interestCodes.forEach((interestCode) {
-      interestCodesJson = interestCodesJson + interestCode + ",";
-    });
-    interestCodesJson =
-        interestCodesJson.substring(0, interestCodesJson.length - 1);
-    request.fields["interestCodes"] = interestCodesJson;
+        interestCodesJson = interestCodesJson + interestCode + ",";
+      });
+      interestCodesJson =
+          interestCodesJson.substring(0, interestCodesJson.length - 1);
+      request.fields["interestCodes"] = interestCodesJson;
     }
-   
+
     if (profileImg != null) {
       request.files.add(
           await http.MultipartFile.fromPath('profileImg', profileImg.path));
@@ -140,24 +141,22 @@ class SignUpServiceImpl implements SignUpService {
 
   //open api 사용
   @override
-  Future<List<Major>> fetchMajors({ required String searchText}) async{
-    
-    final response = await http.get(Uri.parse("https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=ea3d8e66e599ebdbef51186142b8e1a8&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list&thisPage=1&perPage=20&searchTitle="+searchText));
+  Future<List<Major>> fetchMajors({required String searchText}) async {
+    final response = await http.get(Uri.parse(
+        "https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=ea3d8e66e599ebdbef51186142b8e1a8&svcType=api&svcCode=MAJOR&contentType=json&gubun=univ_list&thisPage=1&perPage=20&searchTitle=" +
+            searchText));
 
-    if (response.statusCode==200){
+    if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
       var data = jsonResponse['dataSearch']['content'];
-     
-      List<Major> majors = await data
-            .map<Major>((json)=>Major.fromJson(json))
-            .toList();
-      
-      return majors;
 
-    }else {
+      List<Major> majors =
+          await data.map<Major>((json) => Major.fromJson(json)).toList();
+
+      return majors;
+    } else {
       print(response.statusCode);
       throw Exception('open api 서버 오류');
     }
-   
   }
 }

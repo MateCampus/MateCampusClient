@@ -1,7 +1,9 @@
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
+import 'package:zamongcampus/src/services/login/login_service.dart';
 
 import '../../business_logic/models/enums/interestCode.dart';
 import 'interest_service.dart';
@@ -23,6 +25,11 @@ class InterestServiceImpl extends InterestService {
               .map<Interest>((json) => Interest.fromJson(json))
               .toList();
       return interests;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchMyInterests();
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('관심사 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
@@ -47,9 +54,14 @@ class InterestServiceImpl extends InterestService {
       return await jsonDecode(utf8.decode(response.bodyBytes))
           .map<Interest>((json) => Interest.fromJson(json))
           .toList();
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return updateMyInterests(selectInterestCodes);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
-      throw Exception('오류');
+      throw Exception('updateMyInterests 서버 오류');
     }
   }
 }

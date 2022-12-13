@@ -40,6 +40,12 @@ class PostServiceImpl implements PostService {
     if (response.statusCode == 200) {
       print("post 생성 성공");
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return createPost(
+          title: title, body: body, categoryCodeList: categoryCodeList);
     } else {
       return false;
     }
@@ -73,8 +79,8 @@ class PostServiceImpl implements PostService {
       return posts;
     } else if (response.statusCode == 401) {
       LoginService loginService = serviceLocator<LoginService>();
-      print('일단 재발행을 하는 모양인데 ..');
       await loginService.reissueToken();
+      print('토큰재발행 완료');
       return fetchPosts(
           type: type,
           nextPageToken: nextPageToken,
@@ -98,6 +104,11 @@ class PostServiceImpl implements PostService {
       Post post =
           Post.fromJson(await jsonDecode(utf8.decode(response.bodyBytes)));
       return post;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchPostDetail(postId: postId);
     } else {
       throw Exception('게시물 패치 오류');
     }
@@ -119,6 +130,11 @@ class PostServiceImpl implements PostService {
         "myBookMarkIds": json["myBookMarkIds"].cast<int>()
       });
       return ids;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchMyLikeBookmarkPostIds();
     } else {
       throw Exception('게시물 좋아요, 북마크 Ids 가져오기 오류');
     }
@@ -140,6 +156,11 @@ class PostServiceImpl implements PostService {
               .map<Post>((json) => Post.fromJson(json))
               .toList();
       return bookmarkPosts;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchBookmarkPosts(nextPageToken: nextPageToken);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception(
@@ -162,6 +183,11 @@ class PostServiceImpl implements PostService {
           .map<Post>((json) => Post.fromJson(json))
           .toList();
       return myPosts;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchMyPosts(nextPageToken: nextPageToken);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('내 피드 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
@@ -186,6 +212,12 @@ class PostServiceImpl implements PostService {
           .map<Post>((json) => Post.fromJson(json))
           .toList();
       return posts;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchUserPosts(
+          targetLoginId: targetLoginId, nextPageToken: nextPageToken);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception(
@@ -206,6 +238,11 @@ class PostServiceImpl implements PostService {
           .map<User>((json) => User.fromJson(json))
           .toList();
       return likedUsers;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchLikedUsers(postId: postId);
     } else {
       throw Exception('좋아요 유저 리스트 서버에서 가져오기 실패');
     }
@@ -224,6 +261,11 @@ class PostServiceImpl implements PostService {
       Map<String, int> result = {};
       result.addAll({"postId": json["postId"], "likeCount": json["likeCount"]});
       return result;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return likePost(postId: postId);
     } else {
       throw Exception('게시물 좋아요 오류');
     }
@@ -240,6 +282,11 @@ class PostServiceImpl implements PostService {
     if (response.statusCode == 200) {
       var postId = await jsonDecode(utf8.decode(response.bodyBytes));
       return postId;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return bookMarkPost(postId: postId);
     } else {
       throw Exception('게시물 좋아요 오류');
     }
@@ -256,6 +303,11 @@ class PostServiceImpl implements PostService {
     if (response.statusCode == 204) {
       print('게시물 삭제 완료');
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return deletePost(postId: postId);
     } else {
       print('오류: 게시물 삭제 실패');
       return false;
