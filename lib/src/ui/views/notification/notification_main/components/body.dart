@@ -33,7 +33,9 @@ class Body extends StatelessWidget {
                       initialItemCount: vm.notifications.length,
                       itemBuilder: (context, index, animation) =>
                           NotificationListTile(
+                            vm: vm,
                         notification: vm.notifications[index],
+                        index: index,
                         animation: animation,
                         onClicked: () {
                           vm.navigateAndSetRead(
