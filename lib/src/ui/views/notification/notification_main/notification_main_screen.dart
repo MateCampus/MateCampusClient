@@ -36,16 +36,7 @@ class _NotificationMainScreenState extends State<NotificationMainScreen> {
               titleText: '알림',
             ),
             backgroundColor: kSubScreenBackgroundColor,
-            body: SafeArea(
-              child: vm.busy
-                  ? const IsLoading()
-                  : vm.notifications.isEmpty
-                      ? const CenterSentence(
-                          sentence: '알림이 존재하지 않습니다',
-                          bottomSpace: 100,
-                        )
-                      : Body(vm: vm),
-            ));
+            body: SafeArea(child: Body(vm: vm)));
       }),
     );
   }
