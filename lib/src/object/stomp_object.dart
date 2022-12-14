@@ -317,7 +317,7 @@ class StompObject {
               imageUrl: res["roomInfo"]["imageUrl"],
               unreadCount: 0);
           _chatService.insertChatRoom(chatRoom);
-          subscribeChatRoom(chatRoom.roomId);
+         chatRoom.unsubscribeFn= subscribeChatRoom(chatRoom.roomId);
 
           /* 2. 멤버 저장 */
           res["memberInfos"].forEach((memberInfo) {
