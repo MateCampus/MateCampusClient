@@ -44,7 +44,7 @@ class _UserIntroduceInputState extends State<UserIntroduceInput> {
                 widget.vm.scrollIntroduceFieldToTop();
               },
               maxLines: 5,
-              maxLength: 100,
+              maxLength: 150,
               autocorrect: false,
               decoration: InputDecoration(
                 hintText: "본인을 자유롭게 표현해주세요",

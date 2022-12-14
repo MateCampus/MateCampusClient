@@ -122,7 +122,7 @@ class _EditTextState extends State<EditText> {
                 controller: widget.vm.introductionController,
                 autocorrect: false,
                 maxLines: 5,
-                maxLength: 100,
+                maxLength: 150,
                 decoration: InputDecoration(
                   hintText: "본인을 자유롭게 표현해주세요",
                   hintStyle: TextStyle(
