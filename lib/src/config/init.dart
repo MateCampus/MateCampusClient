@@ -28,12 +28,8 @@ class Init {
     if (loginId == null || token == null || refreshToken == null) {
       return "/login";
     } else {
-      //여기서 토큰 유효한지를 확인해야한다고 생각했는데 어차피 루트로 가자마자 .. 어떠한 api든 요청이되니까 상관없지 않을까..
-
-      // return "/";
-
       /// 여기 logic
-      // token의 validation 확인
+      /// 일단 토큰 재발급 받고
       // 이상 없으면 "/"
       // 아니면 loginId, token 삭제 후 "login"으로.
       LoginService _loginService = serviceLocator<LoginService>();

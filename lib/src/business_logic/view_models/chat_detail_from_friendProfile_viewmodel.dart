@@ -17,7 +17,6 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   bool _loadMoreBusy = false;
   bool get loadMoreBusy => _loadMoreBusy;
   ChatService chatService = serviceLocator<ChatService>();
-  StompUnsubscribe? unsubscribeFn;
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
       title: "",
@@ -59,67 +58,71 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   loadChatRoom(String otherLoginId, BuildContext context) async {
     /// 여기부분은 서버가 통신이 안되면 무조건 안 돌아가는 공간.
     var res = await chatService.createOrGetChatRoom(otherLoginId: otherLoginId);
-    if (res==false){
+
+    if (res == false) {
+      //차단된 상태여서 403으로 넘어올때
       toastMessage('채팅방을 만들 수 없습니다');
       Navigator.pop(context);
-      
-
-    }else{
-       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-    bool isExistRoom = false;
-    //이 부분은 채팅방 메인에서 리스트가 사라지면 안돌아감. 왜냐, ui 에서 지우려고 chatRooms를 지웠거든!
-    //따라서 분기를 하나 더 주고, 이미 구독되어있다면 존재한다고 판단해줘야함.
-    for (var chatRoom in chatViewModel.chatRooms) {
-      if (chatRoom.roomId == res["createDto"]["roomInfo"]["roomId"]) {
-        isExistRoom = true;
-        this.chatRoom = chatRoom; // 이미 존재하는 방 -> chat main 리스트에 있는 방
-        break;
-      }
-    }
-    if (!isExistRoom) {
-      ChatRoom? chatRoom = await chatService
-          .getChatRoomByRoomId(res["createDto"]["roomInfo"]["roomId"]);
-
-      if (chatRoom !=null) {
-        isExistRoom = true;
-        this.chatRoom = chatRoom;
-      } else if (chatRoom ==null) {
-        ChatRoom chatRoom = ChatRoom(
-            roomId: res["createDto"]["roomInfo"]["roomId"],
-            title: res["createDto"]["roomInfo"]["title"],
-            type: res["createDto"]["roomInfo"]["type"],
-            imageUrl: res["createDto"]["roomInfo"]["imageUrl"],
-            lastMessage: "대화를 시작해보세요!",
-            lastMsgCreatedAt: DateTime(2021, 5, 5),
-            unreadCount: 0);
-        List<ChatMemberInfo> chatMemberInfos = List.empty(growable: true);
-        List<ChatRoomMemberInfo> chatRoomMemberInfos =
-            List.empty(growable: true);
-        for (var memberInfo in res["createDto"]["memberInfos"]) {
-          chatMemberInfos.add(ChatMemberInfo.fromJson(memberInfo));
-          chatRoomMemberInfos.add(ChatRoomMemberInfo(
-              roomId: chatRoom.roomId, loginId: memberInfo["loginId"]));
+    } else {
+      ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+      bool isExistRoom = false;
+      //이 부분은 채팅방 메인에서 리스트가 사라지면 안돌아감(채팅방 나가기를 한 경우). 왜냐, ui 에서 지우려고 chatRooms를 지웠거든!
+      //따라서 분기를 하나 더 주고, 채팅 리스트엔 없지만 구독이 되어있다면 존재한다고 판단해줘야함.
+      for (var chatRoom in chatViewModel.chatRooms) {
+        // 이미 존재하는 방 -> chat main 리스트에 있는 방
+        if (chatRoom.roomId == res["createDto"]["roomInfo"]["roomId"]) {
+          isExistRoom = true;
+          this.chatRoom = chatRoom;
+          break;
         }
-
-        /// 1. vm에 채팅방 저장
-        this.chatRoom = chatRoom;
-
-        /// 2. 새로운 방 구독
-       unsubscribeFn = await StompObject.subscribeChatRoom(chatRoom.roomId);
-
-        /// 3. local storage에 채팅방, member 저장
-        chatService.insertChatRoom(chatRoom);
-        chatService.insertOrUpdateMemberInfo(chatMemberInfos);
-        chatService.insertChatRoomMemberInfo(chatRoomMemberInfos);
-
-        /// 4. chatservice(vm)에 추가
-        ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-        chatViewModel.insertItem(chatRoom);
       }
+      if (!isExistRoom) {
+        //챗 리스트에 존재하지 않는다면 로컬디비를 뒤져본다.
+        ChatRoom? chatRoom = await chatService
+            .getChatRoomByRoomId(res["createDto"]["roomInfo"]["roomId"]);
+
+        if (chatRoom != null) {
+          //로컬 디비에 남아있는 경우(그러니까 채팅방 나가기를 해버려서 챗 리스트엔 없지만 구독을 끊은것이 아닌 방)
+          isExistRoom = true;
+          this.chatRoom = chatRoom;
+        } else if (chatRoom == null) {
+          //완전히 새로운방! 그러니까 여기서 방 만들어주고 구독도 해주는것이다.
+          ChatRoom chatRoom = ChatRoom(
+              roomId: res["createDto"]["roomInfo"]["roomId"],
+              title: res["createDto"]["roomInfo"]["title"],
+              type: res["createDto"]["roomInfo"]["type"],
+              imageUrl: res["createDto"]["roomInfo"]["imageUrl"],
+              lastMessage: "대화를 시작해보세요!",
+              lastMsgCreatedAt: DateTime(2021, 5, 5),
+              unreadCount: 0);
+          List<ChatMemberInfo> chatMemberInfos = List.empty(growable: true);
+          List<ChatRoomMemberInfo> chatRoomMemberInfos =
+              List.empty(growable: true);
+          for (var memberInfo in res["createDto"]["memberInfos"]) {
+            chatMemberInfos.add(ChatMemberInfo.fromJson(memberInfo));
+            chatRoomMemberInfos.add(ChatRoomMemberInfo(
+                roomId: chatRoom.roomId, loginId: memberInfo["loginId"]));
+          }
+
+          /// 1. 새로운 방 구독
+          chatRoom.unsubscribeFn =
+              StompObject.subscribeChatRoom(chatRoom.roomId);
+
+          /// 2. vm에 채팅방 저장
+          this.chatRoom = chatRoom;
+
+          /// 3. local storage에 채팅방, member 저장
+          chatService.insertChatRoom(chatRoom);
+          chatService.insertOrUpdateMemberInfo(chatMemberInfos);
+          chatService.insertChatRoomMemberInfo(chatRoomMemberInfos);
+
+          /// 4. chatservice(vm)에 추가
+          ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+          chatViewModel.insertItem(chatRoom);
+        }
+      }
+      print("load chatRoom 끝");
     }
-    print("load chatRoom 끝");
-    }
-   
   }
 
   loadFirstChatMessagesAndMember() async {
@@ -203,8 +206,8 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void unsubscribetest(){
-    unsubscribeFn!(unsubscribeHeaders: {});
+  void unsubscribetest() {
+    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
     print('구독끊기');
   }
 }

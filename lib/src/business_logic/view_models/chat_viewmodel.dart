@@ -76,7 +76,8 @@ class ChatViewModel extends BaseModel {
                 imageUrl: modifiedInfo["systemMessage"]["roomInfo"]["imageUrl"],
                 unreadCount: 0);
             chatService.insertChatRoom(chatRoom);
-            StompObject.subscribeChatRoom(chatRoom.roomId);
+            chatRoom.unsubscribeFn =
+                StompObject.subscribeChatRoom(chatRoom.roomId);
           }
 
           /* chatMember, roomMember 저장 */

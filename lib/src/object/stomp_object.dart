@@ -68,7 +68,7 @@ class StompObject {
       /// 5. 다시 채팅방 불러오기
       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
       for (ChatRoom chatRoom in chatViewModel.chatRooms) {
-        subscribeChatRoom(chatRoom.roomId);
+        chatRoom.unsubscribeFn != subscribeChatRoom(chatRoom.roomId);
       }
 
       /// *** 이 친구를 먼저 해버려야했다!>!>! 먼저해서 합쳐야할 듯..
@@ -136,9 +136,9 @@ class StompObject {
   }
 
   // roomId로 오는 메세지
-  static Future<StompUnsubscribe> subscribeChatRoom(String? roomId) async {
-    String? accessToken = await SecureStorageObject.getAccessToken();
-    String? refreshToken = await SecureStorageObject.getRefreshToken();
+  static StompUnsubscribe subscribeChatRoom(String? roomId) {
+    // String? accessToken = await SecureStorageObject.getAccessToken();
+    // String? refreshToken = await SecureStorageObject.getRefreshToken();
 
     ChatService _chatService = serviceLocator<ChatService>();
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
@@ -147,9 +147,9 @@ class StompObject {
         serviceLocator<ChatDetailViewModel>();
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
+
     StompUnsubscribe unsubscribeFn = stompClient.subscribe(
-      headers: AuthService.get_auth_header(
-          accessToken: accessToken, refreshToken: refreshToken),
+      headers: {},
       destination: '/sub/chat/room/$roomId',
       callback: (frame) async {
         // ** 메시지 도착 시점
