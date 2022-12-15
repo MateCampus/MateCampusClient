@@ -48,6 +48,7 @@ class AuthService extends ChangeNotifier {
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     await chatViewModel.loadChatRooms();
     await StompObject.connectStomp();
+    chatViewModel.getTotalUnreadCount();
 
     updateUserDeviceToken(); // 추후 삭제될 수도 있음.
 

@@ -236,6 +236,7 @@ class StompObject {
 
             } 
           }
+          chatViewModel.getTotalUnreadCount();
         } else if (res["type"] == "enter") {
           /***** ENTER ******/
           /* 1. 메세지 저장 */
@@ -329,6 +330,7 @@ class StompObject {
 
           // /* 3. chatsScreen 수정 */
           chatViewModel.insertItem(chatRoom);
+          chatViewModel.getTotalUnreadCount();
         }
       },
     );

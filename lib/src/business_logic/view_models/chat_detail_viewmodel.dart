@@ -14,8 +14,8 @@ import 'base_model.dart';
 class ChatDetailViewModel extends BaseModel {
   bool _loadMoreBusy = false;
   bool get loadMoreBusy => _loadMoreBusy;
-  ChatService _chatService = serviceLocator<ChatService>();
-  UserService _userService = serviceLocator<UserService>();
+  final ChatService _chatService = serviceLocator<ChatService>();
+  final UserService _userService = serviceLocator<UserService>();
 
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
@@ -45,6 +45,7 @@ class ChatDetailViewModel extends BaseModel {
     await changeUnreadCount(chatRoom.roomId);
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     chatvm.changeInsideRoomId(chatRoom.roomId);
+    chatvm.getTotalUnreadCount();
     changeScrollToLowest();
     setBusy(false);
     print('chatDetailInit 끝');
@@ -148,36 +149,36 @@ class ChatDetailViewModel extends BaseModel {
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
-    chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId,chatRoom);
+    chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId, chatRoom);
   }
 
   Future<void> blockUserAndExit(int chatRoomIndex) async {
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    resetData();
+    //구독 끊기
+    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
+    //chat main list에서 지우기
+    chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
+
+    //차단하려는 유저 아이디 찾기
     String targetLoginId = "";
     List<ChatMemberInfo> chatMemberInfos =
         await _chatService.getMemberInfoes(chatRoom.roomId);
     for (var member in chatMemberInfos) {
       if (member.loginId != AuthService.loginId) {
         targetLoginId = member.loginId;
+        print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
+        break;
       }
     }
-    print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
-    await _userService.blockUser(targetLoginId: targetLoginId);
-    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
 
-    resetData();
+    //로컬 디비 삭제
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
-    _chatService
-        .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); 
+    _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
-    _chatService.deleteAllMemberInfo(); 
+    _chatService.deleteAllMemberInfo();
 
-    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
-    chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
-
-
-    // unsubscribeFn = await StompObject.subscribeChatRoom(chatRoom.roomId);
-    // unsubscribeFn!(unsubscribeHeaders: {});
-    // unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
-
+    //유저 차단
+    await _userService.blockUser(targetLoginId: targetLoginId);
   }
 }

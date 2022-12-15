@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
@@ -16,6 +17,7 @@ class ChatViewModel extends BaseModel {
   ChatService chatService = serviceLocator<ChatService>();
   List<ChatRoom> _chatRooms = [];
   List<ChatRoom> _exitedChatRooms = [];
+  int _totalUnreadCount =-1;
   String _insideRoomId = "";
   bool _fromFriendProfile = false;
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
@@ -24,6 +26,13 @@ class ChatViewModel extends BaseModel {
   List<ChatRoom> get exitedChatRooms => _exitedChatRooms;
   String get insideRoomId => _insideRoomId;
   bool get fromFriendProfile => _fromFriendProfile;
+  int get totalUnreadCount => _totalUnreadCount;
+
+  //앱바에 알림아이콘 뱃지처리위해서 사용.
+  void initNoti() async{
+    HomeViewModel homeViewModel =serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
+  }
 
   Future<void> loadChatRooms() async {
     _chatRooms = await chatService.getAllChatRoom();
@@ -149,6 +158,19 @@ class ChatViewModel extends BaseModel {
       }
     }
     return index;
+  }
+
+  //전체 chatRoom에 대한 안읽은 총 메세지 수 카운트
+  void getTotalUnreadCount() async{
+    _totalUnreadCount =0;
+    for (ChatRoom chatRoom in chatRooms){
+      _totalUnreadCount = _totalUnreadCount+ chatRoom.unreadCount;
+    }
+    print('안읽은 메세지 수 : '+_totalUnreadCount.toString());
+
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    homeViewModel.chageUnreadChatMessageCount(_totalUnreadCount);
+
   }
 
   //구독을 끊고 나갈때 사용

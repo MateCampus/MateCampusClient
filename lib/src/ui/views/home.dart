@@ -10,6 +10,7 @@ import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart'
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_components/voice_room_create_bottom_sheet_component/voice_room_create_bottom_sheet.dart';
+import 'package:zamongcampus/src/ui/common_widgets/chat_alarm_icon_bottom_navigation_bar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class Home extends StatefulWidget {
@@ -35,34 +36,12 @@ class _HomeState extends State<Home> {
               child: vm.currentScreen,
               bucket: bucket,
             ),
-            // floatingActionButton: FloatingActionButton(
-            //   child: Icon(
-            //     FontAwesomeIcons.penToSquare,
-            //     size: getProportionateScreenWidth(25),
-            //   ),
-            //   backgroundColor: kMainColor,
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, '/postCreate');
-            //   },
-            // ),
-            //플로팅버튼 우측하단으로
-            // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             bottomNavigationBar: BottomAppBar(
-              // shape: const CircularNotchedRectangle(),
-              // notchMargin: getProportionateScreenWidth(5),
               elevation: 4,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // MaterialButton(
-                  //     onPressed: () {
-                  //       vm.changeCurrentIndex(0);
-                  //     },
-                  //     child: vm.currentTab == 0
-                  //         ? _activeIcon(
-                  //             CupertinoIcons.house_alt_fill, '홈')
-                  //         : _deactiveIcon(CupertinoIcons.house_alt, '홈')),
                   MaterialButton(
                       onPressed: () {
                         vm.changeCurrentIndex(0);
@@ -77,10 +56,12 @@ class _HomeState extends State<Home> {
                         vm.changeCurrentIndex(1);
                       },
                       child: vm.currentTab == 1
-                          ? _activeIcon(
-                              CupertinoIcons.ellipses_bubble_fill, '채팅')
-                          : _deactiveIcon(
-                              CupertinoIcons.ellipses_bubble, '채팅')),
+                          ? ChatAlarmIconBottomNavigationBar(
+                              widget: _activeIcon(
+                                  CupertinoIcons.ellipses_bubble_fill, '채팅'))
+                          : ChatAlarmIconBottomNavigationBar(
+                              widget: _deactiveIcon(
+                                  CupertinoIcons.ellipses_bubble, '채팅'))),
                   MaterialButton(
                       onPressed: () {
                         vm.changeCurrentIndex(2);

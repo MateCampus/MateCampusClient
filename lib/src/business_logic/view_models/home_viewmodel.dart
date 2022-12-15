@@ -17,6 +17,7 @@ class HomeViewModel extends BaseModel {
   int currentTab = 0;
   Widget currentScreen = const LoadingPage(); // Dummy 말고 다른 보편적 페이지 구성 필요
   bool isNotificationExist = false;
+  int unreadChatMessageCount = -1;
 
   final List<Widget> screens = [
     // const VoiceMainScreen(),
@@ -43,4 +44,11 @@ class HomeViewModel extends BaseModel {
     isNotificationExist = value;
     notifyListeners();
   }
+
+  chageUnreadChatMessageCount(int count){
+    unreadChatMessageCount = count;
+    notifyListeners();
+
+  }
+
 }

@@ -17,8 +17,8 @@ import 'base_model.dart';
 class ChatDetailFromFriendProfileViewModel extends BaseModel {
   bool _loadMoreBusy = false;
   bool get loadMoreBusy => _loadMoreBusy;
-  ChatService _chatService = serviceLocator<ChatService>();
-  UserService _userService = serviceLocator<UserService>();
+  final ChatService _chatService = serviceLocator<ChatService>();
+  final UserService _userService = serviceLocator<UserService>();
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
       title: "",
@@ -50,6 +50,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     // 중요!! 이것이 일반 detail과 다른점 (changeFromFriendProfile)
     // => subscribe에서 오는 실시간 메세지를 어떤 vm에 넣어야하는지 구분을 위함(ui)
     chatvm.changeFromFriendProfile(true);
+    chatvm.getTotalUnreadCount();
     changeScrollToLowest();
     setBusy(false);
     print('chatDetailfromfriendprofile Init 끝');
@@ -248,22 +249,25 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     //chat main list에서 지우기
     chatvm.removeItem(index, chatRoom.roomId);
 
-    //유저 차단 
+    //차단하려는 유저 아이디 찾기
     String targetLoginId = "";
     List<ChatMemberInfo> chatMemberInfos =
         await _chatService.getMemberInfoes(chatRoom.roomId);
     for (var member in chatMemberInfos) {
       if (member.loginId != AuthService.loginId) {
         targetLoginId = member.loginId;
+        print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
+        break;
       }
     }
-    print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
-    await _userService.blockUser(targetLoginId: targetLoginId);
 
     //로컬 디비 삭제
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteAllMemberInfo();
+
+    //유저 차단
+    await _userService.blockUser(targetLoginId: targetLoginId);
   }
 }
