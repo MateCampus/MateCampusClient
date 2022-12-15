@@ -50,6 +50,7 @@ class _NicknameInputState extends State<NicknameInput> {
             ),
             controller: widget.vm.userNicknameController,
             maxLines: 1,
+            maxLength: 8,
             validator: (value) => widget.vm.nicknameValidator(context, value),
             autocorrect: false,
             decoration: InputDecoration(

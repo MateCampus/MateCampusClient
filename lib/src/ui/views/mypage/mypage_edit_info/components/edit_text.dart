@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
@@ -62,6 +61,7 @@ class _EditTextState extends State<EditText> {
                       style: TextStyle(fontSize: kTextFieldInnerFontSize),
                       controller: widget.vm.nicknameController,
                       maxLines: 1,
+                      maxLength: 8,
                       validator: (value) => widget.vm.nicknameValidator(value),
                       decoration: InputDecoration(
                         hintText: "닉네임",
