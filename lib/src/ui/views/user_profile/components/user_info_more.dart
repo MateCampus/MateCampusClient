@@ -41,6 +41,7 @@ class UserInfoMore extends StatelessWidget {
             fontSize: resizeFont(14),
           ),
         ),
+       const  VerticalSpacing()
       ],
     );
   }

@@ -16,26 +16,29 @@ class ChatBtn extends StatefulWidget {
 class _ChatBtnState extends State<ChatBtn> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      icon: const Icon(
-        CupertinoIcons.chat_bubble_2,
-        color: Colors.white,
-      ),
-      label: Text('채팅하기',
-          style:
-              TextStyle(fontSize: resizeFont(16), fontWeight: FontWeight.w700)),
-      onPressed: () {
-        Navigator.pushNamed(
-            context, ChatDetailFromFriendProfileScreen.routeName,
-            arguments: ChatDetailFromFriendProfileScreenArgs(
-                profileLoginId: widget.profileLoginId));
-      },
-      style: ElevatedButton.styleFrom(
-        primary: kMainColor,
-        minimumSize: Size(
-            getProportionateScreenWidth(254), getProportionateScreenHeight(56)),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(200.0)),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: getProportionateScreenHeight(10)),
+      child: ElevatedButton.icon(
+        icon: const Icon(
+          CupertinoIcons.chat_bubble_2,
+          color: Colors.white,
+        ),
+        label: Text('채팅하기',
+            style:
+                TextStyle(fontSize: resizeFont(16), fontWeight: FontWeight.w700)),
+        onPressed: () {
+          Navigator.pushNamed(
+              context, ChatDetailFromFriendProfileScreen.routeName,
+              arguments: ChatDetailFromFriendProfileScreenArgs(
+                  profileLoginId: widget.profileLoginId));
+        },
+        style: ElevatedButton.styleFrom(
+          primary: kMainColor,
+          minimumSize: Size(
+              getProportionateScreenWidth(254), getProportionateScreenHeight(56)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(200.0)),
+        ),
       ),
     );
   }

@@ -18,7 +18,7 @@ class ShowUserInterest extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const VerticalSpacing(),
+        // const VerticalSpacing(),
         Text(
           '관심사',
           style: TextStyle(
