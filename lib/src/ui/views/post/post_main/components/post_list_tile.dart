@@ -81,6 +81,10 @@ class PostListTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       dense: true,
+      onTap: (){
+        Navigator.pushNamed(context, PostDetailScreen.routeName,
+                      arguments: PostDetailScreenArgs(post.id));
+      },
       leading: GestureDetector(
         onTap: () {
           post.loginId == AuthService.loginId
@@ -93,7 +97,7 @@ class PostListTile extends StatelessWidget {
         },
         child: CircleAvatar(
           backgroundColor: Colors.grey,
-          radius: getProportionateScreenHeight(18),
+          radius: getProportionateScreenHeight(20),
           backgroundImage: post.userImageUrl.startsWith('https')
               ? CachedNetworkImageProvider(post.userImageUrl) as ImageProvider
               : AssetImage(post.userImageUrl),

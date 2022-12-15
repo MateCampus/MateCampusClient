@@ -56,7 +56,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   vm.removeNestedCommentOverlay();
                   Navigator.of(context).pop();
                 },
-                titleText: '게시글',
+                titleText: '피드',
                 isCenter: true,
                 actions: [
                   IconButton(
