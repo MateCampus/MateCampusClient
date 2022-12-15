@@ -16,8 +16,8 @@ class InterestSelect extends StatelessWidget {
         Center(
           child: Wrap(
             alignment: WrapAlignment.start,
-            runSpacing: getProportionateScreenHeight(10), //세로 간격
-            spacing: getProportionateScreenWidth(10),
+            runSpacing: getProportionateScreenHeight(6), //세로 간격
+            spacing: getProportionateScreenWidth(14),
             children: [
               ...vm.systemInterests.map((interest) => interest.isSelected
                   ? ChoiceChip(

@@ -14,11 +14,14 @@ class UnselectedInterestChip extends StatelessWidget {
       label: Text(interestTitle),
       labelStyle: TextStyle(
         fontSize: resizeFont(14),
-        color: Color(0xff111111),
+        color: Colors.black87,
         fontWeight: FontWeight.w400,
       ),
       backgroundColor: Colors.white,
-      side: const BorderSide(color: Color(0xffe5e5ec), width: 1.2),
+      // side:  BorderSide(color: Color(0xffe5e5ec), width: 1.2),
+
+      side:  BorderSide(color: Colors.grey.withOpacity(0.3), width: 1.2),
+
     );
   }
 }
