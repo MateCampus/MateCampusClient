@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/route_generators.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]); 
     timeago.setLocaleMessages('ko', timeago.KoMessages()); // for korean timeago
     return MultiProvider(
         providers: [
@@ -46,15 +47,24 @@ class MyApp extends StatelessWidget {
           },
           title: 'zamongCampus',
           debugShowCheckedModeBanner: false,
-           localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ko', ''),
-        Locale('en', ''),
-      ],
-          theme: ThemeData(primarySwatch: Palette.kToDark, fontFamily: 'Spoqa'),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('ko', ''),
+            Locale('en', ''),
+          ],
+          theme: ThemeData(
+            primarySwatch: Palette.kToDark,
+            fontFamily: 'Spoqa',
+            appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: kMainScreenBackgroundColor,
+                statusBarBrightness: Brightness.light
+              )
+            ),
+          ),
           routes: routes,
           initialRoute: "/splash",
           onGenerateRoute: RouteGenerator.generateRoute,
