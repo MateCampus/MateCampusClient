@@ -15,11 +15,13 @@ import 'base_model.dart';
 class ChatViewModel extends BaseModel {
   ChatService chatService = serviceLocator<ChatService>();
   List<ChatRoom> _chatRooms = [];
+  List<ChatRoom> _exitedChatRooms = [];
   String _insideRoomId = "";
   bool _fromFriendProfile = false;
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
   List<ChatRoom> get chatRooms => _chatRooms;
+  List<ChatRoom> get exitedChatRooms => _exitedChatRooms;
   String get insideRoomId => _insideRoomId;
   bool get fromFriendProfile => _fromFriendProfile;
 
@@ -149,10 +151,29 @@ class ChatViewModel extends BaseModel {
     return index;
   }
 
+  //구독을 끊고 나갈때 사용
   int removeItem(int index, String roomId) {
-    final removeItem = chatRooms[index];
+    final removeItem = _chatRooms[index];
     int unreadCount = removeItem.unreadCount;
-    chatRooms.removeAt(index);
+    _chatRooms.removeAt(index);
+    listKey.currentState?.removeItem(
+        index,
+        (context, animation) => ChatTile(
+              chatRoom: removeItem,
+              animation: animation,
+              onClicked: () {},
+              onDeleted: () {},
+            ));
+    print('삭제 안 쪽');
+    return unreadCount;
+  }
+
+  //그냥 나갈때 사용. 구독끊는함수를 저장해두기위해 챗 리스트에 보이는 정보는 삭제하지만 스페어로 저장을 해두고 꺼내쓴다. 
+  int removeItemAndSaveSpare(int index, String roomId, ChatRoom chatRoom){
+    _exitedChatRooms.add(chatRoom);
+    final removeItem = _chatRooms[index];
+    int unreadCount = removeItem.unreadCount;
+    _chatRooms.removeAt(index);
     listKey.currentState?.removeItem(
         index,
         (context, animation) => ChatTile(

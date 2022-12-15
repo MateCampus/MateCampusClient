@@ -87,26 +87,33 @@ class _ChatDetailFromFriendProfileScreenState
       actions: <BottomSheetAction>[
         BottomSheetAction(
           title: Text(
-            '차단하기',
+            '차단하고 나가기',
             style: TextStyle(
               fontSize: resizeFont(15.0),
-              color: Colors.black87,
+              color: Color(0xff111111),
             ),
           ),
           onPressed: () {
-            vm.unsubscribetest();
+            FocusManager.instance.primaryFocus
+                ?.unfocus(); //혹시 키보드가 올라가있으면 내려준다.
+            Navigator.pop(context);
+            vm.blockUserAndExit();
             Navigator.pop(context);
           },
         ),
         BottomSheetAction(
           title: Text(
-            '대화방 나가기',
+            '나가기',
             style: TextStyle(
               fontSize: resizeFont(15.0),
               color: Colors.black87,
             ),
           ),
           onPressed: () {
+            FocusManager.instance.primaryFocus
+                ?.unfocus(); //혹시 키보드가 올라가있으면 내려준다.
+            Navigator.pop(context);
+            vm.exitChatRoom();
             Navigator.pop(context);
           },
         ),

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
-import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
-import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
@@ -112,7 +109,7 @@ class ChatDetailViewModel extends BaseModel {
   void _onScrollEvent() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      print("위 도착 load morez");
+      print("위 도착 load more");
       loadMoreChatMessages();
     } else if (scrollController.position.pixels ==
         scrollController.position.minScrollExtent) {
@@ -145,13 +142,13 @@ class ChatDetailViewModel extends BaseModel {
   Future<void> exitChatRoom(int chatRoomIndex) async {
     resetData();
     // await chatService.exitChatRoom(roomId: chatRoom.roomId);
-    _chatService
-        .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); //얘도 안해도 되려나..
+    // _chatService
+    //     .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); //얘도 안해도 되려나..안해도될것같다.
     // _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
-    chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
+    chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId,chatRoom);
   }
 
   Future<void> blockUserAndExit(int chatRoomIndex) async {
@@ -166,10 +163,21 @@ class ChatDetailViewModel extends BaseModel {
     print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
     await _userService.blockUser(targetLoginId: targetLoginId);
     chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
+
+    resetData();
+    _chatService.deleteMessageByRoomId(chatRoom.roomId);
+    _chatService
+        .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); 
+    _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
+    _chatService.deleteAllMemberInfo(); 
+
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
+
+
     // unsubscribeFn = await StompObject.subscribeChatRoom(chatRoom.roomId);
     // unsubscribeFn!(unsubscribeHeaders: {});
     // unsubscribeFn!(unsubscribeHeaders: {"roomId": chatRoom.roomId});
 
-    exitChatRoom(chatRoomIndex);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:stomp_dart_client/stomp_handler.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
@@ -10,13 +10,15 @@ import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart'
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/user/user_service.dart';
 
 import 'base_model.dart';
 
 class ChatDetailFromFriendProfileViewModel extends BaseModel {
   bool _loadMoreBusy = false;
   bool get loadMoreBusy => _loadMoreBusy;
-  ChatService chatService = serviceLocator<ChatService>();
+  ChatService _chatService = serviceLocator<ChatService>();
+  UserService _userService = serviceLocator<UserService>();
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
       title: "",
@@ -36,7 +38,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   // 1. scroll init 2. chatroom 설정(load) 3. chatmessage,member load
   // 4. unreadCount 0으로 변경 5. chatvm의 roomId 변경
   void chatDetailInit(String otherLoginId, BuildContext context) async {
-    print('chatDetailInit 시작');
+    print('chatDetailfromfriendprofile Init 시작');
     setBusy(true);
     resetData();
     scrollInit();
@@ -50,14 +52,15 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     chatvm.changeFromFriendProfile(true);
     changeScrollToLowest();
     setBusy(false);
-    print('chatDetailInit 끝');
+    print('chatDetailfromfriendprofile Init 끝');
   }
 
   /// 기존에 있는 방이면 해당 방으로.
   /// 아니면 새롭게 방을 만들 것.
   loadChatRoom(String otherLoginId, BuildContext context) async {
     /// 여기부분은 서버가 통신이 안되면 무조건 안 돌아가는 공간.
-    var res = await chatService.createOrGetChatRoom(otherLoginId: otherLoginId);
+    var res =
+        await _chatService.createOrGetChatRoom(otherLoginId: otherLoginId);
 
     if (res == false) {
       //차단된 상태여서 403으로 넘어올때
@@ -78,13 +81,32 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
       }
       if (!isExistRoom) {
         //챗 리스트에 존재하지 않는다면 로컬디비를 뒤져본다.
-        ChatRoom? chatRoom = await chatService
+        ChatRoom? chatRoom = await _chatService
             .getChatRoomByRoomId(res["createDto"]["roomInfo"]["roomId"]);
 
         if (chatRoom != null) {
           //로컬 디비에 남아있는 경우(그러니까 채팅방 나가기를 해버려서 챗 리스트엔 없지만 구독을 끊은것이 아닌 방)
           isExistRoom = true;
-          this.chatRoom = chatRoom;
+          for (ChatRoom exitedChatRoom in chatViewModel.exitedChatRooms) {
+            if (exitedChatRoom.roomId ==
+                res["createDto"]["roomInfo"]["roomId"]) {
+              ChatRoom chatRoom = exitedChatRoom;
+              //1.바뀌어야 하는 정보 변경
+              chatRoom.lastMessage = "메세지가 도착하였습니다";
+              chatRoom.lastMsgCreatedAt = DateTime.now();
+              chatRoom.unreadCount = 0;
+
+              //2.vm에 저장
+              this.chatRoom = chatRoom;
+
+              //3.chatViewModel의 chatRooms에 넣어줌
+              chatViewModel.insertItem(chatRoom);
+
+              //4.다시 들어왔으니 exitedChatRooms에서는 지워준다.
+              chatViewModel.exitedChatRooms.remove(exitedChatRoom);
+              break;
+            }
+          }
         } else if (chatRoom == null) {
           //완전히 새로운방! 그러니까 여기서 방 만들어주고 구독도 해주는것이다.
           ChatRoom chatRoom = ChatRoom(
@@ -112,12 +134,12 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
           this.chatRoom = chatRoom;
 
           /// 3. local storage에 채팅방, member 저장
-          chatService.insertChatRoom(chatRoom);
-          chatService.insertOrUpdateMemberInfo(chatMemberInfos);
-          chatService.insertChatRoomMemberInfo(chatRoomMemberInfos);
+          _chatService.insertChatRoom(chatRoom);
+          _chatService.insertOrUpdateMemberInfo(chatMemberInfos);
+          _chatService.insertChatRoomMemberInfo(chatRoomMemberInfos);
 
           /// 4. chatservice(vm)에 추가
-          ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+          // ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
           chatViewModel.insertItem(chatRoom);
         }
       }
@@ -127,16 +149,16 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
 
   loadFirstChatMessagesAndMember() async {
     print("loadFirstChatMessagesAndMember 시작");
-    _chatMessages.addAll(await chatService.getMessages(chatRoom.roomId, 0));
+    _chatMessages.addAll(await _chatService.getMessages(chatRoom.roomId, 0));
     List<ChatMemberInfo> chatMemberInfos =
-        await chatService.getMemberInfoes(chatRoom.roomId);
+        await _chatService.getMemberInfoes(chatRoom.roomId);
     for (var element in chatMemberInfos) {
       this.chatMemberInfos.addAll({element.loginId: element});
     }
   }
 
   changeUnreadCount(String roomId) {
-    chatService.updateUnreadCount(0, roomId);
+    _chatService.updateUnreadCount(0, roomId);
   }
   // init 끝
 
@@ -151,6 +173,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
 
   changeMember(ChatMemberInfo chatMemberInfo) {
     chatMemberInfos.update(chatMemberInfo.loginId, (value) => chatMemberInfo);
+    notifyListeners();
   }
 
   changeTitle(String nickname) {
@@ -163,7 +186,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     changeLoadMoreBusy(true);
 
     List<ChatMessage> result =
-        await chatService.getMessages(chatRoom.roomId, nextPageToken);
+        await _chatService.getMessages(chatRoom.roomId, nextPageToken);
     chatMessages.insertAll(chatMessages.length, result); // ** 맨마지막에 더하기
     nextPageToken++;
     changeLoadMoreBusy(false);
@@ -176,7 +199,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   void _onScrollEvent() {
     if (scrollController.position.pixels ==
         scrollController.position.minScrollExtent) {
-      print("위 도착 load morez");
+      print("위 도착 load more");
       loadMoreChatMessages();
     } else if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
@@ -206,8 +229,41 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void unsubscribetest() {
+  Future<void> exitChatRoom() async {
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    //chat_detail과 다른점 : chat_detail은 이미 index를 가지고 시작하는데, 여기는 그렇지 않음. 따라서 chatViewModel.chatRooms에서 현재 chatRoom에 대한 index를 따로 구해줘야함.
+    int index = chatvm.chatRooms.indexOf(chatRoom);
+    resetData();
+    _chatService.deleteMessageByRoomId(chatRoom.roomId);
+    chatvm.removeItemAndSaveSpare(index, chatRoom.roomId, chatRoom);
+  }
+
+  Future<void> blockUserAndExit() async {
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    //chat_detail과 다른점 : chat_detail은 이미 index를 가지고 시작하는데, 여기는 그렇지 않음. 따라서 chatViewModel.chatRooms에서 현재 chatRoom에 대한 index를 따로 구해줘야함.
+    int index = chatvm.chatRooms.indexOf(chatRoom);
+    resetData();
+    //구독 끊기
     chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
-    print('구독끊기');
+    //chat main list에서 지우기
+    chatvm.removeItem(index, chatRoom.roomId);
+
+    //유저 차단 
+    String targetLoginId = "";
+    List<ChatMemberInfo> chatMemberInfos =
+        await _chatService.getMemberInfoes(chatRoom.roomId);
+    for (var member in chatMemberInfos) {
+      if (member.loginId != AuthService.loginId) {
+        targetLoginId = member.loginId;
+      }
+    }
+    print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
+    await _userService.blockUser(targetLoginId: targetLoginId);
+
+    //로컬 디비 삭제
+    _chatService.deleteMessageByRoomId(chatRoom.roomId);
+    _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
+    _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
+    _chatService.deleteAllMemberInfo();
   }
 }

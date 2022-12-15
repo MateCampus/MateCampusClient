@@ -87,10 +87,10 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       actions: <BottomSheetAction>[
         BottomSheetAction(
           title: Text(
-            '차단하기',
+            '차단하고 나가기',
             style: TextStyle(
               fontSize: resizeFont(15.0),
-              color: Colors.black87,
+              color: Color(0xff111111),
             ),
           ),
           onPressed: () {
@@ -103,7 +103,7 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
         ),
         BottomSheetAction(
           title: Text(
-            '대화방 나가기',
+            '나가기',
             style: TextStyle(
               fontSize: resizeFont(15.0),
               color: Colors.black87,

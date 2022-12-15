@@ -198,7 +198,7 @@ class StompObject {
           } else {
             // 최상단 아니면 => 1. 기존 방: 방 지웠다가 새롭게 방 추가  2. 완전 처음 방: 새롭게 방만 추가
 
-            if (index != -1) {
+            if (index >= 0) {
               // 기존에 있는 방: unreadCount, lastMsg, lastMsgCreatedAt 변경
               // 현재 그 방 안이라면 0으로 값 변경
               // 아니면 삭제(removeItem)하면서 unreadcount 반환 (그 값으로 변경)
@@ -214,28 +214,27 @@ class StompObject {
               chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
               chatViewModel.insertItem(chatRoom);
             } else if (index == -1) {
-              //한번 나간 방에서 다시 메세지가 올 때.
+              ///한번 나간 방에서 다시 메세지가 올 때.
+              ///이 때는 chatViewModel.chatRooms에는 없지만 chatViewModel.exitedChatRooms 에는 있다. 
+              ///여기서 꺼내와야함. 그래야 구독끊는 함수가 그대로 저장되어있음
 
-              /* 1. 다시 chatRoom생성*/
-              //메세지 보낸 사람 로그인 아이디 받아옴
-              String loginId = chatMessage.loginId;
-              //그 로그인 아이디로 그 사람 닉네임, 이미지 가져옴. 이미 한번 나랑 대화한 사람이기때문에 chatMemberInfo에 남아있음.
-              ChatMemberInfo member =
-                  await _chatService.getMemberInfoByLoginId(loginId);
+              for (ChatRoom exitedChatRoom in chatViewModel.exitedChatRooms){
+                if (exitedChatRoom.roomId==res["roomId"]){
+                  ChatRoom chatRoom = exitedChatRoom;
+                  //1.바뀌어야 하는 정보 변경
+                  chatRoom.lastMessage = chatMessage.text;
+                  chatRoom.lastMsgCreatedAt= chatMessage.createdAt;
+                  chatRoom.unreadCount=1;
+                  //2. chatsScreen 수정
+                  chatViewModel.insertItem(chatRoom);
+                  //나갔다가 다시 들어가는거니까 더이상 나간방에 스페어로 저장해둘 필요없음. 오히려 계속 놔두면 같은방을 또 나갔을때 여기 계속 쌓이게 됨. 그래서 지워준다. 
+                  //아직 테스트는 안해봄(12.15)
+                  chatViewModel.exitedChatRooms.remove(exitedChatRoom);
+                  break;
+                }
+              }
 
-              ChatRoom chatRoom = ChatRoom(
-                  roomId: res["roomId"],
-                  title: member.nickname,
-                  type: res["type"],
-                  lastMessage: chatMessage.text,
-                  lastMsgCreatedAt:
-                      chatMessage.createdAt, //TODO: DateTime.now()로 바꾸기
-                  imageUrl: member.imageUrl,
-                  unreadCount: 1);
-
-              // /* 3. chatsScreen 수정 */
-              chatViewModel.insertItem(chatRoom);
-            }
+            } 
           }
         } else if (res["type"] == "enter") {
           /***** ENTER ******/
