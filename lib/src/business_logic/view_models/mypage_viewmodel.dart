@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
@@ -69,6 +70,8 @@ class MypageViewModel extends BaseModel {
   void loadMyInfo() async {
     setBusy(true);
 
+  HomeViewModel homeViewModel =serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
     User myInfoResult = await _userService.fetchMyInfo();
 
     _myInfo = MypagePresentation(

@@ -22,6 +22,12 @@ class ChatMainScreen extends StatefulWidget {
 
 class _ChatMainScreenState extends State<ChatMainScreen> {
   ChatViewModel vm = serviceLocator<ChatViewModel>();
+
+  @override
+  void initState() {
+    vm.initNoti();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context: context);

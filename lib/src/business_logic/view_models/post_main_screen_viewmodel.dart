@@ -7,6 +7,7 @@ import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 
@@ -61,6 +62,8 @@ class PostMainScreenViewModel extends BaseModel {
 
   Future<void> loadPosts() async {
     setBusy(true);
+     HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
     List<Post> postResult = await _postService.fetchPosts(
         type: _sortType,
         nextPageToken: _nextPageToken,
@@ -98,6 +101,8 @@ class PostMainScreenViewModel extends BaseModel {
     buildShowDialogForLoading(
         context: _postMainRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
     List<Post> additionalPosts = await _postService.fetchPosts(
         type: _sortType,
         nextPageToken: _nextPageToken,
