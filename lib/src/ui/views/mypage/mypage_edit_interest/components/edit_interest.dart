@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/selected_interest_chip.dart';
@@ -22,54 +23,41 @@ class _EditInterestState extends State<EditInterest> {
         children: [
           Center(
             child: Wrap(
-              alignment: WrapAlignment.spaceAround,
-              runSpacing: getProportionateScreenHeight(15), //세로 간격
-              spacing: getProportionateScreenWidth(25),
+              alignment: WrapAlignment.start,
+              runSpacing: getProportionateScreenHeight(6), //세로 간격
+              spacing: getProportionateScreenWidth(14),
               children: [
-                ...widget.vm.allInterestsAfterLoad.map((interest) => interest
-                        .isSelected
-                    ? Column(
-                        children: [
-                          ChoiceChip(
-                            label: SelectedInterestChip(icon: interest.icon),
-                            selected: interest.isSelected,
-                            selectedColor: Colors.white,
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.zero,
-                            labelPadding: EdgeInsets.zero,
-                            onSelected: (bool value) {
+                ...widget.vm.allInterestsAfterLoad.map(
+                  (interest) => interest.isSelected
+                      ? ChoiceChip(
+                          label: SelectedInterestChip(
+                              interestTitle: interest.title),
+                          selected: interest.isSelected,
+                          selectedColor: Colors.white,
+                          backgroundColor: Colors.white,
+                          padding: EdgeInsets.zero,
+                          labelPadding: EdgeInsets.zero,
+                          onSelected: (bool value) {
+                            widget.vm.changeInterestStatus(interest, value);
+                          },
+                        )
+                      : ChoiceChip(
+                          label: UnselectedInterestChip(
+                              interestTitle: interest.title),
+                          selected: interest.isSelected,
+                          selectedColor: Colors.white,
+                          backgroundColor: Colors.white,
+                          padding: EdgeInsets.zero,
+                          labelPadding: EdgeInsets.zero,
+                          onSelected: (bool value) {
+                            if (widget.vm.selectedInterestCodes.length >= 10) {
+                              toastMessage('관심사는 10개까지만 선택할 수 있습니다');
+                            } else {
                               widget.vm.changeInterestStatus(interest, value);
-                            },
-                          ),
-                          Text(
-                            interest.title,
-                            style: TextStyle(
-                                fontSize: getProportionateScreenWidth(10.5),
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          ChoiceChip(
-                            label: UnselectedInterestChip(icon: interest.icon),
-                            selected: interest.isSelected,
-                            selectedColor: Colors.white,
-                            backgroundColor: Colors.white,
-                            padding: EdgeInsets.zero,
-                            labelPadding: EdgeInsets.zero,
-                            onSelected: (bool value) {
-                              widget.vm.changeInterestStatus(interest, value);
-                            },
-                          ),
-                          Text(
-                            interest.title,
-                            style: TextStyle(
-                                fontSize: getProportionateScreenWidth(10.5),
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ))
+                            }
+                          },
+                        ),
+                )
               ],
             ),
           )

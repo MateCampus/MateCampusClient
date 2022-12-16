@@ -28,7 +28,7 @@ class _MypageEditInfoScreenState extends State<MypageEditInfoScreen> {
               FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
           child: Scaffold(
             appBar: SubAppbar(
-              titleText: '프로필 편집',
+              titleText: '프로필 수정',
               isCenter: true,
               actions: [
                 (vm.isValidNickname ||
