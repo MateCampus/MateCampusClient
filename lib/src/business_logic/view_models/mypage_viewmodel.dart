@@ -38,6 +38,8 @@ class MypageViewModel extends BaseModel {
   final List<InterestPresentation> _allInterestsAfterLoad =
       List.empty(growable: true);
   List<InterestCode> _selectedInterestCodes = List.empty(growable: true);
+  //변경하기 전까지의 나의 관심사코드리스트 -> 이것과 비교해서 변화 유무로 관심사 수정하기 버튼 분기처리함.
+  List<InterestCode> _myInterestCodes = List.empty(growable: true);
 
   //프로필사진 관련 변수
   final ImagePicker picker = ImagePicker();
@@ -60,6 +62,7 @@ class MypageViewModel extends BaseModel {
   List<InterestPresentation> get allInterestsAfterLoad =>
       _allInterestsAfterLoad;
   List<InterestCode> get selectedInterestCodes => _selectedInterestCodes;
+   List<InterestCode> get initialMyInterestCodes => _myInterestCodes;
   String get changedProfileImgPath => _changedProfileImgPath;
   GlobalKey<FormState> get nicknameFormKey => _nicknameFormKey;
   TextEditingController get nicknameController => _nicknameController;
@@ -92,6 +95,7 @@ class MypageViewModel extends BaseModel {
   void loadMyInterest() async {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setBusy(true);
+      _myInterestCodes =InterestObject.myInterests.map((myInterest) => myInterest.codeNum).toList();
       List<Interest> selectedInterestResults = InterestObject.myInterests;
       _selectedInterestCodes =
           selectedInterestResults.map((interest) => interest.codeNum).toList();

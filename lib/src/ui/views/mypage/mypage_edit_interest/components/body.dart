@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/ui/common_widgets/bottom_fixed_btn_decobox.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/edit_interest.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_edit_interest/components/fixed_text.dart';
@@ -21,12 +23,16 @@ class Body extends StatelessWidget {
               Expanded(child: EditInterest(vm: vm)),
               SafeArea(
                   child: BottomFixedBtnDecoBox(
-                      child: DefaultBtn(
-                text: vm.selectedInterestCodes.length.toString() + '개 선택됨',
-                press: () {
-                  vm.updateInterests(context: context);
-                },
-              )))
+                      child: (listEquals(vm.initialMyInterestCodes, vm.selectedInterestCodes))
+                          ? DisabledDefaultBtn(text: vm.selectedInterestCodes.length.toString() +
+                                  '개 선택됨',)
+                          : DefaultBtn(
+                              text: vm.selectedInterestCodes.length.toString() +
+                                  '개 선택됨',
+                              press: () {
+                                vm.updateInterests(context: context);
+                              },
+                            )))
             ],
           );
   }
