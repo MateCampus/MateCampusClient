@@ -55,7 +55,8 @@ class LoginMainScreenViewModel extends BaseModel {
   }
 
   void setImage() {
-    SplashViewModel splashViewModel = serviceLocator<SplashViewModel>();
-    _loginBackgroundImg = splashViewModel.loginImg;
+    // SplashViewModel splashViewModel = serviceLocator<SplashViewModel>();
+    // _loginBackgroundImg = splashViewModel.loginImg;
+    _loginBackgroundImg = 'assets/images/temp/login_background.jpg';
   }
 }

@@ -48,9 +48,11 @@ class SplashViewModel extends BaseModel {
   }
 
   void setImage() {
-    int num = Random().nextInt(_splashList.length);
-    _splashImg = _splashList[num][0];
-    loginImg = _splashList[num][1];
+    // int num = Random().nextInt(_splashList.length);
+    // _splashImg = _splashList[num][0];
+    // loginImg = _splashList[num][1];
+    _splashImg ='assets/images/splash/spalsh_testversion.jpg';
+
   }
 
   void buildLoginSheet(BuildContext context) {
