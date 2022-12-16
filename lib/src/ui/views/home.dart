@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
           Icon(
             icon,
             size: kBottomNavigationBarIconSize,
-            color: Colors.black54,
+            color: Color(0xff767676),
           ),
           const VerticalSpacing(of: 4),
           Text(

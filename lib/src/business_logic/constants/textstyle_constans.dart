@@ -12,12 +12,12 @@ TextStyle kPostCommentBodyStyle = TextStyle(
     height: 1.3);
 
 TextStyle kBottomNavigationBarTextStyleDeactive = TextStyle(
-    fontSize: resizeFont(10),
-    color: Colors.black87,
-    fontWeight: FontWeight.w300);
+    fontSize: resizeFont(11),
+    color: Color(0xff767676),
+    fontWeight: FontWeight.w400);
 
 TextStyle kBottomNavigationBarTextStyleActive = TextStyle(
-    fontSize: resizeFont(10), color: kMainColor, fontWeight: FontWeight.w300);
+    fontSize: resizeFont(11), color: kMainColor, fontWeight: FontWeight.w400);
 
 TextStyle kLabelTextStyle = TextStyle(
     fontSize: resizeFont(13),
