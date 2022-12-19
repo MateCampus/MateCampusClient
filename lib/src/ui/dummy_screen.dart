@@ -163,9 +163,9 @@ class DummyScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  print(await PrefsObject.getRecentTalkUsers());
+                  print(await PrefsObject.getBlockedUsers());
                 },
-                child: Text("recentTalkUser 리스트 출력"),
+                child: Text("blockedUser 리스트 출력"),
               ),
               TextButton(
                 onPressed: () async {

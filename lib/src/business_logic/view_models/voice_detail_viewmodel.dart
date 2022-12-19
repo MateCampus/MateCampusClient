@@ -265,14 +265,14 @@ class VoiceDetailViewModel extends BaseModel {
 
   //loacl db에 저장
   Future<void> saveRecentTalkUsersDB() async {
-    List<String> _savedLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
-    for (String loginId in _recentTalkUserLoginIds) {
-      if (_savedLoginIds.contains(loginId)) {
-        _savedLoginIds.remove(loginId);
-      }
-    }
-    _savedLoginIds.addAll(_recentTalkUserLoginIds);
-    PrefsObject.setRecentTalkUsers(_savedLoginIds);
+    // List<String> _savedLoginIds = await PrefsObject.getRecentTalkUsers() ?? [];
+    // for (String loginId in _recentTalkUserLoginIds) {
+    //   if (_savedLoginIds.contains(loginId)) {
+    //     _savedLoginIds.remove(loginId);
+    //   }
+    // }
+    // _savedLoginIds.addAll(_recentTalkUserLoginIds);
+    // PrefsObject.setRecentTalkUsers(_savedLoginIds);
   }
 
   Future<void> addTextChatMessage(ChatMessage chatMessage) async {

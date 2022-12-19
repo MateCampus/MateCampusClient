@@ -39,37 +39,38 @@ class UserServiceImpl implements UserService {
 
   @override
   Future<Map<String, List<User>>> fetchRecentTalkUsersAndFriends() async {
-    String? accessToken = await SecureStorageObject.getAccessToken();
-    String? refreshToken = await SecureStorageObject.getRefreshToken();
-    String recentTalkUserLoginIds =
-        (await PrefsObject.getRecentTalkUsers() ?? []).join(', ');
+    throw Exception('최근 대화한 사람, approve 친구 가져오기 오류');
+    // String? accessToken = await SecureStorageObject.getAccessToken();
+    // String? refreshToken = await SecureStorageObject.getRefreshToken();
+    // String recentTalkUserLoginIds =
+    //     (await PrefsObject.getRecentTalkUsers() ?? []).join(', ');
 
-    final response = await http.get(
-        Uri.parse(devServer +
-            "/api/user/recentTalkAndFriend?recentTalkUserLoginIds=" +
-            recentTalkUserLoginIds),
-        headers: AuthService.get_auth_header(
-            accessToken: accessToken, refreshToken: refreshToken));
-    if (response.statusCode == 200) {
-      var json = await jsonDecode(utf8.decode(response.bodyBytes));
-      Map<String, List<User>> users = {};
-      users.addAll({
-        "recentTalkUsers": json["recentTalkUsers"]
-            .map<User>((user) => User.fromJson(user))
-            .toList(),
-        "approveFriends": json["approveFriends"]
-            .map<User>((user) => User.fromJson(user))
-            .toList()
-      });
-      return users;
-    } else if (response.statusCode == 401) {
-      LoginService loginService = serviceLocator<LoginService>();
-      await loginService.reissueToken();
-      print('토큰재발행 완료');
-      return fetchRecentTalkUsersAndFriends();
-    } else {
-      throw Exception('최근 대화한 사람, approve 친구 가져오기 오류');
-    }
+    // final response = await http.get(
+    //     Uri.parse(devServer +
+    //         "/api/user/recentTalkAndFriend?recentTalkUserLoginIds=" +
+    //         recentTalkUserLoginIds),
+    //     headers: AuthService.get_auth_header(
+    //         accessToken: accessToken, refreshToken: refreshToken));
+    // if (response.statusCode == 200) {
+    //   var json = await jsonDecode(utf8.decode(response.bodyBytes));
+    //   Map<String, List<User>> users = {};
+    //   users.addAll({
+    //     "recentTalkUsers": json["recentTalkUsers"]
+    //         .map<User>((user) => User.fromJson(user))
+    //         .toList(),
+    //     "approveFriends": json["approveFriends"]
+    //         .map<User>((user) => User.fromJson(user))
+    //         .toList()
+    //   });
+    //   return users;
+    // } else if (response.statusCode == 401) {
+    //   LoginService loginService = serviceLocator<LoginService>();
+    //   await loginService.reissueToken();
+    //   print('토큰재발행 완료');
+    //   return fetchRecentTalkUsersAndFriends();
+    // } else {
+    //   throw Exception('최근 대화한 사람, approve 친구 가져오기 오류');
+    // }
   }
 
   @override
