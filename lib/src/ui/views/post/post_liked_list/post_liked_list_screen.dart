@@ -34,7 +34,7 @@ class _PostLikedListScreenState extends State<PostLikedListScreen> {
         builder: (context, vm, child) {
           return Scaffold(
             appBar: SubAppbar(
-              titleText: '좋아요',
+              titleText: '좋아요 '+vm.likedUsers.length.toString(),
               isCenter: true,
             ),
 
