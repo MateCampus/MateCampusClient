@@ -19,7 +19,7 @@ class _MypageEditInterestScreenState extends State<MypageEditInterestScreen> {
 
   @override
   void initState() {
-    vm.loadMyInterest();
+    // vm.loadMyInterest();
     super.initState();
   }
 

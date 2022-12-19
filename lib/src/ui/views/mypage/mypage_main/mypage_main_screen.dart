@@ -25,6 +25,7 @@ class _MypageMainScreenState extends State<MypageMainScreen> {
   @override
   void initState() {
     vm.loadMyInfo();
+    vm.loadMyInterest();
     super.initState();
   }
 
