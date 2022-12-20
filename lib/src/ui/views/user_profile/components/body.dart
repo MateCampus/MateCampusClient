@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/block/block_user_msg.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report/report_form.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/user_info.dart';
@@ -85,6 +87,25 @@ class Body extends StatelessWidget {
     showAdaptiveActionSheet(
       context: context,
       actions: <BottomSheetAction>[
+        BottomSheetAction(
+          title: Text(
+            '차단하기',
+            style: TextStyle(
+              fontSize: resizeFont(15.0),
+              color: Colors.black87,
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+            buildCustomAlertDialog(
+                context: context,
+                contentWidget: const BlockUserMsg(),
+                btnText: '차단',
+                press: () {
+                  vm.blockUser(context);
+                });
+          },
+        ),
         BottomSheetAction(
           title: Text(
             '신고하기',

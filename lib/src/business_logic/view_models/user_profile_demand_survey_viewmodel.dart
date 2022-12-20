@@ -167,6 +167,17 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
             arguments: ChatDetailFromFriendProfileScreenArgs(
                 profileLoginId: _userProfile.loginId));
   }
+
+  Future<void> blockUser(BuildContext context) async {
+    //로컬 디비에 차단할 아이디 추가
+    PrefsObject.setBlockedUser(_userProfile.loginId);
+
+    //유저 차단
+    await _userService.blockUser(targetLoginId: _userProfile.loginId);
+
+    Navigator.pop(context);
+    toastMessage('차단하였습니다');
+  }
 }
 
 class UserProfilePresentation {
