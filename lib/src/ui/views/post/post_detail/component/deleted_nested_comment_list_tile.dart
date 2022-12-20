@@ -26,7 +26,7 @@ class DeletedNestedCommentListTile extends StatelessWidget {
         children: [
           const Spacer(),
           Container(
-            width: getProportionateScreenWidth(263),
+            width: getProportionateScreenWidth(299),
             decoration: const BoxDecoration(
                 color: Color(0xfff7f7fb),
                 borderRadius: BorderRadius.all(Radius.circular(4))),
