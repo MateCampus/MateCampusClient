@@ -62,7 +62,7 @@ class MypageViewModel extends BaseModel {
   List<InterestPresentation> get allInterestsAfterLoad =>
       _allInterestsAfterLoad;
   List<InterestCode> get selectedInterestCodes => _selectedInterestCodes;
-   List<InterestCode> get initialMyInterestCodes => _myInterestCodes;
+  List<InterestCode> get initialMyInterestCodes => _myInterestCodes;
   String get changedProfileImgPath => _changedProfileImgPath;
   GlobalKey<FormState> get nicknameFormKey => _nicknameFormKey;
   TextEditingController get nicknameController => _nicknameController;
@@ -73,7 +73,7 @@ class MypageViewModel extends BaseModel {
   void loadMyInfo() async {
     setBusy(true);
 
-  HomeViewModel homeViewModel =serviceLocator<HomeViewModel>();
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
     await homeViewModel.loadNotificationExist();
     User myInfoResult = await _userService.fetchMyInfo();
 
@@ -82,20 +82,23 @@ class MypageViewModel extends BaseModel {
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(myInfoResult.collegeCode ?? CollegeCode.college0000)),
-        majorName: myInfoResult.majorName??"",
+        majorName: myInfoResult.majorName ?? "",
         introduction: myInfoResult.introduction ?? defaultInfo.introduction,
         interestCount: myInfoResult.interestCount.toString(),
         friendCount: myInfoResult.friendCount.toString(),
         bookMarkCount: myInfoResult.bookMarkCount.toString(),
         feedCount: myInfoResult.myPostCount.toString(),
         commentCount: myInfoResult.myCommentCount.toString());
+    loadMyInterest();
     setBusy(false);
   }
 
   void loadMyInterest() async {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setBusy(true);
-      _myInterestCodes =InterestObject.myInterests.map((myInterest) => myInterest.codeNum).toList();
+      _myInterestCodes = InterestObject.myInterests
+          .map((myInterest) => myInterest.codeNum)
+          .toList();
       List<Interest> selectedInterestResults = InterestObject.myInterests;
       _selectedInterestCodes =
           selectedInterestResults.map((interest) => interest.codeNum).toList();
@@ -154,8 +157,8 @@ class MypageViewModel extends BaseModel {
 
   //닉네임 중복확인
   void checkNicknameRedundancy() async {
-    bool value =
-        await _signUpService.checkNicknameRedundancy(nickname: _changedNickname!);
+    bool value = await _signUpService.checkNicknameRedundancy(
+        nickname: _changedNickname!);
 
     _isValidNickname = value;
     //유효성 검사 -> 이 때 nicknameValidator실행
