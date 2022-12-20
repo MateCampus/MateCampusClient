@@ -70,25 +70,32 @@ class PrefsObject {
     return _prefs.getStringList(StorageKeys.blockedUsers);
   }
 
-//어떠한 로그인 아이다가 차단 리스트에 존재하는지 유무 판단. 
-   static Future<bool> getBlockedUserByLoginId(String loginId) async {
-    List<String> blockedUsers =   _prefs.getStringList(StorageKeys.blockedUsers)??[];
-    if (blockedUsers.isNotEmpty){
-     int index = blockedUsers.indexOf(loginId);
-     print("로컬디비에 저장된 차단된 로그인 아이디 : "+blockedUsers.elementAt(index));
-     return true;
-    }else{
+//어떠한 로그인 아이다가 차단 리스트에 존재하는지 유무 판단.
+  static Future<bool> getBlockedUserByLoginId(String loginId) async {
+    List<String> blockedUsers =
+        _prefs.getStringList(StorageKeys.blockedUsers) ?? [];
+    if (blockedUsers.isNotEmpty) {
+      int index = blockedUsers.indexOf(
+          loginId); //여기서 만약에 리스트 자체는 비어있지 않은데 내가 찾아보려는 로그인 아이디가 리스트안에 없으면 -1을 반환하는 것 같다. 따라서 분기를 한 번 더 해줌.
+      if (index < 0) {
+        return false;
+      } else {
+        print("로컬디비에 저장된 차단된 로그인 아이디 : " + blockedUsers.elementAt(index));
+        return true;
+      }
+    } else {
       return false;
     }
   }
 
   //차단하는 유저아이디 로컬디비에 추가.
-  static void setBlockedUser(String blockedUserId){
-    List<String> blockedUsers =   _prefs.getStringList(StorageKeys.blockedUsers)??[];
+  static void setBlockedUser(String blockedUserId) {
+    List<String> blockedUsers =
+        _prefs.getStringList(StorageKeys.blockedUsers) ?? [];
     blockedUsers.add(blockedUserId);
     _prefs.setStringList(StorageKeys.blockedUsers, blockedUsers);
   }
-  
+
   static void setBlockedUsers(List<String> blockedUsers) {
     _prefs.setStringList(StorageKeys.blockedUsers, blockedUsers);
   }
