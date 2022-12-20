@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_friendProfile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
@@ -12,8 +13,10 @@ import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_vie
 import 'package:zamongcampus/src/business_logic/view_models/profile_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
+import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
+import 'package:zamongcampus/src/ui/views/chat/chat_detail_from_friendProfile/chat_detail_from_friendProfile_screen.dart';
 
 class UserProfileDemandSurveyViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
@@ -152,6 +155,17 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
     _userPosts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
     loadUserProfileAndFeed(loginId);
+  }
+
+  void startChat(BuildContext context) async {
+    bool isBlocked =
+        await PrefsObject.getBlockedUserByLoginId(_userProfile.loginId);
+    (isBlocked)
+        ? toastMessage('대화를 걸 수 없는 상대입니다')
+        : Navigator.pushNamed(
+            context, ChatDetailFromFriendProfileScreen.routeName,
+            arguments: ChatDetailFromFriendProfileScreenArgs(
+                profileLoginId: _userProfile.loginId));
   }
 }
 

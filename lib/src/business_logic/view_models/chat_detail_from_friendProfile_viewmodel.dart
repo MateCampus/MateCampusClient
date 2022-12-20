@@ -8,6 +8,7 @@ import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
@@ -65,7 +66,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
 
     if (res == false) {
       //차단된 상태여서 403으로 넘어올때
-      toastMessage('채팅방을 만들 수 없습니다');
+      toastMessage('대화를 걸 수 없는 상대입니다');
       Navigator.pop(context);
     } else {
       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
@@ -261,13 +262,16 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
       }
     }
 
-    //로컬 디비 삭제
+    //로컬디비에 차단하려는 유저 아이디 저장
+    PrefsObject.setBlockedUser(targetLoginId);
+
+    //유저 차단
+    await _userService.blockUser(targetLoginId: targetLoginId);
+
+    //채팅관련 로컬 디비 삭제
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteAllMemberInfo();
-
-    //유저 차단
-    await _userService.blockUser(targetLoginId: targetLoginId);
   }
 }

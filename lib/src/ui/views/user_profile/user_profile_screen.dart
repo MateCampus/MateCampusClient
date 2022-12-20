@@ -1,16 +1,9 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
-import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report/report_form.dart';
-import 'package:zamongcampus/src/ui/common_components/profile_bottom_sheet_component/components/goto_chatroom_btn.dart';
-import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/body.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/components/chat_btn.dart';
@@ -65,11 +58,10 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   child: Body(
                       vm: vm,
                       hasBottomBtn: widget.hasBottomBtn,
-                      userLoginId: widget.loginId),
+                      userLoginId: vm.userProfile.loginId),
                 ),
-          floatingActionButton: widget.hasBottomBtn
-              ? ChatBtn(profileLoginId: vm.userProfile.loginId)
-              : const SizedBox(),
+          floatingActionButton:
+              widget.hasBottomBtn ? ChatBtn(vm: vm) : const SizedBox(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
         );
