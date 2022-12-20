@@ -300,7 +300,7 @@ class PostServiceImpl implements PostService {
         Uri.parse(devServer + "/api/post/" + postId.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
-    if (response.statusCode == 204) {
+    if (response.statusCode == 200) {
       print('게시물 삭제 완료');
       return true;
     } else if (response.statusCode == 401) {

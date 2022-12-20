@@ -124,7 +124,7 @@ class CommentServiceImpl implements CommentService {
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
 
-    if (response.statusCode == 204) {
+    if (response.statusCode == 200) {
       print('삭제 완료');
       return true;
     } else if (response.statusCode == 401) {
