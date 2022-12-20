@@ -41,7 +41,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                   vm.bodyTextController.text.length < 5
                       ? TextButton(
                           onPressed: () {
-                            toastMessage("최소 5자 이상 입력해주세요");
+                            toastMessage("5자 이상 입력해주세요");
                           },
                           child: const Text('등록'),
                           style: TextButton.styleFrom(

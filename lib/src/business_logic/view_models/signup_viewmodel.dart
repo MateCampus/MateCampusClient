@@ -367,7 +367,7 @@ class SignUpViewModel extends BaseModel {
     notifyListeners();
   }
 
-  //생일지정 
+  //생일지정
   void setBirthDay(DateTime date) {
     _birthday = dateToYearMonthDay(date);
     print(_birthday);
@@ -392,10 +392,10 @@ class SignUpViewModel extends BaseModel {
       _selectedInterests.add(interest);
     }
 
-    for(InterestPresentation i in _selectedInterests){
+    for (InterestPresentation i in _selectedInterests) {
       print(i.title);
     }
-    
+
     notifyListeners();
   }
 
@@ -424,7 +424,7 @@ class SignUpViewModel extends BaseModel {
       toastMessage('회원 가입이 완료되었습니다');
       Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
     } else {
-      toastMessage('회원가입 오류');
+      print('회원가입 오류');
     }
   }
 

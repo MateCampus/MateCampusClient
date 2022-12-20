@@ -51,7 +51,7 @@ class _EditInterestState extends State<EditInterest> {
                           labelPadding: EdgeInsets.zero,
                           onSelected: (bool value) {
                             if (widget.vm.selectedInterestCodes.length >= 10) {
-                              toastMessage('관심사는 10개까지만 선택할 수 있습니다');
+                              toastMessage('관심사는 최대 10개까지 선택할 수 있습니다');
                             } else {
                               widget.vm.changeInterestStatus(interest, value);
                             }

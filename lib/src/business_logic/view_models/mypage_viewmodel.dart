@@ -195,7 +195,7 @@ class MypageViewModel extends BaseModel {
     _changedProfileImgPath = '';
     notifyListeners();
     Navigator.popUntil(context, ModalRoute.withName('/'));
-    toastMessage('프로필 변경 완료!');
+    toastMessage('프로필 수정 완료!');
   }
 
   void updateInterests({required BuildContext context}) async {
@@ -207,7 +207,7 @@ class MypageViewModel extends BaseModel {
     InterestObject.updateMyInterests(updateInterests);
     notifyListeners();
     Navigator.popUntil(context, ModalRoute.withName('/'));
-    toastMessage('관심사 변경 완료!');
+    toastMessage('관심사 수정 완료!');
   }
 
   void resetInterests() {

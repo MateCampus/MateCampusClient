@@ -224,15 +224,16 @@ class PostDetailScreenViewModel extends BaseModel {
                     loginId: nestedComment.loginId,
                     userNickname: nestedComment.userNickname,
                     collegeName: CollegeData.korNameOf(describeEnum(
-                        nestedComment.userCollegeCode ?? CollegeCode.college0000)),
+                        nestedComment.userCollegeCode ??
+                            CollegeCode.college0000)),
                     userImageUrl: nestedComment.userImageUrl.isNotEmpty
                         ? nestedComment.userImageUrl
                         : 'assets/images/user/general_user.png',
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    createdAt: dateToElapsedTime(
-                        nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                    createdAt:
+                        dateToElapsedTime(nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children ?? []))
                 .toList() ??
             [],
@@ -278,7 +279,7 @@ class PostDetailScreenViewModel extends BaseModel {
     bool isDeleted = await _commentService.deleteComment(commentId: commentId);
     if (isDeleted) {
       Navigator.pop(context);
-      print('댓글 삭제 성공');
+      toastMessage("댓글이 삭제되었습니다");
       refreshComments();
     } else {
       Navigator.pop(context);
@@ -291,7 +292,7 @@ class PostDetailScreenViewModel extends BaseModel {
     Navigator.pop(context);
     bool isDeleted = await _postService.deletePost(postId: postId);
     if (isDeleted) {
-      toastMessage("게시물이 삭제되었습니다");
+      toastMessage("피드가 삭제되었습니다");
     } else {
       print('실패');
     }

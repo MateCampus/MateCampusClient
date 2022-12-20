@@ -222,7 +222,7 @@ class VoiceCreateViewModel extends BaseModel {
       _categoryCodeList.remove(categoryCodeName);
     } else {
       if (_categoryCodeList.length >= 3) {
-        toastMessage("카테고리는 최대 3개까지입니다.");
+        toastMessage("카테고리는 최대 3개까지 선택할 수 있습니다");
         return;
       }
       _categoryCodeList.add(categoryCodeName);

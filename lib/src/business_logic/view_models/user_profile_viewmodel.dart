@@ -41,7 +41,7 @@ class UserProfileViewModel extends BaseModel {
         imageUrl: recommendUser.imageUrl ?? defaultUserProfile.imageUrl,
         collegeName: CollegeData.korNameOf(
             describeEnum(recommendUser.collegeCode ?? CollegeCode.college0000)),
-        majorName: recommendUser.majorName??"",
+        majorName: recommendUser.majorName ?? "",
         introduction: recommendUser.introduction,
         friendRequestStatus:
             recommendUser.friendRequestStatus ?? FriendRequestStatus.NONE);
@@ -54,7 +54,7 @@ class UserProfileViewModel extends BaseModel {
     _userProfile.friendRequestStatus = FriendRequestStatus.UNACCEPTED;
     print(_userProfile.nickname + '님에게 친구를 요청합니다'); //테스트용
     _friendService.requestFriend(targetLoginId: targetLoginId);
-    toastMessage('친구 신청 완료!');
+    toastMessage('친구 신청을 완료하였습니다');
     notifyListeners();
   }
 }

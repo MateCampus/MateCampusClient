@@ -29,10 +29,7 @@ class InterestSelect extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       labelPadding: EdgeInsets.zero,
                       onSelected: (bool value) {
-                      
-                          vm.selectInterest(interest, value);
-                        
-                        
+                        vm.selectInterest(interest, value);
                       },
                     )
                   : ChoiceChip(
@@ -44,10 +41,9 @@ class InterestSelect extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       labelPadding: EdgeInsets.zero,
                       onSelected: (bool value) {
-
-                        if (vm.selectedInterests.length>=10){
-                          toastMessage('관심사는 10개까지만 선택할 수 있습니다');
-                        }else {
+                        if (vm.selectedInterests.length >= 10) {
+                          toastMessage('관심사는 최대 10개까지 선택할 수 있습니다');
+                        } else {
                           vm.selectInterest(interest, value);
                         }
                       },

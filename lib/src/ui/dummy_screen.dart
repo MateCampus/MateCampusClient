@@ -226,7 +226,7 @@ class DummyScreen extends StatelessWidget {
     String? refreshToken = await SecureStorageObject.getRefreshToken();
     print(text + " 유저 활성화 시작!");
     if (text.isEmpty) {
-      toastMessage("로그인 id가 비웠습니다");
+      toastMessage("로그인 id가 비워져있습니다");
       return;
     }
     final response = await http.post(
