@@ -51,7 +51,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     // 중요!! 이것이 일반 detail과 다른점 (changeFromFriendProfile)
     // => subscribe에서 오는 실시간 메세지를 어떤 vm에 넣어야하는지 구분을 위함(ui)
     chatvm.changeFromFriendProfile(true);
-    chatvm.getTotalUnreadCount();
+    await chatvm.getTotalUnreadCount();
     changeScrollToLowest();
     setBusy(false);
     print('chatDetailfromfriendprofile Init 끝');

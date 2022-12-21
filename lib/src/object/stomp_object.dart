@@ -132,6 +132,7 @@ class StompObject {
       }
       subscribeChatRoom(FirebaseObject.deviceFcmToken);
       await chatViewModel.loadChatRooms();
+      await chatViewModel.getTotalUnreadCount();
     }
   }
 

@@ -12,9 +12,10 @@ class ChatAlarmIconBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-    return (homeViewModel.unreadChatMessageCount==0)
-          ?widget
-          :Badge(
+    if (homeViewModel.unreadChatMessageCount ==0){
+      return widget;
+    }else if(homeViewModel.unreadChatMessageCount>=0){
+      return Badge(
             position: BadgePosition.topEnd(top: -getProportionateScreenHeight(2), end: -getProportionateScreenWidth(5)),
             badgeContent: Padding(
               padding: const EdgeInsets.all(2.0),
@@ -24,5 +25,9 @@ class ChatAlarmIconBottomNavigationBar extends StatelessWidget {
             padding: EdgeInsets.all(3),
             child: widget,
           );
+    }else{
+      return widget;
+    }
+    
   }
 }

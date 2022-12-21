@@ -161,7 +161,7 @@ class ChatViewModel extends BaseModel {
   }
 
   //전체 chatRoom에 대한 안읽은 총 메세지 수 카운트
-  void getTotalUnreadCount() async{
+ Future<void> getTotalUnreadCount() async{
     _totalUnreadCount =0;
     for (ChatRoom chatRoom in chatRooms){
       _totalUnreadCount = _totalUnreadCount+ chatRoom.unreadCount;
