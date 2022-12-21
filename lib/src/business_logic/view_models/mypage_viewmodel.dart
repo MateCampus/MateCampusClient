@@ -96,6 +96,7 @@ class MypageViewModel extends BaseModel {
   void loadMyInterest() async {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setBusy(true);
+      resetInterests();
       _myInterestCodes = InterestObject.myInterests
           .map((myInterest) => myInterest.codeNum)
           .toList();
