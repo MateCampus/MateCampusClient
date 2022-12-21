@@ -16,11 +16,22 @@ class FixedText extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('관심사를 골라주세요!',
-              style: TextStyle(
-                  fontFamily: 'Pretendard',
-                  fontSize: resizeFont(20),
-                  fontWeight: FontWeight.w800)),
+           RichText(
+                  text: TextSpan(
+                      text: '관심사',
+                      style: TextStyle(
+                        fontSize: resizeFont(26),
+                        fontWeight: FontWeight.w500,
+                        color: kMainColor,
+                      ),
+                      children: [
+                    TextSpan(
+                        text: '를\n골라주세요',
+                        style: TextStyle(
+                            fontSize: resizeFont(26),
+                            color: Color(0xff111111),
+                            fontWeight: FontWeight.w500))
+                  ])),
                   VerticalSpacing(of:5),
           Text(
             '최대 10개까지 선택할 수 있어요',

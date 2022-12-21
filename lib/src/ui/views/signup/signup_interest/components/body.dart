@@ -21,22 +21,36 @@ class Body extends StatelessWidget {
           padding: EdgeInsets.symmetric(
         horizontal: getProportionateScreenWidth(20),
         vertical: getProportionateScreenHeight(10)),
-          child: RichText(
-              text: TextSpan(
-                  text: '관심사',
-                  style: TextStyle(
-                    fontSize: resizeFont(26),
-                    fontWeight: FontWeight.w500,
-                    color: kMainColor,
-                  ),
-                  children: [
-                TextSpan(
-                    text: '를\n선택해주세요',
-                    style: TextStyle(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                  text: TextSpan(
+                      text: '관심사',
+                      style: TextStyle(
                         fontSize: resizeFont(26),
-                        color: Color(0xff111111),
-                        fontWeight: FontWeight.w500))
-              ])),
+                        fontWeight: FontWeight.w500,
+                        color: kMainColor,
+                      ),
+                      children: [
+                    TextSpan(
+                        text: '를\n골라주세요',
+                        style: TextStyle(
+                            fontSize: resizeFont(26),
+                            color: Color(0xff111111),
+                            fontWeight: FontWeight.w500))
+                  ])),
+                  VerticalSpacing(of:5),
+          Text(
+            '최대 10개까지 선택할 수 있어요',
+            style: TextStyle(
+                fontFamily: 'Pretendard',
+                fontSize: resizeFont(16),
+                fontWeight: FontWeight.w500,
+                color: kMainColor),
+          )
+            ],
+          ),
         ),
         const VerticalSpacing(of: 30),
         Expanded(child: Padding(
@@ -48,7 +62,7 @@ class Body extends StatelessWidget {
         SafeArea(
             child: BottomFixedBtnDecoBox(
                 child: DefaultBtn(
-                    text: '완료',
+                    text: '회원가입 완료하기',
                     textColor:(vm.selectedInterests.length>=3)?Colors.white: Color(0xff999999),
                     btnColor: (vm.selectedInterests.length>=3)?kMainColor:Color(0xffe5e5ec),
                     press: () {
