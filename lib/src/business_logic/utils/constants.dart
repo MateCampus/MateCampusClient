@@ -6,15 +6,15 @@ import 'package:zamongcampus/src/config/size_config.dart';
 double kHorizontalPadding = getProportionateScreenWidth(20);
 
 // server
-final devServer = Platform.isAndroid
-    ? "https://fd5a-220-149-255-6.ngrok.io"
-    : "https://fd5a-220-149-255-6.ngrok.io";
+// final devServer = Platform.isAndroid
+//     ? "https://6e2e-211-33-138-227.jp.ngrok.io"
+//     : "https://6e2e-211-33-138-227.jp.ngrok.io";
 
 // final devServer =
 //     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
 
-// final devServer =
-//     Platform.isAndroid ? "http://3.36.41.198:8080" : "http://3.36.41.198:8080";
+final devServer =
+    Platform.isAndroid ? "http://43.201.34.37:8080" : "http://43.201.34.37:8080";
 
 const dankookEmail = "@dankook.ac.kr";
 
