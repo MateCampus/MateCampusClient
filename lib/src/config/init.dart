@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -33,18 +34,28 @@ class Init {
       // 이상 없으면 "/"
       // 아니면 loginId, token 삭제 후 "login"으로.
       LoginService _loginService = serviceLocator<LoginService>();
-      await _loginService.reissueToken();
-      try {
+      bool res = await _loginService.reissueToken();
+      if(res){
+
         AuthService.setGlobalLoginIdTokenAndInitUserData(
             token: token, loginId: loginId, refreshToken: refreshToken);
         return "/";
-      } catch (e) {
-        // 서버 꺼진 상태
-        print("서버 꺼진 상태");
-        PrefsObject.deleteLoginId();
-        SecureStorageObject.deleteAllToken();
-        return "/login";
+      }else{
+
+       return "/login";
       }
+
+      // try {
+      //   AuthService.setGlobalLoginIdTokenAndInitUserData(
+      //       token: token, loginId: loginId, refreshToken: refreshToken);
+      //   return "/";
+      // } catch (e) {
+      //   // 서버 꺼진 상태
+      //   print("서버 꺼진 상태");
+      //   PrefsObject.deleteLoginId();
+      //   SecureStorageObject.deleteAllToken();
+      //   return "/login";
+      // }
     }
   }
 }

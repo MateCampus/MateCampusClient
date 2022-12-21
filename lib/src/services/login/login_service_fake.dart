@@ -18,7 +18,7 @@ class FakeLoginService implements LoginService {
   }
 
   @override
-  Future<void> reissueToken() async {
+  Future<bool> reissueToken() async {
     // TODO: implement checkTokenValidation
     throw UnimplementedError();
   }

@@ -37,13 +37,17 @@ class LoginServiceImpl extends LoginService {
     } else if (response.statusCode == 401) {
       print('등록된 유저가 아님. 여기서는 아마 토큰 문제가 아님. 왜냐면 애초에 여기선 토큰을 서버에 보내질않음.');
       return false;
-    } else {
+    } else if (response.statusCode==403){
+print('등록은 됐으나, 활성화된 유저가 아님');
+      return false;
+    }
+    else {
       return false;
     }
   }
 
   @override
-  Future<void> reissueToken() async {
+  Future<bool> reissueToken() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.post(
@@ -56,6 +60,7 @@ class LoginServiceImpl extends LoginService {
       SecureStorageObject.setAccessToken(reissuedToken);
       print("새로발행된토큰" + reissuedToken);
       Cookie.updateCookie(response);
+      return true;
     } else {
       //토큰 재발행이 실패했을경우 -> 모든 토큰들 다 지우고 로그인화면으로 가야하지 않을까? 근데 로그인 화면으로 이동하기엔 context가 필요하다..
       //TODO: 좀 더 알맞는 방법이 있다면 수정해야함.
@@ -64,6 +69,7 @@ class LoginServiceImpl extends LoginService {
       // Navigator.of(context).pushNamedAndRemoveUntil(
       //               '/', (Route<dynamic> route) => false);
       print('토큰 재발행 실패. 로그인페이지 이동');
+      return false;
     }
   }
 }
