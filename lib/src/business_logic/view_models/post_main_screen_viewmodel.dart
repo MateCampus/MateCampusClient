@@ -35,9 +35,11 @@ class PostMainScreenViewModel extends BaseModel {
 
   void initData() async {
     if (isInit) return;
-    scrollInit();
+    setBusy(true);
     await loadPosts();
     await loadMyLikeBookmarkPostIds();
+    setBusy(false);
+    scrollInit();
 
     isInit = true;
   }
@@ -61,8 +63,7 @@ class PostMainScreenViewModel extends BaseModel {
   }
 
   Future<void> loadPosts() async {
-    setBusy(true);
-     HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
     await homeViewModel.loadNotificationExist();
     List<Post> postResult = await _postService.fetchPosts(
         type: _sortType,
@@ -93,8 +94,7 @@ class PostMainScreenViewModel extends BaseModel {
         .toList();
 
     _nextPageToken++;
-
-    setBusy(false);
+    notifyListeners();
   }
 
   Future<void> loadMorePosts() async {
@@ -137,40 +137,19 @@ class PostMainScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void changePostType(int value) {
-    switch (value) {
-      case 0:
-        _sortType = "popular";
-        break;
-      case 1:
-        _sortType = "recommend";
-        break;
-      case 2:
-        _sortType = "recent";
-        break;
-      default:
-        break;
-    }
-  }
-
-  Future<void> setCollegeFilter() async{
+  Future<void> setCollegeFilter() async {
+    setBusy(true);
     _posts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
     _collegeFilter = !_collegeFilter;
     await loadPosts();
-  }
-
-  void loadPostsByType(int value) {
-    _posts.clear(); //포스트에 담았던거 다 비움
-    _nextPageToken = 0;
-    changePostType(value);
-    loadPosts();
+    setBusy(false);
   }
 
   Future<void> refreshPostAfterCreateUpdate() async {
     _posts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
-    loadPosts();
+    await loadPosts();
   }
 
   void refreshPostAfterDelete(int postId) {

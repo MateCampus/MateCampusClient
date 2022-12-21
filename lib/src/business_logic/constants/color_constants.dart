@@ -24,6 +24,22 @@ final kShadowForTile = BoxShadow(
   spreadRadius: 1,
 );
 
+const shimmerGradient = LinearGradient(
+  colors: [
+    Color(0xFFEBEBF4),
+    Color(0xFFF4F4F4),
+    Color(0xFFEBEBF4),
+  ],
+  stops: [
+    0.1,
+    0.3,
+    0.4,
+  ],
+  begin: Alignment(-1.0, -0.3),
+  end: Alignment(1.0, 0.3),
+  tileMode: TileMode.clamp,
+);
+
 class Palette {
   static const MaterialColor kToDark = MaterialColor(
     0xffff6f5e, // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.

@@ -3,18 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/user_profile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
-import 'package:zamongcampus/src/ui/common_widgets/verticalDividerCustom.dart';
-import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/bottom_count_info.dart';
-import 'package:zamongcampus/src/ui/views/post/post_main/components/show_image.dart';
 import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart';
 
 class PostListTile extends StatelessWidget {
@@ -81,9 +77,9 @@ class PostListTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       dense: true,
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(context, PostDetailScreen.routeName,
-                      arguments: PostDetailScreenArgs(post.id));
+            arguments: PostDetailScreenArgs(post.id));
       },
       leading: GestureDetector(
         onTap: () {
