@@ -41,7 +41,7 @@ class PostListTile extends StatelessWidget {
                       arguments: PostDetailScreenArgs(post.id));
                 },
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     //카테고리
                     post.categories.isEmpty
