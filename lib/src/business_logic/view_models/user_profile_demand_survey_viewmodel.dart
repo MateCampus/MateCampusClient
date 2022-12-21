@@ -151,11 +151,11 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
     notifyListeners();
   }
 
-  Future<void> refreshUserProfileAndPost(String loginId) async {
-    _userPosts.clear(); //포스트에 담았던거 다 비움
-    _nextPageToken = 0;
-    loadUserProfileAndFeed(loginId);
-  }
+  // Future<void> refreshUserProfileAndPost(String loginId) async {
+  //   _userPosts.clear(); //포스트에 담았던거 다 비움
+  //   _nextPageToken = 0;
+  //   loadUserProfileAndFeed(loginId);
+  // }
 
   void startChat(BuildContext context) async {
     bool isBlocked =

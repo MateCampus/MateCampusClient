@@ -56,6 +56,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ? const IsLoading()
               : SafeArea(
                   child: Body(
+                    key: vm.userProfileMainKey,
                       vm: vm,
                       hasBottomBtn: widget.hasBottomBtn,
                       userLoginId: vm.userProfile.loginId),

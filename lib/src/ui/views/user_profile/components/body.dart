@@ -27,59 +27,53 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      key: vm.userProfileMainKey,
-      edgeOffset: getProportionateScreenHeight(250),
-      displacement: 10,
-      onRefresh: () => vm.refreshUserProfileAndPost(userLoginId),
-      child: CustomScrollView(
-        controller: vm.userProfileScrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            shadowColor: Colors.transparent,
-            backgroundColor: kMainScreenBackgroundColor,
-            leading: IconButton(
-              icon: const Icon(CupertinoIcons.chevron_back),
-              iconSize: kAppBarIconSizeCP,
-              color: kAppBarIconColor,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            actions: [
-              IconButton(
-                icon: const Icon(CupertinoIcons.ellipsis_vertical),
-                color: Colors.black,
-                iconSize: kAppBarIconSizeCP,
-                onPressed: (userLoginId == AuthService.loginId)
-                    ? null
-                    : () {
-                        _reportUser(context);
-                      },
-              )
-            ],
+    return CustomScrollView(
+      controller: vm.userProfileScrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          shadowColor: Colors.transparent,
+          backgroundColor: kMainScreenBackgroundColor,
+          leading: IconButton(
+            icon: const Icon(CupertinoIcons.chevron_back),
+            iconSize: kAppBarIconSizeCP,
+            color: kAppBarIconColor,
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
           ),
-          SliverPersistentHeader(pinned: true, delegate: UserInfo(vm: vm)),
-          SliverToBoxAdapter(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              UserInfoMore(vm: vm),
-              HorizontalDividerCustom(
-                color: Color(0xfff0f0f6),
-                thickness: getProportionateScreenHeight(10),
-              ),
-            ],
-          )),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-                  (context, index) =>
-                      UserPostListTile(post: vm.userPosts[index]),
-                  childCount: vm.userPosts.length))
-        ],
-      ),
+          actions: [
+            IconButton(
+              icon: const Icon(CupertinoIcons.ellipsis_vertical),
+              color: Colors.black,
+              iconSize: kAppBarIconSizeCP,
+              onPressed: (userLoginId == AuthService.loginId)
+                  ? null
+                  : () {
+                      _reportUser(context);
+                    },
+            )
+          ],
+        ),
+        SliverPersistentHeader(pinned: false,floating: true, delegate: UserInfo(vm: vm)),
+        SliverToBoxAdapter(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            UserInfoMore(vm: vm),
+            HorizontalDividerCustom(
+              color: Color(0xfff0f0f6),
+              thickness: getProportionateScreenHeight(10),
+            ),
+          ],
+        )),
+        SliverList(
+            delegate: SliverChildBuilderDelegate(
+                (context, index) =>
+                    UserPostListTile(post: vm.userPosts[index]),
+                childCount: vm.userPosts.length))
+      ],
     );
   }
 
