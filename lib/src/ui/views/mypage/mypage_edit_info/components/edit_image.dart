@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,46 +22,97 @@ class _EditImageState extends State<EditImage> {
       padding: EdgeInsets.symmetric(
           vertical: getProportionateScreenHeight(10),
           horizontal: getProportionateScreenWidth(20)),
-      child: Stack(
-        children: [
-          CircleAvatar(
-              backgroundColor: Colors.grey,
-              radius: getProportionateScreenHeight(70),
-              backgroundImage: (widget.vm.changedProfileImgPath.isEmpty)
-                  ? widget.vm.myInfo.imageUrl.startsWith('https')
-                      ? CachedNetworkImageProvider(widget.vm.myInfo.imageUrl)
-                          as ImageProvider
-                      : AssetImage(widget.vm.myInfo.imageUrl)
-                  : widget.vm.changedProfileImgPath.startsWith('https')
-                      ? CachedNetworkImageProvider(
-                          widget.vm.changedProfileImgPath) as ImageProvider
-                      : AssetImage(widget.vm.changedProfileImgPath)),
-          Positioned(
-              bottom: 1,
-              right: -1,
-              child: InkWell(
-                onTap: () {
-                  widget.vm.getProfileImgFromGallery();
-                },
-                child: Container(
-                  width: getProportionateScreenWidth(35),
-                  height: getProportionateScreenHeight(35),
-                  decoration: BoxDecoration(
-                    color: kMainColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                        color: Colors.white,
-                        width: 3.0,
-                        style: BorderStyle.solid),
+      child: SizedBox(
+        width: getProportionateScreenWidth(160),
+        height: getProportionateScreenHeight(160),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            (Platform.isAndroid)
+                ? Container(
+                    height: getProportionateScreenHeight(140),
+                    width: getProportionateScreenWidth(140),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Color(0xffe5e5ec)),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: (widget.vm.changedProfileImgPath == '')
+                        ? Image(
+                            image: CachedNetworkImageProvider(
+                                widget.vm.myInfo.imageUrl),
+                            fit: BoxFit.cover,
+                          )
+                        : Image.file(
+                            File(widget.vm.changedProfileImgPath),
+                            fit: BoxFit.cover,
+                          ))
+                : CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    radius: getProportionateScreenHeight(70),
+                    backgroundImage: (widget.vm.changedProfileImgPath.isEmpty)
+                        ? widget.vm.myInfo.imageUrl.startsWith('https')
+                            ? CachedNetworkImageProvider(
+                                widget.vm.myInfo.imageUrl) as ImageProvider
+                            : AssetImage(widget.vm.myInfo.imageUrl)
+                        : widget.vm.changedProfileImgPath.startsWith('https')
+                            ? CachedNetworkImageProvider(
+                                widget.vm.changedProfileImgPath) as ImageProvider
+                            : AssetImage(widget.vm.changedProfileImgPath)),
+            (Platform.isAndroid)
+            ? Positioned(
+                bottom: getProportionateScreenHeight(5),
+                right: getProportionateScreenWidth(3),
+                child: InkWell(
+                  onTap: () {
+                    widget.vm.getProfileImgFromGallery();
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(37),
+                    height: getProportionateScreenHeight(37),
+                    decoration: BoxDecoration(
+                      color: kMainColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: Colors.white,
+                          width: getProportionateScreenWidth(3),
+                          style: BorderStyle.solid),
+                    ),
+                    child: Icon(
+                      CupertinoIcons.camera_fill,
+                      color: Colors.white,
+                      size: getProportionateScreenHeight(15),
+                    ),
                   ),
-                  child: Icon(
-                    CupertinoIcons.camera_fill,
-                    color: Colors.white,
-                    size: getProportionateScreenHeight(15),
+                ))
+            :
+            Positioned(
+                bottom: getProportionateScreenHeight(15),
+                right: getProportionateScreenWidth(10),
+                child: InkWell(
+                  onTap: () {
+                    widget.vm.getProfileImgFromGallery();
+                  },
+                  child: Container(
+                    width: getProportionateScreenWidth(37),
+                    height: getProportionateScreenHeight(37),
+                    decoration: BoxDecoration(
+                      color: kMainColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                          color: Colors.white,
+                          width: 3.0,
+                          style: BorderStyle.solid),
+                    ),
+                    child: Icon(
+                      CupertinoIcons.camera_fill,
+                      color: Colors.white,
+                      size: getProportionateScreenHeight(15),
+                    ),
                   ),
-                ),
-              ))
-        ],
+                ))
+          ],
+        ),
       ),
     );
   }
