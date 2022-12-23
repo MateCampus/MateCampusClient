@@ -4,9 +4,7 @@ import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
-import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_components/user_profile_bottom_sheet_component/user_profile_bottom_sheet.dart';
 import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
 import 'package:zamongcampus/src/ui/common_widgets/round_chip.dart';
@@ -46,12 +44,7 @@ class Message extends StatelessWidget {
                   CircleImageBtn(
                       imageUrl: loginIdToImageUrl(message.loginId),
                       press: () {
-                        showCustomModalBottomSheet(
-                            context: context,
-                            buildWidget: UserProfileBottomSheet(
-                              loginId: message.loginId,
-                              bottomBtn: false,
-                            ));
+                      
                       },
                       size: getProportionateScreenWidth(35)),
                   const HorizontalSpacing(of: 8),

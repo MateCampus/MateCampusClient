@@ -1,19 +1,15 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
-import 'dart:convert';
 
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
-import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
@@ -66,26 +62,20 @@ class LocalNotificationObject {
                     imageUrl: res["imageUrl"],
                     unreadCount: 0);
         HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-        homeViewModel.changeCurrentIndex(2);
+        homeViewModel.changeCurrentIndex(1);
         NavigationService().pushNamedAndRemoveUntil(
             "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
         break;
       case "/voiceDetail":
-        NavigationService().pushNamedAndRemoveUntil("/voiceDetail", "/",
-            VoiceDetailScreenArgs(id: int.parse(res["voiceRoomId"])));
-        HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-        homeViewModel.changeCurrentIndex(0);
         break;
       case "/postDetail":
         NavigationService().pushNamedAndRemoveUntil(
             "/postDetail", "/", PostDetailScreenArgs(int.parse(res["postId"])));
         HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-        homeViewModel.changeCurrentIndex(1);
+        homeViewModel.changeCurrentIndex(0);
         break;
       case "/friend":
-        NavigationService().pushNamedAndRemoveUntilWithoutArgs("/friend", "/");
-        HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-        homeViewModel.changeCurrentIndex(2);
+       
         break;
       default:
         break;

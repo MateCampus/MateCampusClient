@@ -1,29 +1,22 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/postCategoryCode.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/voiceCategoryCode.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/voice_category_data.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_create_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
-import '../../../../../business_logic/constants/font_constants.dart';
-
-class CategorySelectLine extends StatelessWidget {
-  dynamic vm;
-  String from;
-  CategorySelectLine({
-    Key? key,
-    required this.vm,
-    required this.from,
-  }) : super(key: key);
+class SelectCategory extends StatelessWidget {
+  final PostCreateScreenViewModel vm;
+  const SelectCategory({ Key? key, required this.vm }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> categoryCodes =
-        from == "voice" ? VoiceCategoryCode.values : PostCategoryCode.values;
+    List<PostCategoryCode> categoryCodes = PostCategoryCode.values;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -39,20 +32,18 @@ class CategorySelectLine extends StatelessWidget {
           spacing: getProportionateScreenWidth(8),
           children: [
             ...categoryCodes.map(
-                (categoryCode) => buildOutLinedButton(categoryCode.toString()))
+                (categoryCode) => _buildOutLinedButton(categoryCode.toString()))
           ],
         ),
       ],
     );
   }
 
-  Widget buildOutLinedButton(dynamic categoryCode) {
+   Widget _buildOutLinedButton(dynamic categoryCode) {
     // String iconValue = from == "voice"
     //     ? VoiceCategoryData.iconOf(categoryCode)
     //     : PostCategoryData.iconOf(categoryCode);
-    String korNameValue = from == "voice"
-        ? VoiceCategoryData.korNameOf(categoryCode)
-        : PostCategoryData.korNameOf(categoryCode);
+    String korNameValue = PostCategoryData.korNameOf(categoryCode);
     if (vm.categoryCodeList.contains(categoryCode.split('.').last)) {
       return OutlinedButton(
         style: OutlinedButton.styleFrom(
@@ -79,14 +70,6 @@ class CategorySelectLine extends StatelessWidget {
           ),
         ),
 
-        // Container(
-        //     decoration: const BoxDecoration(
-        //         shape: BoxShape.circle, color: Colors.white),
-        //     child: Icon(
-        //       Icons.check_circle,
-        //       color: kMainColor,
-        //       size: getProportionateScreenHeight(15),
-        //     ))
       );
     } else {
       return OutlinedButton(

@@ -18,7 +18,6 @@ class HomeViewModel extends BaseModel {
   int unreadChatMessageCount = -1;
 
   final List<Widget> screens = [
-    // const VoiceMainScreen(),
     const PostMainScreen(),
     const ChatMainScreen(),
     const MypageMainScreen()

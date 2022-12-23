@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/notificationType.dart';
 import 'package:zamongcampus/src/business_logic/models/notificationZC.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
@@ -10,7 +9,6 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/notification/notification_service.dart';
 import 'package:zamongcampus/src/ui/views/notification/notification_main/components/notification_list_tile.dart';
 import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.dart';
-import 'package:zamongcampus/src/ui/views/voice/voice_detail/voice_detail_screen.dart';
 
 class NotificationViewModel extends BaseModel {
   final NotificationService _notificationService =
@@ -171,11 +169,7 @@ class NotificationViewModel extends BaseModel {
         Navigator.pushNamed(context, "/friend");
         break;
       case NotificationType.voiceroom:
-        if (notificationPresentation.voiceRoomId != null) {
-          Navigator.pushNamed(context, VoiceDetailScreen.routeName,
-              arguments: VoiceDetailScreenArgs(
-                  id: notificationPresentation.voiceRoomId));
-        }
+        
         break;
       default:
         break;

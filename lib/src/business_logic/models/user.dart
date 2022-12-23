@@ -1,6 +1,5 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'enums/collegeCode.dart';
-import 'enums/friendRequestStatus.dart';
 import 'enums/interestCode.dart';
 
 class User {
@@ -21,7 +20,6 @@ class User {
   final int? bookMarkCount;
   final int? myPostCount;
   final int? myCommentCount;
-  final FriendRequestStatus? friendRequestStatus;
 
   const User({
     this.id,
@@ -41,7 +39,6 @@ class User {
     this.bookMarkCount,
     this.myPostCount,
     this.myCommentCount,
-    this.friendRequestStatus,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -71,7 +68,6 @@ class User {
         bookMarkCount: json['bookMarkCount'],
         myPostCount: json['myPostCount'],
         myCommentCount: json['myCommentCount'],
-        friendRequestStatus:
-            FriendRequestStatus.values.byName(json['friendStatus'] ?? 'NONE'));
+        );
   }
 }

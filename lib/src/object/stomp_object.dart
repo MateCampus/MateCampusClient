@@ -6,7 +6,6 @@ import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
@@ -16,7 +15,6 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -89,7 +87,7 @@ class StompObject {
         switch (remoteMessage.data["navigate"]) {
           case "/chatDetail":
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(2);
+            homeViewModel.changeCurrentIndex(1);
 
             /// 1. load local 값 or 새로운 값 생성
             ChatService chatService = serviceLocator<ChatService>();
@@ -108,23 +106,16 @@ class StompObject {
                 "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
             break;
           case "/voiceDetail":
-            NavigationService().pushNamedAndRemoveUntil(
-                "/voiceDetail",
-                "/",
-                VoiceDetailScreenArgs(
-                    id: int.parse(remoteMessage.data["voiceRoomId"])));
+          
             break;
           case "/postDetail":
             NavigationService().pushNamedAndRemoveUntil("/postDetail", "/",
                 PostDetailScreenArgs(int.parse(remoteMessage.data["postId"])));
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(1);
+            homeViewModel.changeCurrentIndex(0);
             break;
           case "/friend":
-            NavigationService()
-                .pushNamedAndRemoveUntilWithoutArgs("/friend", "/");
-            HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(2);
+            
             break;
           default:
             break;
@@ -408,31 +399,5 @@ class StompObject {
     });
   }
 
-  static Future<StompUnsubscribe> subscribeVoiceRoomChat(String roomId) async {
-    String? accessToken = await SecureStorageObject.getAccessToken();
-    String? refreshToken = await SecureStorageObject.getRefreshToken();
-    StompUnsubscribe unsubscribeFn = stompClient.subscribe(
-        headers: AuthService.get_auth_header(
-            accessToken: accessToken, refreshToken: refreshToken),
-        destination: '/sub/chat/room/$roomId',
-        callback: (frame) {
-          VoiceDetailViewModel voiceDetailViewModel =
-              serviceLocator<VoiceDetailViewModel>();
-          print("----- 멤버 변경 -----");
-          var res = json.decode(frame.body ?? "");
-          if (res["type"] == "enter") {
-            ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(res);
-            voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
-          } else if (res["type"] == "exit") {
-            voiceDetailViewModel.removeChatMemberInfo(res["loginId"]);
-            if (res["newOwnerLoginId"] != null)
-              voiceDetailViewModel.updateNewOwner(res["newOwnerLoginId"]);
-          } else if (res["type"] == "talk") {
-            ChatMessage chatMessage =
-                ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
-            voiceDetailViewModel.addTextChatMessage(chatMessage);
-          }
-        });
-    return unsubscribeFn;
-  }
+ 
 }
