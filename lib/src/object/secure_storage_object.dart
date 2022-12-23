@@ -15,7 +15,8 @@ class SecureStorageObject {
   static Future<FlutterSecureStorage> init() async {
     print('init secureStorage');
     //나중에 뭔가 이 안에서 옵션을 설정해야한다면 인스턴스 만드는 이 부분에서 해줘야함.
-    _storage = const FlutterSecureStorage();
+    _storage = const FlutterSecureStorage(aOptions: AndroidOptions(
+    encryptedSharedPreferences: true));
     return _storage;
   }
 
