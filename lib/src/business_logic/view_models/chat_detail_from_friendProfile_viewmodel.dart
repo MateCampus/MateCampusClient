@@ -235,9 +235,10 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     //chat_detail과 다른점 : chat_detail은 이미 index를 가지고 시작하는데, 여기는 그렇지 않음. 따라서 chatViewModel.chatRooms에서 현재 chatRoom에 대한 index를 따로 구해줘야함.
     int index = chatvm.chatRooms.indexOf(chatRoom);
-    resetData();
+    
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     chatvm.removeItemAndSaveSpare(index, chatRoom.roomId, chatRoom);
+resetData();
   }
 
   Future<void> blockUserAndExit() async {
@@ -273,5 +274,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteAllMemberInfo();
+
+    resetData();
   }
 }

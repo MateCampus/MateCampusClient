@@ -142,7 +142,7 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   Future<void> exitChatRoom(int chatRoomIndex) async {
-    resetData();
+    
     // await chatService.exitChatRoom(roomId: chatRoom.roomId);
     // _chatService
     //     .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); //얘도 안해도 되려나..안해도될것같다.
@@ -151,11 +151,12 @@ class ChatDetailViewModel extends BaseModel {
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId, chatRoom);
+    resetData();
   }
 
   Future<void> blockUserAndExit(int chatRoomIndex) async {
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
-    resetData();
+    
     //구독 끊기
     chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
     //chat main list에서 지우기
@@ -184,5 +185,7 @@ class ChatDetailViewModel extends BaseModel {
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteAllMemberInfo();
+
+  resetData();
   }
 }
