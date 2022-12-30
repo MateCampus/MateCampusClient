@@ -10,15 +10,15 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(0),
-      child: vm.likedUsers.isEmpty
-      ? const CenterSentence(sentence: '좋아요 누른 사람 없음. 멘트 수정해야함', bottomSpace: 150)
-      : ListView.builder(
-        shrinkWrap: true,
-        itemCount: vm.likedUsers.length,
-        itemBuilder: (BuildContext context, int index) {
-                return LikedUserListTile(vm: vm, likeduser: vm.likedUsers[index]);
-              })
-    );
+        padding: EdgeInsets.all(0),
+        child: vm.likedUsers.isEmpty
+            ? const CenterSentence(sentence: '', bottomSpace: 150)
+            : ListView.builder(
+                shrinkWrap: true,
+                itemCount: vm.likedUsers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return LikedUserListTile(
+                      vm: vm, likeduser: vm.likedUsers[index]);
+                }));
   }
 }
