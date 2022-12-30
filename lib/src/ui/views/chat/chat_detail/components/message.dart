@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/circle_image_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
@@ -44,7 +45,8 @@ class Message extends StatelessWidget {
                   CircleImageBtn(
                       imageUrl: loginIdToImageUrl(message.loginId),
                       press: () {
-                      
+                          showOriginalProfileImage(
+                            context, loginIdToImageUrl(message.loginId));
                       },
                       size: getProportionateScreenWidth(35)),
                   const HorizontalSpacing(of: 8),
