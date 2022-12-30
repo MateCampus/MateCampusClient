@@ -18,13 +18,13 @@ class ShowUserInterest extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // const VerticalSpacing(),
+        const VerticalSpacing(),
         Text(
           '관심사',
           style: TextStyle(
               color: Color(0xff776677),
-              fontSize: resizeFont(14),
-              fontWeight: FontWeight.w600),
+              fontSize: resizeFont(12),
+              fontWeight: FontWeight.w700),
         ),
         const VerticalSpacing(of: 10),
         Wrap(
@@ -45,7 +45,7 @@ class ShowUserInterest extends StatelessWidget {
             })
           ],
         ),
-        const VerticalSpacing(),
+        // const VerticalSpacing(),
       ],
     );
   }

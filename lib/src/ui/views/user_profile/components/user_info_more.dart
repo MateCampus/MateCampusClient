@@ -31,8 +31,17 @@ class UserInfoMore extends StatelessWidget {
 
   Widget _introduction() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         VerticalSpacing(of: getProportionateScreenHeight(15)),
+        Text(
+          '자기소개',
+          style: TextStyle(
+              color: Color(0xff776677),
+              fontSize: resizeFont(12),
+              fontWeight: FontWeight.w700),
+        ),
+        const VerticalSpacing(of: 10),
         Text(
           vm.userProfile.introduction,
           style: TextStyle(
@@ -41,7 +50,7 @@ class UserInfoMore extends StatelessWidget {
             fontSize: resizeFont(14),
           ),
         ),
-       const  VerticalSpacing()
+        // const VerticalSpacing()
       ],
     );
   }
