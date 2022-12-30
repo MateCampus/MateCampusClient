@@ -327,6 +327,7 @@ class SignUpViewModel extends BaseModel {
 
   //갤러리에서 이미지 가져옴(학생증)
   void getStudentIdCardFromGallery(BuildContext context) async {
+    
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     FocusScope.of(context).unfocus();
     if (image != null) {
@@ -335,10 +336,15 @@ class SignUpViewModel extends BaseModel {
 
       notifyListeners();
     }
+    buildDialogForNotice(
+        context: context,
+        description:
+            '\u{2757}본인의 학교와 학과를 인증할 수 있는 학생증 혹은 웹정보 사진을 올려주세요\n\n(학교/학과 정보 외의 개인정보는 모두 가려주세요)');
   }
 
   //카메라에서 이미지 가져옴(학생증)
   void getStudentIdCardFromCamera(BuildContext context) async {
+
     FocusScope.of(context).unfocus();
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
     if (image != null) {
@@ -346,6 +352,10 @@ class SignUpViewModel extends BaseModel {
       _studentIdImgPath = image.path;
       notifyListeners();
     }
+    buildDialogForNotice(
+        context: context,
+        description:
+            '\u{2757}본인의 학교와 학과를 인증할 수 있는 학생증 혹은 웹정보 사진을 올려주세요\n\n(학교/학과 정보 외의 개인정보는 모두 가려주세요)');
   }
 
   //set gradeIndex
