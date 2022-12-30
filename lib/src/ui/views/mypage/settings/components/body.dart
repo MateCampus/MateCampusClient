@@ -25,18 +25,20 @@ class Body extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          VerticalSpacing(of: 10),
-          _tabBtn(text: '공지사항', onTap: () {}),
-          const HorizontalDividerCustom(
-            color: Color(0xfff0f0f6),
-          ),
-          _tabBtn(text: '1:1 문의', onTap: () {}),
+          // VerticalSpacing(of: 10),
+          // _tabBtn(text: '공지사항', onTap: () {}),
+          // const HorizontalDividerCustom(
+          //   color: Color(0xfff0f0f6),
+          // ),
+          _tabBtn(text: '1:1 문의', onTap: () {
+            Navigator.pushNamed(context, "/inquiry");
+          }),
           const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
-          _tabBtn(
-              text: '이용약관(추천유저보기)',
-              onTap: () {
-                Navigator.pushNamed(context, "/voiceMain");
-              }),
+          // _tabBtn(
+          //     text: '이용약관(추천유저보기)',
+          //     onTap: () {
+          //       Navigator.pushNamed(context, "/voiceMain");
+          //     }),
           HorizontalDividerCustom(
               thickness: getProportionateScreenHeight(8),
               color: const Color(0xfff0f0f6)),
@@ -58,12 +60,12 @@ class Body extends StatelessWidget {
               onTap: () {
                 AuthService.logout(context);
               }),
-          const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
-          _tabBtn(
-              text: '테스트 설정',
-              onTap: () {
-                Navigator.pushNamed(context, "/dummy");
-              }),
+          // const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+          // _tabBtn(
+          //     text: '테스트 설정',
+          //     onTap: () {
+          //       Navigator.pushNamed(context, "/dummy");
+          //     }),
         ]);
   }
 
