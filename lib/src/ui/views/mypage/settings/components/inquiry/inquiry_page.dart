@@ -11,7 +11,7 @@ import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 // import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class InquiryPage extends StatefulWidget {
-  const InquiryPage({ Key? key }) : super(key: key);
+  const InquiryPage({Key? key}) : super(key: key);
 
   @override
   State<InquiryPage> createState() => _InquiryPageState();
@@ -83,11 +83,11 @@ class _InquiryPageState extends State<InquiryPage> {
     //이메일 body추가
     String body = "";
 
-    body += "==============\n";
+    body += "===============================\n";
     body += "아래 내용을 함께 보내주시면 큰 도움이 됩니다 \u{1F34A}";
     body += "\n아이디 : " + AuthService.loginId.toString();
     body += "\nOS 버전 : " + version;
-    body += "\n==============\n";
+    body += "\n===============================\n";
 
     final Email email = Email(
       body: body,

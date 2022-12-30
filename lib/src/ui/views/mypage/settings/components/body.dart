@@ -30,9 +30,11 @@ class Body extends StatelessWidget {
           // const HorizontalDividerCustom(
           //   color: Color(0xfff0f0f6),
           // ),
-          _tabBtn(text: '1:1 문의', onTap: () {
-            Navigator.pushNamed(context, "/inquiry");
-          }),
+          _tabBtn(
+              text: '문의하기',
+              onTap: () {
+                Navigator.pushNamed(context, "/inquiry");
+              }),
           const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
           // _tabBtn(
           //     text: '이용약관(추천유저보기)',
@@ -54,7 +56,7 @@ class Body extends StatelessWidget {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          VerticalSpacing(of: 10),
+          // VerticalSpacing(of: 10),
           _tabBtn(
               text: '로그아웃',
               onTap: () {
