@@ -64,7 +64,7 @@ class SignUpServiceImpl implements SignUpService {
       required String collegeCode,
       required String mClass,
       required String majorSeq,
-      required XFile studentIdImg,
+      XFile? studentIdImg,
       required String nickname,
       required String grade,
       required String gender,
@@ -86,8 +86,12 @@ class SignUpServiceImpl implements SignUpService {
     request.fields['grade'] = grade;
     request.fields['gender'] = gender;
     request.fields['birth'] = birth;
-    request.files.add(await http.MultipartFile.fromPath(
+
+    if (studentIdImg !=null){
+      request.files.add(await http.MultipartFile.fromPath(
         'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
+    }
+    
 
     //리스트 넘기는 법
     // TODO: 바꿔야할지도? join으로

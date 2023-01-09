@@ -11,7 +11,7 @@ abstract class SignUpService {
       required String collegeCode,
       required String mClass,
       required String majorSeq,
-      required XFile studentIdImg,
+      XFile? studentIdImg,
       required String nickname,
       required String grade,
       required String gender,

@@ -418,7 +418,7 @@ class SignUpViewModel extends BaseModel {
         collegeCode: _selectedCollegeCode.toUpperCase(),
         mClass: _selectedMajor.title,
         majorSeq: _selectedMajor.seq,
-        studentIdImg: _studentIdImg!,
+        // studentIdImg: _studentIdImg!,
         nickname: _userNicknameController.text,
         grade: _gradeIndex.toString(),
         gender: _genderValue.toString(),
