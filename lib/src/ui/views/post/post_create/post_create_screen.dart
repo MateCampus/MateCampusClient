@@ -38,10 +38,10 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                 titleText: '글쓰기',
                 isCenter: true,
                 actions: [
-                  vm.bodyTextController.text.length < 5
+                  vm.bodyTextController.text.isEmpty
                       ? TextButton(
                           onPressed: () {
-                            toastMessage("5자 이상 입력해주세요");
+                            toastMessage("피드 내용을 입력해주세요");
                           },
                           child: const Text('등록'),
                           style: TextButton.styleFrom(
