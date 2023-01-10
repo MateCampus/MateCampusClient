@@ -74,15 +74,15 @@ class Body extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             UserInfoMore(vm: vm),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: getProportionateScreenHeight(15)),
-              child: HorizontalDividerCustom(
-                color: Color(0xfff0f0f6),
-                thickness: getProportionateScreenHeight(10),
-              ),
-            ),
-            // VerticalSpacing(of: 15),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(
+            //       vertical: getProportionateScreenHeight(15)),
+            //   child: HorizontalDividerCustom(
+            //     color: Color(0xfff0f0f6),
+            //     thickness: getProportionateScreenHeight(10),
+            //   ),
+            // ),
+            VerticalSpacing(),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: kHorizontalPadding),
               child: Text(

@@ -41,7 +41,7 @@ class UserInfoMore extends StatelessWidget {
               fontSize: resizeFont(12),
               fontWeight: FontWeight.w700),
         ),
-        const VerticalSpacing(of: 10),
+        const VerticalSpacing(of: 5),
         Text(
           vm.userProfile.introduction,
           style: TextStyle(

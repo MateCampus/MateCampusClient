@@ -26,7 +26,7 @@ class ShowUserInterest extends StatelessWidget {
               fontSize: resizeFont(12),
               fontWeight: FontWeight.w700),
         ),
-        const VerticalSpacing(of: 10),
+        const VerticalSpacing(of: 5),
         Wrap(
           alignment: WrapAlignment.start,
           runSpacing: getProportionateScreenHeight(10),
