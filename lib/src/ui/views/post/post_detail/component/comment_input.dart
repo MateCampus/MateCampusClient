@@ -97,8 +97,10 @@ class _CommentInputState extends State<CommentInput> {
       onPressed: () {
         if (widget.vm.overlayEntry == null) {
           widget.vm.createComment(context);
+          widget.vm.focusNode.unfocus();
         } else {
           widget.vm.createNestedComment(context);
+          widget.vm.focusNode.unfocus();
         }
       },
       child: const Icon(

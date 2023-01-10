@@ -176,12 +176,12 @@ class PostDetailScreenViewModel extends BaseModel {
         postId: _postDetail.id, body: _commentTextController.text);
     if (isCreated) {
       await refreshComments();
-      _commentTextController.clear();
-      _focusNode.unfocus();
-      scrollToEnd();
     } else {
       print('댓글 생성 실패');
     }
+    _commentTextController.clear();
+    // _focusNode.unfocus();
+    scrollToEnd();
     Navigator.pop(context);
   }
 
@@ -199,12 +199,12 @@ class PostDetailScreenViewModel extends BaseModel {
     if (isCreated) {
       removeNestedCommentOverlay();
       await refreshComments();
-      _nestedCommentTextController.clear();
-      _focusNode.unfocus();
-      scrollToTargetPosition();
     } else {
       print('대댓글 생성 실패');
     }
+    _nestedCommentTextController.clear();
+    // _focusNode.unfocus();
+    scrollToTargetPosition();
     Navigator.pop(context);
   }
 
