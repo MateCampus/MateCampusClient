@@ -19,12 +19,12 @@ class BottomCountInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(20),
-          vertical: getProportionateScreenHeight(12)),
+          horizontal: getProportionateScreenWidth(10),
+          vertical: getProportionateScreenHeight(0)),
       child: Row(
         children: [
           _likePostBtn(context),
-          const HorizontalSpacing(of: 15),
+          // const HorizontalSpacing(of: 15),
           _commentBtn(context),
           const Spacer(),
           _likedListBtn(context)
@@ -34,69 +34,77 @@ class BottomCountInfo extends StatelessWidget {
   }
 
   Widget _likePostBtn(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, PostLikedListScreen.routeName,
-            arguments: PostLikedListScreenArgs(post.id));
+    return TextButton.icon(
+      onPressed: () {
+        // Navigator.pushNamed(context, PostLikedListScreen.routeName,
+        //   arguments: PostLikedListScreenArgs(post.id));
       },
-      child: Row(
-        children: [
-          Icon(
-            CupertinoIcons.heart,
-            size: kPostMainIconSizeCP,
-            color: kPostBtnColor,
-          ),
-          const HorizontalSpacing(of: 5),
-          Text(
-            post.likedCount,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: kPostBtnColor,
-              fontSize: resizeFont(13),
-            ),
-          )
-        ],
+      icon: Icon(
+        CupertinoIcons.heart,
+        size: kPostIconSizeCP,
+        color: kPostBtnColor,
       ),
+
+      // widget.vm.isliked
+      //     ? Icon(
+      //         CupertinoIcons.heart_fill,
+      //         size: kPostDetailIconSizeCP,
+      //         color: kMainColor,
+      //       )
+      //     : Icon(
+      //         CupertinoIcons.heart,
+      //         size: kPostDetailIconSizeCP,
+      //         color: kPostBtnColor,
+      //       ),
+      label: Text(
+        post.likedCount,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: kPostBtnColor,
+          fontSize: kPostIconFontSize,
+        ),
+      ),
+      style: TextButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
     );
   }
 
   Widget _commentBtn(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return TextButton.icon(
+      onPressed: () {
         Navigator.pushNamed(context, PostDetailScreen.routeName,
             arguments: PostDetailScreenArgs(post.id));
       },
-      child: Row(
-        children: [
-          Icon(
-            CupertinoIcons.bubble_left,
-            size: kPostMainIconSizeCP,
-            color: kPostBtnColor,
-          ),
-          const HorizontalSpacing(of: 5),
-          Text(
-            post.commentCount,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: kPostBtnColor,
-              fontSize: resizeFont(13),
-            ),
-          ),
-        ],
+      icon: Icon(
+        CupertinoIcons.bubble_left,
+        size: kPostIconSizeCP,
+        color: kPostBtnColor,
       ),
+      label: Text(
+        post.commentCount,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: kPostBtnColor,
+          fontSize: kPostIconFontSize,
+        ),
+      ),
+      style: TextButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
     );
   }
 
   Widget _likedListBtn(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return TextButton(
+      onPressed: () {
         Navigator.pushNamed(context, PostLikedListScreen.routeName,
             arguments: PostLikedListScreenArgs(post.id));
       },
       child: Row(
         children: [
           Text(
-            '좋아요\t' + post.likedCount,
+            '좋아요',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: kPostBtnColor,
@@ -104,12 +112,15 @@ class BottomCountInfo extends StatelessWidget {
             ),
           ),
           Icon(
-            CupertinoIcons.chevron_right,
-            size: getProportionateScreenWidth(13),
+            CupertinoIcons.chevron_forward,
+            size: getProportionateScreenWidth(18),
             color: kPostBtnColor,
           )
         ],
       ),
+      style: TextButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(100))),
     );
   }
 }

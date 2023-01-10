@@ -4,8 +4,8 @@ double kAppBarIconSizeFA = getProportionateScreenWidth(20); //font_awesome 아�
 double kAppBarIconSizeCP = getProportionateScreenWidth(22.5); //cupertino
 double kAppBarIconSizeG = getProportionateScreenWidth(23); //구글 아이콘
 
-double kPostDetailIconSizeCP = getProportionateScreenWidth(18);
-double kPostMainIconSizeCP = getProportionateScreenWidth(15);
+double kPostIconSizeCP = getProportionateScreenWidth(20);
+// double kPostMainIconSizeCP = getProportionateScreenWidth(15);
 
 double kBottomNavigationBarIconSize = getProportionateScreenWidth(25);
 

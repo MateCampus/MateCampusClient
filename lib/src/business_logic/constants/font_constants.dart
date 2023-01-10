@@ -8,6 +8,7 @@ double kTextFieldInnerFontSize = resizeFont(14);
 double kCreateAtFontSize = resizeFont(11);
 
 double kTitleFontSize = resizeFont(18);
+double kPostIconFontSize = resizeFont(15);
 double kPlainTextFontSize = resizeFont(14);
 
 double kTabbarTextFontSize = resizeFont(14);
