@@ -18,7 +18,9 @@ class Body extends StatelessWidget {
           controller: vm.myPostScrollController,
           itemCount: vm.myPosts.length,
           itemBuilder: (BuildContext context, int index) {
-            return PostListTile(post: vm.myPosts[index]);
+            return PostListTile(
+                post: vm.myPosts[index],
+                refresh: () => vm.myPostMainKey.currentState?.show());
           }),
     );
   }

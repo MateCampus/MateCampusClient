@@ -76,8 +76,10 @@ class Body extends StatelessWidget {
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
-                            (context, index) =>
-                                PostListTile(post: vm.posts[index]),
+                            (context, index) => PostListTile(
+                                post: vm.posts[index],
+                                refresh: () =>
+                                    vm.postMainKey.currentState?.show()),
                             childCount: vm.posts.length),
                       )
           ],
