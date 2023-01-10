@@ -30,7 +30,7 @@ class _CommentInputState extends State<CommentInput> {
         children: [
           Expanded(child: _commentInputField()),
           // const Spacer(),
-          _sendBtn(),
+          _sendBtn(context),
         ],
       ),
     );
@@ -92,13 +92,13 @@ class _CommentInputState extends State<CommentInput> {
   //   );
   // }
 
-  Widget _sendBtn() {
+  Widget _sendBtn(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         if (widget.vm.overlayEntry == null) {
-          widget.vm.createComment();
+          widget.vm.createComment(context);
         } else {
-          widget.vm.createNestedComment();
+          widget.vm.createNestedComment(context);
         }
       },
       child: const Icon(

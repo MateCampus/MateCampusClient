@@ -28,9 +28,10 @@ class PostLikedListViewModel extends BaseModel {
             nickname: likedUser.nickname,
             collegeName: CollegeData.korNameOf(
                 describeEnum(likedUser.collegeCode ?? CollegeCode.college0000)),
-            majorName: likedUser.majorName??"",
-            profileImageUrl:
-                likedUser.imageUrl ?? "assets/images/user/general_user.png"))
+            majorName: likedUser.majorName ?? "",
+            profileImageUrl: likedUser.imageUrl!.isEmpty
+                ? "assets/images/user/general_user.png"
+                : likedUser.imageUrl ?? "assets/images/user/general_user.png"))
         .toList();
   }
 }

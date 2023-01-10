@@ -165,11 +165,13 @@ class PostDetailScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void createComment() async {
+  void createComment(BuildContext context) async {
     if (_commentTextController.text.isEmpty) {
       toastMessage('댓글을 입력해주세요');
       return;
     }
+    buildShowDialogForLoading(
+        context: context, barrierColor: Colors.transparent);
     bool isCreated = await _commentService.createComment(
         postId: _postDetail.id, body: _commentTextController.text);
     if (isCreated) {
@@ -180,13 +182,16 @@ class PostDetailScreenViewModel extends BaseModel {
     } else {
       print('댓글 생성 실패');
     }
+    Navigator.pop(context);
   }
 
-  void createNestedComment() async {
+  void createNestedComment(BuildContext context) async {
     if (_nestedCommentTextController.text.isEmpty) {
       toastMessage('댓글을 입력해주세요');
       return;
     }
+    buildShowDialogForLoading(
+        context: context, barrierColor: Colors.transparent);
     bool isCreated = await _commentService.createNestedComment(
         postId: _postDetail.id,
         parentId: _parentId,
@@ -200,6 +205,7 @@ class PostDetailScreenViewModel extends BaseModel {
     } else {
       print('대댓글 생성 실패');
     }
+    Navigator.pop(context);
   }
 
   Future<void> refreshComments() async {
