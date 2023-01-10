@@ -84,7 +84,7 @@ class PostMainScreenViewModel extends BaseModel {
               userImageUrl: post.userImageUrl.isNotEmpty
                   ? post.userImageUrl
                   : 'assets/images/user/general_user.png',
-              body: post.body.replaceFirst(bodyRegexp, "\n...\n"),
+              body: post.body.replaceFirst(bodyRegexp, " "),
               createdAt: dateToElapsedTime(post.createdAt),
               likedCount: post.likedCount.toString(),
               viewCount: post.viewCount.toString(),
@@ -136,6 +136,18 @@ class PostMainScreenViewModel extends BaseModel {
     Navigator.pop(_postMainRefreshIndicatorKey.currentContext!);
     notifyListeners();
   }
+
+  // void likePost(int postId) async {
+  //   Map<String, int> result = await _postService.likePost(postId: postId);
+  //   _isliked = !_isliked;
+  //   PostMainScreenViewModel postMainScreenViewModel =
+  //       serviceLocator<PostMainScreenViewModel>();
+  //   isliked
+  //       ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
+  //       : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+  //   _postDetail.likedCount = result["likeCount"].toString();
+  //   notifyListeners();
+  // }
 
   Future<void> setCollegeFilter() async {
     setBusy(true);
