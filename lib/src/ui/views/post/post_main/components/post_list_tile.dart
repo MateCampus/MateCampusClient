@@ -15,7 +15,9 @@ import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart'
 
 class PostListTile extends StatelessWidget {
   final PostPresentation post;
-  const PostListTile({Key? key, required this.post}) : super(key: key);
+  final Function refresh;
+  const PostListTile({Key? key, required this.post, required this.refresh})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,8 @@ class PostListTile extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, PostDetailScreen.routeName,
-                      arguments: PostDetailScreenArgs(post.id));
+                          arguments: PostDetailScreenArgs(post.id))
+                      .then((value) => refresh());
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
