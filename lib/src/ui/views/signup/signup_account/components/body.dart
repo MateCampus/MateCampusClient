@@ -42,7 +42,7 @@ class _BodyState extends State<Body> {
                 children: [
                   const VerticalSpacing(of: 30),
                   const SignUpRichText(
-                      colorText: '계정 정보', postPositionText: '를'),
+                      colorText: '사용하실 아이디와 비밀번호', postPositionText: '를'),
                   const VerticalSpacing(of: 30),
                   UserIdInput(vm: widget.vm),
                   const VerticalSpacing(of: 30),
