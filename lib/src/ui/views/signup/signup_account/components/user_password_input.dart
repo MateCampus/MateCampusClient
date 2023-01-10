@@ -53,6 +53,30 @@ class _UserPasswordInputState extends State<UserPasswordInput> {
                 fontSize: kTextFieldInnerFontSize),
           ),
         ),
+        const VerticalSpacing(of: 30),
+        Text(
+          '비밀번호 확인',
+          style: kLabelTextStyle,
+        ),
+        TextFormField(
+          //validation위해 textformfield 사용
+          keyboardType: TextInputType.multiline,
+          // textInputAction: TextInputAction.next,
+          style: TextStyle(fontSize: kLabelFontSize),
+          maxLines: 1,
+          autovalidateMode:
+              AutovalidateMode.onUserInteraction, //값이 들어오는 순간부터 자동 유효성 검사
+          validator: (value) => widget.vm.pwDoubleCheckValidator(value),
+          autocorrect: false,
+          obscureText: true,
+          obscuringCharacter: '*',
+          decoration: InputDecoration(
+            hintText: "비밀번호를 한 번 더 입력해주세요",
+            hintStyle: TextStyle(
+                color: const Color(0xFF999999),
+                fontSize: kTextFieldInnerFontSize),
+          ),
+        ),
       ],
     );
   }
