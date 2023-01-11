@@ -57,9 +57,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               : SafeArea(
                   child: Body(
                     key: vm.userProfileMainKey,
-                      vm: vm,
-                      hasBottomBtn: widget.hasBottomBtn,
-                      userLoginId: vm.userProfile.loginId),
+                    vm: vm,
+                    hasBottomBtn: widget.hasBottomBtn,
+                    userLoginId: vm.userProfile.loginId,
+                    refresh: () async {
+                      await vm.initData(widget.loginId);
+                      setState(() {});
+                    },
+                  ),
                 ),
           floatingActionButton:
               widget.hasBottomBtn ? ChatBtn(vm: vm) : const SizedBox(),

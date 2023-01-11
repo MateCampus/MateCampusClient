@@ -21,11 +21,14 @@ class Body extends StatelessWidget {
   final UserProfileDemandSurveyViewModel vm;
   final bool hasBottomBtn;
   final String userLoginId;
+  final Function refresh;
+
   const Body(
       {Key? key,
       required this.vm,
       required this.hasBottomBtn,
-      required this.userLoginId})
+      required this.userLoginId,
+      required this.refresh})
       : super(key: key);
 
   @override
@@ -97,7 +100,8 @@ class Body extends StatelessWidget {
         )),
         SliverList(
             delegate: SliverChildBuilderDelegate(
-                (context, index) => UserPostListTile(vm: vm,post: vm.userPosts[index]),
+                (context, index) => UserPostListTile(
+                    vm: vm, post: vm.userPosts[index], refresh: refresh),
                 childCount: vm.userPosts.length))
       ],
     );

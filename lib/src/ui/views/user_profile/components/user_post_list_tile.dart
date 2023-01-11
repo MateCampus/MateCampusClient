@@ -14,7 +14,10 @@ import 'package:zamongcampus/src/ui/views/post/post_main/components/bottom_count
 class UserPostListTile extends StatelessWidget {
   final UserProfileDemandSurveyViewModel vm;
   final PostPresentation post;
-  const UserPostListTile({Key? key,required this.vm,required this.post}) : super(key: key);
+  final Function refresh;
+  const UserPostListTile(
+      {Key? key, required this.vm, required this.post, required this.refresh})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,10 @@ class UserPostListTile extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, PostDetailScreen.routeName,
-                      arguments: PostDetailScreenArgs(post.id));
+                          arguments: PostDetailScreenArgs(post.id))
+                      .then((value) {
+                    refresh();
+                  });
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
