@@ -22,6 +22,9 @@ class MypagePostViewModel extends BaseModel {
   //List<PostPresentation> _myFeedPosts = List.empty(growable: true);
   bool isInit = false;
   int _nextPageToken = 0;
+final RegExp bodyRegexp = RegExp(r"\n+");
+  PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
 
   List<PostPresentation> get myPosts => _myPosts;
   // List<PostPresentation> get myFeedPosts => _myFeedPosts;
@@ -29,15 +32,16 @@ class MypagePostViewModel extends BaseModel {
   GlobalKey<RefreshIndicatorState> get myPostMainKey =>
       _myPostRefreshIndicatorKey;
 
-  final RegExp bodyRegexp = RegExp(r"\n+");
+  
 
   void initData() async {
-    if (isInit) return;
+    // if (isInit) return;
+    _nextPageToken =0;
     scrollInit();
     await loadMypagePosts("Feed");
     // await loadMyLikeBookmarkPostIds(); 얘는 나중에 좋아요 로직 정리할때 써야할수도?
 
-    isInit = true;
+    // isInit = true;
   }
 
   void scrollInit() {
@@ -66,6 +70,7 @@ class MypagePostViewModel extends BaseModel {
   }
 
   Future<void> loadMoreMyPosts() async {
+
     buildShowDialogForLoading(
         context: _myPostRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
@@ -94,12 +99,15 @@ class MypagePostViewModel extends BaseModel {
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
+            isLiked: postMainScreenViewModel.likepostIds.contains(post.id)? true:false
           )));
       _nextPageToken++;
     }
     Navigator.pop(_myPostRefreshIndicatorKey.currentContext!);
     notifyListeners();
   }
+
+  
 
   void presentationPosts(List<Post> posts) {
     _myPosts = posts
@@ -123,9 +131,20 @@ class MypagePostViewModel extends BaseModel {
               viewCount: post.viewCount.toString(),
               commentCount: post.commentCount.toString(),
               imageUrls: post.imageUrls,
+              isLiked: postMainScreenViewModel.likepostIds.contains(post.id)? true:false
             ))
         .toList();
     _nextPageToken++;
+  }
+
+  void likePost(PostPresentation post) async {
+    Map<String, int> result = await _postService.likePost(postId: post.id);
+    post.isLiked = !post.isLiked;
+    post.isLiked
+        ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
+        : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+    post.likedCount = result["likeCount"].toString();
+    notifyListeners();
   }
 
   Future<void> refreshMyPost() async {

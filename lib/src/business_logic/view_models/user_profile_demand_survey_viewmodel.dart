@@ -32,6 +32,9 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
   int _nextPageToken = 0;
   final RegExp bodyRegexp = RegExp(r"\n+");
 
+  PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+
   UserProfilePresentation get userProfile => _userProfile;
   List<InterestPresentation> get userInterests => _interests;
   List<PostPresentation> get userPosts => _userPosts;
@@ -107,6 +110,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
               viewCount: post.viewCount.toString(),
               commentCount: post.commentCount.toString(),
               imageUrls: post.imageUrls,
+               isLiked: postMainScreenViewModel.likepostIds.contains(post.id)? true:false
             ))
         .toList();
 
@@ -144,11 +148,29 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
+             isLiked: postMainScreenViewModel.likepostIds.contains(post.id)? true:false
           )));
       _nextPageToken++;
     }
     Navigator.pop(_userProfileRefreshIndicatorKey.currentContext!);
     notifyListeners();
+  }
+
+   void likePost(PostPresentation post) async {
+    Map<String, int> result = await _postService.likePost(postId: post.id);
+    post.isLiked = !post.isLiked;
+    post.isLiked
+        ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
+        : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+    post.likedCount = result["likeCount"].toString();
+    notifyListeners();
+  }
+
+  Future<void> refreshUserProfileToUpdate(String loginId) async {
+    _interests.clear(); 
+    _userPosts.clear();
+    _nextPageToken = 0;
+    await loadUserProfileAndFeed(loginId);
   }
 
   // Future<void> refreshUserProfileAndPost(String loginId) async {

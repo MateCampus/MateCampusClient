@@ -36,8 +36,9 @@ class PostMainScreenViewModel extends BaseModel {
   void initData() async {
     if (isInit) return;
     setBusy(true);
-    await loadPosts();
     await loadMyLikeBookmarkPostIds();
+    await loadPosts();
+   
     setBusy(false);
     scrollInit();
 
@@ -90,6 +91,7 @@ class PostMainScreenViewModel extends BaseModel {
               viewCount: post.viewCount.toString(),
               commentCount: post.commentCount.toString(),
               imageUrls: post.imageUrls,
+              isLiked: likepostIds.contains(post.id) ? true : false
             ))
         .toList();
 
@@ -130,6 +132,7 @@ class PostMainScreenViewModel extends BaseModel {
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
+            isLiked: likepostIds.contains(post.id) ? true : false
           )));
       _nextPageToken++;
     }
@@ -137,17 +140,16 @@ class PostMainScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
-  // void likePost(int postId) async {
-  //   Map<String, int> result = await _postService.likePost(postId: postId);
-  //   _isliked = !_isliked;
-  //   PostMainScreenViewModel postMainScreenViewModel =
-  //       serviceLocator<PostMainScreenViewModel>();
-  //   isliked
-  //       ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
-  //       : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
-  //   _postDetail.likedCount = result["likeCount"].toString();
-  //   notifyListeners();
-  // }
+  void likePost(PostPresentation post) async {
+    Map<String, int> result = await _postService.likePost(postId: post.id);
+    post.isLiked = !post.isLiked;
+    
+    post.isLiked
+        ? likepostIds.add(result["postId"]!)
+        : likepostIds.remove(result["postId"]!);
+    post.likedCount = result["likeCount"].toString();
+    notifyListeners();
+  }
 
   Future<void> setCollegeFilter() async {
     setBusy(true);
@@ -195,6 +197,7 @@ class PostPresentation {
   String viewCount;
   String commentCount;
   List<String> imageUrls;
+  bool isLiked;
 
   PostPresentation(
       {required this.id,
@@ -208,5 +211,7 @@ class PostPresentation {
       required this.likedCount,
       required this.viewCount,
       required this.commentCount,
-      required this.imageUrls});
+      required this.imageUrls,
+      required this.isLiked
+      });
 }

@@ -19,6 +19,7 @@ class Body extends StatelessWidget {
           itemCount: vm.myPosts.length,
           itemBuilder: (BuildContext context, int index) {
             return PostListTile(
+              vm: vm,
                 post: vm.myPosts[index],
                 refresh: () => vm.myPostMainKey.currentState?.show());
           }),

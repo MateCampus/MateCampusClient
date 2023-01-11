@@ -12,8 +12,9 @@ import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.da
 import 'package:zamongcampus/src/ui/views/post/post_liked_list/post_liked_list_screen.dart';
 
 class BottomCountInfo extends StatelessWidget {
+  final dynamic vm;
   final PostPresentation post;
-  const BottomCountInfo({Key? key, required this.post}) : super(key: key);
+  const BottomCountInfo({Key? key,required this.vm , required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +37,18 @@ class BottomCountInfo extends StatelessWidget {
   Widget _likePostBtn(BuildContext context) {
     return TextButton.icon(
       onPressed: () {
+        vm.likePost(post);
         // Navigator.pushNamed(context, PostLikedListScreen.routeName,
         //   arguments: PostLikedListScreenArgs(post.id));
       },
-      icon: Icon(
+      icon: post.isLiked
+        ?
+      Icon(
+        CupertinoIcons.heart_fill,
+        size: kPostIconSizeCP,
+        color: kMainColor,
+      ):
+      Icon(
         CupertinoIcons.heart,
         size: kPostIconSizeCP,
         color: kPostBtnColor,

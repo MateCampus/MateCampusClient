@@ -14,9 +14,10 @@ import 'package:zamongcampus/src/ui/views/post/post_main/components/bottom_count
 import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart';
 
 class PostListTile extends StatelessWidget {
+  final dynamic vm;
   final PostPresentation post;
   final Function refresh;
-  const PostListTile({Key? key, required this.post, required this.refresh})
+  const PostListTile({Key? key, required this.vm, required this.post, required this.refresh})
       : super(key: key);
 
   @override
@@ -66,7 +67,7 @@ class PostListTile extends StatelessWidget {
           color: Color(0xfff0f0f6),
         ),
         //좋아요 댓글 영역
-        BottomCountInfo(post: post),
+        BottomCountInfo(vm: vm, post: post),
         //하단 아래 구분선
         HorizontalDividerCustom(
           thickness: getProportionateScreenHeight(5),

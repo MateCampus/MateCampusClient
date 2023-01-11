@@ -4,6 +4,7 @@ import 'package:zamongcampus/src/business_logic/arguments/post_detail_screen_arg
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
@@ -11,8 +12,9 @@ import 'package:zamongcampus/src/ui/views/post/post_detail/post_detail_screen.da
 import 'package:zamongcampus/src/ui/views/post/post_main/components/bottom_count_info.dart';
 
 class UserPostListTile extends StatelessWidget {
+  final UserProfileDemandSurveyViewModel vm;
   final PostPresentation post;
-  const UserPostListTile({Key? key, required this.post}) : super(key: key);
+  const UserPostListTile({Key? key,required this.vm,required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +58,8 @@ class UserPostListTile extends StatelessWidget {
         const HorizontalDividerCustom(
           color: Color(0xfff0f0f6),
         ),
-        //좋아요 댓글 영역 -> 이것만 일단 포스트메인에서 쓰는거 끌어다쓴다.
-        BottomCountInfo(post: post),
+        //좋아요 댓글 영역 -> 이것만 일단 포스트메인에서 쓰는거 끌어다쓴다.(뷰모델만 바꿔서 보냄.)
+        BottomCountInfo(vm: vm, post: post),
         //하단 아래 구분선
         HorizontalDividerCustom(
           thickness: getProportionateScreenHeight(5),
