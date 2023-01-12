@@ -11,7 +11,9 @@ import 'post_list_tile.dart';
 //여기서는 sliver을 써야해서 mainAppbar 못씀
 class Body extends StatelessWidget {
   final PostMainScreenViewModel vm;
-  const Body({Key? key, required this.vm}) : super(key: key);
+  final Function refresh;
+  const Body({Key? key, required this.vm, required this.refresh})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,10 +79,9 @@ class Body extends StatelessWidget {
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
                             (context, index) => PostListTile(
-                              vm: vm,
+                                vm: vm,
                                 post: vm.posts[index],
-                                refresh: () =>
-                                    vm.postMainKey.currentState?.show()),
+                                refresh: refresh),
                             childCount: vm.posts.length),
                       )
           ],
