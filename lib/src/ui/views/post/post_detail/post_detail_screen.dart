@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/postAutoUpdate.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
@@ -42,42 +43,46 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   Widget build(BuildContext context) {
     //vm.keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     SizeConfig().init(context: context);
-    return ChangeNotifierProvider<PostDetailScreenViewModel>.value(
-      value: vm,
-      child: Consumer<PostDetailScreenViewModel>(
-        builder: (context, vm, child) {
-          return GestureDetector(
-            onTap: () =>
-                FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
-            child: Scaffold(
-              appBar: SubAppbar(
-                leadingOnPress: () {
-                  //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
-                  vm.removeNestedCommentOverlay();
-                  Navigator.of(context).pop();
-                },
-                titleText: '피드',
-                isCenter: true,
-                actions: [
-                  IconButton(
-                    icon: const Icon(CupertinoIcons.ellipsis_vertical),
-                    color: Colors.black,
-                    iconSize: kAppBarIconSizeCP,
-                    onPressed: () {
-                      _removeReportPost();
+    return WillPopScope(
+        child: ChangeNotifierProvider<PostDetailScreenViewModel>.value(
+          value: vm,
+          child: Consumer<PostDetailScreenViewModel>(
+            builder: (context, vm, child) {
+              return GestureDetector(
+                onTap: () =>
+                    FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
+                child: Scaffold(
+                  appBar: SubAppbar(
+                    leadingOnPress: () {
+                      //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
+                      vm.removeNestedCommentOverlay();
+                      Navigator.of(context);
                     },
-                  )
-                ],
-              ),
+                    titleText: '피드',
+                    isCenter: true,
+                    actions: [
+                      IconButton(
+                        icon: const Icon(CupertinoIcons.ellipsis_vertical),
+                        color: Colors.black,
+                        iconSize: kAppBarIconSizeCP,
+                        onPressed: () {
+                          _removeReportPost();
+                        },
+                      )
+                    ],
+                  ),
 
-              backgroundColor: Colors.white,
-              //extendBodyBehindAppBar: true,
-              body: vm.busy ? const IsLoading() : Body(vm: vm),
-            ),
-          );
-        },
-      ),
-    );
+                  backgroundColor: Colors.white,
+                  //extendBodyBehindAppBar: true,
+                  body: vm.busy ? const IsLoading() : Body(vm: vm),
+                ),
+              );
+            },
+          ),
+        ),
+        onWillPop: () async {
+          return true;
+        });
   }
 
   _removeReportPost() {
