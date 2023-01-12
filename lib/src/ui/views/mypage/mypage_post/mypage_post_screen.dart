@@ -56,7 +56,10 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
                             sentence: '게시물이 존재하지 않습니다',
                             bottomSpace: 100,
                           )
-                        : Body(vm: vm)),
+                        : Body(
+                            vm: vm,
+                            refresh: () => setState(() {}),
+                          )),
           );
         },
       ),
