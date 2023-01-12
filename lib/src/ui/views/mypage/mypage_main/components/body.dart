@@ -1,20 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/mypage_post_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
-import 'package:zamongcampus/src/ui/common_widgets/notification_alarm_in_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/additional_info_tab.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/menu_list.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/my_info_edit_btn.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/my_interest_edit_btn.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/show_info.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/my_page_tabbar.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_main/components/show_interest.dart';
 import 'package:zamongcampus/src/ui/views/mypage/mypage_post/mypage_post_screen.dart';
 
