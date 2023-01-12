@@ -81,6 +81,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           ),
         ),
         onWillPop: () async {
+          Navigator.of(context).pop(PostAutoUpdate(vm.isliked,
+              vm.postDetail.likedCount, vm.postDetail.commentCount));
           return true;
         });
   }

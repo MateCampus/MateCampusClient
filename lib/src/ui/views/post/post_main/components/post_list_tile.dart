@@ -5,6 +5,8 @@ import 'package:zamongcampus/src/business_logic/arguments/user_profile_screen_ar
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/postAutoUpdate.dart';
+import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -15,9 +17,10 @@ import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart'
 
 class PostListTile extends StatelessWidget {
   final dynamic vm;
-  final PostPresentation post;
+  PostPresentation post;
   final Function refresh;
-  const PostListTile({Key? key, required this.vm, required this.post, required this.refresh})
+  PostListTile(
+      {Key? key, required this.vm, required this.post, required this.refresh})
       : super(key: key);
 
   @override
@@ -38,7 +41,13 @@ class PostListTile extends StatelessWidget {
                 onTap: () {
                   Navigator.pushNamed(context, PostDetailScreen.routeName,
                           arguments: PostDetailScreenArgs(post.id))
-                      .then((value) => refresh());
+                      .then((value) {
+                    PostAutoUpdate v = value as PostAutoUpdate;
+                    post.isLiked = v.isLiked;
+                    post.likedCount = v.likedCount;
+                    post.commentCount = v.commentCount;
+                    refresh();
+                  });
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
