@@ -154,4 +154,21 @@ class MypagePostViewModel extends BaseModel {
     _myPosts = [];
     _nextPageToken = 0;
   }
+
+  void updatePost(
+      int id, bool isLiked, String likeCount, String? commentCount) {
+    for (PostPresentation post in _myPosts) {
+      if (post.id == id) {
+        post.isLiked = isLiked;
+        post.likedCount = likeCount;
+        post.commentCount = commentCount ?? post.commentCount;
+
+        break;
+      }
+    }
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
+      notifyListeners();
+    });
+  }
 }

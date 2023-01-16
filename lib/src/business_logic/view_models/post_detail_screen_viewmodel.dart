@@ -9,13 +9,16 @@ import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_post_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/services/report/report_service.dart';
+import 'package:zamongcampus/src/ui/views/mypage/mypage_post/mypage_post_screen.dart';
 
 class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
@@ -39,6 +42,10 @@ class PostDetailScreenViewModel extends BaseModel {
 
   PostMainScreenViewModel postMainScreenViewModel =
       serviceLocator<PostMainScreenViewModel>();
+  MypagePostViewModel mypagePostViewModel =
+      serviceLocator<MypagePostViewModel>();
+  UserProfileDemandSurveyViewModel userProfileDemandSurveyViewModel =
+      serviceLocator<UserProfileDemandSurveyViewModel>();
 
   // String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
@@ -256,6 +263,10 @@ class PostDetailScreenViewModel extends BaseModel {
 
   void updatePostMain() {
     postMainScreenViewModel.updatePost(_postDetail.id, _isliked,
+        _postDetail.likedCount, _postDetail.commentCount);
+    mypagePostViewModel.updatePost(_postDetail.id, _isliked,
+        _postDetail.likedCount, _postDetail.commentCount);
+    userProfileDemandSurveyViewModel.updatePost(_postDetail.id, _isliked,
         _postDetail.likedCount, _postDetail.commentCount);
   }
 
