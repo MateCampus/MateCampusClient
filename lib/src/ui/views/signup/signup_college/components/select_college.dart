@@ -40,7 +40,7 @@ class _SelectCollegeState extends State<SelectCollege> {
               controller: widget.vm.collegeController,
               maxLines: 1,
               onTap: () {
-                widget.vm.scrollCollegeFieldToTop();
+                // widget.vm.scrollCollegeFieldToTop();
                 if (widget.vm.collegeOverlayEntry == null) {
                   widget.vm
                       .createCollegeOverlay(context, _collegeOverlayWidget());

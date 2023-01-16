@@ -265,12 +265,11 @@ class SignUpViewModel extends BaseModel {
     });
   }
 
-  //학교 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수
+  //학교 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수-> 얘도 일단은 빼둠
   void scrollCollegeFieldToTop() async {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-      _collegeScrollController.animateTo(getProportionateScreenHeight(120),
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.fastOutSlowIn);
+      _collegeScrollController.jumpTo(getProportionateScreenHeight(50));
+          
     });
   }
 
