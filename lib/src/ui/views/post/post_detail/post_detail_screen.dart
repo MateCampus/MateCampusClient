@@ -35,7 +35,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   void dispose() {
-    vm.updatePostMainLiked();
+    vm.updatePostMain();
     serviceLocator.resetLazySingleton<PostDetailScreenViewModel>(instance: vm);
     super.dispose();
   }
@@ -57,7 +57,6 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
                   vm.removeNestedCommentOverlay();
                   Navigator.of(context).pop();
-         
                 },
                 titleText: '피드',
                 isCenter: true,

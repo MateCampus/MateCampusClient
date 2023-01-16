@@ -152,6 +152,20 @@ class PostMainScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
+  void updatePost(int id, bool isLiked, String likeCount, String commentCount) {
+    for (PostPresentation post in _posts) {
+      if (post.id == id) {
+        post.isLiked = isLiked;
+        post.likedCount = likeCount;
+        post.commentCount = commentCount;
+      }
+    }
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
+      notifyListeners();
+    });
+  }
+
   void changeLiked() {
     for (PostPresentation post in _posts) {
       if (likepostIds.contains(post.id) && post.isLiked == false) {
@@ -164,7 +178,6 @@ class PostMainScreenViewModel extends BaseModel {
         int changedLikedCount = int.parse(post.likedCount) - 1;
         post.likedCount = changedLikedCount.toString();
       }
-
     }
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고

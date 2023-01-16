@@ -260,8 +260,9 @@ class PostDetailScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void updatePostMainLiked(){
-    postMainScreenViewModel.changeLiked();
+  void updatePostMain() {
+    postMainScreenViewModel.updatePost(_postDetail.id, _isliked,
+        _postDetail.likedCount, _postDetail.commentCount);
   }
 
   //현재 스크롤 오프셋 가져옴
