@@ -145,13 +145,7 @@ class PostDetailScreenViewModel extends BaseModel {
 
   void likePost(int postId) async {
     Map<String, int> result = await _postService.likePost(postId: postId);
-    if (postMainScreenViewModel.likepostIds.contains(postId)) {
-      postMainScreenViewModel.likepostIds.remove(result["postId"]!);
-      _isliked = false;
-    } else {
-      postMainScreenViewModel.likepostIds.add(result["postId"]!);
-      _isliked = true;
-    }
+    _isliked = !_isliked;
     _postDetail.likedCount = result["likeCount"].toString();
     notifyListeners();
   }

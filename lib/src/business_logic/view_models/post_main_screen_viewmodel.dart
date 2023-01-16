@@ -158,6 +158,14 @@ class PostMainScreenViewModel extends BaseModel {
         post.isLiked = isLiked;
         post.likedCount = likeCount;
         post.commentCount = commentCount;
+
+        if (!isLiked) {
+          likepostIds.remove(id);
+        } else {
+          if (!likepostIds.contains(id)) {
+            likepostIds.add(id);
+          }
+        }
       }
     }
     WidgetsBinding.instance!.addPostFrameCallback((_) {
