@@ -35,6 +35,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   void dispose() {
+    vm.updatePostMainLiked();
     serviceLocator.resetLazySingleton<PostDetailScreenViewModel>(instance: vm);
     super.dispose();
   }
@@ -43,48 +44,43 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   Widget build(BuildContext context) {
     //vm.keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
     SizeConfig().init(context: context);
-    return WillPopScope(
-        child: ChangeNotifierProvider<PostDetailScreenViewModel>.value(
-          value: vm,
-          child: Consumer<PostDetailScreenViewModel>(
-            builder: (context, vm, child) {
-              return GestureDetector(
-                onTap: () =>
-                    FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
-                child: Scaffold(
-                  appBar: SubAppbar(
-                    leadingOnPress: () {
-                      //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
-                      vm.removeNestedCommentOverlay();
-                      Navigator.of(context);
+    return ChangeNotifierProvider<PostDetailScreenViewModel>.value(
+      value: vm,
+      child: Consumer<PostDetailScreenViewModel>(
+        builder: (context, vm, child) {
+          return GestureDetector(
+            onTap: () =>
+                FocusScope.of(context).unfocus(), //키보드 외부 영역 터치 시 키보드 내려감
+            child: Scaffold(
+              appBar: SubAppbar(
+                leadingOnPress: () {
+                  //혹시 overlay가 open된 채로 뒤로가기를 눌렀을 때 remove
+                  vm.removeNestedCommentOverlay();
+                  Navigator.of(context).pop();
+         
+                },
+                titleText: '피드',
+                isCenter: true,
+                actions: [
+                  IconButton(
+                    icon: const Icon(CupertinoIcons.ellipsis_vertical),
+                    color: Colors.black,
+                    iconSize: kAppBarIconSizeCP,
+                    onPressed: () {
+                      _removeReportPost();
                     },
-                    titleText: '피드',
-                    isCenter: true,
-                    actions: [
-                      IconButton(
-                        icon: const Icon(CupertinoIcons.ellipsis_vertical),
-                        color: Colors.black,
-                        iconSize: kAppBarIconSizeCP,
-                        onPressed: () {
-                          _removeReportPost();
-                        },
-                      )
-                    ],
-                  ),
+                  )
+                ],
+              ),
 
-                  backgroundColor: Colors.white,
-                  //extendBodyBehindAppBar: true,
-                  body: vm.busy ? const IsLoading() : Body(vm: vm),
-                ),
-              );
-            },
-          ),
-        ),
-        onWillPop: () async {
-          Navigator.of(context).pop(PostAutoUpdate(vm.isliked,
-              vm.postDetail.likedCount, vm.postDetail.commentCount));
-          return true;
-        });
+              backgroundColor: Colors.white,
+              //extendBodyBehindAppBar: true,
+              body: vm.busy ? const IsLoading() : Body(vm: vm),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   _removeReportPost() {

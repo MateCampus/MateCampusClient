@@ -58,7 +58,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
               ),
               backgroundColor: kMainScreenBackgroundColor,
               body: SafeArea(
-                  child: Body(vm: vm, refresh: () => setState(() {}))));
+                  child: Body(vm: vm)));
         }));
   }
 }

@@ -21,7 +21,7 @@ class Body extends StatelessWidget {
           itemCount: vm.myPosts.length,
           itemBuilder: (BuildContext context, int index) {
             return PostListTile(
-                vm: vm, post: vm.myPosts[index], refresh: refresh);
+                vm: vm, post: vm.myPosts[index]);
           }),
     );
   }
