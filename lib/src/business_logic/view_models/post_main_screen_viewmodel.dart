@@ -152,12 +152,13 @@ class PostMainScreenViewModel extends BaseModel {
     notifyListeners();
   }
 
-  void updatePost(int id, bool isLiked, String likeCount, String commentCount) {
+  void updatePost(
+      int id, bool isLiked, String likeCount, String? commentCount) {
     for (PostPresentation post in _posts) {
       if (post.id == id) {
         post.isLiked = isLiked;
         post.likedCount = likeCount;
-        post.commentCount = commentCount;
+        post.commentCount = commentCount ?? post.commentCount;
 
         if (!isLiked) {
           likepostIds.remove(id);
