@@ -37,8 +37,8 @@ class PostDetailScreenViewModel extends BaseModel {
   OverlayEntry? overlayEntry;
   final LayerLink layerLink = LayerLink();
 
-   PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
+  PostMainScreenViewModel postMainScreenViewModel =
+      serviceLocator<PostMainScreenViewModel>();
 
   // String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
@@ -139,19 +139,18 @@ class PostDetailScreenViewModel extends BaseModel {
   }
 
   Future<void> changeLikedBookMarked(int postId) async {
-    
     _isliked = postMainScreenViewModel.likepostIds.contains(postId);
     _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
   }
 
   void likePost(int postId) async {
     Map<String, int> result = await _postService.likePost(postId: postId);
-     if(postMainScreenViewModel.likepostIds.contains(postId)){
+    if (postMainScreenViewModel.likepostIds.contains(postId)) {
       postMainScreenViewModel.likepostIds.remove(result["postId"]!);
       _isliked = false;
-    }else{
+    } else {
       postMainScreenViewModel.likepostIds.add(result["postId"]!);
-      _isliked =true;
+      _isliked = true;
     }
     _postDetail.likedCount = result["likeCount"].toString();
     notifyListeners();
