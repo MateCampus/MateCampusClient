@@ -155,9 +155,6 @@ final RegExp bodyRegexp = RegExp(r"\n+");
     _nextPageToken = 0;
     loadMypagePosts("Feed");
   }
-  void updatePostMainLiked(){
-    postMainScreenViewModel.changeLiked();
-  }
 
   void resetData() {
     isInit = false;

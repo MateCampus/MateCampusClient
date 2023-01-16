@@ -31,7 +31,6 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
 
   @override
   void dispose() {
-    vm.updatePostMainLiked();
     serviceLocator.resetLazySingleton<MypagePostViewModel>(instance: vm);
     super.dispose();
   }

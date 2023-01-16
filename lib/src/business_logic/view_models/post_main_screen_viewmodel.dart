@@ -175,25 +175,6 @@ class PostMainScreenViewModel extends BaseModel {
     });
   }
 
-  void changeLiked() {
-    for (PostPresentation post in _posts) {
-      if (likepostIds.contains(post.id) && post.isLiked == false) {
-        post.isLiked = true;
-        int changedLikedCount = int.parse(post.likedCount) + 1;
-        post.likedCount = changedLikedCount.toString();
-      } else if (likepostIds.contains(post.id) == false &&
-          post.isLiked == true) {
-        post.isLiked = false;
-        int changedLikedCount = int.parse(post.likedCount) - 1;
-        post.likedCount = changedLikedCount.toString();
-      }
-    }
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
-      notifyListeners();
-    });
-  }
-
   Future<void> setCollegeFilter() async {
     setBusy(true);
     _posts.clear(); //포스트에 담았던거 다 비움

@@ -33,7 +33,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   void dispose() {
-    vm.updatePostMainLiked();
     serviceLocator.resetLazySingleton<UserProfileDemandSurveyViewModel>(
         instance: vm);
     super.dispose();
@@ -57,7 +56,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ? const IsLoading()
               : SafeArea(
                   child: Body(
-                    key: vm.userProfileMainKey,
+                      key: vm.userProfileMainKey,
                       vm: vm,
                       hasBottomBtn: widget.hasBottomBtn,
                       userLoginId: vm.userProfile.loginId),

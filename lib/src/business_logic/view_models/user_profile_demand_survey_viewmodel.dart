@@ -176,10 +176,6 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
     await loadUserProfileAndFeed(loginId);
   }
 
-  void updatePostMainLiked(){
-    postMainScreenViewModel.changeLiked();
-  }
-
   // Future<void> refreshUserProfileAndPost(String loginId) async {
   //   _userPosts.clear(); //포스트에 담았던거 다 비움
   //   _nextPageToken = 0;
