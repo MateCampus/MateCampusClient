@@ -166,6 +166,7 @@ class PostMainScreenViewModel extends BaseModel {
             likepostIds.add(id);
           }
         }
+        break;
       }
     }
     WidgetsBinding.instance!.addPostFrameCallback((_) {
