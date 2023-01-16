@@ -22,9 +22,9 @@ class MypagePostViewModel extends BaseModel {
   //List<PostPresentation> _myFeedPosts = List.empty(growable: true);
   bool isInit = false;
   int _nextPageToken = 0;
-final RegExp bodyRegexp = RegExp(r"\n+");
+  final RegExp bodyRegexp = RegExp(r"\n+");
   PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
+      serviceLocator<PostMainScreenViewModel>();
 
   List<PostPresentation> get myPosts => _myPosts;
   // List<PostPresentation> get myFeedPosts => _myFeedPosts;
@@ -32,11 +32,9 @@ final RegExp bodyRegexp = RegExp(r"\n+");
   GlobalKey<RefreshIndicatorState> get myPostMainKey =>
       _myPostRefreshIndicatorKey;
 
-  
-
   void initData() async {
     if (isInit) return;
-    _nextPageToken =0;
+    _nextPageToken = 0;
     scrollInit();
     await loadMypagePosts("Feed");
     // await loadMyLikeBookmarkPostIds(); 얘는 나중에 좋아요 로직 정리할때 써야할수도?
@@ -70,7 +68,6 @@ final RegExp bodyRegexp = RegExp(r"\n+");
   }
 
   Future<void> loadMoreMyPosts() async {
-
     buildShowDialogForLoading(
         context: _myPostRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
@@ -80,6 +77,37 @@ final RegExp bodyRegexp = RegExp(r"\n+");
       print('더 이상 가져올 피드 없음');
     } else {
       _myPosts.addAll(additionalPosts.map((post) => PostPresentation(
+          id: post.id,
+          loginId: post.loginId,
+          userNickname: post.userNickname,
+          categories: post.postCategoryCodes
+                  ?.map<String>(
+                      (category) => PostCategoryData.korNameOf(category.name))
+                  .toList() ??
+              [],
+          collegeName: CollegeData.korNameOf(
+              describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+          userImageUrl: post.userImageUrl.isNotEmpty
+              ? post.userImageUrl
+              : 'assets/images/user/general_user.png',
+          body: post.body.replaceAll(bodyRegexp, " "),
+          createdAt: dateToElapsedTime(post.createdAt),
+          likedCount: post.likedCount.toString(),
+          viewCount: post.viewCount.toString(),
+          commentCount: post.commentCount.toString(),
+          imageUrls: post.imageUrls,
+          isLiked: postMainScreenViewModel.likepostIds.contains(post.id)
+              ? true
+              : false)));
+      _nextPageToken++;
+    }
+    Navigator.pop(_myPostRefreshIndicatorKey.currentContext!);
+    notifyListeners();
+  }
+
+  void presentationPosts(List<Post> posts) {
+    _myPosts = posts
+        .map((post) => PostPresentation(
             id: post.id,
             loginId: post.loginId,
             userNickname: post.userNickname,
@@ -99,40 +127,9 @@ final RegExp bodyRegexp = RegExp(r"\n+");
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
-            isLiked: postMainScreenViewModel.likepostIds.contains(post.id)? true:false
-          )));
-      _nextPageToken++;
-    }
-    Navigator.pop(_myPostRefreshIndicatorKey.currentContext!);
-    notifyListeners();
-  }
-
-  
-
-  void presentationPosts(List<Post> posts) {
-    _myPosts = posts
-        .map((post) => PostPresentation(
-              id: post.id,
-              loginId: post.loginId,
-              userNickname: post.userNickname,
-              categories: post.postCategoryCodes
-                      ?.map<String>((category) =>
-                          PostCategoryData.korNameOf(category.name))
-                      .toList() ??
-                  [],
-              collegeName: CollegeData.korNameOf(describeEnum(
-                  post.userCollegeCode ?? CollegeCode.college0000)),
-              userImageUrl: post.userImageUrl.isNotEmpty
-                  ? post.userImageUrl
-                  : 'assets/images/user/general_user.png',
-              body: post.body.replaceAll(bodyRegexp, " "),
-              createdAt: dateToElapsedTime(post.createdAt),
-              likedCount: post.likedCount.toString(),
-              viewCount: post.viewCount.toString(),
-              commentCount: post.commentCount.toString(),
-              imageUrls: post.imageUrls,
-              isLiked: postMainScreenViewModel.likepostIds.contains(post.id)? true:false
-            ))
+            isLiked: postMainScreenViewModel.likepostIds.contains(post.id)
+                ? true
+                : false))
         .toList();
     _nextPageToken++;
   }
