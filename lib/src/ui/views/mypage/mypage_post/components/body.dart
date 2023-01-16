@@ -5,9 +5,7 @@ import 'package:zamongcampus/src/ui/views/post/post_main/components/post_list_ti
 
 class Body extends StatelessWidget {
   final MypagePostViewModel vm;
-  final Function refresh;
-  const Body({Key? key, required this.vm, required this.refresh})
-      : super(key: key);
+  const Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +18,7 @@ class Body extends StatelessWidget {
           controller: vm.myPostScrollController,
           itemCount: vm.myPosts.length,
           itemBuilder: (BuildContext context, int index) {
-            return PostListTile(
-                vm: vm, post: vm.myPosts[index]);
+            return PostListTile(vm: vm, post: vm.myPosts[index]);
           }),
     );
   }

@@ -59,7 +59,6 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
                           )
                         : Body(
                             vm: vm,
-                            refresh: () => setState(() {}),
                           )),
           );
         },
