@@ -29,11 +29,12 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   serviceLocator.resetLazySingleton<MypagePostViewModel>(instance: vm);
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    vm.updatePostMainLiked();
+    serviceLocator.resetLazySingleton<MypagePostViewModel>(instance: vm);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

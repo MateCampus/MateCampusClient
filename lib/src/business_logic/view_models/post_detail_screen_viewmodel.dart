@@ -37,6 +37,9 @@ class PostDetailScreenViewModel extends BaseModel {
   OverlayEntry? overlayEntry;
   final LayerLink layerLink = LayerLink();
 
+   PostMainScreenViewModel postMainScreenViewModel =
+        serviceLocator<PostMainScreenViewModel>();
+
   // String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
   TextEditingController get nestedCommentTextController =>
@@ -136,20 +139,20 @@ class PostDetailScreenViewModel extends BaseModel {
   }
 
   Future<void> changeLikedBookMarked(int postId) async {
-    PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
+    
     _isliked = postMainScreenViewModel.likepostIds.contains(postId);
     _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
   }
 
   void likePost(int postId) async {
     Map<String, int> result = await _postService.likePost(postId: postId);
-    _isliked = !_isliked;
-    PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
-    isliked
-        ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
-        : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+     if(postMainScreenViewModel.likepostIds.contains(postId)){
+      postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+      _isliked = false;
+    }else{
+      postMainScreenViewModel.likepostIds.add(result["postId"]!);
+      _isliked =true;
+    }
     _postDetail.likedCount = result["likeCount"].toString();
     notifyListeners();
   }
@@ -256,6 +259,10 @@ class PostDetailScreenViewModel extends BaseModel {
     _postDetail.commentCount = _commentCount.toString();
 
     notifyListeners();
+  }
+
+  void updatePostMainLiked(){
+    postMainScreenViewModel.changeLiked();
   }
 
   //현재 스크롤 오프셋 가져옴

@@ -18,38 +18,30 @@ import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart'
 class PostListTile extends StatelessWidget {
   final dynamic vm;
   PostPresentation post;
-  final Function refresh;
   PostListTile(
-      {Key? key, required this.vm, required this.post, required this.refresh})
+      {Key? key, required this.vm, required this.post})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //유저 정보 영역. 프로필 사진을 누르면 상대방 프로필 화면으로 넘어간다.
-              _postUser(context),
-
-              //포스트 영역 -> 누르면 포스트디테일로 넘어감
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, PostDetailScreen.routeName,
-                          arguments: PostDetailScreenArgs(post.id))
-                      .then((value) {
-                    PostAutoUpdate v = value as PostAutoUpdate;
-                    post.isLiked = v.isLiked;
-                    post.likedCount = v.likedCount;
-                    post.commentCount = v.commentCount;
-                    refresh();
-                  });
-                },
-                child: Column(
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, PostDetailScreen.routeName,
+                          arguments: PostDetailScreenArgs(post.id));
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //유저 정보 영역. 프로필 사진을 누르면 상대방 프로필 화면으로 넘어간다.
+                _postUser(context),
+    
+                //포스트 영역 -> 누르면 포스트디테일로 넘어감
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     //카테고리
@@ -68,21 +60,21 @@ class PostListTile extends StatelessWidget {
                           ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const HorizontalDividerCustom(
-          color: Color(0xfff0f0f6),
-        ),
-        //좋아요 댓글 영역
-        BottomCountInfo(vm: vm, post: post),
-        //하단 아래 구분선
-        HorizontalDividerCustom(
-          thickness: getProportionateScreenHeight(5),
-          color: const Color(0xfff0f0f6),
-        )
-      ],
+          const HorizontalDividerCustom(
+            color: Color(0xfff0f0f6),
+          ),
+          //좋아요 댓글 영역
+          BottomCountInfo(vm: vm, post: post),
+          //하단 아래 구분선
+          HorizontalDividerCustom(
+            thickness: getProportionateScreenHeight(5),
+            color: const Color(0xfff0f0f6),
+          )
+        ],
+      ),
     );
   }
 

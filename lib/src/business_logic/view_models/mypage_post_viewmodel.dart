@@ -35,13 +35,13 @@ final RegExp bodyRegexp = RegExp(r"\n+");
   
 
   void initData() async {
-    // if (isInit) return;
+    if (isInit) return;
     _nextPageToken =0;
     scrollInit();
     await loadMypagePosts("Feed");
     // await loadMyLikeBookmarkPostIds(); 얘는 나중에 좋아요 로직 정리할때 써야할수도?
 
-    // isInit = true;
+    isInit = true;
   }
 
   void scrollInit() {
@@ -139,10 +139,13 @@ final RegExp bodyRegexp = RegExp(r"\n+");
 
   void likePost(PostPresentation post) async {
     Map<String, int> result = await _postService.likePost(postId: post.id);
-    post.isLiked = !post.isLiked;
-    post.isLiked
-        ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
-        : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+    if(postMainScreenViewModel.likepostIds.contains(post.id)){
+      postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+      post.isLiked = false;
+    }else{
+      postMainScreenViewModel.likepostIds.add(result["postId"]!);
+      post.isLiked =true;
+    }
     post.likedCount = result["likeCount"].toString();
     notifyListeners();
   }
@@ -151,6 +154,9 @@ final RegExp bodyRegexp = RegExp(r"\n+");
     _myPosts.clear(); //포스트에 담았던거 다 비움
     _nextPageToken = 0;
     loadMypagePosts("Feed");
+  }
+  void updatePostMainLiked(){
+    postMainScreenViewModel.changeLiked();
   }
 
   void resetData() {

@@ -38,7 +38,7 @@ class PostMainScreenViewModel extends BaseModel {
     setBusy(true);
     await loadMyLikeBookmarkPostIds();
     await loadPosts();
-   
+
     setBusy(false);
     scrollInit();
 
@@ -72,27 +72,26 @@ class PostMainScreenViewModel extends BaseModel {
         collegeFilter: _collegeFilter);
     _posts = postResult
         .map((post) => PostPresentation(
-              id: post.id,
-              loginId: post.loginId,
-              userNickname: post.userNickname,
-              categories: post.postCategoryCodes
-                      ?.map<String>((category) =>
-                          PostCategoryData.korNameOf(category.name))
-                      .toList() ??
-                  [],
-              collegeName: CollegeData.korNameOf(describeEnum(
-                  post.userCollegeCode ?? CollegeCode.college0000)),
-              userImageUrl: post.userImageUrl.isNotEmpty
-                  ? post.userImageUrl
-                  : 'assets/images/user/general_user.png',
-              body: post.body.replaceFirst(bodyRegexp, " "),
-              createdAt: dateToElapsedTime(post.createdAt),
-              likedCount: post.likedCount.toString(),
-              viewCount: post.viewCount.toString(),
-              commentCount: post.commentCount.toString(),
-              imageUrls: post.imageUrls,
-              isLiked: likepostIds.contains(post.id) ? true : false
-            ))
+            id: post.id,
+            loginId: post.loginId,
+            userNickname: post.userNickname,
+            categories: post.postCategoryCodes
+                    ?.map<String>(
+                        (category) => PostCategoryData.korNameOf(category.name))
+                    .toList() ??
+                [],
+            collegeName: CollegeData.korNameOf(
+                describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+            userImageUrl: post.userImageUrl.isNotEmpty
+                ? post.userImageUrl
+                : 'assets/images/user/general_user.png',
+            body: post.body.replaceFirst(bodyRegexp, " "),
+            createdAt: dateToElapsedTime(post.createdAt),
+            likedCount: post.likedCount.toString(),
+            viewCount: post.viewCount.toString(),
+            commentCount: post.commentCount.toString(),
+            imageUrls: post.imageUrls,
+            isLiked: likepostIds.contains(post.id) ? true : false))
         .toList();
 
     _nextPageToken++;
@@ -113,27 +112,26 @@ class PostMainScreenViewModel extends BaseModel {
       // toastMessage('피드 끝!');
     } else if (additionalPosts.isNotEmpty) {
       _posts.addAll(additionalPosts.map((post) => PostPresentation(
-            id: post.id,
-            loginId: post.loginId,
-            userNickname: post.userNickname,
-            categories: post.postCategoryCodes
-                    ?.map<String>(
-                        (category) => PostCategoryData.korNameOf(category.name))
-                    .toList() ??
-                [],
-            collegeName: CollegeData.korNameOf(
-                describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
-            userImageUrl: post.userImageUrl.isNotEmpty
-                ? post.userImageUrl
-                : 'assets/images/user/general_user.png',
-            body: post.body.replaceAll(bodyRegexp, " "),
-            createdAt: dateToElapsedTime(post.createdAt),
-            likedCount: post.likedCount.toString(),
-            viewCount: post.viewCount.toString(),
-            commentCount: post.commentCount.toString(),
-            imageUrls: post.imageUrls,
-            isLiked: likepostIds.contains(post.id) ? true : false
-          )));
+          id: post.id,
+          loginId: post.loginId,
+          userNickname: post.userNickname,
+          categories: post.postCategoryCodes
+                  ?.map<String>(
+                      (category) => PostCategoryData.korNameOf(category.name))
+                  .toList() ??
+              [],
+          collegeName: CollegeData.korNameOf(
+              describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+          userImageUrl: post.userImageUrl.isNotEmpty
+              ? post.userImageUrl
+              : 'assets/images/user/general_user.png',
+          body: post.body.replaceAll(bodyRegexp, " "),
+          createdAt: dateToElapsedTime(post.createdAt),
+          likedCount: post.likedCount.toString(),
+          viewCount: post.viewCount.toString(),
+          commentCount: post.commentCount.toString(),
+          imageUrls: post.imageUrls,
+          isLiked: likepostIds.contains(post.id) ? true : false)));
       _nextPageToken++;
     }
     Navigator.pop(_postMainRefreshIndicatorKey.currentContext!);
@@ -142,13 +140,36 @@ class PostMainScreenViewModel extends BaseModel {
 
   void likePost(PostPresentation post) async {
     Map<String, int> result = await _postService.likePost(postId: post.id);
-    post.isLiked = !post.isLiked;
-    
-    post.isLiked
-        ? likepostIds.add(result["postId"]!)
-        : likepostIds.remove(result["postId"]!);
+    if (likepostIds.contains(post.id)) {
+      likepostIds.remove(result["postId"]!);
+      post.isLiked = false;
+    } else {
+      likepostIds.add(result["postId"]!);
+      post.isLiked = true;
+    }
+
     post.likedCount = result["likeCount"].toString();
     notifyListeners();
+  }
+
+  void changeLiked() {
+    for (PostPresentation post in _posts) {
+      if (likepostIds.contains(post.id) && post.isLiked == false) {
+        post.isLiked = true;
+        int changedLikedCount = int.parse(post.likedCount) + 1;
+        post.likedCount = changedLikedCount.toString();
+      } else if (likepostIds.contains(post.id) == false &&
+          post.isLiked == true) {
+        post.isLiked = false;
+        int changedLikedCount = int.parse(post.likedCount) - 1;
+        post.likedCount = changedLikedCount.toString();
+      }
+
+    }
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
+      notifyListeners();
+    });
   }
 
   Future<void> setCollegeFilter() async {
@@ -212,6 +233,5 @@ class PostPresentation {
       required this.viewCount,
       required this.commentCount,
       required this.imageUrls,
-      required this.isLiked
-      });
+      required this.isLiked});
 }

@@ -14,7 +14,8 @@ import 'package:zamongcampus/src/ui/views/post/post_liked_list/post_liked_list_s
 class BottomCountInfo extends StatelessWidget {
   final dynamic vm;
   final PostPresentation post;
-  const BottomCountInfo({Key? key,required this.vm , required this.post}) : super(key: key);
+  const BottomCountInfo({Key? key, required this.vm, required this.post})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +39,18 @@ class BottomCountInfo extends StatelessWidget {
     return TextButton.icon(
       onPressed: () {
         vm.likePost(post);
-        // Navigator.pushNamed(context, PostLikedListScreen.routeName,
-        //   arguments: PostLikedListScreenArgs(post.id));
       },
       icon: post.isLiked
-        ?
-      Icon(
-        CupertinoIcons.heart_fill,
-        size: kPostIconSizeCP,
-        color: kMainColor,
-      ):
-      Icon(
-        CupertinoIcons.heart,
-        size: kPostIconSizeCP,
-        color: kPostBtnColor,
-      ),
-
-      // widget.vm.isliked
-      //     ? Icon(
-      //         CupertinoIcons.heart_fill,
-      //         size: kPostDetailIconSizeCP,
-      //         color: kMainColor,
-      //       )
-      //     : Icon(
-      //         CupertinoIcons.heart,
-      //         size: kPostDetailIconSizeCP,
-      //         color: kPostBtnColor,
-      //       ),
+          ? Icon(
+              CupertinoIcons.heart_fill,
+              size: kPostIconSizeCP,
+              color: kMainColor,
+            )
+          : Icon(
+              CupertinoIcons.heart,
+              size: kPostIconSizeCP,
+              color: kPostBtnColor,
+            ),
       label: Text(
         post.likedCount,
         textAlign: TextAlign.center,

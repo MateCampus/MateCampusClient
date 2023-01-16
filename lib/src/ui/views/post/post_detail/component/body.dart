@@ -13,7 +13,7 @@ import 'package:zamongcampus/src/ui/views/post/post_detail/component/post_head.d
 
 class Body extends StatelessWidget {
   final PostDetailScreenViewModel vm;
-  const Body({Key? key, required this.vm}) : super(key: key);
+   const Body({Key? key, required this.vm}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

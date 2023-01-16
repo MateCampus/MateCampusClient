@@ -33,6 +33,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   void dispose() {
+    vm.updatePostMainLiked();
     serviceLocator.resetLazySingleton<UserProfileDemandSurveyViewModel>(
         instance: vm);
     super.dispose();
