@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/https_client.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/local_notification_object.dart';
@@ -23,6 +24,7 @@ class Init {
     await SqfliteObject.database;
     await FirebaseObject.init();
     await LocalNotificationObject.init();
+    await HttpsClient().init();
     String? loginId = await PrefsObject.getLoginId();
     String? token = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
@@ -35,14 +37,12 @@ class Init {
       // 아니면 loginId, token 삭제 후 "login"으로.
       LoginService _loginService = serviceLocator<LoginService>();
       bool res = await _loginService.reissueToken();
-      if(res){
-
+      if (res) {
         AuthService.setGlobalLoginIdTokenAndInitUserData(
             token: token, loginId: loginId, refreshToken: refreshToken);
         return "/";
-      }else{
-
-       return "/login";
+      } else {
+        return "/login";
       }
 
       // try {
