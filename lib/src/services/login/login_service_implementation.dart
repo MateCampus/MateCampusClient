@@ -1,12 +1,8 @@
-import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/methods.dart';
+import 'package:zamongcampus/src/business_logic/utils/https_client.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
@@ -16,11 +12,12 @@ class LoginServiceImpl extends LoginService {
   @override
   Future<bool> login({required String id, required String password}) async {
     var body = {"loginId": id, "password": password};
-    final response = await http.post(Uri.parse(devServer + "/api/authenticate"),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(body));
+    final response = await HttpsClient.client
+        .post(Uri.parse(devServer + "/api/authenticate"),
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: jsonEncode(body));
 
     if (response.statusCode == 200) {
       String? token = response.headers["authorization"];
@@ -36,11 +33,10 @@ class LoginServiceImpl extends LoginService {
     } else if (response.statusCode == 401) {
       print('등록된 유저가 아님. 여기서는 아마 토큰 문제가 아님. 왜냐면 애초에 여기선 토큰을 서버에 보내질않음.');
       return false;
-    } else if (response.statusCode==403){
-print('등록은 됐으나, 활성화된 유저가 아님');
+    } else if (response.statusCode == 403) {
+      print('등록은 됐으나, 활성화된 유저가 아님');
       return false;
-    }
-    else {
+    } else {
       return false;
     }
   }
