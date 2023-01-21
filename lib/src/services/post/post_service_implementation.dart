@@ -23,10 +23,9 @@ class PostServiceImpl implements PostService {
       required List<String> categoryCodeList}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    var request =
-        http.MultipartRequest("POST", Uri.parse(devServer + "/api/post"))
-          ..headers.addAll(AuthService.get_auth_header(
-              accessToken: accessToken, refreshToken: refreshToken));
+    var request = MultipartRequest("POST", Uri.parse(devServer + "/api/post"))
+      ..headers.addAll(AuthService.get_auth_header(
+          accessToken: accessToken, refreshToken: refreshToken));
 
     request.fields['body'] = body;
     request.fields['title'] = title;
