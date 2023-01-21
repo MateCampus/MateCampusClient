@@ -10,7 +10,6 @@ import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
-import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/services/login/session/cookie.dart';
 
 class LoginServiceImpl extends LoginService {
@@ -50,7 +49,7 @@ print('등록은 됐으나, 활성화된 유저가 아님');
   Future<bool> reissueToken() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.post(
+    final response = await HttpsClient.client.post(
         Uri.parse(devServer + "/api/authenticate/refresh/jwt-token"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
