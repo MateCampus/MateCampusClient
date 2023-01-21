@@ -1,6 +1,8 @@
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
+import 'package:zamongcampus/src/business_logic/utils/https_client.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
@@ -8,10 +10,11 @@ import 'package:zamongcampus/src/services/login/login_service.dart';
 import '../../business_logic/models/post.dart';
 import '../../business_logic/utils/constants.dart';
 import 'post_service.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class PostServiceImpl implements PostService {
+  var client = HttpsClient.client;
+
   @override
   Future<bool> createPost(
       {required String title,
@@ -30,13 +33,13 @@ class PostServiceImpl implements PostService {
     if (imageFileList != null) {
       for (var imageFile in imageFileList) {
         request.files
-            .add(await http.MultipartFile.fromPath('files', imageFile.path));
+            .add(await MultipartFile.fromPath('files', imageFile.path));
       }
     }
     String categoryCodesJson = categoryCodeList.join(' ,');
     request.fields["categoryCodeList"] = categoryCodesJson;
 
-    var response = await request.send();
+    var response = await client.send(request);
     if (response.statusCode == 200) {
       print("post 생성 성공");
       return true;
@@ -59,7 +62,7 @@ class PostServiceImpl implements PostService {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
 
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(
           devServer +
               "/api/post/" +
@@ -96,7 +99,7 @@ class PostServiceImpl implements PostService {
   Future<Post> fetchPostDetail({required int postId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(devServer + "/api/post/" + postId.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
@@ -118,7 +121,7 @@ class PostServiceImpl implements PostService {
   Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(devServer + "/api/post/myLikeBookMarkIds"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
@@ -144,7 +147,7 @@ class PostServiceImpl implements PostService {
   Future<List<Post>> fetchBookmarkPosts({required int nextPageToken}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(devServer +
             "/api/post/bookmark?nextPageToken=" +
             nextPageToken.toString()),
@@ -172,7 +175,7 @@ class PostServiceImpl implements PostService {
   Future<List<Post>> fetchMyPosts({required int nextPageToken}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(devServer +
             "/api/post/my?nextPageToken=" +
             nextPageToken.toString()),
@@ -199,7 +202,7 @@ class PostServiceImpl implements PostService {
       {required String targetLoginId, required int nextPageToken}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(devServer +
             "/api/post/?userId=" +
             targetLoginId.toString() +
@@ -229,7 +232,7 @@ class PostServiceImpl implements PostService {
   Future<List<User>> fetchLikedUsers({required int postId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.get(
+    final response = await client.get(
         Uri.parse(devServer + "/api/post/like/" + postId.toString() + "/users"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
@@ -252,7 +255,7 @@ class PostServiceImpl implements PostService {
   Future<Map<String, int>> likePost({required int postId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.post(
+    final response = await client.post(
         Uri.parse(devServer + "/api/post/like/" + postId.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
@@ -275,7 +278,7 @@ class PostServiceImpl implements PostService {
   Future<int> bookMarkPost({required int postId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.post(
+    final response = await client.post(
         Uri.parse(devServer + "/api/post/bookmark/" + postId.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
@@ -296,7 +299,7 @@ class PostServiceImpl implements PostService {
   Future<bool> deletePost({required int postId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await http.delete(
+    final response = await client.delete(
         Uri.parse(devServer + "/api/post/" + postId.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
