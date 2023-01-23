@@ -62,6 +62,8 @@ enum CollegeCode {
   college0055,
   college0056,
   college0057,
+  college0058,
+  college0059,
 
-  
+  college0060,
 }
