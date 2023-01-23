@@ -110,9 +110,10 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
-            isLiked: postMainScreenViewModel.likepostIds.contains(post.id)
-                ? true
-                : false))
+            isLiked: post.liked ??
+                    postMainScreenViewModel.likepostIds.contains(post.id)
+                    ? true
+                    : false))
         .toList();
 
     _nextPageToken++;
@@ -149,9 +150,10 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
           viewCount: post.viewCount.toString(),
           commentCount: post.commentCount.toString(),
           imageUrls: post.imageUrls,
-          isLiked: postMainScreenViewModel.likepostIds.contains(post.id)
-              ? true
-              : false)));
+          isLiked: post.liked ??
+                  postMainScreenViewModel.likepostIds.contains(post.id)
+                  ? true
+                  : false)));
       _nextPageToken++;
     }
     Navigator.pop(_userProfileRefreshIndicatorKey.currentContext!);

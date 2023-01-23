@@ -96,7 +96,8 @@ class MypagePostViewModel extends BaseModel {
           viewCount: post.viewCount.toString(),
           commentCount: post.commentCount.toString(),
           imageUrls: post.imageUrls,
-          isLiked: postMainScreenViewModel.likepostIds.contains(post.id)
+          isLiked: post.liked ??
+                  postMainScreenViewModel.likepostIds.contains(post.id)
               ? true
               : false)));
       _nextPageToken++;
@@ -127,9 +128,10 @@ class MypagePostViewModel extends BaseModel {
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
-            isLiked: postMainScreenViewModel.likepostIds.contains(post.id)
-                ? true
-                : false))
+            isLiked: post.liked ??
+                    postMainScreenViewModel.likepostIds.contains(post.id)
+                    ? true
+                    : false))
         .toList();
     _nextPageToken++;
   }

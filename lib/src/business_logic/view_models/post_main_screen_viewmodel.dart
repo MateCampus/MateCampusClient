@@ -91,7 +91,8 @@ class PostMainScreenViewModel extends BaseModel {
             viewCount: post.viewCount.toString(),
             commentCount: post.commentCount.toString(),
             imageUrls: post.imageUrls,
-            isLiked: likepostIds.contains(post.id) ? true : false))
+            isLiked:
+                post.liked ?? likepostIds.contains(post.id) ? true : false))
         .toList();
 
     _nextPageToken++;
@@ -131,7 +132,8 @@ class PostMainScreenViewModel extends BaseModel {
           viewCount: post.viewCount.toString(),
           commentCount: post.commentCount.toString(),
           imageUrls: post.imageUrls,
-          isLiked: likepostIds.contains(post.id) ? true : false)));
+          isLiked:
+              post.liked ?? likepostIds.contains(post.id) ? true : false)));
       _nextPageToken++;
     }
     Navigator.pop(_postMainRefreshIndicatorKey.currentContext!);
