@@ -1,24 +1,21 @@
 import 'dart:convert';
-
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
-import 'package:zamongcampus/src/business_logic/utils/https_client.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
+import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/services/login/session/cookie.dart';
 
 class LoginServiceImpl extends LoginService {
   @override
   Future<bool> login({required String id, required String password}) async {
     var body = {"loginId": id, "password": password};
-    final response = await HttpsClient.client
-        .post(Uri.parse(devServer + "/api/authenticate"),
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: jsonEncode(body));
-
+    final response = await http.post(Uri.parse(devServer + "/api/authenticate"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(body));
     if (response.statusCode == 200) {
       String? token = response.headers["authorization"];
       await PrefsObject.setPrefsLoginId(id);
@@ -45,10 +42,11 @@ class LoginServiceImpl extends LoginService {
   Future<bool> reissueToken() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await HttpsClient.client.post(
+    final response = await http.post(
         Uri.parse(devServer + "/api/authenticate/refresh/jwt-token"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
+
     if (response.statusCode == 200) {
       var json = await jsonDecode(utf8.decode(response.bodyBytes));
       String reissuedToken = json["token"];

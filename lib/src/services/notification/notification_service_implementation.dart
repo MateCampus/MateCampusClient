@@ -4,21 +4,20 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
-
-import '../../business_logic/utils/https_client.dart';
 import 'notification_service.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class NotificationServiceImpl implements NotificationService {
-  var client = HttpsClient.client;
   @override
   Future<List<NotificationZC>> fetchMyNotification() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await client.get(
+    final response = await http.get(
         Uri.parse(devServer + "/api/notification/my"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
+
     if (response.statusCode == 200) {
       List<NotificationZC> notifications =
           await jsonDecode(utf8.decode(response.bodyBytes))
@@ -39,10 +38,11 @@ class NotificationServiceImpl implements NotificationService {
   Future<List<NotificationZC>> fetchMyUnreadNotification() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await client.get(
+    final response = await http.get(
         Uri.parse(devServer + "/api/notification/my/unread"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
+
     if (response.statusCode == 200) {
       List<NotificationZC> notifications =
           await jsonDecode(utf8.decode(response.bodyBytes))
@@ -62,10 +62,11 @@ class NotificationServiceImpl implements NotificationService {
   Future<bool> updateAllMyNotificationRead() async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await client.put(
+    final response = await http.put(
         Uri.parse(devServer + "/api/notification/my"),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
+
     if (response.statusCode == 204) {
       return true;
     } else if (response.statusCode == 401) {
@@ -83,7 +84,7 @@ class NotificationServiceImpl implements NotificationService {
   Future<int> updateMyNotificationRead({required int id}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await client.put(
+    final response = await http.put(
         Uri.parse(devServer + "/api/notification/my/" + id.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
@@ -104,10 +105,11 @@ class NotificationServiceImpl implements NotificationService {
   Future<bool> deleteMyNotification({required int id}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
-    final response = await client.delete(
+    final response = await http.delete(
         Uri.parse(devServer + "/api/notification/my/" + id.toString()),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
+
     if (response.statusCode == 204) {
       return true;
     } else if (response.statusCode == 401) {
