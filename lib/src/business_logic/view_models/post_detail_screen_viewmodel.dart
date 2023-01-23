@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/reportType.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -17,8 +16,6 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
-import 'package:zamongcampus/src/services/report/report_service.dart';
-import 'package:zamongcampus/src/ui/views/mypage/mypage_post/mypage_post_screen.dart';
 
 class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
@@ -28,15 +25,11 @@ class PostDetailScreenViewModel extends BaseModel {
   List<CommentPresentation> _comments = List.empty(growable: true);
   int _currentPostId = -1;
   int _parentId = -1; //대댓글 생성할 때 쓰는용도
-  bool _isliked = false;
-  bool _isBookMarked = false;
-  // final String _postProfileImgPath = 'assets/images/user/general_user.png';
   final _commentTextController = TextEditingController();
   final _nestedCommentTextController = TextEditingController();
   final _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   double _currentScrollOffset = 0;
-  //double keyboardHeight = 0;
   OverlayEntry? overlayEntry;
   final LayerLink layerLink = LayerLink();
 
@@ -47,7 +40,6 @@ class PostDetailScreenViewModel extends BaseModel {
   UserProfileDemandSurveyViewModel userProfileDemandSurveyViewModel =
       serviceLocator<UserProfileDemandSurveyViewModel>();
 
-  // String get postProfileImgPath => _postProfileImgPath;
   TextEditingController get commentTextController => _commentTextController;
   TextEditingController get nestedCommentTextController =>
       _nestedCommentTextController;
@@ -68,17 +60,15 @@ class PostDetailScreenViewModel extends BaseModel {
           createdAt: '',
           likedCount: '',
           viewCount: '',
-          commentCount: '');
+          commentCount: '',
+          isLiked: false);
 
   PostDetailPresentation get postDetail => _postDetail;
   List<CommentPresentation> get comments => _comments;
-  bool get isliked => _isliked;
-  bool get isBookMarked => _isBookMarked;
 
   void initData(int postId) async {
     setBusy(true);
     await loadPostDetail(postId);
-    await changeLikedBookMarked(postId);
     setBusy(false);
   }
 
@@ -121,50 +111,43 @@ class PostDetailScreenViewModel extends BaseModel {
         .toList();
 
     _postDetail = PostDetailPresentation(
-      id: postDetailResult.id,
-      loginId: postDetailResult.loginId,
-      userNickname: postDetailResult.userNickname,
-      categories: postDetailResult.postCategoryCodes
-              ?.map<String>(
-                  (category) => PostCategoryData.korNameOf(category.name))
-              .toList() ??
-          [],
-      collegeName: CollegeData.korNameOf(describeEnum(
-          postDetailResult.userCollegeCode ?? CollegeCode.college0000)),
-      userImageUrl: postDetailResult.userImageUrl.isNotEmpty
-          ? postDetailResult.userImageUrl
-          : defaultPostDetail.userImageUrl,
-      body: postDetailResult.body,
-      createdAt: dateToElapsedTime(postDetailResult.createdAt),
-      likedCount: postDetailResult.likedCount.toString(),
-      commentCount: postDetailResult.commentCount.toString(),
-      viewCount: postDetailResult.viewCount.toString(),
-      imageUrls: postDetailResult.imageUrls,
-    );
+        id: postDetailResult.id,
+        loginId: postDetailResult.loginId,
+        userNickname: postDetailResult.userNickname,
+        categories: postDetailResult.postCategoryCodes
+                ?.map<String>(
+                    (category) => PostCategoryData.korNameOf(category.name))
+                .toList() ??
+            [],
+        collegeName: CollegeData.korNameOf(describeEnum(
+            postDetailResult.userCollegeCode ?? CollegeCode.college0000)),
+        userImageUrl: postDetailResult.userImageUrl.isNotEmpty
+            ? postDetailResult.userImageUrl
+            : defaultPostDetail.userImageUrl,
+        body: postDetailResult.body,
+        createdAt: dateToElapsedTime(postDetailResult.createdAt),
+        likedCount: postDetailResult.likedCount.toString(),
+        commentCount: postDetailResult.commentCount.toString(),
+        viewCount: postDetailResult.viewCount.toString(),
+        imageUrls: postDetailResult.imageUrls,
+        isLiked: postDetailResult.liked ??
+                postMainScreenViewModel.likepostIds
+                    .contains(postDetailResult.id)
+            ? true
+            : false);
 
     _currentPostId = postId;
   }
 
-  Future<void> changeLikedBookMarked(int postId) async {
-    _isliked = postMainScreenViewModel.likepostIds.contains(postId);
-    _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
-  }
+  // Future<void> changeLikedBookMarked(int postId) async {
+  //   _isliked = postMainScreenViewModel.likepostIds.contains(postId);
+  //   _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
+  // }
 
   void likePost(int postId) async {
     Map<String, int> result = await _postService.likePost(postId: postId);
-    _isliked = !_isliked;
+    _postDetail.isLiked = !_postDetail.isLiked;
     _postDetail.likedCount = result["likeCount"].toString();
-    notifyListeners();
-  }
-
-  void bookMarkPost(int postId) async {
-    int newPostId = await _postService.bookMarkPost(postId: postId);
-    _isBookMarked = !_isBookMarked;
-    PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
-    isBookMarked
-        ? postMainScreenViewModel.bookmarkpostIds.add(newPostId)
-        : postMainScreenViewModel.bookmarkpostIds.remove(newPostId);
     notifyListeners();
   }
 
@@ -262,12 +245,12 @@ class PostDetailScreenViewModel extends BaseModel {
   }
 
   void updatePostMain() {
-    postMainScreenViewModel.updatePost(_postDetail.id, _isliked,
+    postMainScreenViewModel.updatePost(_postDetail.id, _postDetail.isLiked,
         _postDetail.likedCount, _postDetail.commentCount);
-    mypagePostViewModel.updatePost(_postDetail.id, _isliked,
+    mypagePostViewModel.updatePost(_postDetail.id, _postDetail.isLiked,
         _postDetail.likedCount, _postDetail.commentCount);
-    userProfileDemandSurveyViewModel.updatePost(_postDetail.id, _isliked,
-        _postDetail.likedCount, _postDetail.commentCount);
+    userProfileDemandSurveyViewModel.updatePost(_postDetail.id,
+        _postDetail.isLiked, _postDetail.likedCount, _postDetail.commentCount);
   }
 
   //현재 스크롤 오프셋 가져옴
@@ -417,21 +400,22 @@ class PostDetailPresentation {
   String commentCount;
   String viewCount;
   List<String> imageUrls;
+  bool isLiked;
 
-  PostDetailPresentation({
-    required this.id,
-    required this.loginId,
-    required this.userNickname,
-    required this.categories,
-    required this.collegeName,
-    required this.userImageUrl,
-    required this.body,
-    required this.createdAt,
-    required this.likedCount,
-    required this.commentCount,
-    required this.viewCount,
-    required this.imageUrls,
-  });
+  PostDetailPresentation(
+      {required this.id,
+      required this.loginId,
+      required this.userNickname,
+      required this.categories,
+      required this.collegeName,
+      required this.userImageUrl,
+      required this.body,
+      required this.createdAt,
+      required this.likedCount,
+      required this.commentCount,
+      required this.viewCount,
+      required this.imageUrls,
+      required this.isLiked});
 }
 
 class CommentPresentation {

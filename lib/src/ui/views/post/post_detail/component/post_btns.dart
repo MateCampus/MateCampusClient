@@ -41,7 +41,7 @@ class _PostBtnsState extends State<PostBtns> {
       onPressed: () {
         widget.vm.likePost(widget.vm.postDetail.id);
       },
-      icon: widget.vm.isliked
+      icon: widget.vm.postDetail.isLiked
           ? Icon(
               CupertinoIcons.heart_fill,
               size: kPostIconSizeCP,
