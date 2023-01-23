@@ -1,8 +1,5 @@
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
-import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
-
-import 'enums/categoryCode.dart';
 import 'enums/postCategoryCode.dart';
 
 class Post {
@@ -19,21 +16,23 @@ class Post {
   int commentCount;
   List<Comment>? comments;
   List<PostCategoryCode>? postCategoryCodes;
+  bool? liked;
 
   Post(
       {required this.id,
       required this.loginId,
-      this.postCategoryCodes,
       required this.userNickname,
       this.userCollegeCode,
       required this.userImageUrl,
       required this.body,
       required this.createdAt,
       required this.likedCount,
+      required this.imageUrls,
       required this.viewCount,
       required this.commentCount,
-      required this.imageUrls,
-      this.comments});
+      this.comments,
+      this.postCategoryCodes,
+      this.liked});
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
@@ -58,6 +57,7 @@ class Post {
             .toList(),
         comments: json['comments']
             ?.map<Comment>((comment) => Comment.fromJson(comment))
-            .toList());
+            .toList(),
+        liked: json['liked']);
   }
 }
