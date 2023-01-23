@@ -156,20 +156,18 @@ class SignUpViewModel extends BaseModel {
     } else if (_isValidId && !_isValidPW) {
       return null;
     } else {
-      return '이미 사용중인 아이디 입니다';
+      return '이미 사용중인 아이디입니다';
     }
   }
 
   //비밀번호 validator -> 추후 정책에따라 변경. ex) 특수문자+영어+숫자
   String? pwValidator(String? value) {
     if (value!.length < 5) {
-      _isValidPW = false;
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         notifyListeners();
       });
-      return '비밀번호가 너무 짧아요!';
+      return '비밀번호는 최소 5자 이상으로 설정해주세요';
     } else {
-      _isValidPW = true;
       WidgetsBinding.instance!.addPostFrameCallback((_) {
         notifyListeners();
       });
