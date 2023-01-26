@@ -20,7 +20,6 @@ class PostMainScreenViewModel extends BaseModel {
   List<int> bookmarkpostIds = [];
   String _sortType = "recent";
   final ScrollController _scrollController = ScrollController();
-  int _nextPageToken = 0;
   bool _collegeFilter = false;
   final _postMainRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
@@ -38,10 +37,8 @@ class PostMainScreenViewModel extends BaseModel {
     setBusy(true);
     await loadMyLikeBookmarkPostIds();
     await loadPosts();
-
     setBusy(false);
     scrollInit();
-
     isInit = true;
   }
 
@@ -68,7 +65,7 @@ class PostMainScreenViewModel extends BaseModel {
     await homeViewModel.loadNotificationExist();
     List<Post> postResult = await _postService.fetchPosts(
         type: _sortType,
-        nextPageToken: _nextPageToken,
+        oldestPostId: getOldestPostId(),
         collegeFilter: _collegeFilter);
     _posts = postResult
         .map((post) => PostPresentation(
@@ -95,7 +92,6 @@ class PostMainScreenViewModel extends BaseModel {
                 post.liked ?? likepostIds.contains(post.id) ? true : false))
         .toList();
 
-    _nextPageToken++;
     notifyListeners();
   }
 
@@ -107,7 +103,7 @@ class PostMainScreenViewModel extends BaseModel {
     await homeViewModel.loadNotificationExist();
     List<Post> additionalPosts = await _postService.fetchPosts(
         type: _sortType,
-        nextPageToken: _nextPageToken,
+        oldestPostId: getOldestPostId(),
         collegeFilter: collegeFilter);
     if (additionalPosts.isEmpty) {
       // toastMessage('피드 끝!');
@@ -134,7 +130,6 @@ class PostMainScreenViewModel extends BaseModel {
           imageUrls: post.imageUrls,
           isLiked:
               post.liked ?? likepostIds.contains(post.id) ? true : false)));
-      _nextPageToken++;
     }
     Navigator.pop(_postMainRefreshIndicatorKey.currentContext!);
     notifyListeners();
@@ -181,7 +176,6 @@ class PostMainScreenViewModel extends BaseModel {
   Future<void> setCollegeFilter() async {
     setBusy(true);
     _posts.clear(); //포스트에 담았던거 다 비움
-    _nextPageToken = 0;
     _collegeFilter = !_collegeFilter;
     await loadPosts();
     setBusy(false);
@@ -189,7 +183,6 @@ class PostMainScreenViewModel extends BaseModel {
 
   Future<void> refreshPostAfterCreateUpdate() async {
     _posts.clear(); //포스트에 담았던거 다 비움
-    _nextPageToken = 0;
     await loadPosts();
   }
 
@@ -205,8 +198,15 @@ class PostMainScreenViewModel extends BaseModel {
 
   void resetData() {
     isInit = false;
-    _posts = [];
-    _nextPageToken = 0;
+    _posts.clear();
+  }
+
+  String getOldestPostId() {
+    if (_posts.isNotEmpty) {
+      return _posts.last.id.toString();
+    } else {
+      return "";
+    }
   }
 }
 

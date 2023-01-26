@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
-import 'package:zamongcampus/src/business_logic/utils/category_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -10,7 +9,6 @@ import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
-
 import '../utils/post_category_data.dart';
 
 ///TODO: 추후에 북마크 기능이 추가된다면 여길 아예 분리해버리는게 나을 수도 있다.
@@ -21,7 +19,6 @@ class MypagePostViewModel extends BaseModel {
   List<PostPresentation> _myPosts = List.empty(growable: true);
   //List<PostPresentation> _myFeedPosts = List.empty(growable: true);
   bool isInit = false;
-  int _nextPageToken = 0;
   final RegExp bodyRegexp = RegExp(r"\n+");
   PostMainScreenViewModel postMainScreenViewModel =
       serviceLocator<PostMainScreenViewModel>();
@@ -34,7 +31,6 @@ class MypagePostViewModel extends BaseModel {
 
   void initData() async {
     if (isInit) return;
-    _nextPageToken = 0;
     scrollInit();
     await loadMypagePosts("Feed");
     // await loadMyLikeBookmarkPostIds(); 얘는 나중에 좋아요 로직 정리할때 써야할수도?
@@ -56,13 +52,9 @@ class MypagePostViewModel extends BaseModel {
   Future<void> loadMypagePosts(String isFrom) async {
     setBusy(true);
     List<Post> postResult = List.empty(growable: true);
-    if (isFrom == "BookMark") {
-      postResult =
-          await _postService.fetchBookmarkPosts(nextPageToken: _nextPageToken);
-    } else if (isFrom == "Feed") {
-      postResult =
-          await _postService.fetchMyPosts(nextPageToken: _nextPageToken);
-    }
+    postResult =
+        await _postService.fetchMyPosts(oldestPostId: getOldestPostId());
+
     presentationPosts(postResult);
     setBusy(false);
   }
@@ -72,7 +64,7 @@ class MypagePostViewModel extends BaseModel {
         context: _myPostRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
     List<Post> additionalPosts =
-        await _postService.fetchMyPosts(nextPageToken: _nextPageToken);
+        await _postService.fetchMyPosts(oldestPostId: getOldestPostId());
     if (additionalPosts.isEmpty) {
       print('더 이상 가져올 피드 없음');
     } else {
@@ -100,7 +92,6 @@ class MypagePostViewModel extends BaseModel {
                   postMainScreenViewModel.likepostIds.contains(post.id)
               ? true
               : false)));
-      _nextPageToken++;
     }
     Navigator.pop(_myPostRefreshIndicatorKey.currentContext!);
     notifyListeners();
@@ -130,10 +121,9 @@ class MypagePostViewModel extends BaseModel {
             imageUrls: post.imageUrls,
             isLiked: post.liked ??
                     postMainScreenViewModel.likepostIds.contains(post.id)
-                    ? true
-                    : false))
+                ? true
+                : false))
         .toList();
-    _nextPageToken++;
   }
 
   void likePost(PostPresentation post) async {
@@ -147,14 +137,20 @@ class MypagePostViewModel extends BaseModel {
 
   Future<void> refreshMyPost() async {
     _myPosts.clear(); //포스트에 담았던거 다 비움
-    _nextPageToken = 0;
     loadMypagePosts("Feed");
   }
 
   void resetData() {
     isInit = false;
     _myPosts = [];
-    _nextPageToken = 0;
+  }
+
+  String getOldestPostId() {
+    if (_myPosts.isNotEmpty) {
+      return _myPosts.last.id.toString();
+    } else {
+      return "";
+    }
   }
 
   void updatePost(

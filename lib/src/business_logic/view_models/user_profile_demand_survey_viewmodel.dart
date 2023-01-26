@@ -29,7 +29,6 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
   List<PostPresentation> _userPosts = List.empty(growable: true);
 
   bool isInit = false;
-  int _nextPageToken = 0;
   final RegExp bodyRegexp = RegExp(r"\n+");
 
   PostMainScreenViewModel postMainScreenViewModel =
@@ -88,7 +87,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
 
     //피드 가져오는 부분
     List<Post> result = await _postService.fetchUserPosts(
-        targetLoginId: loginId, nextPageToken: _nextPageToken);
+        targetLoginId: loginId, oldestPostId: getOldestPostId());
     _userPosts = result
         .map((post) => PostPresentation(
             id: post.id,
@@ -112,11 +111,9 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
             imageUrls: post.imageUrls,
             isLiked: post.liked ??
                     postMainScreenViewModel.likepostIds.contains(post.id)
-                    ? true
-                    : false))
+                ? true
+                : false))
         .toList();
-
-    _nextPageToken++;
 
     setBusy(false);
   }
@@ -126,7 +123,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
         context: _userProfileRefreshIndicatorKey.currentContext!,
         barrierColor: Colors.transparent);
     List<Post> additionalPosts = await _postService.fetchUserPosts(
-        targetLoginId: loginId, nextPageToken: _nextPageToken);
+        targetLoginId: loginId, oldestPostId: getOldestPostId());
     if (additionalPosts.isEmpty) {
       print('더 이상 가져올 피드 없음');
     } else {
@@ -152,9 +149,8 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
           imageUrls: post.imageUrls,
           isLiked: post.liked ??
                   postMainScreenViewModel.likepostIds.contains(post.id)
-                  ? true
-                  : false)));
-      _nextPageToken++;
+              ? true
+              : false)));
     }
     Navigator.pop(_userProfileRefreshIndicatorKey.currentContext!);
     notifyListeners();
@@ -172,7 +168,6 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
   Future<void> refreshUserProfileToUpdate(String loginId) async {
     _interests.clear();
     _userPosts.clear();
-    _nextPageToken = 0;
     await loadUserProfileAndFeed(loginId);
   }
 
@@ -219,6 +214,14 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
       //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
       notifyListeners();
     });
+  }
+
+  String getOldestPostId() {
+    if (_userPosts.isNotEmpty) {
+      return _userPosts.last.id.toString();
+    } else {
+      return "";
+    }
   }
 }
 
