@@ -11,15 +11,15 @@ abstract class PostService {
 
   Future<List<Post>> fetchPosts(
       {required String type,
-      required int nextPageToken,
+      required String oldestPostId,
       required bool collegeFilter});
 
   Future<Post> fetchPostDetail({required int postId});
   Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds();
   Future<List<Post>> fetchBookmarkPosts({required int nextPageToken});
-  Future<List<Post>> fetchMyPosts({required int nextPageToken});
+  Future<List<Post>> fetchMyPosts({required String oldestPostId});
   Future<List<Post>> fetchUserPosts(
-      {required String targetLoginId, required int nextPageToken});
+      {required String targetLoginId, required String oldestPostId});
   Future<List<User>> fetchLikedUsers({required int postId});
   Future<Map<String, int>> likePost({required int postId});
   Future<int> bookMarkPost({required int postId});

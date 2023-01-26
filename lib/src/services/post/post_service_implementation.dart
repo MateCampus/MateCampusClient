@@ -6,7 +6,6 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/login/login_service.dart';
-
 import 'post_service.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -53,7 +52,7 @@ class PostServiceImpl implements PostService {
   @override
   Future<List<Post>> fetchPosts(
       {required String type,
-      required int nextPageToken,
+      required String oldestPostId,
       required bool collegeFilter}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
@@ -63,8 +62,8 @@ class PostServiceImpl implements PostService {
           devServer +
               "/api/post/" +
               type +
-              "?nextPageToken=" +
-              nextPageToken.toString() +
+              "?oldestPost=" +
+              oldestPostId +
               "&onlyOurCollege=" +
               collegeFilter.toString(),
         ),
@@ -80,9 +79,7 @@ class PostServiceImpl implements PostService {
       await loginService.reissueToken();
       print('토큰재발행 완료');
       return fetchPosts(
-          type: type,
-          nextPageToken: nextPageToken,
-          collegeFilter: collegeFilter);
+          type: type, oldestPostId: oldestPostId, collegeFilter: collegeFilter);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception(
@@ -169,13 +166,15 @@ class PostServiceImpl implements PostService {
   }
 
   @override
-  Future<List<Post>> fetchMyPosts({required int nextPageToken}) async {
+  Future<List<Post>> fetchMyPosts({required String oldestPostId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(
         Uri.parse(devServer +
-            "/api/post/my?nextPageToken=" +
-            nextPageToken.toString()),
+            "/api/post/user/" +
+            AuthService.loginId.toString() +
+            "?oldestPost=" +
+            oldestPostId),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
@@ -187,7 +186,7 @@ class PostServiceImpl implements PostService {
       LoginService loginService = serviceLocator<LoginService>();
       await loginService.reissueToken();
       print('토큰재발행 완료');
-      return fetchMyPosts(nextPageToken: nextPageToken);
+      return fetchMyPosts(oldestPostId: oldestPostId);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception('내 피드 가져오기 실패'); // TODO : 이 오류가 생기면 앱 자체를 새로 load하는 모듈 필요
@@ -196,15 +195,15 @@ class PostServiceImpl implements PostService {
 
   @override
   Future<List<Post>> fetchUserPosts(
-      {required String targetLoginId, required int nextPageToken}) async {
+      {required String targetLoginId, required String oldestPostId}) async {
     String? accessToken = await SecureStorageObject.getAccessToken();
     String? refreshToken = await SecureStorageObject.getRefreshToken();
     final response = await http.get(
         Uri.parse(devServer +
-            "/api/post/?userId=" +
-            targetLoginId.toString() +
-            "&nextPageToken=" +
-            nextPageToken.toString()),
+            "/api/post/user/" +
+            targetLoginId +
+            "?oldestPost=" +
+            oldestPostId),
         headers: AuthService.get_auth_header(
             accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
@@ -217,7 +216,7 @@ class PostServiceImpl implements PostService {
       await loginService.reissueToken();
       print('토큰재발행 완료');
       return fetchUserPosts(
-          targetLoginId: targetLoginId, nextPageToken: nextPageToken);
+          targetLoginId: targetLoginId, oldestPostId: oldestPostId);
     } else {
       // 만약 응답이 OK가 아니면, 에러를 던집니다.
       throw Exception(

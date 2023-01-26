@@ -1,12 +1,8 @@
-import 'dart:convert';
 import 'dart:math';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/config/dummy/post_dummy.dart';
 import 'package:zamongcampus/src/config/dummy/user_dummny.dart';
-import 'package:zamongcampus/src/config/dummy_data.dart';
-
 import '../../business_logic/models/post.dart';
 import 'post_service.dart';
 
@@ -24,7 +20,7 @@ class FakePostService implements PostService {
   @override
   Future<List<Post>> fetchPosts(
       {required String type,
-      required int nextPageToken,
+      required String oldestPostId,
       required bool collegeFilter}) async {
     List<Post> list = [];
     list.addAll(postMainTestDummy);
@@ -56,7 +52,7 @@ class FakePostService implements PostService {
   }
 
   @override
-  Future<List<Post>> fetchMyPosts({required int nextPageToken}) {
+  Future<List<Post>> fetchMyPosts({required String oldestPostId}) {
     // TODO: implement fetchMyPosts
     throw UnimplementedError();
   }
@@ -92,7 +88,7 @@ class FakePostService implements PostService {
 
   @override
   Future<List<Post>> fetchUserPosts(
-      {required String targetLoginId, required int nextPageToken}) {
+      {required String targetLoginId, required String oldestPostId}) {
     // TODO: implement fetchUserPosts
     throw UnimplementedError();
   }
