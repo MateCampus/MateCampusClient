@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:zamongcampus/src/business_logic/models/college.dart';
 import 'package:zamongcampus/src/business_logic/models/major.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -10,7 +10,6 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 
-import '../models/enums/collegeCode.dart';
 import '../models/enums/interestCode.dart';
 
 class SignUpViewModel extends BaseModel {
@@ -33,14 +32,14 @@ class SignUpViewModel extends BaseModel {
   bool get isValidPW => _isValidPW;
 
   ///학교선택 관련 변수
-  //enum형태의 모든 학교 리스트
-  final List<CollegeCode> _collegeCodes = CollegeCode.values.toList();
-  //전체 학교 이름 리스트 ex. 단국대학교
-  List<String> _collegeNames = List.empty(growable: true);
-  //검색 결과 리스트
-  List<String> _searchingColleges = List.empty(growable: true);
+  List<CollegePresentation> _colleges = List.empty(growable: true);
   final TextEditingController _collegeController = TextEditingController();
-  String _selectedCollegeCode = ''; //for server
+  CollegePresentation _selectedCollege =
+      CollegePresentation(collegeName: '', campusName: '', seq: -1);
+
+  CollegePresentation get isSelectedCollege => _selectedCollege;
+  TextEditingController get collegeController => _collegeController;
+  List<CollegePresentation> get colleges => _colleges;
 
   ///학과선택 관련 변수
   List<MajorPresentation> _majors = List.empty(growable: true);
@@ -48,11 +47,8 @@ class SignUpViewModel extends BaseModel {
   MajorPresentation _selectedMajor =
       MajorPresentation(title: '', seq: ''); //for server
 
-  String get isSelectedCollege => _selectedCollegeCode;
   MajorPresentation get isSelectedMajor => _selectedMajor;
-  TextEditingController get collegeController => _collegeController;
   TextEditingController get majorController => _majorController;
-  List<String> get searchingColleges => _searchingColleges;
   List<MajorPresentation> get majors => _majors;
 
   //학과,학교 요청 관련 변수
@@ -217,40 +213,32 @@ class SignUpViewModel extends BaseModel {
     }
   }
 
-  void setCollegeList() {
-    _collegeNames.clear();
-    for (CollegeCode code in _collegeCodes) {
-      _collegeNames.add(CollegeData.korNameOf(code.name));
-    }
-    // _collegeNames.removeAt(0);
-  }
-
   //학교 선택
-  void selectCollege(BuildContext context, String college) {
-    _collegeController.text = college;
-    int collegeIndex = _collegeNames.indexOf(college);
-    print("college index: " + collegeIndex.toString());
-    _selectedCollegeCode = _collegeCodes[collegeIndex].name; //서버에 보낼용도
-    print("college name: " + _selectedCollegeCode);
+  void selectCollege(
+      BuildContext context, CollegePresentation selectedCollege) {
+    _collegeController.text = selectedCollege.collegeName;
+    _selectedCollege = selectedCollege;
 
     //학교 선택시 커서 맨 끝으로
     _collegeController.selection = TextSelection.fromPosition(
         TextPosition(offset: _collegeController.text.length));
 
-    //학교를 선택하는 시점에서 이미 선택된 학과가 있다면 초기화 .(타 대학 동일학과 선택 방지위함)
-    // _selectedMajorCode = '';
-    // _majorController.clear();
-    // searchMajor();
     FocusScope.of(context).unfocus();
     notifyListeners();
   }
 
   //학교 검색
-  void searchCollege() {
-    _searchingColleges = _collegeNames.sublist(1).where((collegeName) {
-      return collegeName.contains(_collegeController.text);
-    }).toList();
+  Future<void> searchCollege() async {
+    _colleges.clear();
+    List<College> collegeResult =
+        await _signUpService.fetchColleges(searchText: _collegeController.text);
 
+    _colleges = collegeResult
+        .map((college) => CollegePresentation(
+            collegeName: college.collegeName,
+            campusName: college.campusName,
+            seq: college.collegeSeq.toInt()))
+        .toList();
     notifyListeners();
   }
 
@@ -267,7 +255,6 @@ class SignUpViewModel extends BaseModel {
   void scrollCollegeFieldToTop() async {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       _collegeScrollController.jumpTo(getProportionateScreenHeight(50));
-          
     });
   }
 
@@ -313,9 +300,6 @@ class SignUpViewModel extends BaseModel {
         await _signUpService.requestMajor(body: _requestController.text);
     if (value) {
       _isRequested = true;
-      //서버로 보낼 학과 값을 major.0000 으로 지정
-      // _selectedMajorCode = _majorCodes.first.name;
-      // print(_selectedMajorCode);
       Navigator.pop(context);
       FocusScope.of(context).unfocus();
     } else {}
@@ -324,7 +308,6 @@ class SignUpViewModel extends BaseModel {
 
   //갤러리에서 이미지 가져옴(학생증)
   void getStudentIdCardFromGallery(BuildContext context) async {
-    
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     FocusScope.of(context).unfocus();
     if (image != null) {
@@ -341,7 +324,6 @@ class SignUpViewModel extends BaseModel {
 
   //카메라에서 이미지 가져옴(학생증)
   void getStudentIdCardFromCamera(BuildContext context) async {
-
     FocusScope.of(context).unfocus();
     final XFile? image = await picker.pickImage(source: ImageSource.camera);
     if (image != null) {
@@ -409,10 +391,12 @@ class SignUpViewModel extends BaseModel {
   //유저 생성
   Future<void> createUser(BuildContext context) async {
     buildShowDialogForLoading(context: context);
+
     bool isCreated = await _signUpService.createUser(
         id: _userIdController.text,
         pw: _userPwController.text,
-        collegeCode: _selectedCollegeCode.toUpperCase(),
+        collegeName: _selectedCollege.collegeName,
+        collegeSeq: _selectedCollege.seq.toString(),
         mClass: _selectedMajor.title,
         majorSeq: _selectedMajor.seq,
         // studentIdImg: _studentIdImg!,
@@ -484,4 +468,13 @@ class MajorPresentation {
   final String seq;
 
   MajorPresentation({required this.title, required this.seq});
+}
+
+class CollegePresentation {
+  final String collegeName;
+  final String campusName;
+  final int seq;
+
+  CollegePresentation(
+      {required this.collegeName, required this.campusName, required this.seq});
 }
