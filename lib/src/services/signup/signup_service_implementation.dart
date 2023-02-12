@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/college.dart';
 import 'package:zamongcampus/src/business_logic/models/major.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
@@ -61,7 +62,8 @@ class SignUpServiceImpl implements SignUpService {
   Future<bool> createUser(
       {required String id,
       required String pw,
-      required String collegeCode,
+      required String collegeName,
+      required String collegeSeq,
       required String mClass,
       required String majorSeq,
       XFile? studentIdImg,
@@ -79,8 +81,9 @@ class SignUpServiceImpl implements SignUpService {
     request.fields['password'] = pw;
     request.fields['nickname'] = nickname;
     request.fields['deviceToken'] =
-        FirebaseObject.deviceFcmToken ?? "fake token";
-    request.fields['collegeCode'] = collegeCode;
+       FirebaseObject.deviceFcmToken ?? "fake token";
+    request.fields['collegeName'] = collegeName;
+    request.fields['collegeSeq'] = collegeSeq;
     request.fields['mClass'] = mClass;
     request.fields['majorSeq'] = majorSeq;
     request.fields['grade'] = grade;
@@ -163,4 +166,26 @@ class SignUpServiceImpl implements SignUpService {
       throw Exception('open api 서버 오류');
     }
   }
+
+  @override
+  Future<List<College>> fetchColleges({required String searchText}) async {
+    final response = await http.get(Uri.parse(
+        "https://www.career.go.kr/cnet/openapi/getOpenApi?apiKey=ea3d8e66e599ebdbef51186142b8e1a8&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&perPage=10&searchSchulNm=" +
+            searchText));
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      var data = jsonResponse['dataSearch']['content'];
+
+      List<College> colleges =
+          await data.map<College>((json) => College.fromJson(json)).toList();
+
+      return colleges;
+    } else {
+      print(response.statusCode);
+      throw Exception('open api 서버 오류');
+    }
+  }
+
+
 }
