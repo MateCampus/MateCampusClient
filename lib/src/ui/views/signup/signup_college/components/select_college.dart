@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
-import 'package:zamongcampus/src/ui/common_widgets/horizontalDividerCustom.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import 'package:zamongcampus/src/ui/views/signup/signup_college/components/college_list_tile.dart';
 
@@ -40,21 +37,26 @@ class _SelectCollegeState extends State<SelectCollege> {
               controller: widget.vm.collegeController,
               maxLines: 1,
               onTap: () {
-                // widget.vm.scrollCollegeFieldToTop();
-                if (widget.vm.collegeOverlayEntry == null) {
-                  widget.vm
-                      .createCollegeOverlay(context, _collegeOverlayWidget());
-                } else {
-                  widget.vm.removeCollegeOverlay();
-                }
+                widget.vm.removeCollegeOverlay();
               },
               autocorrect: false,
               decoration: InputDecoration(
-                suffixIcon: Icon(
-                  CupertinoIcons.arrowtriangle_down_fill,
-                  color: Color(0xff767676),
-                  size: kTextFieldIconSizeCP,
-                ),
+                suffixIcon: IconButton(
+                    onPressed: () async {
+                      if (widget.vm.collegeController.text.isEmpty) {
+                        toastMessage('학교명을 입력해주세요');
+                      } else {
+                        await widget.vm.searchCollege();
+                        FocusScope.of(context).unfocus();
+                        widget.vm
+                            .createCollegeOverlay(context, _collegeOverlayWidget());
+                      }
+                    },
+                    icon: const Icon(
+                      CupertinoIcons.search,
+                      color: Color(0xff767676),
+                      // size: kTextFieldIconSizeCP,
+                    )),
                 hintText: "학교를 검색해주세요",
                 hintStyle: TextStyle(
                     color: const Color(0xFF999999),
@@ -92,16 +94,13 @@ class _SelectCollegeState extends State<SelectCollege> {
                 border: Border.all(color: Color(0xffe5e5ec), width: 1),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: ListView.separated(
+              child: ListView(
                 physics: const ClampingScrollPhysics(),
-                separatorBuilder: (BuildContext context, int index) =>
-                    const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
                 padding: EdgeInsets.symmetric(
                     vertical: getProportionateScreenHeight(5)),
-                itemCount: widget.vm.searchingColleges.length,
-                itemBuilder: (context, index) {
-                  return CollegeListTile(vm: widget.vm, index: index);
-                },
+                children:[
+                  ...widget.vm.colleges.map((college) => CollegeListTile(vm: widget.vm, college: college))
+                ],
               ),
             ),
           ),
