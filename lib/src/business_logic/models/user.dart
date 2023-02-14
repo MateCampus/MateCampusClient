@@ -1,5 +1,4 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
-import 'enums/collegeCode.dart';
 import 'enums/interestCode.dart';
 
 class User {
@@ -7,7 +6,7 @@ class User {
   final String loginId;
   final String nickname;
   final String? imageUrl;
-  final CollegeCode? collegeCode;
+  final String? collegeName;
   final String? majorName;
   final String? name;
   final String? deviceToken;
@@ -26,7 +25,7 @@ class User {
     required this.loginId,
     required this.nickname,
     this.imageUrl,
-    this.collegeCode,
+    this.collegeName,
     this.majorName,
     this.name,
     this.deviceToken,
@@ -47,9 +46,7 @@ class User {
         loginId: json['loginId'],
         nickname: json['nickname'],
         imageUrl: json['imageUrl'],
-        collegeCode: json['collegeCode'] != null
-            ? CollegeCode.values.byName(json['collegeCode'].toLowerCase())
-            : null,
+        collegeName: json['collegeName'],
         majorName: (json['majorCode'] != null)
             ? json['majorCode']
             : null,

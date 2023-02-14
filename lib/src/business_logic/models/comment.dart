@@ -1,10 +1,9 @@
-import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 
 class Comment {
   final int id;
   final String loginId;
   final String userNickname;
-  final CollegeCode? userCollegeCode;
+  final String? userCollegeName;
   final String userImageUrl;
   final String body;
   bool deleted;
@@ -17,7 +16,7 @@ class Comment {
       {required this.id,
       required this.loginId,
       required this.userNickname,
-      this.userCollegeCode,
+       this.userCollegeName,
       required this.userImageUrl,
       required this.body,
       required this.deleted,
@@ -31,9 +30,7 @@ class Comment {
         id: json['id'],
         loginId: json['loginId'],
         userNickname: json['userNickname'] ?? "",
-        userCollegeCode: json['writerCollegeCode'] != null
-            ? CollegeCode.values.byName(json['writerCollegeCode'].toLowerCase())
-            : null,
+        userCollegeName: json['writerCollegeName'],
         userImageUrl: json['writerProfileImageUrl']?? "",
         body: json['body'],
         deleted: json['deleted'],

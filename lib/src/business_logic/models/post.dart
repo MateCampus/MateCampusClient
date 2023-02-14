@@ -1,12 +1,11 @@
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'enums/postCategoryCode.dart';
 
 class Post {
   final int id;
   final String loginId;
   final String userNickname;
-  final CollegeCode? userCollegeCode;
+  final String? userCollegeName;
   final String userImageUrl;
   final String body;
   DateTime createdAt;
@@ -22,7 +21,7 @@ class Post {
       {required this.id,
       required this.loginId,
       required this.userNickname,
-      this.userCollegeCode,
+      this.userCollegeName,
       required this.userImageUrl,
       required this.body,
       required this.createdAt,
@@ -43,9 +42,7 @@ class Post {
                 PostCategoryCode.values.byName(postCategoryCode.toLowerCase()))
             .toList(),
         userNickname: json['userNickname'],
-        userCollegeCode: json['writerCollegeCode'] != null
-            ? CollegeCode.values.byName(json['writerCollegeCode'].toLowerCase())
-            : null,
+        userCollegeName: json['writerCollegeName'],
         userImageUrl: json['writerProfileImageUrl'],
         body: json['body'],
         createdAt: DateTime.parse(json['createdAt']),
