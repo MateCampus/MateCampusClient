@@ -42,8 +42,10 @@ class Body extends StatelessWidget {
         ),
         SafeArea(
           child: BottomFixedBtnDecoBox(
-            child: (vm.isSelectedCollege != '' &&
-                    vm.isSelectedMajor.title != '' 
+            child: (vm.majorController.text.isNotEmpty &&
+                    vm.collegeController.text.isNotEmpty&&
+                    vm.isSelectedCollege.collegeName.isNotEmpty &&
+                    vm.isSelectedMajor.title.isNotEmpty
                     )
                 ? DefaultBtn(
                     text: '다음',

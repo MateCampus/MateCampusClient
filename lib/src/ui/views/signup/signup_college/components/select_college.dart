@@ -32,12 +32,21 @@ class _SelectCollegeState extends State<SelectCollege> {
           CompositedTransformTarget(
             link: widget.vm.collegeLayerLink,
             child: TextFormField(
-              keyboardType: TextInputType.multiline,
               style: TextStyle(fontSize: kTextFieldInnerFontSize),
               controller: widget.vm.collegeController,
               maxLines: 1,
               onTap: () {
                 widget.vm.removeCollegeOverlay();
+              },
+              onFieldSubmitted: (value)async{
+                if (widget.vm.collegeController.text.isEmpty) {
+                        toastMessage('학교명을 입력해주세요');
+                      } else {
+                        await widget.vm.searchCollege();
+                        FocusScope.of(context).unfocus();
+                        widget.vm
+                            .createCollegeOverlay(context, _collegeOverlayWidget());
+                      }
               },
               autocorrect: false,
               decoration: InputDecoration(

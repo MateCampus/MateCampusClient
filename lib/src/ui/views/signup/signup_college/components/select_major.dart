@@ -33,12 +33,20 @@ class _SelectMajorState extends State<SelectMajor> {
           CompositedTransformTarget(
             link: widget.vm.majorLayerLink,
             child: TextFormField(
-              keyboardType: TextInputType.multiline,
               style: TextStyle(fontSize: kTextFieldInnerFontSize),
               controller: widget.vm.majorController,
               maxLines: 1,
               onTap: () {
                 widget.vm.removeMajorOverlay();
+              },
+              onFieldSubmitted: (value) async {
+                if (widget.vm.majorController.text.isEmpty) {
+                  toastMessage('학과명을 입력해주세요');
+                } else {
+                  await widget.vm.searchMajor();
+                  FocusScope.of(context).unfocus();
+                  widget.vm.createMajorOverlay(context, _majorOverlayWidget());
+                }
               },
               autocorrect: false,
               decoration: InputDecoration(
