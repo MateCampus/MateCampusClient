@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -13,7 +11,6 @@ import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import '../../services/interest/interest_service.dart';
-import '../models/enums/collegeCode.dart';
 import '../models/enums/interestCode.dart';
 
 class MypageViewModel extends BaseModel {
@@ -80,8 +77,7 @@ class MypageViewModel extends BaseModel {
     _myInfo = MypagePresentation(
         nickname: myInfoResult.nickname,
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
-        collegeName: CollegeData.korNameOf(
-            describeEnum(myInfoResult.collegeCode ?? CollegeCode.college0000)),
+        collegeName: myInfoResult.collegeName??"",
         majorName: myInfoResult.majorName ?? "",
         introduction: myInfoResult.introduction ?? defaultInfo.introduction,
         interestCount: myInfoResult.interestCount.toString(),

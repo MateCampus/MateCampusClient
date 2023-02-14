@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
@@ -77,8 +75,7 @@ class MypagePostViewModel extends BaseModel {
                       (category) => PostCategoryData.korNameOf(category.name))
                   .toList() ??
               [],
-          collegeName: CollegeData.korNameOf(
-              describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+          collegeName: post.userCollegeName??"",
           userImageUrl: post.userImageUrl.isNotEmpty
               ? post.userImageUrl
               : 'assets/images/user/general_user.png',
@@ -108,8 +105,7 @@ class MypagePostViewModel extends BaseModel {
                         (category) => PostCategoryData.korNameOf(category.name))
                     .toList() ??
                 [],
-            collegeName: CollegeData.korNameOf(
-                describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+            collegeName: post.userCollegeName??"",
             userImageUrl: post.userImageUrl.isNotEmpty
                 ? post.userImageUrl
                 : 'assets/images/user/general_user.png',

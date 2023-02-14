@@ -1,9 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -80,8 +77,7 @@ class PostDetailScreenViewModel extends BaseModel {
             id: comment.id,
             loginId: comment.loginId,
             userNickname: comment.userNickname,
-            collegeName: CollegeData.korNameOf(describeEnum(
-                comment.userCollegeCode ?? CollegeCode.college0000)),
+            collegeName: comment.userCollegeName??"",
             userImageUrl: comment.userImageUrl.isNotEmpty
                 ? comment.userImageUrl
                 : 'assets/images/user/general_user.png',
@@ -93,9 +89,7 @@ class PostDetailScreenViewModel extends BaseModel {
                         id: nestedComment.id,
                         loginId: nestedComment.loginId,
                         userNickname: nestedComment.userNickname,
-                        collegeName: CollegeData.korNameOf(describeEnum(
-                            nestedComment.userCollegeCode ??
-                                CollegeCode.college0000)),
+                        collegeName: nestedComment.userCollegeName??"",
                         userImageUrl: nestedComment.userImageUrl.isNotEmpty
                             ? nestedComment.userImageUrl
                             : 'assets/images/user/general_user.png',
@@ -119,8 +113,7 @@ class PostDetailScreenViewModel extends BaseModel {
                     (category) => PostCategoryData.korNameOf(category.name))
                 .toList() ??
             [],
-        collegeName: CollegeData.korNameOf(describeEnum(
-            postDetailResult.userCollegeCode ?? CollegeCode.college0000)),
+        collegeName: postDetailResult.userCollegeName??"",
         userImageUrl: postDetailResult.userImageUrl.isNotEmpty
             ? postDetailResult.userImageUrl
             : defaultPostDetail.userImageUrl,
@@ -202,8 +195,7 @@ class PostDetailScreenViewModel extends BaseModel {
         id: comment.id,
         loginId: comment.loginId,
         userNickname: comment.userNickname,
-        collegeName: CollegeData.korNameOf(
-            describeEnum(comment.userCollegeCode ?? CollegeCode.college0000)),
+        collegeName: comment.userCollegeName??"",
         userImageUrl: comment.userImageUrl.isNotEmpty
             ? comment.userImageUrl
             : 'assets/images/user/general_user.png',
@@ -215,9 +207,7 @@ class PostDetailScreenViewModel extends BaseModel {
                     id: nestedComment.id,
                     loginId: nestedComment.loginId,
                     userNickname: nestedComment.userNickname,
-                    collegeName: CollegeData.korNameOf(describeEnum(
-                        nestedComment.userCollegeCode ??
-                            CollegeCode.college0000)),
+                    collegeName: nestedComment.userCollegeName??"",
                     userImageUrl: nestedComment.userImageUrl.isNotEmpty
                         ? nestedComment.userImageUrl
                         : 'assets/images/user/general_user.png',

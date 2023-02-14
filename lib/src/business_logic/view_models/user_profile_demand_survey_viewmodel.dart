@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_friendProfile_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/collegeCode.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -79,8 +76,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
         loginId: user.loginId,
         nickname: user.nickname,
         imageUrl: user.imageUrl ?? defaultUserProfile.imageUrl,
-        collegeName: CollegeData.korNameOf(
-            describeEnum(user.collegeCode ?? CollegeCode.college0000)),
+        collegeName: user.collegeName??"",
         majorName: user.majorName ?? "",
         introduction: user.introduction ?? "");
     _interests = InterestObject.mapInterests(user.interests);
@@ -98,8 +94,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
                         (category) => PostCategoryData.korNameOf(category.name))
                     .toList() ??
                 [],
-            collegeName: CollegeData.korNameOf(
-                describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+            collegeName: post.userCollegeName??"",
             userImageUrl: post.userImageUrl.isNotEmpty
                 ? post.userImageUrl
                 : 'assets/images/user/general_user.png',
@@ -136,8 +131,7 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
                       (category) => PostCategoryData.korNameOf(category.name))
                   .toList() ??
               [],
-          collegeName: CollegeData.korNameOf(
-              describeEnum(post.userCollegeCode ?? CollegeCode.college0000)),
+          collegeName: post.userCollegeName??"",
           userImageUrl: post.userImageUrl.isNotEmpty
               ? post.userImageUrl
               : 'assets/images/user/general_user.png',
