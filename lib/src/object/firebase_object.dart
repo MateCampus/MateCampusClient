@@ -27,7 +27,7 @@ class FirebaseObject {
     try {
       String? token = await _messaging.getToken();
       // TODO: 여기에 vapidKey 필요. => 없어도 token를 가져오긴함.
-      print("토큰 값 위치: " + token.toString());
+      print("firebase 토큰 명: " + token.toString());
       return token;
     } catch (e) {
       print("getToken error ");

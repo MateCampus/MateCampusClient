@@ -1,8 +1,12 @@
+
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/firebase_options.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/route_generators.dart';
@@ -11,7 +15,14 @@ import 'src/business_logic/constants/color_constants.dart';
 import 'src/config/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timeago/timeago.dart' as timeago;
-// import 'firebase_options.dart';
+
+ class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(); // 여기에 option을 달아서 click_action을 하는듯?
@@ -19,9 +30,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 Future<void> main() async {
+  HttpOverrides.global = MyHttpOverrides();
   setupServiceLocator(); // for serviceLocator
   WidgetsFlutterBinding.ensureInitialized(); // for firebase
-  await Firebase.initializeApp(); // for firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // for firebase
   FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler); // for firebase(background + terminated)
   runApp(const MyApp());
