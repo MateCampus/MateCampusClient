@@ -71,7 +71,9 @@ class StompObject {
 
       /// *** 이 친구를 먼저 해버려야했다!>!>! 먼저해서 합쳐야할 듯..
       await chatViewModel.setChatRoomByNewMessages();
-
+      subscribeChatRoom(FirebaseObject.deviceFcmToken);
+      await chatViewModel.loadChatRooms();
+      await chatViewModel.getTotalUnreadCount();
       /* 백그라운드 상태 (Terminated messages) */
       RemoteMessage? remoteMessage =
           await FirebaseMessaging.instance.getInitialMessage();
@@ -89,24 +91,40 @@ class StompObject {
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
             homeViewModel.changeCurrentIndex(1);
 
-            /// 1. load local 값 or 새로운 값 생성
-            ChatService chatService = serviceLocator<ChatService>();
-            ChatRoom chatRoom = await chatService
-                    .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
-                ChatRoom(
-                    roomId: remoteMessage.data["roomId"],
-                    title: remoteMessage.data["title"],
-                    type: remoteMessage.data["type"],
-                    lastMessage: "",
-                    lastMsgCreatedAt: DateTime(2021, 05, 05),
-                    imageUrl: remoteMessage.data["imageUrl"],
-                    unreadCount: 0);
-
-            NavigationService().pushNamedAndRemoveUntil(
-                "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+            // ChatRoom chatRoom =
+            //     chatViewModel.getChatRoomForFcm(remoteMessage.data["roomId"]);
+            // if (chatRoom.roomId == remoteMessage.data["roomId"]) {
+            //   homeViewModel.changeCurrentIndex(1);
+            //   NavigationService().pushNamedAndRemoveUntil(
+            //       "/chatDetail",
+            //       "/",
+            //       ChatDetailScreenArgs(
+            //           chatRoom,
+            //           chatViewModel
+            //               .getExistRoomIndex(remoteMessage.data["roomId"])));
+            // } else {
+            //   //혹시 chatRoom 삽입(=stomp 구독)이 느렸을경우엔, chatMain 페이지로 넘겨버림
+            //   print('chatmain에서 chatRoom 못찾아서 chatdetail로 못가고 chatmain 으로 왔당');
+            //   NavigationService()
+            //       .pushNamedAndRemoveUntilWithoutArgs("/", "/");
+            // }
             break;
+          // /// 1. load local 값 or 새로운 값 생성
+          // ChatRoom chatRoom = await chatService
+          //         .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
+          //     ChatRoom(
+          //         roomId: remoteMessage.data["roomId"],
+          //         title: remoteMessage.data["title"],
+          //         type: remoteMessage.data["type"],
+          //         lastMessage: "",
+          //         lastMsgCreatedAt: DateTime(2021, 05, 05),
+          //         imageUrl: remoteMessage.data["imageUrl"],
+          //         unreadCount: 0);
+
+          // NavigationService().pushNamedAndRemoveUntil(
+          //     "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+          // break;
           case "/voiceDetail":
-          
             break;
           case "/postDetail":
             NavigationService().pushNamedAndRemoveUntil("/postDetail", "/",
@@ -115,15 +133,12 @@ class StompObject {
             homeViewModel.changeCurrentIndex(0);
             break;
           case "/friend":
-            
             break;
           default:
             break;
         }
       }
-      subscribeChatRoom(FirebaseObject.deviceFcmToken);
-      await chatViewModel.loadChatRooms();
-      await chatViewModel.getTotalUnreadCount();
+      
     }
   }
 
@@ -207,26 +222,25 @@ class StompObject {
               chatViewModel.insertItem(chatRoom);
             } else if (index == -1) {
               ///한번 나간 방에서 다시 메세지가 올 때.
-              ///이 때는 chatViewModel.chatRooms에는 없지만 chatViewModel.exitedChatRooms 에는 있다. 
+              ///이 때는 chatViewModel.chatRooms에는 없지만 chatViewModel.exitedChatRooms 에는 있다.
               ///여기서 꺼내와야함. 그래야 구독끊는 함수가 그대로 저장되어있음
 
-              for (ChatRoom exitedChatRoom in chatViewModel.exitedChatRooms){
-                if (exitedChatRoom.roomId==res["roomId"]){
+              for (ChatRoom exitedChatRoom in chatViewModel.exitedChatRooms) {
+                if (exitedChatRoom.roomId == res["roomId"]) {
                   ChatRoom chatRoom = exitedChatRoom;
                   //1.바뀌어야 하는 정보 변경
                   chatRoom.lastMessage = chatMessage.text;
-                  chatRoom.lastMsgCreatedAt= chatMessage.createdAt;
-                  chatRoom.unreadCount=1;
+                  chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
+                  chatRoom.unreadCount = 1;
                   //2. chatsScreen 수정
                   chatViewModel.insertItem(chatRoom);
-                  //나갔다가 다시 들어가는거니까 더이상 나간방에 스페어로 저장해둘 필요없음. 오히려 계속 놔두면 같은방을 또 나갔을때 여기 계속 쌓이게 됨. 그래서 지워준다. 
+                  //나갔다가 다시 들어가는거니까 더이상 나간방에 스페어로 저장해둘 필요없음. 오히려 계속 놔두면 같은방을 또 나갔을때 여기 계속 쌓이게 됨. 그래서 지워준다.
                   //아직 테스트는 안해봄(12.15)
                   chatViewModel.exitedChatRooms.remove(exitedChatRoom);
                   break;
                 }
               }
-
-            } 
+            }
           }
           chatViewModel.getTotalUnreadCount();
         } else if (res["type"] == "enter") {
@@ -309,7 +323,7 @@ class StompObject {
               imageUrl: res["roomInfo"]["imageUrl"],
               unreadCount: 0);
           _chatService.insertChatRoom(chatRoom);
-         chatRoom.unsubscribeFn= subscribeChatRoom(chatRoom.roomId);
+          chatRoom.unsubscribeFn = subscribeChatRoom(chatRoom.roomId);
 
           /* 2. 멤버 저장 */
           res["memberInfos"].forEach((memberInfo) {
@@ -398,6 +412,4 @@ class StompObject {
       }
     });
   }
-
- 
 }
