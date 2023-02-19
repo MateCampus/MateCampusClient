@@ -35,11 +35,14 @@ class ChatViewModel extends BaseModel {
   }
 
   Future<void> loadChatRooms() async {
+    setBusy(true);
     _chatRooms = await chatService.getAllChatRoom();
     print("load chatroom 완료");
+    setBusy(false);
   }
 
   Future<bool> setChatRoomByNewMessages() async {
+    setBusy(true);
     print("setChatRoom 새로운 메세지들 저장하는 함수 시작");
     var chatBundle = await chatService.fetchUnReceivedMessages();
     // 기반 5월5일 => 서버에서는 무조건 5월5일 이후 값이 오게 되기에 상관없다.
@@ -145,6 +148,7 @@ class ChatViewModel extends BaseModel {
       PrefsObject.setTotalLastMsgCreatedAt(
           totalLastMsgCreatedAt.toIso8601String());
     }
+    setBusy(false);
     return true;
   }
 
@@ -158,6 +162,18 @@ class ChatViewModel extends BaseModel {
       }
     }
     return index;
+  }
+
+  //roomId로 chatMain에 저장되어있는 chatRoom 반환. 
+  ChatRoom getChatRoomForFcm(String roomId){
+    ChatRoom value = ChatRoom(roomId: "", title: "", type: "", lastMessage: "", lastMsgCreatedAt: DateTime.now(), imageUrl: "", unreadCount: -1);
+    for (ChatRoom chatRoom in chatRooms){
+      if (chatRoom.roomId == roomId){
+        value =chatRoom;
+        break;
+      }
+    }
+    return value;
   }
 
   //전체 chatRoom에 대한 안읽은 총 메세지 수 카운트

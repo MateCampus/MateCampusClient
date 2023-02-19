@@ -71,7 +71,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     } else {
       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
       bool isExistRoom = false;
-      //이 부분은 채팅방 메인에서 리스트가 사라지면 안돌아감(채팅방 나가기를 한 경우). 왜냐, ui 에서 지우려고 chatRooms를 지웠거든!
+      //하단 for문 부분은 채팅방 메인에서 리스트가 사라지면 안돌아감(채팅방 나가기를 한 경우). 왜냐, ui 에서 지우려고 chatRooms를 지웠거든!
       //따라서 분기를 하나 더 주고, 채팅 리스트엔 없지만 구독이 되어있다면 존재한다고 판단해줘야함.
       for (var chatRoom in chatViewModel.chatRooms) {
         // 이미 존재하는 방 -> chat main 리스트에 있는 방
@@ -247,7 +247,8 @@ resetData();
     int index = chatvm.chatRooms.indexOf(chatRoom);
     // resetData();
     //구독 끊기
-    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
+    chatRoom.
+    unsubscribeFn!(unsubscribeHeaders: {});
     //chat main list에서 지우기
     chatvm.removeItem(index, chatRoom.roomId);
 

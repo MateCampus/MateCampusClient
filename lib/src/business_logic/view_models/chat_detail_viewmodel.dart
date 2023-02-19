@@ -142,14 +142,22 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   Future<void> exitChatRoom(int chatRoomIndex) async {
-    
+    /*230215 fcm 관련
+    fcm으로 타고서 채팅방에 입장하면 index가 -1일것이다. 
+    따라서 chatRoomIndex가 음수일때 분기를 해줘야할것같음
+    */ 
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    if(chatRoomIndex<0){
+      chatRoomIndex = chatvm.chatRooms.indexOf(chatRoom);
+      print('fcm으로 타고왔고 인덱스는'+chatRoomIndex.toString());
+    }
     // await chatService.exitChatRoom(roomId: chatRoom.roomId);
     // _chatService
     //     .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); //얘도 안해도 되려나..안해도될것같다.
     // _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
-    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    
     chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId, chatRoom);
     resetData();
   }
