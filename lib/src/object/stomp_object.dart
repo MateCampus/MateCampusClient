@@ -59,20 +59,28 @@ class StompObject {
   static dynamic onConnect(StompFrame frame) async {
     print('stomp 연결 완료');
     if (AuthService.loginId != null && AuthService.token != null) {
-      /// 1. 채팅방 불러오고
-      /// 2. 이미 존재한 방들 구독
-      /// 3. 내 token에 해당되는 방 구독
-      /// 4. 밀린 메세지 불러와서 재세팅
-      /// 5. 다시 채팅방 불러오기
-      ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-      for (ChatRoom chatRoom in chatViewModel.chatRooms) {
-        chatRoom.unsubscribeFn != subscribeChatRoom(chatRoom.roomId);
-      }
-
-      /// *** 이 친구를 먼저 해버려야했다!>!>! 먼저해서 합쳐야할 듯..
-      await chatViewModel.setChatRoomByNewMessages();
+      /// (23.02.22) 일단, loadchatRooms 자체를 두번해야하는것같다. 이유는 모르겠음. 새롭게 받아온 메세지들 때문인거 같은데. 리팩필요
+      /// 아무튼 authService 에서 한번 불러온 상태이고
+      /// 1. fcm 토큰 구독 
+      /// 2.밀린 메세지 불러와서 로컬 디비에 세팅
+      /// 3. 다시 로컬 디비에서 chatRooms들 불러옴.
+      /// 4. 그리고 그 불러온 chatRoom들 모두 구독
+      /// 5. 안읽은 메세지 갯수 체크
+     
+     //1
       subscribeChatRoom(FirebaseObject.deviceFcmToken);
+
+      ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
+      //2
+      await chatViewModel.setChatRoomByNewMessages();
+      //3
       await chatViewModel.loadChatRooms();
+      //4
+      for (ChatRoom chatRoom in chatViewModel.chatRooms) {
+        chatRoom.unsubscribeFn = subscribeChatRoom(chatRoom.roomId);
+        print(chatRoom.roomId+'번 방 구독하는중');
+      }
+      //5
       await chatViewModel.getTotalUnreadCount();
       /* 백그라운드 상태 (Terminated messages) */
       RemoteMessage? remoteMessage =
@@ -89,41 +97,26 @@ class StompObject {
         switch (remoteMessage.data["navigate"]) {
           case "/chatDetail":
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(1);
+            ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
 
-            // ChatRoom chatRoom =
-            //     chatViewModel.getChatRoomForFcm(remoteMessage.data["roomId"]);
-            // if (chatRoom.roomId == remoteMessage.data["roomId"]) {
-            //   homeViewModel.changeCurrentIndex(1);
-            //   NavigationService().pushNamedAndRemoveUntil(
-            //       "/chatDetail",
-            //       "/",
-            //       ChatDetailScreenArgs(
-            //           chatRoom,
-            //           chatViewModel
-            //               .getExistRoomIndex(remoteMessage.data["roomId"])));
-            // } else {
-            //   //혹시 chatRoom 삽입(=stomp 구독)이 느렸을경우엔, chatMain 페이지로 넘겨버림
-            //   print('chatmain에서 chatRoom 못찾아서 chatdetail로 못가고 chatmain 으로 왔당');
-            //   NavigationService()
-            //       .pushNamedAndRemoveUntilWithoutArgs("/", "/");
-            // }
+            ChatRoom chatRoom =
+                chatViewModel.getChatRoomForFcm(remoteMessage.data["roomId"]);
+            if (chatRoom.roomId == remoteMessage.data["roomId"]) {
+              homeViewModel.changeCurrentIndex(1);
+              NavigationService().pushNamedAndRemoveUntil(
+                  "/chatDetail",
+                  "/",
+                  ChatDetailScreenArgs(
+                      chatRoom,
+                      chatViewModel
+                          .getExistRoomIndex(remoteMessage.data["roomId"])));
+            } else {
+              //혹시 chatRoom 삽입(=stomp 구독)이 느렸을경우엔, chatMain 페이지로 넘겨버림
+              print('chatmain에서 chatRoom 못찾아서 chatdetail로 못가고 chatmain 으로 왔당');
+              NavigationService()
+                  .pushNamedAndRemoveUntilWithoutArgs("/", "/");
+            }
             break;
-          // /// 1. load local 값 or 새로운 값 생성
-          // ChatRoom chatRoom = await chatService
-          //         .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
-          //     ChatRoom(
-          //         roomId: remoteMessage.data["roomId"],
-          //         title: remoteMessage.data["title"],
-          //         type: remoteMessage.data["type"],
-          //         lastMessage: "",
-          //         lastMsgCreatedAt: DateTime(2021, 05, 05),
-          //         imageUrl: remoteMessage.data["imageUrl"],
-          //         unreadCount: 0);
-
-          // NavigationService().pushNamedAndRemoveUntil(
-          //     "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
-          // break;
           case "/voiceDetail":
             break;
           case "/postDetail":
@@ -340,7 +333,7 @@ class StompObject {
         }
       },
     );
-    print('구독성공: $roomId번 방 ');
+    print('stomp에 존재하는 방: $roomId번 방 ');
     return unsubscribeFn;
   }
 
