@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/init.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/ui/common_components/signup_bottom_sheet_component/signup_bottom_sheet.dart';
 
 class SplashViewModel extends BaseModel {
@@ -10,21 +12,9 @@ class SplashViewModel extends BaseModel {
   bool _isBuild = false;
   String _splashImg = '';
   String loginImg = '';
+  String appStatus = '';
 
-  final List<List<String>> _splashList = [
-    [
-      'assets/images/splash/splash.png',
-      'assets/images/temp/login_background.jpg'
-    ],
-    [
-      'assets/images/splash/splash_kookmin.png',
-      'assets/images/splash/login_background_kookmin.png'
-    ],
-    [
-      'assets/images/splash/splash_yonsei.png',
-      'assets/images/splash/login_background_yonsei.png'
-    ]
-  ];
+
 
   String get splashImg => _splashImg;
 
@@ -70,5 +60,30 @@ class SplashViewModel extends BaseModel {
       Navigator.of(context)
           .pushNamedAndRemoveUntil(_firstRoute, (route) => false);
     });
+  }
+
+  void changeAppStatus(AppLifecycleState state){
+    switch (state) {
+      case AppLifecycleState.resumed:
+        appStatus = "resumed";
+        notifyListeners();
+        break;
+      case AppLifecycleState.inactive:
+        appStatus = "inactive";
+        notifyListeners();
+        break;
+      case AppLifecycleState.detached:
+        appStatus = "detached";
+        notifyListeners();
+        break;
+      case AppLifecycleState.paused:
+        appStatus = "paused";
+        notifyListeners();
+        break;
+      default:
+        appStatus = "active";
+        notifyListeners();
+        break;
+    }
   }
 }

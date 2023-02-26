@@ -11,16 +11,52 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with WidgetsBindingObserver {
   SplashViewModel vm = serviceLocator<SplashViewModel>();
+  String appStatus ="";
 
   @override
   void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
     vm.setImage();
     vm.splashInit(context);
-
-    super.initState();
   }
+   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // switch (state) {
+    //   case AppLifecycleState.resumed:
+    //     appStatus = "resumed";
+    //     print("app 상태" + appStatus);
+    //     break;
+    //   case AppLifecycleState.inactive:
+    //     appStatus = "inactive";
+    //     print("app 상태" + appStatus);
+    //     break;
+    //   case AppLifecycleState.detached:
+    //     appStatus = "detached";
+    //     print("app 상태" + appStatus);
+    //     break;
+    //   case AppLifecycleState.paused:
+    //     appStatus = "paused";
+    //     print("app 상태" + appStatus);
+    //     break;
+    //   default:
+    //     appStatus = "active";
+    //     print("app 상태" + appStatus);
+    //     break;
+    // }
+    vm.changeAppStatus(state);
+    print('app 상태'+vm.appStatus);
+  }
+
+  // @override
+  // void dispose() {
+  //   WidgetsBinding.instance!.removeObserver(this);
+  //   print('remove observer');
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
