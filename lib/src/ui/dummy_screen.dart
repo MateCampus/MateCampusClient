@@ -153,7 +153,7 @@ class DummyScreen extends StatelessWidget {
                 onPressed: () async {
                   print(await SecureStorageObject.getAccessToken());
                 },
-                child: Text("print token"),
+                child: Text("print access token"),
               ),
               TextButton(
                 onPressed: () {
@@ -166,6 +166,13 @@ class DummyScreen extends StatelessWidget {
                   print(await PrefsObject.getBlockedUsers());
                 },
                 child: Text("blockedUser 리스트 출력"),
+              ),
+               TextButton(
+                onPressed: () async {
+                  PrefsObject.removeBlockedUsers();
+                  print(await PrefsObject.getBlockedUsers());
+                },
+                child: Text("blockedUser 모두 삭제"),
               ),
               TextButton(
                 onPressed: () async {

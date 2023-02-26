@@ -99,4 +99,8 @@ class PrefsObject {
   static void setBlockedUsers(List<String> blockedUsers) {
     _prefs.setStringList(StorageKeys.blockedUsers, blockedUsers);
   }
+
+  static void removeBlockedUsers() async {
+    _prefs.remove(StorageKeys.blockedUsers);
+  }
 }
