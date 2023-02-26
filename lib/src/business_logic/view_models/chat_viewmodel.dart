@@ -35,14 +35,21 @@ class ChatViewModel extends BaseModel {
   }
 
   Future<void> loadChatRooms() async {
-    setBusy(true);
-    _chatRooms = await chatService.getAllChatRoom();
+    _chatRooms.clear();
+    List<ChatRoom> allChatRoomsInDeviceDB = await chatService.getAllChatRoom();
+    //혹시 차단된 사람의 방도 로드할까봐 한 번 더 걸러준다. 
+    for (ChatRoom chatRoom in allChatRoomsInDeviceDB){
+      if (await PrefsObject.getBlockedUserByLoginId(chatRoom.title) ){
+        print('chatRoom이 db에는 존재하지만 차단한 사람방이어서 chatViewmodel에 넣지 않음');
+      }else {
+        _chatRooms.add(chatRoom);
+      }
+    }
+    // _chatRooms = await chatService.getAllChatRoom();
     print("load chatroom 완료");
-    setBusy(false);
   }
 
   Future<bool> setChatRoomByNewMessages() async {
-    setBusy(true);
     print("setChatRoom 새로운 메세지들 저장하는 함수 시작");
     var chatBundle = await chatService.fetchUnReceivedMessages();
     // 기반 5월5일 => 서버에서는 무조건 5월5일 이후 값이 오게 되기에 상관없다.
@@ -90,8 +97,10 @@ class ChatViewModel extends BaseModel {
                 imageUrl: modifiedInfo["systemMessage"]["roomInfo"]["imageUrl"],
                 unreadCount: 0);
             chatService.insertChatRoom(chatRoom);
-            chatRoom.unsubscribeFn =
-                StompObject.subscribeChatRoom(chatRoom.roomId);
+            //여기서 구독을 하면 안되는거 아님? (23.02.25)
+            // chatRoom.unsubscribeFn =
+            //     StompObject.subscribeChatRoom(chatRoom.roomId);
+            //     print(chatRoom.roomId+'번 방 구독하는중');
           }
 
           /* chatMember, roomMember 저장 */
@@ -148,7 +157,6 @@ class ChatViewModel extends BaseModel {
       PrefsObject.setTotalLastMsgCreatedAt(
           totalLastMsgCreatedAt.toIso8601String());
     }
-    setBusy(false);
     return true;
   }
 
@@ -261,4 +269,5 @@ class ChatViewModel extends BaseModel {
     chatRooms[index].unreadCount = 0;
     setBusy(false);
   }
+ 
 }
