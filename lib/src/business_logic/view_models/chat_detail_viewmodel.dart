@@ -165,8 +165,7 @@ class ChatDetailViewModel extends BaseModel {
   Future<void> blockUserAndExit(int chatRoomIndex) async {
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     
-    //구독 끊기
-    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
+   
     //chat main list에서 지우기
     chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
 
@@ -187,7 +186,9 @@ class ChatDetailViewModel extends BaseModel {
 
     //유저 차단
     await _userService.blockUser(targetLoginId: targetLoginId);
-
+    
+    //구독 끊기
+    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
     //채팅관련 로컬 디비 삭제
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);

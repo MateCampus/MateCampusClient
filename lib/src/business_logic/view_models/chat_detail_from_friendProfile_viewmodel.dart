@@ -131,6 +131,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
           /// 1. 새로운 방 구독
           chatRoom.unsubscribeFn =
               StompObject.subscribeChatRoom(chatRoom.roomId);
+          print('chatdetailfromfriendProfileviewmodel 에서 구독하고 있음');
 
           /// 2. vm에 채팅방 저장
           this.chatRoom = chatRoom;
@@ -246,9 +247,7 @@ resetData();
     //chat_detail과 다른점 : chat_detail은 이미 index를 가지고 시작하는데, 여기는 그렇지 않음. 따라서 chatViewModel.chatRooms에서 현재 chatRoom에 대한 index를 따로 구해줘야함.
     int index = chatvm.chatRooms.indexOf(chatRoom);
     // resetData();
-    //구독 끊기
-    chatRoom.
-    unsubscribeFn!(unsubscribeHeaders: {});
+    
     //chat main list에서 지우기
     chatvm.removeItem(index, chatRoom.roomId);
 
@@ -269,7 +268,9 @@ resetData();
 
     //유저 차단
     await _userService.blockUser(targetLoginId: targetLoginId);
-
+//구독 끊기
+    chatRoom.
+    unsubscribeFn!(unsubscribeHeaders: {});
     //채팅관련 로컬 디비 삭제
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
