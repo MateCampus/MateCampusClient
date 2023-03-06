@@ -312,8 +312,15 @@ class StompObject {
           _changeMemberInfo(chatMemberInfo);
         } else {
           /***** CREATE ******/
-          bool isBlocked = await PrefsObject.getBlockedUserByLoginId(
-              res["requestedMember"]["loginId"]);
+          //차단한 사람에게서 메세지가 온건지 확인.
+          bool isBlocked = false;
+           res["memberInfos"].forEach((memberInfo) async{
+              ChatMemberInfo chatMemberInfo =
+                  ChatMemberInfo.fromJson(memberInfo);
+              if (chatMemberInfo.loginId != AuthService.loginId){
+                isBlocked = await PrefsObject.getBlockedUserByLoginId(chatMemberInfo.loginId);
+              }
+            });
           if (isBlocked) {
             print('차단한 사람한테서 첫 메세지 요청이 왔고, 스톰으로 구독이 됐고 메세지를 받아왔는데 ui에 띄워주지 않음');
             return;
