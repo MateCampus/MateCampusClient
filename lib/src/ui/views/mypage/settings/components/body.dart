@@ -62,12 +62,12 @@ class Body extends StatelessWidget {
               onTap: () {
                 AuthService.logout(context);
               }),
-          const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
-          _tabBtn(
-              text: '테스트 설정',
-              onTap: () {
-                Navigator.pushNamed(context, "/dummy");
-              }),
+          // const HorizontalDividerCustom(color: Color(0xfff0f0f6)),
+          // _tabBtn(
+          //     text: '테스트 설정',
+          //     onTap: () {
+          //       Navigator.pushNamed(context, "/dummy");
+          //     }),
         ]);
   }
 
