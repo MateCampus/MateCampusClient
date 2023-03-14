@@ -11,7 +11,7 @@ double kHorizontalPadding = getProportionateScreenWidth(20);
 //     : "https://52d6-222-235-213-23.jp.ngrok.io";
 
 // final devServer =
-//     Platform.isAndroid ? "http://10.0.2.2:8080" : "http://localhost:8080";
+//     Platform.isAndroid ? "https://172.30.1.31:8080" : "https://172.30.1.31:8080";
 
 final devServer =
     Platform.isAndroid ? "https://matecampus.duckdns.org:8080" : "https://matecampus.duckdns.org:8080";
