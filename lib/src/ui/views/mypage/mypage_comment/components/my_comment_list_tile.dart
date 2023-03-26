@@ -38,34 +38,34 @@ class MyCommentListTile extends StatelessWidget {
                       color: kPostBtnColor,
                       fontWeight: FontWeight.w300),
                 ),
-                const VerticalSpacing(of: 5),
+                const VerticalSpacing(of: 3),
                 Text(
                   comment.body,
                   style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: resizeFont(13.5),
-                      color: Colors.black.withOpacity(0.8),
-                      height: 1.5),
+                    fontWeight: FontWeight.w500,
+                    fontSize: resizeFont(14),
+                    color: Color(0xff111111),
+                  ),
                 )
               ],
             )),
-            const HorizontalSpacing(of: 10),
-            IconButton(
-              onPressed: () {
-                buildCustomAlertDialog(
-                    context: context,
-                    contentWidget: const CommentDeletedMsg(),
-                    btnText: '삭제',
-                    press: () {
-                      vm.deleteMyComment(context, comment);
-                    });
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              icon: const Icon(CupertinoIcons.trash),
-              iconSize: getProportionateScreenWidth(16),
-              color: kMainColor,
-            ),
+            // const HorizontalSpacing(of: 10),
+            // IconButton(
+            //   onPressed: () {
+            //     buildCustomAlertDialog(
+            //         context: context,
+            //         contentWidget: const CommentDeletedMsg(),
+            //         btnText: '삭제',
+            //         press: () {
+            //           vm.deleteMyComment(context, comment);
+            //         });
+            //   },
+            //   padding: EdgeInsets.zero,
+            //   constraints: const BoxConstraints(),
+            //   icon: const Icon(CupertinoIcons.trash),
+            //   iconSize: getProportionateScreenWidth(16),
+            //   color: kMainColor,
+            // ),
           ],
         ),
       ),

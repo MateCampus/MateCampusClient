@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/constants/textstyle_constans.dart';
 import 'package:zamongcampus/src/business_logic/view_models/mypage_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/default_btn.dart';
 import 'package:zamongcampus/src/ui/common_widgets/disabled_default_btn.dart';
+import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 
 class EditText extends StatefulWidget {
   final MypageViewModel vm;
@@ -44,8 +45,8 @@ class _EditTextState extends State<EditText> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '내 소개',
-              style: TextStyle(fontSize: kLabelFontSize, color: Colors.black87),
+              '닉네임',
+              style: kLabelTextStyle,
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -60,18 +61,26 @@ class _EditTextState extends State<EditText> {
                       style: TextStyle(fontSize: kTextFieldInnerFontSize),
                       controller: widget.vm.nicknameController,
                       maxLines: 1,
+                      maxLength: 8,
                       validator: (value) => widget.vm.nicknameValidator(value),
                       decoration: InputDecoration(
                         hintText: "닉네임",
                         hintStyle: TextStyle(
-                            color: Color(0xFFADADAD),
+                            color: const Color(0xFF999999),
                             fontSize: kTextFieldInnerFontSize),
-                        fillColor: kTextFieldColor,
-                        filled: true,
+                        enabledBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        focusedBorder: const OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
                         contentPadding:
                             EdgeInsets.all(getProportionateScreenHeight(10)),
                         border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
+                            borderSide:
+                                BorderSide(width: 1, color: Color(0xffe5e5ec)),
                             borderRadius: BorderRadius.all(Radius.circular(5))),
                       ),
                     ),
@@ -98,23 +107,42 @@ class _EditTextState extends State<EditText> {
                 ],
               ),
             ),
-            TextFormField(
-              keyboardType: TextInputType.multiline,
-              style: TextStyle(fontSize: kTextFieldInnerFontSize),
-              controller: widget.vm.introductionController,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: "본인을 자유롭게 표현해주세요",
-                hintStyle: TextStyle(
-                    color: Color(0xFFADADAD),
-                    fontSize: kTextFieldInnerFontSize),
-                fillColor: kTextFieldColor,
-                filled: true,
-                contentPadding:
-                    EdgeInsets.all(getProportionateScreenHeight(10)),
-                border: const OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.all(Radius.circular(5))),
+            const VerticalSpacing(of: 15),
+            Text(
+              '내 소개',
+              style: kLabelTextStyle,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: getProportionateScreenHeight(10)),
+              child: TextFormField(
+                keyboardType: TextInputType.multiline,
+                style:
+                    TextStyle(fontSize: kTextFieldInnerFontSize, height: 1.5),
+                controller: widget.vm.introductionController,
+                autocorrect: false,
+                maxLines: 5,
+                maxLength: 150,
+                decoration: InputDecoration(
+                  hintText: "본인을 자유롭게 표현해주세요",
+                  hintStyle: TextStyle(
+                      color: const Color(0xFF999999),
+                      fontSize: kTextFieldInnerFontSize),
+                  contentPadding:
+                      EdgeInsets.all(getProportionateScreenHeight(10)),
+                  enabledBorder: const OutlineInputBorder(
+                      borderSide:
+                          BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  focusedBorder: const OutlineInputBorder(
+                      borderSide:
+                          BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                  border: const OutlineInputBorder(
+                      borderSide:
+                          BorderSide(width: 1, color: Color(0xffe5e5ec)),
+                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                ),
               ),
             ),
           ],

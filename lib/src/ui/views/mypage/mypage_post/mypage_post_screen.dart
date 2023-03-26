@@ -23,15 +23,17 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
 
   @override
   void initState() {
-    vm.loadMypagePosts(widget.isFrom);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      vm.initData();
+    });
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   serviceLocator.resetLazySingleton<MypagePostViewModel>(instance: vm);
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    serviceLocator.resetLazySingleton<MypagePostViewModel>(instance: vm);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +45,20 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
           return Scaffold(
             appBar: SubAppbar(
               titleText: (widget.isFrom == "BookMark") ? "북마크" : "내 피드",
+              isCenter: true,
             ),
             backgroundColor: kSubScreenBackgroundColor,
             body: SafeArea(
                 child: vm.busy
                     ? const IsLoading()
-                    : vm.posts.isEmpty
+                    : vm.myPosts.isEmpty
                         ? const CenterSentence(
                             sentence: '게시물이 존재하지 않습니다',
                             bottomSpace: 100,
                           )
-                        : Body(vm: vm)),
+                        : Body(
+                            vm: vm,
+                          )),
           );
         },
       ),

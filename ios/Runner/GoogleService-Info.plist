@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>526540381947-f6ls2ijotd4hv56im0r3s7ebvr9juhff.apps.googleusercontent.com</string>
+	<string>394062181437-ttatdrrf5na1ekuug4t7h9nqbf17bi92.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.526540381947-f6ls2ijotd4hv56im0r3s7ebvr9juhff</string>
+	<string>com.googleusercontent.apps.394062181437-ttatdrrf5na1ekuug4t7h9nqbf17bi92</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA58jBr4bmW2eLYyvVIuTw6pAGP4jdb38w</string>
+	<string>AIzaSyCHZo0SaIBWupXE2DZooXVnwcKHQQjG2xI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>526540381947</string>
+	<string>394062181437</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.litCitrus.zamongcampus</string>
+	<string>com.mateCampus.zamongcampus</string>
 	<key>PROJECT_ID</key>
-	<string>litcitrus-2fc7a</string>
+	<string>mate-campus</string>
 	<key>STORAGE_BUCKET</key>
-	<string>litcitrus-2fc7a.appspot.com</string>
+	<string>mate-campus.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:526540381947:ios:dc6e8ea81b2948755dda5e</string>
+	<string>1:394062181437:ios:09d1ec4eb521b3c8eb2654</string>
 </dict>
 </plist>

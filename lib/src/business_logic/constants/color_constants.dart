@@ -3,9 +3,9 @@ import 'package:zamongcampus/src/config/size_config.dart';
 
 const kMainColor = Color(0xFFFF6F5E);
 const kSubColor = Color(0xFFFFC45E);
-final kAppBarIconColor = Colors.black.withOpacity(0.7);
-final kAppBarTextColor = Colors.black.withOpacity(0.9);
-const kMainScreenBackgroundColor = Color(0xfff8f8f8);
+const kAppBarIconColor = Color(0xff111111);
+const kAppBarTextColor = Color(0xff111111);
+const kMainScreenBackgroundColor = Colors.white;
 const kSubScreenBackgroundColor = Colors.white;
 const kPostBtnColor = Color(0xff818181);
 
@@ -22,6 +22,22 @@ final kShadowForTile = BoxShadow(
   color: Colors.grey.withOpacity(0.1),
   blurRadius: 5,
   spreadRadius: 1,
+);
+
+const shimmerGradient = LinearGradient(
+  colors: [
+    Color(0xFFEBEBF4),
+    Color(0xFFF4F4F4),
+    Color(0xFFEBEBF4),
+  ],
+  stops: [
+    0.1,
+    0.3,
+    0.4,
+  ],
+  begin: Alignment(-1.0, -0.3),
+  end: Alignment(1.0, 0.3),
+  tileMode: TileMode.clamp,
 );
 
 class Palette {

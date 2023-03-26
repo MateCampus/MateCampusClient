@@ -30,7 +30,7 @@ class SubAppbar extends StatelessWidget with PreferredSizeWidget {
       leading: IconButton(
         icon: const Icon(CupertinoIcons.chevron_back),
         iconSize: kAppBarIconSizeCP,
-        color: Colors.black,
+        color: kAppBarIconColor,
         onPressed: leadingOnPress ??
             () {
               Navigator.of(context).pop();
@@ -39,10 +39,10 @@ class SubAppbar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         titleText ?? '',
         style: TextStyle(
-            fontFamily: 'Gmarket',
+            fontFamily: 'Pretendard',
             color: kAppBarTextColor,
             fontSize: kTitleFontSize,
-            fontWeight: FontWeight.w500),
+            fontWeight: FontWeight.w700),
       ),
       centerTitle: isCenter ?? false,
       actions: actions,

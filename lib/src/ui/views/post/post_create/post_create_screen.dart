@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
+import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_create_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
@@ -37,10 +38,15 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                 titleText: '글쓰기',
                 isCenter: true,
                 actions: [
-                  vm.bodyTextController.text.length < 5
-                      ? const TextButton(
-                          onPressed: null,
-                          child: Text('등록'),
+                  vm.bodyTextController.text.isEmpty
+                      ? TextButton(
+                          onPressed: () {
+                            toastMessage("피드 내용을 입력해주세요");
+                          },
+                          child: const Text('등록'),
+                          style: TextButton.styleFrom(
+                            primary: Colors.grey,
+                          ),
                         )
                       : TextButton(
                           onPressed: () {

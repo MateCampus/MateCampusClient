@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
-import 'package:zamongcampus/src/business_logic/models/enums/reportType.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/mypage_post_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
+import 'package:zamongcampus/src/business_logic/view_models/user_profile_demand_survey_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
-import 'package:zamongcampus/src/services/report/report_service.dart';
 
 class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
@@ -22,19 +22,21 @@ class PostDetailScreenViewModel extends BaseModel {
   List<CommentPresentation> _comments = List.empty(growable: true);
   int _currentPostId = -1;
   int _parentId = -1; //대댓글 생성할 때 쓰는용도
-  bool _isliked = false;
-  bool _isBookMarked = false;
-  final String _postProfileImgPath = 'assets/images/user/general_user.png';
   final _commentTextController = TextEditingController();
   final _nestedCommentTextController = TextEditingController();
   final _focusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   double _currentScrollOffset = 0;
-  //double keyboardHeight = 0;
   OverlayEntry? overlayEntry;
   final LayerLink layerLink = LayerLink();
 
-  String get postProfileImgPath => _postProfileImgPath;
+  PostMainScreenViewModel postMainScreenViewModel =
+      serviceLocator<PostMainScreenViewModel>();
+  MypagePostViewModel mypagePostViewModel =
+      serviceLocator<MypagePostViewModel>();
+  UserProfileDemandSurveyViewModel userProfileDemandSurveyViewModel =
+      serviceLocator<UserProfileDemandSurveyViewModel>();
+
   TextEditingController get commentTextController => _commentTextController;
   TextEditingController get nestedCommentTextController =>
       _nestedCommentTextController;
@@ -44,26 +46,26 @@ class PostDetailScreenViewModel extends BaseModel {
   static final PostDetailPresentation
       defaultPostDetail = //postDetailPresentation 초기값 설정
       PostDetailPresentation(
-          id: 0,
+          id: -1,
           loginId: '',
-          categories: [],
           userNickname: '',
+          categories: [],
+          collegeName: '',
+          userImageUrl: 'assets/images/user/general_user.png',
           imageUrls: [],
           body: '',
           createdAt: '',
           likedCount: '',
           viewCount: '',
-          commentCount: '');
+          commentCount: '',
+          isLiked: false);
 
   PostDetailPresentation get postDetail => _postDetail;
   List<CommentPresentation> get comments => _comments;
-  bool get isliked => _isliked;
-  bool get isBookMarked => _isBookMarked;
 
   void initData(int postId) async {
     setBusy(true);
     await loadPostDetail(postId);
-    await changeLikedBookMarked(postId);
     setBusy(false);
   }
 
@@ -75,6 +77,10 @@ class PostDetailScreenViewModel extends BaseModel {
             id: comment.id,
             loginId: comment.loginId,
             userNickname: comment.userNickname,
+            collegeName: comment.userCollegeName??"",
+            userImageUrl: comment.userImageUrl.isNotEmpty
+                ? comment.userImageUrl
+                : 'assets/images/user/general_user.png',
             body: comment.body,
             deleted: comment.deleted,
             parentId: comment.parentId,
@@ -83,92 +89,88 @@ class PostDetailScreenViewModel extends BaseModel {
                         id: nestedComment.id,
                         loginId: nestedComment.loginId,
                         userNickname: nestedComment.userNickname,
+                        collegeName: nestedComment.userCollegeName??"",
+                        userImageUrl: nestedComment.userImageUrl.isNotEmpty
+                            ? nestedComment.userImageUrl
+                            : 'assets/images/user/general_user.png',
                         body: nestedComment.body,
                         deleted: nestedComment.deleted,
                         parentId: nestedComment.parentId,
-                        createdAt: dateToElapsedTime(
-                            nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                        createdAt:
+                            dateToElapsedTime(nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                         children: nestedComment.children ?? []))
                     .toList() ??
                 [],
-            createdAt:
-                dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
+            createdAt: dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
 
     _postDetail = PostDetailPresentation(
-      id: postDetailResult.id,
-      loginId: postDetailResult.loginId,
-      categories: postDetailResult.postCategoryCodes
-              ?.map<String>((category) =>
-                  PostCategoryData.iconOf(category.name) +
-                  " " +
-                  PostCategoryData.korNameOf(category.name))
-              .toList() ??
-          [],
-      userNickname: "글쓴이",
-      body: postDetailResult.body,
-      createdAt: dateToElapsedTime(postDetailResult.createdAt),
-      likedCount: postDetailResult.likedCount.toString(),
-      commentCount: postDetailResult.commentCount.toString(),
-      viewCount: postDetailResult.viewCount.toString(),
-      imageUrls: postDetailResult.imageUrls,
-    );
+        id: postDetailResult.id,
+        loginId: postDetailResult.loginId,
+        userNickname: postDetailResult.userNickname,
+        categories: postDetailResult.postCategoryCodes
+                ?.map<String>(
+                    (category) => PostCategoryData.korNameOf(category.name))
+                .toList() ??
+            [],
+        collegeName: postDetailResult.userCollegeName??"",
+        userImageUrl: postDetailResult.userImageUrl.isNotEmpty
+            ? postDetailResult.userImageUrl
+            : defaultPostDetail.userImageUrl,
+        body: postDetailResult.body,
+        createdAt: dateToElapsedTime(postDetailResult.createdAt),
+        likedCount: postDetailResult.likedCount.toString(),
+        commentCount: postDetailResult.commentCount.toString(),
+        viewCount: postDetailResult.viewCount.toString(),
+        imageUrls: postDetailResult.imageUrls,
+        isLiked: postDetailResult.liked ??
+                postMainScreenViewModel.likepostIds
+                    .contains(postDetailResult.id)
+            ? true
+            : false);
 
     _currentPostId = postId;
   }
 
-  Future<void> changeLikedBookMarked(int postId) async {
-    PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
-    _isliked = postMainScreenViewModel.likepostIds.contains(postId);
-    _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
-  }
+  // Future<void> changeLikedBookMarked(int postId) async {
+  //   _isliked = postMainScreenViewModel.likepostIds.contains(postId);
+  //   _isBookMarked = postMainScreenViewModel.bookmarkpostIds.contains(postId);
+  // }
 
   void likePost(int postId) async {
     Map<String, int> result = await _postService.likePost(postId: postId);
-    _isliked = !_isliked;
-    PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
-    isliked
-        ? postMainScreenViewModel.likepostIds.add(result["postId"]!)
-        : postMainScreenViewModel.likepostIds.remove(result["postId"]!);
+    _postDetail.isLiked = !_postDetail.isLiked;
     _postDetail.likedCount = result["likeCount"].toString();
     notifyListeners();
   }
 
-  void bookMarkPost(int postId) async {
-    int newPostId = await _postService.bookMarkPost(postId: postId);
-    _isBookMarked = !_isBookMarked;
-    PostMainScreenViewModel postMainScreenViewModel =
-        serviceLocator<PostMainScreenViewModel>();
-    isBookMarked
-        ? postMainScreenViewModel.bookmarkpostIds.add(newPostId)
-        : postMainScreenViewModel.bookmarkpostIds.remove(newPostId);
-    notifyListeners();
-  }
-
-  void createComment() async {
+  void createComment(BuildContext context) async {
     if (_commentTextController.text.isEmpty) {
       toastMessage('댓글을 입력해주세요');
       return;
     }
+    buildShowDialogForLoading(
+        context: context, barrierColor: Colors.transparent);
     bool isCreated = await _commentService.createComment(
         postId: _postDetail.id, body: _commentTextController.text);
     if (isCreated) {
       await refreshComments();
-      _commentTextController.clear();
-      _focusNode.unfocus();
-      scrollToEnd();
     } else {
       print('댓글 생성 실패');
     }
+    _commentTextController.clear();
+    // _focusNode.unfocus();
+    scrollToEnd();
+    Navigator.pop(context);
   }
 
-  void createNestedComment() async {
+  void createNestedComment(BuildContext context) async {
     if (_nestedCommentTextController.text.isEmpty) {
       toastMessage('댓글을 입력해주세요');
       return;
     }
+    buildShowDialogForLoading(
+        context: context, barrierColor: Colors.transparent);
     bool isCreated = await _commentService.createNestedComment(
         postId: _postDetail.id,
         parentId: _parentId,
@@ -176,12 +178,13 @@ class PostDetailScreenViewModel extends BaseModel {
     if (isCreated) {
       removeNestedCommentOverlay();
       await refreshComments();
-      _nestedCommentTextController.clear();
-      _focusNode.unfocus();
-      scrollToTargetPosition();
     } else {
       print('대댓글 생성 실패');
     }
+    _nestedCommentTextController.clear();
+    // _focusNode.unfocus();
+    scrollToTargetPosition();
+    Navigator.pop(context);
   }
 
   Future<void> refreshComments() async {
@@ -192,6 +195,10 @@ class PostDetailScreenViewModel extends BaseModel {
         id: comment.id,
         loginId: comment.loginId,
         userNickname: comment.userNickname,
+        collegeName: comment.userCollegeName??"",
+        userImageUrl: comment.userImageUrl.isNotEmpty
+            ? comment.userImageUrl
+            : 'assets/images/user/general_user.png',
         body: comment.body,
         deleted: comment.deleted,
         parentId: comment.parentId,
@@ -200,16 +207,19 @@ class PostDetailScreenViewModel extends BaseModel {
                     id: nestedComment.id,
                     loginId: nestedComment.loginId,
                     userNickname: nestedComment.userNickname,
+                    collegeName: nestedComment.userCollegeName??"",
+                    userImageUrl: nestedComment.userImageUrl.isNotEmpty
+                        ? nestedComment.userImageUrl
+                        : 'assets/images/user/general_user.png',
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    createdAt: dateToElapsedTime(
-                        nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                    createdAt:
+                        dateToElapsedTime(nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children ?? []))
                 .toList() ??
             [],
-        createdAt:
-            dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
+        createdAt: dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
     //총 댓글 수 카운트
     int _commentCount = 0;
@@ -222,6 +232,15 @@ class PostDetailScreenViewModel extends BaseModel {
     _postDetail.commentCount = _commentCount.toString();
 
     notifyListeners();
+  }
+
+  void updatePostMain() {
+    postMainScreenViewModel.updatePost(_postDetail.id, _postDetail.isLiked,
+        _postDetail.likedCount, _postDetail.commentCount);
+    mypagePostViewModel.updatePost(_postDetail.id, _postDetail.isLiked,
+        _postDetail.likedCount, _postDetail.commentCount);
+    userProfileDemandSurveyViewModel.updatePost(_postDetail.id,
+        _postDetail.isLiked, _postDetail.likedCount, _postDetail.commentCount);
   }
 
   //현재 스크롤 오프셋 가져옴
@@ -251,7 +270,7 @@ class PostDetailScreenViewModel extends BaseModel {
     bool isDeleted = await _commentService.deleteComment(commentId: commentId);
     if (isDeleted) {
       Navigator.pop(context);
-      print('댓글 삭제 성공');
+      toastMessage("댓글이 삭제되었습니다");
       refreshComments();
     } else {
       Navigator.pop(context);
@@ -264,7 +283,7 @@ class PostDetailScreenViewModel extends BaseModel {
     Navigator.pop(context);
     bool isDeleted = await _postService.deletePost(postId: postId);
     if (isDeleted) {
-      toastMessage("게시물이 삭제되었습니다");
+      toastMessage("피드가 삭제되었습니다");
     } else {
       print('실패');
     }
@@ -327,10 +346,11 @@ class PostDetailScreenViewModel extends BaseModel {
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
-                            children: const [
+                            children: [
                           TextSpan(
-                              text: '님에게 댓글을 다는 중',
+                              text: ' 님에게 답글 남기는 중',
                               style: TextStyle(
+                                  fontSize: resizeFont(12),
                                   color: Colors.white,
                                   fontWeight: FontWeight.w300))
                         ])),
@@ -360,33 +380,40 @@ class PostDetailScreenViewModel extends BaseModel {
 class PostDetailPresentation {
   final int id;
   final String loginId;
-  final List<String> categories;
   final String userNickname;
+  final List<String> categories;
+  final String collegeName;
+  String userImageUrl;
   final String body;
   String createdAt;
   String likedCount;
   String commentCount;
   String viewCount;
   List<String> imageUrls;
+  bool isLiked;
 
-  PostDetailPresentation({
-    required this.id,
-    required this.loginId,
-    required this.categories,
-    required this.userNickname,
-    required this.body,
-    required this.createdAt,
-    required this.likedCount,
-    required this.commentCount,
-    required this.viewCount,
-    required this.imageUrls,
-  });
+  PostDetailPresentation(
+      {required this.id,
+      required this.loginId,
+      required this.userNickname,
+      required this.categories,
+      required this.collegeName,
+      required this.userImageUrl,
+      required this.body,
+      required this.createdAt,
+      required this.likedCount,
+      required this.commentCount,
+      required this.viewCount,
+      required this.imageUrls,
+      required this.isLiked});
 }
 
 class CommentPresentation {
   final int id;
   final String loginId;
   final String userNickname;
+  final String collegeName;
+  String userImageUrl;
   final String body;
   bool deleted;
   final int parentId;
@@ -397,6 +424,8 @@ class CommentPresentation {
     required this.id,
     required this.loginId,
     required this.userNickname,
+    required this.collegeName,
+    required this.userImageUrl,
     required this.body,
     required this.deleted,
     required this.parentId,

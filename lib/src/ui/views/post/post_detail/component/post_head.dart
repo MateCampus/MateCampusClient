@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/arguments/user_profile_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/ui/common_widgets/horizontal_spacing.dart';
+import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart';
 
 class PostHead extends StatelessWidget {
   final PostDetailScreenViewModel vm;
@@ -11,76 +15,75 @@ class PostHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        GestureDetector(
+          onTap: () {
+            vm.postDetail.loginId == AuthService.loginId
+                ? Navigator.pushNamed(context, UserProfileScreen.routeName,
+                    arguments: UserProfileScreenArgs(
+                        loginId: vm.postDetail.loginId, hasBottomBtn: false))
+                : Navigator.pushNamed(context, UserProfileScreen.routeName,
+                    arguments: UserProfileScreenArgs(
+                        loginId: vm.postDetail.loginId, hasBottomBtn: true));
+          },
+          child: _postUser(),
+        ),
+        vm.postDetail.categories.isEmpty ? const SizedBox() : _postCategories()
+      ],
+    );
+  }
+
+  Widget _postUser() {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      dense: true,
+      leading: CircleAvatar(
+        backgroundColor: Colors.grey,
+        radius: getProportionateScreenHeight(18),
+        backgroundImage: vm.postDetail.userImageUrl.startsWith('https')
+            ? CachedNetworkImageProvider(vm.postDetail.userImageUrl)
+                as ImageProvider
+            : AssetImage(vm.postDetail.userImageUrl),
+      ),
+      title: Text(
+        vm.postDetail.userNickname,
+        style: TextStyle(
+            fontSize: resizeFont(12),
+            color: Color(0xff111111),
+            fontWeight: FontWeight.w500),
+      ),
+      subtitle: Text(
+        vm.postDetail.collegeName + ' \u{00B7} ' + vm.postDetail.createdAt,
+        style: TextStyle(
+            fontSize: resizeFont(12),
+            color: Color(0xff767676),
+            fontWeight: FontWeight.w300),
+      ),
+    );
+  }
+
+  Widget _postCategories() {
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(12)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.only(bottom: getProportionateScreenHeight(5)),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        spacing: getProportionateScreenWidth(8),
         children: [
-          vm.postDetail.categories.isEmpty
-              ? const SizedBox()
-              : Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: getProportionateScreenWidth(8),
-                  children: [
-                    ...vm.postDetail.categories.map((category) => Chip(
-                          label: Text(category),
-                          labelStyle:
-                              TextStyle(fontSize: kInterestTextFontSize),
-                          backgroundColor: kMainScreenBackgroundColor,
-                        ))
-                  ],
+          ...vm.postDetail.categories.map((category) => Chip(
+                padding: EdgeInsets.zero,
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: const VisualDensity(vertical: -4),
+                label: Text(category),
+                labelStyle: TextStyle(
+                  fontSize: resizeFont(12),
+                  color: kMainColor,
+                  fontWeight: FontWeight.w500,
                 ),
-
-          // Text(
-          //   post.title,
-          //   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          // ),
-
-          ListTile(
-            contentPadding: const EdgeInsets.all(0),
-            minVerticalPadding: 0,
-            horizontalTitleGap: getProportionateScreenWidth(10),
-            dense: true,
-            leading: CircleAvatar(
-              backgroundColor: Colors.grey,
-              radius: getProportionateScreenWidth(17),
-              backgroundImage:
-                  AssetImage(vm.postProfileImgPath), //이미지만 넣으면 에러남(아마도 해결)
-            ),
-            title: Text(
-              vm.postDetail.userNickname,
-              style: TextStyle(
-                  fontSize: getProportionateScreenWidth(15),
-                  fontWeight: FontWeight.bold),
-            ),
-            subtitle: Row(
-              children: [
-                Text(
-                  vm.postDetail.createdAt,
-                  style: TextStyle(
-                      fontSize: kCreateAtFontSize,
-                      color: kPostBtnColor,
-                      fontWeight: FontWeight.w300),
-                ),
-                const HorizontalSpacing(of: 15),
-                //        Icon(
-                //   CupertinoIcons.eye,
-                //   size: getProportionateScreenWidth(15),
-                //   color: postColor,
-                // ),
-                // const HorizontalSpacing(of: 5),
-                // Text(
-                //   vm.postDetail.viewCount,  //아직 서버에서 안넘겨줌
-                //   textAlign: TextAlign.center,
-                //   style: TextStyle(
-                //     color: postColor,
-                //     fontSize: getProportionateScreenWidth(13),
-                //   ),
-                // )
-              ],
-            ),
-          ),
+                backgroundColor: Colors.white,
+                side: BorderSide(color: Color(0xffF8E9E7), width: 1.2),
+              ))
         ],
       ),
     );

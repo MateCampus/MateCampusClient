@@ -1,6 +1,4 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/font_constants.dart';
@@ -8,14 +6,18 @@ import 'package:zamongcampus/src/business_logic/view_models/notification_viewmod
 import 'package:zamongcampus/src/config/size_config.dart';
 
 class NotificationListTile extends StatelessWidget {
+  final NotificationViewModel vm;
   final NotificationPresentation notification;
+  final int index;
   final Animation<double> animation;
   // animateList 때문에 callback으로 둔 것. (chatscreen 참고)
   final VoidCallback onClicked;
 
   const NotificationListTile(
       {Key? key,
+      required this.vm,
       required this.notification,
+      required this.index,
       required this.animation,
       required this.onClicked})
       : super(key: key);
@@ -39,7 +41,7 @@ class NotificationListTile extends StatelessWidget {
             vertical: getProportionateScreenHeight(5)),
         leading: CircleAvatar(
           backgroundColor: Colors.grey,
-          radius: getProportionateScreenHeight(23),
+          radius: getProportionateScreenHeight(20),
           backgroundImage: notification.imageUrl.startsWith('https')
               ? CachedNetworkImageProvider(notification.imageUrl)
                   as ImageProvider
@@ -49,25 +51,44 @@ class NotificationListTile extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           text: TextSpan(
-              text: notification.body,
+              text: notification.title,
               style: TextStyle(
-                  color: Colors.black87,
-                  height: 1.0,
-                  letterSpacing: 1.0,
-                  fontSize: getProportionateScreenWidth(13),
-                  fontWeight: FontWeight.w500)),
+                  color: Color(0xff111111),
+                  // height: 1.0,
+                  letterSpacing: 0.1,
+                  fontSize: getProportionateScreenWidth(14),
+                  fontWeight: FontWeight.w500),
+                  
+                  children: [
+                    TextSpan(
+                    text: '\n'+notification.nickname,
+                    style: TextStyle(
+                        fontSize: resizeFont(14),
+                        color: kMainColor,
+                        fontWeight: FontWeight.w500)),
+                        TextSpan(
+                    text: notification.typeText,
+                    style: TextStyle(
+                        fontSize: resizeFont(14),
+                        color: Color(0xff111111),
+                        fontWeight: FontWeight.w400)),
+
+                  ]),
         ),
         subtitle: Text(
           notification.createdAt,
-          style: TextStyle(fontSize: kCreateAtFontSize, color: Colors.grey),
+          style: TextStyle(fontSize: kCreateAtFontSize, color: Color(0xff767676)),
         ),
+        //지금 알림 리스트에서 삭제하게끔은 되어있는데, 다시 로드하면 그대로인 문제가 있음. 해결하기 전까지 delete막아둔다. 
         // trailing: IconButton(
         //   padding:
         //       EdgeInsets.symmetric(vertical: getProportionateScreenHeight(8)),
         //   constraints: const BoxConstraints(),
-        //   iconSize: getProportionateScreenWidth(18),
-        //   icon: const Icon(CupertinoIcons.trash, color: Colors.grey),
+        //   iconSize: getProportionateScreenWidth(15),
+
+        //   icon: const Icon(CupertinoIcons.ellipsis_vertical, color: Color(0xff111111)),
         //   onPressed: () {
+           
         //     _deleteNotification(context);
         //   },
         // ),
@@ -86,7 +107,9 @@ class NotificationListTile extends StatelessWidget {
   //           ),
   //         ),
   //         onPressed: () {
-  //           onClicked();
+  //           vm.removeItem(vm, index);
+  //           // onClicked();
+            
   //           Navigator.pop(context);
   //         },
   //       )

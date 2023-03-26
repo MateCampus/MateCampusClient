@@ -108,10 +108,10 @@ String dateToDay(DateTime time) {
 }
 
 
-// String dateToYearMonthDay(DateTime time) {
-//   String formDate = DateFormat('yyyy.MM.dd').format(time);
-//   return formDate;
-// }
+String dateToYearMonthDay(DateTime time) {
+  String formDate = DateFormat('yyyy-MM-dd').format(time);
+  return formDate;
+}
 
 
 // 날짜, 요일, 시간 ex. 10/26 (화) 2:05 PM

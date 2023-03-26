@@ -15,14 +15,14 @@ class ChatList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(20),
-                vertical: getProportionateScreenHeight(5)),
-            child: Text(
-              '채팅',
-              style: TextStyle(fontSize: resizeFont(12), color: Colors.black87),
-            )),
+        // Padding(
+        //     padding: EdgeInsets.symmetric(
+        //         horizontal: getProportionateScreenWidth(20),
+        //         vertical: getProportionateScreenHeight(5)),
+        //     child: Text(
+        //       '채팅',
+        //       style: TextStyle(fontSize: resizeFont(12), color: Colors.black87),
+        //     )),
         buildEmptyBox(),
         AnimatedList(
           physics: const NeverScrollableScrollPhysics(),
@@ -37,9 +37,7 @@ class ChatList extends StatelessWidget {
                     arguments:
                         ChatDetailScreenArgs(vm.chatRooms[index], index));
               },
-              onDeleted: () {
-                vm.removeItem(index, vm.chatRooms[index].roomId);
-              }),
+              onDeleted: () {}),
         ),
       ],
     );

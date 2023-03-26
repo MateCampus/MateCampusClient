@@ -29,21 +29,15 @@ class PostCreateScreenViewModel extends BaseModel {
   void createPost(BuildContext context) async {
     postFocusNode.unfocus();
     buildShowDialogForLoading(context: context);
-    if (titleTextController.text.length < 5 &&
-        _bodyTextController.text.length < 5) {
-      Navigator.pop(context);
-      toastMessage("글자수가 적습니다");
-      return;
-    }
     bool isCreated = await _postService.createPost(
         title: titleTextController.text,
         body: _bodyTextController.text,
         imageFileList: pickedImgs,
         categoryCodeList: categoryCodeList);
     if (isCreated) {
-      toastMessage("게시물이 생성되었습니다!");
+      toastMessage("피드가 생성되었습니다!");
     } else {
-      toastMessage("오류");
+      toastMessage("피드를 생성하지 못했어요. 다시 시도해 주세요!");
     }
     Navigator.popUntil(context, ModalRoute.withName('/'));
     PostMainScreenViewModel postMainScreenViewModel =
@@ -53,18 +47,18 @@ class PostCreateScreenViewModel extends BaseModel {
 
   //갤러리에서 이미지 가져오는 함수
   void getImageFromGallery(BuildContext context) async {
-    if (pickedImgs.length >= 10) {
+    if (pickedImgs.length >= 5) {
       buildDialogForNotice(
-          context: context, description: '사진은 최대 10장까지 올릴 수 있어요');
+          context: context, description: '사진은 최대 5장까지 올릴 수 있어요');
     } else {
       final List<XFile>? images = await picker.pickMultiImage();
       if (images != null) {
-        if (images.length + pickedImgs.length > 10) {
-          int remain = 10 - pickedImgs.length;
+        if (images.length + pickedImgs.length > 5) {
+          int remain = 5 - pickedImgs.length;
           pickedImgs.addAll(images.getRange(0, remain));
           buildDialogForNotice(
-              context: context, description: '사진은 최대 10장까지 올릴 수 있어요');
-        } else if (images.length + pickedImgs.length <= 10) {
+              context: context, description: '사진은 최대 5장까지 올릴 수 있어요');
+        } else if (images.length + pickedImgs.length <= 5) {
           pickedImgs.addAll(images);
         }
       }
@@ -75,9 +69,9 @@ class PostCreateScreenViewModel extends BaseModel {
 
   //카메라에서 이미지 가져오는 함수
   void getImageFromCamera(BuildContext context) async {
-    if (pickedImgs.length >= 10) {
+    if (pickedImgs.length >= 5) {
       buildDialogForNotice(
-          context: context, description: '사진은 최대 10장까지 올릴 수 있어요');
+          context: context, description: '사진은 최대 5장까지 올릴 수 있어요');
     } else {
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
       if (image != null) {
@@ -93,7 +87,7 @@ class PostCreateScreenViewModel extends BaseModel {
       categoryCodeList.remove(categoryCodeName);
     } else {
       if (categoryCodeList.length >= 3) {
-        toastMessage("카테고리는 최대 3개까지입니다.");
+        toastMessage("카테고리는 최대 3개까지 선택할 수 있어요");
         return;
       }
       categoryCodeList.add(categoryCodeName);

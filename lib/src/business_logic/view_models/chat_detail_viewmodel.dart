@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
+import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
+import 'package:zamongcampus/src/services/user/user_service.dart';
 
 import 'base_model.dart';
 
 class ChatDetailViewModel extends BaseModel {
   bool _loadMoreBusy = false;
   bool get loadMoreBusy => _loadMoreBusy;
-  ChatService chatService = serviceLocator<ChatService>();
+  final ChatService _chatService = serviceLocator<ChatService>();
+  final UserService _userService = serviceLocator<UserService>();
+
   ChatRoom chatRoom = ChatRoom(
       roomId: "",
       title: "",
@@ -41,6 +46,7 @@ class ChatDetailViewModel extends BaseModel {
     await changeUnreadCount(chatRoom.roomId);
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     chatvm.changeInsideRoomId(chatRoom.roomId);
+    chatvm.getTotalUnreadCount();
     changeScrollToLowest();
     setBusy(false);
     print('chatDetailInit 끝');
@@ -51,16 +57,16 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   firstLoadForChatMessagesAndMember(String roomId) async {
-    _chatMessages.addAll(await chatService.getMessages(roomId, 0));
+    _chatMessages.addAll(await _chatService.getMessages(roomId, 0));
     List<ChatMemberInfo> chatMemberInfos =
-        await chatService.getMemberInfoes(roomId);
+        await _chatService.getMemberInfoes(roomId);
     for (var element in chatMemberInfos) {
       this.chatMemberInfos.addAll({element.loginId: element});
     }
   }
 
   changeUnreadCount(String roomId) {
-    chatService.updateUnreadCount(0, roomId);
+    _chatService.updateUnreadCount(0, roomId);
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
     chatViewModel.changeUnreadCountToZero(roomId);
 
@@ -91,7 +97,7 @@ class ChatDetailViewModel extends BaseModel {
     /// local storage에 있는 메세지 더 불러오기
     changeLoadMoreBusy(true);
     List<ChatMessage> result =
-        await chatService.getMessages(chatRoom.roomId, nextPageToken);
+        await _chatService.getMessages(chatRoom.roomId, nextPageToken);
     chatMessages.insertAll(chatMessages.length, result); // ** 맨마지막에 더하기
     nextPageToken++;
     changeLoadMoreBusy(false);
@@ -105,7 +111,7 @@ class ChatDetailViewModel extends BaseModel {
   void _onScrollEvent() {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      print("위 도착 load morez");
+      print("위 도착 load more");
       loadMoreChatMessages();
     } else if (scrollController.position.pixels ==
         scrollController.position.minScrollExtent) {
@@ -133,5 +139,62 @@ class ChatDetailViewModel extends BaseModel {
   void changeLoadMoreBusy(bool value) {
     _loadMoreBusy = value;
     notifyListeners();
+  }
+
+  Future<void> exitChatRoom(int chatRoomIndex) async {
+    /*230215 fcm 관련
+    fcm으로 타고서 채팅방에 입장하면 index가 -1일것이다. 
+    따라서 chatRoomIndex가 음수일때 분기를 해줘야할것같음
+    */ 
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    if(chatRoomIndex<0){
+      chatRoomIndex = chatvm.chatRooms.indexOf(chatRoom);
+      print('fcm으로 타고왔고 인덱스는'+chatRoomIndex.toString());
+    }
+    // await chatService.exitChatRoom(roomId: chatRoom.roomId);
+    // _chatService
+    //     .deleteChatRoomMemberInfoByRoomId(chatRoom.roomId); //얘도 안해도 되려나..안해도될것같다.
+    // _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
+    _chatService.deleteMessageByRoomId(chatRoom.roomId);
+    // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
+    
+    chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId, chatRoom);
+    resetData();
+  }
+
+  Future<void> blockUserAndExit(int chatRoomIndex) async {
+    ChatViewModel chatvm = serviceLocator<ChatViewModel>();
+    
+   
+    //chat main list에서 지우기
+    chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
+
+    //차단하려는 유저 아이디 찾기
+    String targetLoginId = "";
+    List<ChatMemberInfo> chatMemberInfos =
+        await _chatService.getMemberInfoes(chatRoom.roomId);
+    for (var member in chatMemberInfos) {
+      if (member.loginId != AuthService.loginId) {
+        targetLoginId = member.loginId;
+        print('차단하려는 유저의 로그인 아이디는? ' + targetLoginId);
+        break;
+      }
+    }
+
+    //로컬디비에 차단하려는 유저 아이디 저장
+    PrefsObject.setBlockedUser(targetLoginId);
+
+    //유저 차단
+    await _userService.blockUser(targetLoginId: targetLoginId);
+    
+    //구독 끊기
+    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
+    //채팅관련 로컬 디비 삭제
+    _chatService.deleteMessageByRoomId(chatRoom.roomId);
+    _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);
+    _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
+    _chatService.deleteAllMemberInfo();
+
+  resetData();
   }
 }

@@ -1,6 +1,8 @@
+import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
@@ -59,20 +61,72 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               appBar: SubAppbar(
                 titleText: vm.chatRoom.title,
                 isCenter: true,
-                backgroundColor: const Color(0xfffff8f3).withOpacity(0.9),
+                backgroundColor: kMainScreenBackgroundColor,
                 actions: [
                   IconButton(
-                    icon: const Icon(CupertinoIcons.ellipsis),
+                    icon: const Icon(CupertinoIcons.ellipsis_vertical),
                     iconSize: kAppBarIconSizeCP,
                     color: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      _chatOptions();
+                    },
                   ),
                 ],
               ),
-              backgroundColor: const Color(0xfffff8f3),
+              backgroundColor: kMainScreenBackgroundColor,
               body: SafeArea(child: Body(vm: vm)),
             ),
           );
         }));
+  }
+
+  //나가기 혹은 차단하기 용도
+  _chatOptions() {
+    showAdaptiveActionSheet(
+      context: context,
+      actions: <BottomSheetAction>[
+        BottomSheetAction(
+          title: Text(
+            '차단하고 나가기',
+            style: TextStyle(
+              fontSize: resizeFont(15.0),
+              color: Color(0xff111111),
+            ),
+          ),
+          onPressed: () {
+            FocusManager.instance.primaryFocus
+                ?.unfocus(); //혹시 키보드가 올라가있으면 내려준다.
+            Navigator.pop(context);
+            vm.blockUserAndExit(widget.index);
+            Navigator.pop(context);
+          },
+        ),
+        BottomSheetAction(
+          title: Text(
+            '나가기',
+            style: TextStyle(
+              fontSize: resizeFont(15.0),
+              color: Colors.black87,
+            ),
+          ),
+          onPressed: () {
+            FocusManager.instance.primaryFocus
+                ?.unfocus(); //혹시 키보드가 올라가있으면 내려준다.
+            Navigator.pop(context);
+            vm.exitChatRoom(widget.index);
+            Navigator.pop(context);
+          },
+        ),
+      ],
+      cancelAction: CancelAction(
+          title: Text(
+            '취소',
+            style: TextStyle(
+                fontSize: resizeFont(16.0), fontWeight: FontWeight.w500),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
+    );
   }
 }

@@ -41,7 +41,7 @@ class _LoginFormState extends State<LoginForm> {
       child: TextField(
         keyboardType: TextInputType.multiline,
         textInputAction: TextInputAction.next,
-        autofocus: true,
+        // autofocus: true,
         controller: _loginIdTxtCtrl,
         style: TextStyle(fontSize: kTextFieldInnerFontSize),
         maxLines: 1,

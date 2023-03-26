@@ -14,42 +14,40 @@ class PostBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(12)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: vm.postDetail.imageUrls.isEmpty
-                ? EdgeInsets.symmetric(
-                    vertical: getProportionateScreenHeight(15),
-                    horizontal: getProportionateScreenWidth(5))
-                : EdgeInsets.symmetric(
-                    vertical: getProportionateScreenHeight(15),
-                    horizontal: getProportionateScreenWidth(5)),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                vm.postDetail.body,
-                style: kPostBodyStyle,
-              ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: getProportionateScreenHeight(5),
+                bottom: getProportionateScreenHeight(20)),
+            child: Text(
+              vm.postDetail.body,
+              style: kPostBodyStyle,
             ),
           ),
-          vm.postDetail.imageUrls.isEmpty
-              ? const SizedBox()
-              : _hasImage(context),
-        ],
-      ),
+        ),
+        vm.postDetail.imageUrls.isEmpty
+            ? const SizedBox()
+            : Padding(
+                padding:
+                    EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
+                child: _hasImage(context),
+              ),
+      ],
     );
   }
 
   Widget _hasImage(BuildContext context) {
     Widget widget;
     int restImg = vm.postDetail.imageUrls.length - 3;
-    double entireWidth = getProportionateScreenWidth(355);
-    double entireHeight = getProportionateScreenHeight(265);
+    double entireWidth = getProportionateScreenWidth(335);
+    double entireHeight = getProportionateScreenHeight(204);
+    double tornPhotoWidth = getProportionateScreenWidth(101);
+    double tornPhotoHeight = getProportionateScreenHeight(101);
 
     List<ImageItem> postImageItems = <ImageItem>[];
 
@@ -100,9 +98,7 @@ class PostBody extends StatelessWidget {
             children: [
               Expanded(
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      bottomLeft: Radius.circular(5)),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[0],
                     onTap: () {
@@ -114,9 +110,7 @@ class PostBody extends StatelessWidget {
               const HorizontalSpacing(of: 3),
               Expanded(
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(5),
-                      bottomRight: Radius.circular(5)),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[1],
                     onTap: () {
@@ -136,11 +130,11 @@ class PostBody extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
+              SizedBox(
+                height: entireHeight,
+                width: getProportionateScreenWidth(232),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      bottomLeft: Radius.circular(5)),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[0],
                     onTap: () {
@@ -149,38 +143,37 @@ class PostBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const HorizontalSpacing(of: 3),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(5)),
-                        child: PostImageItemThumbnail(
-                          postImageItem: postImageItems[1],
-                          onTap: () {
-                            open(context, 1);
-                          },
-                        ),
+              const Spacer(),
+              Column(
+                children: [
+                  SizedBox(
+                    height: tornPhotoHeight,
+                    width: tornPhotoWidth,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      child: PostImageItemThumbnail(
+                        postImageItem: postImageItems[1],
+                        onTap: () {
+                          open(context, 1);
+                        },
                       ),
                     ),
-                    const VerticalSpacing(of: 3),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(5)),
-                        child: PostImageItemThumbnail(
-                          postImageItem: postImageItems[2],
-                          onTap: () {
-                            open(context, 2);
-                          },
-                        ),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: tornPhotoHeight,
+                    width: tornPhotoWidth,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      child: PostImageItemThumbnail(
+                        postImageItem: postImageItems[2],
+                        onTap: () {
+                          open(context, 2);
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               )
             ],
           ),
@@ -193,11 +186,11 @@ class PostBody extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
+              SizedBox(
+                height: entireHeight,
+                width: getProportionateScreenWidth(232),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      bottomLeft: Radius.circular(5)),
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
                   child: PostImageItemThumbnail(
                     postImageItem: postImageItems[0],
                     onTap: () {
@@ -206,40 +199,39 @@ class PostBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const HorizontalSpacing(of: 3),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(5)),
-                        child: PostImageItemThumbnail(
-                          postImageItem: postImageItems[1],
-                          onTap: () {
-                            open(context, 1);
-                          },
-                        ),
+              const Spacer(),
+              Column(
+                children: [
+                  SizedBox(
+                    height: tornPhotoHeight,
+                    width: tornPhotoWidth,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      child: PostImageItemThumbnail(
+                        postImageItem: postImageItems[1],
+                        onTap: () {
+                          open(context, 1);
+                        },
                       ),
                     ),
-                    const VerticalSpacing(of: 3),
-                    Expanded(
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                            bottomRight: Radius.circular(5)),
-                        child: PostImageItemThumbnail(
-                          hasMoreImg: true,
-                          restImg: restImg,
-                          postImageItem: postImageItems[2],
-                          onTap: () {
-                            open(context, 2);
-                          },
-                        ),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    height: tornPhotoHeight,
+                    width: tornPhotoWidth,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(5)),
+                      child: PostImageItemThumbnail(
+                        hasMoreImg: true,
+                        restImg: restImg,
+                        postImageItem: postImageItems[2],
+                        onTap: () {
+                          open(context, 2);
+                        },
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               )
             ],
           ),

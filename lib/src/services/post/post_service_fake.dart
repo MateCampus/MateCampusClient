@@ -1,8 +1,8 @@
 import 'dart:math';
-
 import 'package:image_picker/image_picker.dart';
-import 'package:zamongcampus/src/config/dummy_data.dart';
-
+import 'package:zamongcampus/src/business_logic/models/user.dart';
+import 'package:zamongcampus/src/config/dummy/post_dummy.dart';
+import 'package:zamongcampus/src/config/dummy/user_dummny.dart';
 import '../../business_logic/models/post.dart';
 import 'post_service.dart';
 
@@ -20,10 +20,10 @@ class FakePostService implements PostService {
   @override
   Future<List<Post>> fetchPosts(
       {required String type,
-      required int nextPageToken,
+      required String oldestPostId,
       required bool collegeFilter}) async {
     List<Post> list = [];
-    list.addAll(postDummy1);
+    list.addAll(postMainTestDummy);
 
     return list;
   }
@@ -31,14 +31,18 @@ class FakePostService implements PostService {
   @override
   Future<Post> fetchPostDetail({required int postId}) async {
     Post post;
-    post = postDummy1[1];
+    post = postMainTestDummy[1];
     return post;
   }
 
   @override
-  Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() {
-    // TODO: implement fetchMyLikeBookmarkPostIds
-    throw UnimplementedError();
+  Future<Map<String, List<int>>> fetchMyLikeBookmarkPostIds() async {
+    Map<String, List<int>> ids = {};
+    ids.addAll({
+      "myLikePostIds": [1, 3],
+      "myBookMarkIds": []
+    });
+    return ids;
   }
 
   @override
@@ -48,9 +52,17 @@ class FakePostService implements PostService {
   }
 
   @override
-  Future<List<Post>> fetchMyPosts({required int nextPageToken}) {
+  Future<List<Post>> fetchMyPosts({required String oldestPostId}) {
     // TODO: implement fetchMyPosts
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<User>> fetchLikedUsers({required int postId}) async {
+    List<User> list = [];
+    list.addAll(userDummyLikedPost);
+
+    return list;
   }
 
   @override
@@ -67,8 +79,17 @@ class FakePostService implements PostService {
   }
 
   @override
-  Future<bool> deletePost({required int postId}) {
+  Future<bool> deletePost({required int postId}) async {
     // TODO: implement deletePost
+    print('삭제 페이크 성공');
+    bool val = true;
+    return val;
+  }
+
+  @override
+  Future<List<Post>> fetchUserPosts(
+      {required String targetLoginId, required String oldestPostId}) {
+    // TODO: implement fetchUserPosts
     throw UnimplementedError();
   }
 }

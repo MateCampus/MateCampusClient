@@ -48,11 +48,11 @@ class _ReportPostFormState extends State<ReportPostForm> {
               ),
               CupertinoDialogAction(
                 onPressed: () {
-                  if (widget.postId != null) {
-                    vm.reportPost(context, widget.postId!);
-                  } else if (widget.commentId != null) {
-                    vm.reportComment(context, widget.commentId!);
-                  }
+                  // if (widget.postId != null) {
+                  //   vm.reportPost(context, widget.postId!);
+                  // } else if (widget.commentId != null) {
+                  //   vm.reportComment(context, widget.commentId!);
+                  // }
                   // vm.reportUser(context, widget.loginId);
                 },
                 child: const Text('신고'),

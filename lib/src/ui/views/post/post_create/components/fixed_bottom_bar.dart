@@ -46,7 +46,7 @@ class _FixedBottomBarState extends State<FixedBottomBar> {
                     size: getProportionateScreenWidth(20),
                   ),
                   label: Text(
-                    widget.vm.pickedImgs.length.toString() + '/10',
+                    widget.vm.pickedImgs.length.toString() + '/5',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: resizeFont(13),

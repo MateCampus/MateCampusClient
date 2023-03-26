@@ -1,7 +1,10 @@
+
 class Comment {
   final int id;
   final String loginId;
   final String userNickname;
+  final String? userCollegeName;
+  final String userImageUrl;
   final String body;
   bool deleted;
   final int parentId;
@@ -13,6 +16,8 @@ class Comment {
       {required this.id,
       required this.loginId,
       required this.userNickname,
+       this.userCollegeName,
+      required this.userImageUrl,
       required this.body,
       required this.deleted,
       required this.parentId,
@@ -25,6 +30,8 @@ class Comment {
         id: json['id'],
         loginId: json['loginId'],
         userNickname: json['userNickname'] ?? "",
+        userCollegeName: json['writerCollegeName'],
+        userImageUrl: json['writerProfileImageUrl']?? "",
         body: json['body'],
         deleted: json['deleted'],
         parentId: json['parentId'],

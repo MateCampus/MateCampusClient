@@ -1,13 +1,9 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
-import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_main_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/shimmer_components/main_loading/components/main_loading_list_tile.dart';
 import 'package:zamongcampus/src/ui/common_widgets/center_sentence.dart';
-import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
 import 'package:zamongcampus/src/ui/common_widgets/notification_alarm_in_appbar.dart';
 import 'package:zamongcampus/src/ui/views/post/post_main/components/post_tab_btns.dart';
 import 'post_list_tile.dart';
@@ -29,24 +25,17 @@ class Body extends StatelessWidget {
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
             SliverAppBar(
+              centerTitle: false,
               title: Text(
                 '\t피드',
                 style: TextStyle(
-                    fontFamily: 'Gmarket',
+                    fontFamily: 'Pretendard',
                     color: kAppBarTextColor,
                     fontSize: resizeFont(20),
-                    letterSpacing: 2,
-                    fontWeight: FontWeight.w500),
+                    // letterSpacing: 2,
+                    fontWeight: FontWeight.w700),
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/postCreate');
-                  },
-                  icon: const Icon(FontAwesomeIcons.penToSquare),
-                  iconSize: kAppBarIconSizeFA,
-                  color: kAppBarIconColor,
-                ),
+              actions: const [
                 NotificationAlarmInAppbar(
                   iconColor: kAppBarIconColor,
                 )
@@ -60,15 +49,15 @@ class Body extends StatelessWidget {
               delegate: PostTabBtns(vm: vm),
               pinned: true,
             ),
-            vm.busy
+            (vm.busy)
                 ? SliverList(
                     // Use a delegate to build items as they're scrolled on screen.
                     delegate: SliverChildBuilderDelegate(
                       // The builder function returns a ListTile with a title that
                       // displays the index of the current item.
-                      (context, index) => const IsLoading(),
+                      (context, index) => const MainLoadingListTile(),
                       // Builds 1000 ListTiles
-                      childCount: 1,
+                      childCount: 5,
                     ),
                   )
                 : (vm.posts.isEmpty)
@@ -87,8 +76,10 @@ class Body extends StatelessWidget {
                       )
                     : SliverList(
                         delegate: SliverChildBuilderDelegate(
-                            (context, index) =>
-                                PostListTile(post: vm.posts[index]),
+                            (context, index) => PostListTile(
+                                  vm: vm,
+                                  post: vm.posts[index],
+                                ),
                             childCount: vm.posts.length),
                       )
           ],

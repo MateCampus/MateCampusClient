@@ -1,1 +1,0 @@
-enum VoiceRoomType { PUBLIC, PRIVATE }

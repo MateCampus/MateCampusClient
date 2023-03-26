@@ -1,3 +1,5 @@
+import 'package:stomp_dart_client/stomp_handler.dart';
+
 class ChatRoom {
   final String roomId;
   String title; // 1:1이면 상대방이름, 단톡방이면 단톡방이름
@@ -6,6 +8,7 @@ class ChatRoom {
   DateTime lastMsgCreatedAt;
   String? imageUrl;
   int unreadCount;
+  StompUnsubscribe? unsubscribeFn;
 
   ChatRoom(
       {required this.roomId,
@@ -14,7 +17,8 @@ class ChatRoom {
       required this.lastMessage,
       required this.lastMsgCreatedAt,
       required this.imageUrl,
-      required this.unreadCount});
+      required this.unreadCount,
+      this.unsubscribeFn});
 
   // TODO: 여기서 S3bucket 안 키면 에러 뜨는데 그거 잡기?
   factory ChatRoom.fromJson(Map<String, dynamic> json) {

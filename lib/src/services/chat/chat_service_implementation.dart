@@ -4,7 +4,9 @@ import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoom.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/utils/constants.dart';
+import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:zamongcampus/src/services/chat/sqflite/chatMemberInfo_db_helper.dart';
@@ -13,6 +15,7 @@ import 'dart:convert';
 import 'package:zamongcampus/src/services/chat/sqflite/chatMessage_db_helper.dart';
 import 'package:zamongcampus/src/services/chat/sqflite/chatRoom_db_helper.dart';
 import 'package:zamongcampus/src/services/chat/sqflite/chatRoom_memberInfo_db_helper.dart';
+import 'package:zamongcampus/src/services/login/login_service.dart';
 
 class ChatServiceImpl implements ChatService {
   ChatMessageDBHelper chatMessageDBHelper = ChatMessageDBHelper();
@@ -23,15 +26,28 @@ class ChatServiceImpl implements ChatService {
 
   @override
   createOrGetChatRoom({required String otherLoginId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     final jsonBody = jsonEncode({"otherLoginId": otherLoginId});
     final response = await http.post(Uri.parse(devServer + "/api/chat/room"),
-        body: jsonBody, headers: AuthService.get_auth_header());
+        body: jsonBody,
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 201) {
       var res = await jsonDecode(utf8.decode(response.bodyBytes));
       // ChatRoom, MemberInfo, ChatRoomMemberInfo 3가지 만들어서 보내자.
       return res;
+    }
+    if (response.statusCode == 403) {
+      print('차단된 유저라서 대화방 못만들어');
+      return false;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return createOrGetChatRoom(otherLoginId: otherLoginId);
     } else {
-      throw Exception();
+      throw Exception('createOrGetChatRoom 서버 오류');
     }
   }
 
@@ -56,6 +72,11 @@ class ChatServiceImpl implements ChatService {
     if (response.statusCode == 200) {
       print("Respond: ${response.body.toString()}");
       return true;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return sendMessage(roomId, loginId, text, type, title, chatRoomType);
     } else {
       return false;
     }
@@ -63,6 +84,8 @@ class ChatServiceImpl implements ChatService {
 
   @override
   Future<dynamic> fetchUnReceivedMessages() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     String totalLastMsgCreatedAt =
         await PrefsObject.getTotalLastMsgCreatedAt() ??
             DateTime(2021, 5, 5).toIso8601String();
@@ -73,16 +96,38 @@ class ChatServiceImpl implements ChatService {
         Uri.parse(devServer +
             "/api/chat/message?totalLastMsgCreatedAt=" +
             totalLastMsgCreatedAt),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       dynamic newMessages = jsonDecode(utf8.decode(response.bodyBytes));
       // 여기서 json으로 변경 해야해ㅐㅐㅐㅐㅐ!!
       print("fetchUnReceivedMessages!");
       return newMessages;
+    } else if (response.statusCode == 401) {
+      LoginService loginService = serviceLocator<LoginService>();
+      await loginService.reissueToken();
+      print('토큰재발행 완료');
+      return fetchUnReceivedMessages();
     } else {
       print("fetchChatrooms 서버 잘못된 경우");
       return {};
-      // throw Exception('Failed to load chatRooms');
+    }
+  }
+
+  @override
+  //일단은 안쓴다.12/14
+  Future<void> exitChatRoom({required String roomId}) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
+
+    final response = await http.put(
+        Uri.parse(devServer + "/api/chat/room/" + roomId + "/exit"),
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
+    if (response.statusCode == 200) {
+      print('자몽캠퍼스랑 통신하는 채팅방나가기는 성공');
+    } else {
+      print('나가기 뭔가가 잘못됨');
     }
   }
 
@@ -239,6 +284,11 @@ class ChatServiceImpl implements ChatService {
   @override
   getAllMemberInfoes() async {
     return await chatMemberInfoDBHelper.getAllMemberInfoes();
+  }
+
+  @override
+  getMemberInfoByLoginId(String loginId) async {
+    return await chatMemberInfoDBHelper.getMemberInfoByLoginId(loginId);
   }
 
   @override

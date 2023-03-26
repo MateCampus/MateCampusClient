@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamongcampus/src/business_logic/constants/size_constants.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
+import 'package:zamongcampus/src/business_logic/models/postAutoUpdate.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/post_detail_screen_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/config/size_config.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/delete/post_deleted_msg.dart';
+import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report/report_form.dart';
 import 'package:zamongcampus/src/ui/common_components/custom_alert_dialog_components/report_post/report_post_form.dart';
 import 'package:zamongcampus/src/ui/common_components/sub_appbar_components/sub_appbar.dart';
 import 'package:zamongcampus/src/ui/common_widgets/isLoading.dart';
@@ -32,6 +35,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   void dispose() {
+    vm.updatePostMain();
     serviceLocator.resetLazySingleton<PostDetailScreenViewModel>(instance: vm);
     super.dispose();
   }
@@ -54,9 +58,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   vm.removeNestedCommentOverlay();
                   Navigator.of(context).pop();
                 },
+                titleText: '피드',
+                isCenter: true,
                 actions: [
                   IconButton(
-                    icon: const Icon(CupertinoIcons.ellipsis),
+                    icon: const Icon(CupertinoIcons.ellipsis_vertical),
                     color: Colors.black,
                     iconSize: kAppBarIconSizeCP,
                     onPressed: () {
@@ -90,7 +96,14 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   ),
                 ),
                 onPressed: () {
-                  vm.deletePost(context, vm.postDetail.id);
+                  Navigator.pop(context);
+                  buildCustomAlertDialog(
+                      context: context,
+                      contentWidget: const PostDeletedMsg(),
+                      btnText: '삭제',
+                      press: () {
+                        vm.deletePost(context, vm.postDetail.id);
+                      });
                 },
               )
             : BottomSheetAction(
@@ -106,7 +119,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return ReportPostForm(postId: vm.postDetail.id);
+                        return ReportForm(
+                            targetUserLoginId: vm.postDetail.loginId,
+                            reportCategoryIndex: "2");
                       });
                 },
               ),

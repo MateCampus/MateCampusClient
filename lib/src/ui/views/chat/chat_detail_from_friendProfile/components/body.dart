@@ -22,29 +22,34 @@ class Body extends StatelessWidget {
                   )
                 : Container(),
             Expanded(
-              child: SingleChildScrollView(
-                controller: vm.scrollController,
-                child: Scrollbar(
-                    controller: vm.scrollController,
-                    thickness: 3,
-                    child: Container(
-                      height: SizeConfig.screenHeight,
-                      alignment: Alignment.bottomCenter,
-                      child: ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          reverse: true,
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          itemCount: vm.chatMessages.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Message(
-                                message: vm.chatMessages[index], vm: vm);
-                          }),
-                    )),
+              child: Container(
+                padding:
+                    EdgeInsets.only(bottom: getProportionateScreenHeight(5)),
+                decoration: BoxDecoration(color: Color(0xfff1f1f5)),
+                child: SingleChildScrollView(
+                  reverse: true,
+                  controller: vm.scrollController,
+                  child: Scrollbar(
+                      controller: vm.scrollController,
+                      thickness: 3,
+                      child: Container(
+                        alignment: Alignment.bottomCenter,
+                        child: ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            reverse: true,
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            itemCount: vm.chatMessages.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Message(
+                                  message: vm.chatMessages[index], vm: vm);
+                            }),
+                      )),
+                ),
               ),
             ),
             BottomFixedBtnDecoBox(
-              backgroundColor: const Color(0xfffff8f3),
+              backgroundColor: Colors.white,
               child: ChatInputField(
                 roomId: vm.chatRoom.roomId,
                 roomType: vm.chatRoom.type,

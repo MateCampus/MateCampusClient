@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
 import 'package:zamongcampus/src/business_logic/models/chatRoomMemberInfo.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/object/stomp_object.dart';
@@ -15,15 +17,26 @@ import 'base_model.dart';
 class ChatViewModel extends BaseModel {
   ChatService chatService = serviceLocator<ChatService>();
   List<ChatRoom> _chatRooms = [];
+  List<ChatRoom> _exitedChatRooms = [];
+  int _totalUnreadCount = -1;
   String _insideRoomId = "";
   bool _fromFriendProfile = false;
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
 
   List<ChatRoom> get chatRooms => _chatRooms;
+  List<ChatRoom> get exitedChatRooms => _exitedChatRooms;
   String get insideRoomId => _insideRoomId;
   bool get fromFriendProfile => _fromFriendProfile;
+  int get totalUnreadCount => _totalUnreadCount;
+
+  //앱바에 알림아이콘 뱃지처리위해서 사용.
+  void initNoti() async {
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
+  }
 
   Future<void> loadChatRooms() async {
+    _chatRooms.clear();
     _chatRooms = await chatService.getAllChatRoom();
     print("load chatroom 완료");
   }
@@ -63,29 +76,49 @@ class ChatViewModel extends BaseModel {
           chatMemberInfos
               .add(ChatMemberInfo.fromJson(modifiedInfo["systemMessage"]));
         } else {
-          /* 채팅방정보 저장 */
-          if (getExistRoomIndex(
-                  modifiedInfo["systemMessage"]["roomInfo"]["roomId"]) ==
-              -1) {
-            ChatRoom chatRoom = ChatRoom(
-                roomId: modifiedInfo["systemMessage"]["roomInfo"]["roomId"],
-                title: modifiedInfo["systemMessage"]["roomInfo"]["title"],
-                type: modifiedInfo["systemMessage"]["roomInfo"]["type"],
-                lastMessage: "대화를 시작해보세요!",
-                lastMsgCreatedAt: DateTime(2021, 5, 5),
-                imageUrl: modifiedInfo["systemMessage"]["roomInfo"]["imageUrl"],
-                unreadCount: 0);
-            chatService.insertChatRoom(chatRoom);
-            StompObject.subscribeChatRoom(chatRoom.roomId);
-          }
-
-          /* chatMember, roomMember 저장 */
-          modifiedInfo["systemMessage"]["memberInfos"].forEach((memberInfo) {
-            chatMemberInfos.add(ChatMemberInfo.fromJson(memberInfo));
-            chatRoomMemberInfos.add(ChatRoomMemberInfo(
-                roomId: modifiedInfo["systemMessage"]["roomInfo"]["roomId"],
-                loginId: memberInfo["loginId"]));
+          /*create*/
+          /*차단한 사람인지 확인->이 부분 나중에 서버에서 애초에 안주도록 바꾸는게 좋을 것 같음*/
+          bool isBlocked = false;
+          modifiedInfo["systemMessage"]["memberInfos"]
+              .forEach((memberInfo) async {
+            ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(memberInfo);
+            if (chatMemberInfo.loginId != AuthService.loginId) {
+              isBlocked = await PrefsObject.getBlockedUserByLoginId(
+                  chatMemberInfo.loginId);
+            }
           });
+          if (isBlocked) {
+            print('서버에서 메세지 가져올때 차단한 사람에게서 온 메세지는 오지 않지만 방은 만들어지는것 같다.(왜?)');
+          } else {
+            /* 채팅방정보 저장 */
+
+            if (getExistRoomIndex(
+                    modifiedInfo["systemMessage"]["roomInfo"]["roomId"]) ==
+                -1) {
+              ChatRoom chatRoom = ChatRoom(
+                  roomId: modifiedInfo["systemMessage"]["roomInfo"]["roomId"],
+                  title: modifiedInfo["systemMessage"]["roomInfo"]["title"],
+                  type: modifiedInfo["systemMessage"]["roomInfo"]["type"],
+                  lastMessage: "대화를 시작해보세요!",
+                  lastMsgCreatedAt: DateTime(2021, 5, 5),
+                  imageUrl: modifiedInfo["systemMessage"]["roomInfo"]
+                      ["imageUrl"],
+                  unreadCount: 0);
+              chatService.insertChatRoom(chatRoom);
+              //여기서 구독을 하면 안되는거 아님? (23.02.25)
+              // chatRoom.unsubscribeFn =
+              //     StompObject.subscribeChatRoom(chatRoom.roomId);
+              //     print(chatRoom.roomId+'번 방 구독하는중');
+            }
+
+            /* chatMember, roomMember 저장 */
+            modifiedInfo["systemMessage"]["memberInfos"].forEach((memberInfo) {
+              chatMemberInfos.add(ChatMemberInfo.fromJson(memberInfo));
+              chatRoomMemberInfos.add(ChatRoomMemberInfo(
+                  roomId: modifiedInfo["systemMessage"]["roomInfo"]["roomId"],
+                  loginId: memberInfo["loginId"]));
+            });
+          }
         }
       });
       chatService.insertOrUpdateMemberInfo(chatMemberInfos);
@@ -148,10 +181,60 @@ class ChatViewModel extends BaseModel {
     return index;
   }
 
+  //roomId로 chatMain에 저장되어있는 chatRoom 반환.
+  ChatRoom getChatRoomForFcm(String roomId) {
+    ChatRoom value = ChatRoom(
+        roomId: "",
+        title: "",
+        type: "",
+        lastMessage: "",
+        lastMsgCreatedAt: DateTime.now(),
+        imageUrl: "",
+        unreadCount: -1);
+    for (ChatRoom chatRoom in chatRooms) {
+      if (chatRoom.roomId == roomId) {
+        value = chatRoom;
+        break;
+      }
+    }
+    return value;
+  }
+
+  //전체 chatRoom에 대한 안읽은 총 메세지 수 카운트
+  Future<void> getTotalUnreadCount() async {
+    _totalUnreadCount = 0;
+    for (ChatRoom chatRoom in chatRooms) {
+      _totalUnreadCount = _totalUnreadCount + chatRoom.unreadCount;
+    }
+    print('안읽은 메세지 수 : ' + _totalUnreadCount.toString());
+
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    homeViewModel.chageUnreadChatMessageCount(_totalUnreadCount);
+  }
+
+  //구독을 끊고 나갈때 사용
   int removeItem(int index, String roomId) {
-    final removeItem = chatRooms[index];
+    final removeItem = _chatRooms[index];
     int unreadCount = removeItem.unreadCount;
-    chatRooms.removeAt(index);
+    _chatRooms.removeAt(index);
+    listKey.currentState?.removeItem(
+        index,
+        (context, animation) => ChatTile(
+              chatRoom: removeItem,
+              animation: animation,
+              onClicked: () {},
+              onDeleted: () {},
+            ));
+    print('삭제 안 쪽');
+    return unreadCount;
+  }
+
+  //그냥 나갈때 사용. 구독끊는함수를 저장해두기위해 챗 리스트에 보이는 정보는 삭제하지만 스페어로 저장을 해두고 꺼내쓴다.
+  int removeItemAndSaveSpare(int index, String roomId, ChatRoom chatRoom) {
+    _exitedChatRooms.add(chatRoom);
+    final removeItem = _chatRooms[index];
+    int unreadCount = removeItem.unreadCount;
+    _chatRooms.removeAt(index);
     listKey.currentState?.removeItem(
         index,
         (context, animation) => ChatTile(

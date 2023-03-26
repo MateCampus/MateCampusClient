@@ -1,6 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
-import 'package:zamongcampus/src/config/dummy_data.dart';
+import 'package:zamongcampus/src/config/dummy/user_dummny.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 
 class FakeUserService implements UserService {
@@ -37,17 +37,17 @@ class FakeUserService implements UserService {
   }
 
   @override
-  Future<bool> checkNicknameRedundancy({required String nickname}) async {
-    bool value = true;
-    return value;
-  }
-
-  @override
   Future<User> updateMyInfo(
       {String? nickname, String? introduction, XFile? profileImg}) async {
     return User(
       loginId: "zm",
       nickname: nickname!,
     );
+  }
+
+  @override
+  Future<void> blockUser({required String targetLoginId}) {
+    // TODO: implement blockUser
+    throw UnimplementedError();
   }
 }

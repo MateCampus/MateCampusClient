@@ -4,20 +4,20 @@ import 'package:zamongcampus/src/business_logic/view_models/signup_viewmodel.dar
 
 class CollegeListTile extends StatelessWidget {
   final SignUpViewModel vm;
-  final int index;
-  const CollegeListTile({Key? key, required this.vm, required this.index})
+  final CollegePresentation college;
+  const CollegeListTile({Key? key, required this.vm, required this.college})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        vm.selectCollege(context, vm.searchingColleges[index]);
+        vm.selectCollege(context, college);
         vm.removeCollegeOverlay();
       },
       dense: true,
       title: Text(
-        vm.searchingColleges[index],
+        college.collegeName +" ("+college.campusName+")",
         style:
             TextStyle(color: Colors.black87, fontSize: kTextFieldInnerFontSize),
       ),

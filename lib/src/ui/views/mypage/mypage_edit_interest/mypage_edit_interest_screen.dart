@@ -36,7 +36,10 @@ class _MypageEditInterestScreenState extends State<MypageEditInterestScreen> {
       value: vm,
       child: Consumer<MypageViewModel>(builder: (context, vm, child) {
         return Scaffold(
-          appBar: SubAppbar(),
+          appBar: SubAppbar(
+            titleText: '관심사 수정',
+            isCenter: true,
+          ),
           backgroundColor: Colors.white,
           body: Body(vm: vm),
         );

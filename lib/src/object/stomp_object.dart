@@ -6,7 +6,6 @@ import 'package:stomp_dart_client/stomp_config.dart';
 import 'package:stomp_dart_client/stomp_frame.dart';
 import 'package:stomp_dart_client/stomp_handler.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_screen_args.dart';
-import 'package:zamongcampus/src/business_logic/arguments/voice_detail_screen_args.dart';
 import 'package:zamongcampus/src/business_logic/init/auth_service.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMemberInfo.dart';
 import 'package:zamongcampus/src/business_logic/models/chatMessage.dart';
@@ -16,24 +15,27 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_from_friendProfile_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
-import 'package:zamongcampus/src/business_logic/view_models/voice_detail_viewmodel.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/navigation_service.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/firebase_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:zamongcampus/src/services/notification/notification_service.dart';
 
 import '../business_logic/arguments/post_detail_screen_args.dart';
 import '../business_logic/models/enums/messageType.dart';
 
+//TODO: 지금 헤더쓰는 부분들을 죄다 async로 바꿨는데 이러면 속도적인 부분에서 느려지지 않는지 확인이 필요함. 특히 채팅 메세지 보내는 부분..
 class StompObject {
   static late StompClient _stompClient;
 
   static StompClient get stompClient => _stompClient;
 
-  static connectStomp() {
+  static Future<void> connectStomp() async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     print("stomp init start");
     _stompClient = StompClient(
       config: StompConfig.SockJS(
@@ -43,8 +45,10 @@ class StompObject {
           print('stomp 연결 중 ...');
         },
         onWebSocketError: (dynamic error) => print(error.toString()),
-        stompConnectHeaders: AuthService.get_auth_header(),
-        webSocketConnectHeaders: AuthService.get_auth_header(),
+        stompConnectHeaders: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
+        webSocketConnectHeaders: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken),
       ),
     );
     _stompClient.activate(); // 서버 실행
@@ -55,19 +59,29 @@ class StompObject {
   static dynamic onConnect(StompFrame frame) async {
     print('stomp 연결 완료');
     if (AuthService.loginId != null && AuthService.token != null) {
-      /// 1. 채팅방 불러오고
-      /// 2. 이미 존재한 방들 구독
-      /// 3. 내 token에 해당되는 방 구독
-      /// 4. 밀린 메세지 불러와서 재세팅
-      /// 5. 다시 채팅방 불러오기
+      /// (23.02.22) 일단, loadchatRooms 자체를 두번해야하는것같다. 이유는 모르겠음. 새롭게 받아온 메세지들 때문인거 같은데. 리팩필요
+      /// 아무튼 authService 에서 한번 불러온 상태이고
+      /// 1. fcm 토큰 구독
+      /// 2.밀린 메세지 불러와서 로컬 디비에 세팅
+      /// 3. 다시 로컬 디비에서 chatRooms들 불러옴.
+      /// 4. 그리고 그 불러온 chatRoom들 모두 구독
+      /// 5. 안읽은 메세지 갯수 체크
+
+      //1
+      subscribeChatRoom(FirebaseObject.deviceFcmToken);
+
       ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
-      for (ChatRoom chatRoom in chatViewModel.chatRooms) {
-        subscribeChatRoom(chatRoom.roomId);
-      }
-
-      /// *** 이 친구를 먼저 해버려야했다!>!>! 먼저해서 합쳐야할 듯..
+      //2
       await chatViewModel.setChatRoomByNewMessages();
-
+      //3
+      await chatViewModel.loadChatRooms();
+      //4
+      for (ChatRoom chatRoom in chatViewModel.chatRooms) {
+        chatRoom.unsubscribeFn = subscribeChatRoom(chatRoom.roomId);
+        print(chatRoom.roomId + '번 방 구독하는중');
+      }
+      //5
+      await chatViewModel.getTotalUnreadCount();
       /* 백그라운드 상태 (Terminated messages) */
       RemoteMessage? remoteMessage =
           await FirebaseMessaging.instance.getInitialMessage();
@@ -83,54 +97,47 @@ class StompObject {
         switch (remoteMessage.data["navigate"]) {
           case "/chatDetail":
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(2);
+            ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
 
-            /// 1. load local 값 or 새로운 값 생성
-            ChatService chatService = serviceLocator<ChatService>();
-            ChatRoom chatRoom = await chatService
-                    .getChatRoomByRoomId(remoteMessage.data["roomId"]) ??
-                ChatRoom(
-                    roomId: remoteMessage.data["roomId"],
-                    title: remoteMessage.data["title"],
-                    type: remoteMessage.data["type"],
-                    lastMessage: "",
-                    lastMsgCreatedAt: DateTime(2021, 05, 05),
-                    imageUrl: remoteMessage.data["imageUrl"],
-                    unreadCount: 0);
-
-            NavigationService().pushNamedAndRemoveUntil(
-                "/chatDetail", "/", ChatDetailScreenArgs(chatRoom, -1));
+            ChatRoom chatRoom =
+                chatViewModel.getChatRoomForFcm(remoteMessage.data["roomId"]);
+            if (chatRoom.roomId == remoteMessage.data["roomId"]) {
+              homeViewModel.changeCurrentIndex(1);
+              NavigationService().pushNamedAndRemoveUntil(
+                  "/chatDetail",
+                  "/",
+                  ChatDetailScreenArgs(
+                      chatRoom,
+                      chatViewModel
+                          .getExistRoomIndex(remoteMessage.data["roomId"])));
+            } else {
+              //혹시 chatRoom 삽입(=stomp 구독)이 느렸을경우엔, chatMain 페이지로 넘겨버림
+              print('chatmain에서 chatRoom 못찾아서 chatdetail로 못가고 chatmain 으로 왔당');
+              NavigationService().pushNamedAndRemoveUntilWithoutArgs("/", "/");
+            }
             break;
           case "/voiceDetail":
-            NavigationService().pushNamedAndRemoveUntil(
-                "/voiceDetail",
-                "/",
-                VoiceDetailScreenArgs(
-                    id: int.parse(remoteMessage.data["voiceRoomId"])));
             break;
           case "/postDetail":
             NavigationService().pushNamedAndRemoveUntil("/postDetail", "/",
                 PostDetailScreenArgs(int.parse(remoteMessage.data["postId"])));
             HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(1);
+            homeViewModel.changeCurrentIndex(0);
             break;
           case "/friend":
-            NavigationService()
-                .pushNamedAndRemoveUntilWithoutArgs("/friend", "/");
-            HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
-            homeViewModel.changeCurrentIndex(2);
             break;
           default:
             break;
         }
       }
-      subscribeChatRoom(FirebaseObject.deviceFcmToken);
-      await chatViewModel.loadChatRooms();
     }
   }
 
   // roomId로 오는 메세지
-  static void subscribeChatRoom(String? roomId) {
+  static StompUnsubscribe subscribeChatRoom(String? roomId) {
+    // String? accessToken = await SecureStorageObject.getAccessToken();
+    // String? refreshToken = await SecureStorageObject.getRefreshToken();
+
     ChatService _chatService = serviceLocator<ChatService>();
     ChatViewModel chatViewModel = serviceLocator<ChatViewModel>();
 
@@ -138,70 +145,103 @@ class StompObject {
         serviceLocator<ChatDetailViewModel>();
     ChatDetailFromFriendProfileViewModel chatDetailFromFriendProfileViewModel =
         serviceLocator<ChatDetailFromFriendProfileViewModel>();
-    dynamic unsubscribeFn = stompClient.subscribe(
-      headers: AuthService.get_auth_header(),
+
+    StompUnsubscribe unsubscribeFn = stompClient.subscribe(
+      headers: {},
       destination: '/sub/chat/room/$roomId',
-      callback: (frame) {
+      callback: (frame) async {
         // ** 메시지 도착 시점
         print("----- 새로운 메세지 도착 -----");
         var res = json.decode(frame.body ?? "");
 
         if (res["type"] == "talk") {
           /***** TALK ******/
-          ChatMessage chatMessage =
-              ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
-          // 1. 메세지 저장
-          _chatService.insertMessage(chatMessage);
-          // 2. local db의 chatroom 내용 변경 => 이미 그 방 안이면 0, 아니면 1 추가
-          _chatService.updateChatRoom(
-              lastMsg: chatMessage.text,
-              lastMsgCreatedAt: chatMessage.createdAt,
-              unreadCount:
-                  chatMessage.roomId == chatViewModel.insideRoomId ? 0 : 1,
-              roomId: chatMessage.roomId);
+          bool isBlocked = await PrefsObject.getBlockedUserByLoginId(
+              res["messageDto"]["loginId"]);
+          if (isBlocked) {
+            print('차단했는데 구독이 안끊겨서 스톰으로 메세지를 받아왔지만 화면에 안띄워줌');
 
-          // 3. pref에 최근 메시지 시간 저장할 것
-          PrefsObject.setTotalLastMsgCreatedAt(
-              chatMessage.createdAt.toIso8601String());
-
-          // UI: 현재 위치가 해당방이면 ui 수정(chatdetail)
-          if (chatMessage.roomId == chatViewModel.insideRoomId) {
-            if (chatViewModel.fromFriendProfile) {
-              chatDetailFromFriendProfileViewModel.addChatMessage(chatMessage);
-            } else {
-              chatDetailViewModel.addChatMessage(chatMessage);
-            }
-          }
-          // ** UI(chatsScreen) 변경
-          int index = chatViewModel.getExistRoomIndex(chatMessage.roomId!);
-          ChatRoom chatRoom = chatViewModel.chatRooms[index];
-          if (index == 0) {
-            // 최상단 : 업데이트만 => lastmsg, unreadcount, lastMsgCreatedAt
-            chatRoom.lastMessage = chatMessage.text;
-            chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
-            // 해당 방 안에 아닐 때만 unreadcount 변경
-            if (chatMessage.roomId != chatViewModel.insideRoomId) {
-              chatRoom.unreadCount = chatRoom.unreadCount + 1;
-            }
-            chatViewModel.replaceItem(chatRoom, index);
+            return;
           } else {
-            // 최상단 아니면 => 1. 기존 방: 방 지웠다가 새롭게 방 추가  2. 완전 처음 방: 새롭게 방만 추가
+            ChatMessage chatMessage =
+                ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
+            // 1. 메세지 저장
+            _chatService.insertMessage(chatMessage);
+            // 2. local db의 chatroom 내용 변경 => 이미 그 방 안이면 0, 아니면 1 추가
+            _chatService.updateChatRoom(
+                lastMsg: chatMessage.text,
+                lastMsgCreatedAt: chatMessage.createdAt,
+                unreadCount:
+                    chatMessage.roomId == chatViewModel.insideRoomId ? 0 : 1,
+                roomId: chatMessage.roomId);
 
-            if (index != -1) {
-              // 기존에 있는 방: unreadCount, lastMsg, lastMsgCreatedAt 변경
-              // 현재 그 방 안이라면 0으로 값 변경
-              // 아니면 삭제(removeItem)하면서 unreadcount 반환 (그 값으로 변경)
-              int unreadCount =
-                  chatViewModel.removeItem(index, chatRoom.roomId);
-              if (chatMessage.roomId == chatViewModel.insideRoomId) {
-                chatRoom.unreadCount = 0;
+            // 3. pref에 최근 메시지 시간 저장할 것
+            PrefsObject.setTotalLastMsgCreatedAt(
+                chatMessage.createdAt.toIso8601String());
+
+            // UI: 현재 위치가 해당방이면 ui 수정(chatdetail)
+            if (chatMessage.roomId == chatViewModel.insideRoomId) {
+              if (chatViewModel.fromFriendProfile) {
+                chatDetailFromFriendProfileViewModel
+                    .addChatMessage(chatMessage);
               } else {
-                chatRoom.unreadCount = unreadCount + 1;
+                chatDetailViewModel.addChatMessage(chatMessage);
               }
+            }
+            // ** UI(chatsScreen) 변경
+            int index = chatViewModel.getExistRoomIndex(chatMessage.roomId!);
+            // ChatRoom chatRoom = chatViewModel.chatRooms[index];
+            if (index == 0) {
+              // 최상단 : 업데이트만 => lastmsg, unreadcount, lastMsgCreatedAt
+              ChatRoom chatRoom = chatViewModel.chatRooms[index];
               chatRoom.lastMessage = chatMessage.text;
               chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
+              // 해당 방 안에 아닐 때만 unreadcount 변경
+              if (chatMessage.roomId != chatViewModel.insideRoomId) {
+                chatRoom.unreadCount = chatRoom.unreadCount + 1;
+              }
+              chatViewModel.replaceItem(chatRoom, index);
+            } else {
+              // 최상단 아니면 => 1. 기존 방: 방 지웠다가 새롭게 방 추가  2. 완전 처음 방: 새롭게 방만 추가
+
+              if (index >= 0) {
+                // 기존에 있는 방: unreadCount, lastMsg, lastMsgCreatedAt 변경
+                // 현재 그 방 안이라면 0으로 값 변경
+                // 아니면 삭제(removeItem)하면서 unreadcount 반환 (그 값으로 변경)
+                ChatRoom chatRoom = chatViewModel.chatRooms[index];
+                int unreadCount =
+                    chatViewModel.removeItem(index, chatRoom.roomId);
+                if (chatMessage.roomId == chatViewModel.insideRoomId) {
+                  chatRoom.unreadCount = 0;
+                } else {
+                  chatRoom.unreadCount = unreadCount + 1;
+                }
+                chatRoom.lastMessage = chatMessage.text;
+                chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
+                chatViewModel.insertItem(chatRoom);
+              } else if (index == -1) {
+                ///한번 나간 방에서 다시 메세지가 올 때.
+                ///이 때는 chatViewModel.chatRooms에는 없지만 chatViewModel.exitedChatRooms 에는 있다.
+                ///여기서 꺼내와야함. 그래야 구독끊는 함수가 그대로 저장되어있음
+
+                for (ChatRoom exitedChatRoom in chatViewModel.exitedChatRooms) {
+                  if (exitedChatRoom.roomId == res["roomId"]) {
+                    ChatRoom chatRoom = exitedChatRoom;
+                    //1.바뀌어야 하는 정보 변경
+                    chatRoom.lastMessage = chatMessage.text;
+                    chatRoom.lastMsgCreatedAt = chatMessage.createdAt;
+                    chatRoom.unreadCount = 1;
+                    //2. chatsScreen 수정
+                    chatViewModel.insertItem(chatRoom);
+                    //나갔다가 다시 들어가는거니까 더이상 나간방에 스페어로 저장해둘 필요없음. 오히려 계속 놔두면 같은방을 또 나갔을때 여기 계속 쌓이게 됨. 그래서 지워준다.
+                    //아직 테스트는 안해봄(12.15)
+                    chatViewModel.exitedChatRooms.remove(exitedChatRoom);
+                    break;
+                  }
+                }
+              }
             }
-            chatViewModel.insertItem(chatRoom);
+            chatViewModel.getTotalUnreadCount();
           }
         } else if (res["type"] == "enter") {
           /***** ENTER ******/
@@ -272,34 +312,51 @@ class StompObject {
           _changeMemberInfo(chatMemberInfo);
         } else {
           /***** CREATE ******/
-          /* 1. 채팅방정보 저장 및 구독 */
-          ChatRoom chatRoom = ChatRoom(
-              roomId: res["roomInfo"]["roomId"],
-              title: res["roomInfo"]["title"],
-              type: res["roomInfo"]["type"],
-              lastMessage: "대화를 시작해보세요!",
-              lastMsgCreatedAt:
-                  DateTime(2021, 5, 5), //TODO: DateTime.now()로 바꾸기
-              imageUrl: res["roomInfo"]["imageUrl"],
-              unreadCount: 0);
-          _chatService.insertChatRoom(chatRoom);
-          subscribeChatRoom(chatRoom.roomId);
+          //차단한 사람에게서 메세지가 온건지 확인.
+          bool isBlocked = false;
+           res["memberInfos"].forEach((memberInfo) async{
+              ChatMemberInfo chatMemberInfo =
+                  ChatMemberInfo.fromJson(memberInfo);
+              if (chatMemberInfo.loginId != AuthService.loginId){
+                isBlocked = await PrefsObject.getBlockedUserByLoginId(chatMemberInfo.loginId);
+              }
+            });
+          if (isBlocked) {
+            print('차단한 사람한테서 첫 메세지 요청이 왔고, 스톰으로 구독이 됐고 메세지를 받아왔는데 ui에 띄워주지 않음');
+            return;
+          } else {
+            /* 1. 채팅방정보 저장 및 구독 */
+            ChatRoom chatRoom = ChatRoom(
+                roomId: res["roomInfo"]["roomId"],
+                title: res["roomInfo"]["title"],
+                type: res["roomInfo"]["type"],
+                lastMessage: "대화를 시작해보세요!",
+                lastMsgCreatedAt:
+                    DateTime(2021, 5, 5), //TODO: DateTime.now()로 바꾸기
+                imageUrl: res["roomInfo"]["imageUrl"],
+                unreadCount: 0);
+            _chatService.insertChatRoom(chatRoom);
+            chatRoom.unsubscribeFn = subscribeChatRoom(chatRoom.roomId);
 
-          /* 2. 멤버 저장 */
-          res["memberInfos"].forEach((memberInfo) {
-            ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(memberInfo);
-            ChatRoomMemberInfo chatRoomMemberInfo = ChatRoomMemberInfo(
-                roomId: chatRoom.roomId, loginId: memberInfo["loginId"]);
-            _chatService.insertOrUpdateMemberInfoOne(chatMemberInfo);
-            _chatService.insertChatRoomMemberInfoOne(chatRoomMemberInfo);
-          });
+            /* 2. 멤버 저장 */
+            res["memberInfos"].forEach((memberInfo) {
+              ChatMemberInfo chatMemberInfo =
+                  ChatMemberInfo.fromJson(memberInfo);
+              ChatRoomMemberInfo chatRoomMemberInfo = ChatRoomMemberInfo(
+                  roomId: chatRoom.roomId, loginId: memberInfo["loginId"]);
+              _chatService.insertOrUpdateMemberInfoOne(chatMemberInfo);
+              _chatService.insertChatRoomMemberInfoOne(chatRoomMemberInfo);
+            });
 
-          // /* 3. chatsScreen 수정 */
-          chatViewModel.insertItem(chatRoom);
+            // /* 3. chatsScreen 수정 */
+            chatViewModel.insertItem(chatRoom);
+            chatViewModel.getTotalUnreadCount();
+          }
         }
       },
     );
-    print('구독성공: $roomId번 방 ');
+    print('stomp에 존재하는 방: $roomId번 방 ');
+    return unsubscribeFn;
   }
 
   static void deactivateStomp() {
@@ -307,8 +364,10 @@ class StompObject {
     stompClient.deactivate();
   }
 
-  static void sendMessage(
-      String roomId, String text, String type, String chatRoomType) {
+  static Future<void> sendMessage(
+      String roomId, String text, String type, String chatRoomType) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     print("-----메세지 전송 => 내용: $text, 방번호: ${roomId}");
     stompClient.send(
         destination: '/pub/chat/message',
@@ -319,7 +378,9 @@ class StompObject {
           "type": type,
           "chatRoomType": chatRoomType,
         }),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
+    print('일단 서버로 보냄');
   }
 
   static void _changeMemberInfo(ChatMemberInfo chatMemberInfo) async {
@@ -365,30 +426,5 @@ class StompObject {
         chatViewModel.replaceItem(chatRoom, index);
       }
     });
-  }
-
-  static StompUnsubscribe subscribeVoiceRoomChat(String roomId) {
-    StompUnsubscribe unsubscribeFn = stompClient.subscribe(
-        headers: AuthService.get_auth_header(),
-        destination: '/sub/chat/room/$roomId',
-        callback: (frame) {
-          VoiceDetailViewModel voiceDetailViewModel =
-              serviceLocator<VoiceDetailViewModel>();
-          print("----- 멤버 변경 -----");
-          var res = json.decode(frame.body ?? "");
-          if (res["type"] == "enter") {
-            ChatMemberInfo chatMemberInfo = ChatMemberInfo.fromJson(res);
-            voiceDetailViewModel.addChatMemberInfo(chatMemberInfo);
-          } else if (res["type"] == "exit") {
-            voiceDetailViewModel.removeChatMemberInfo(res["loginId"]);
-            if (res["newOwnerLoginId"] != null)
-              voiceDetailViewModel.updateNewOwner(res["newOwnerLoginId"]);
-          } else if (res["type"] == "talk") {
-            ChatMessage chatMessage =
-                ChatMessage.fromJsonRoomId(res["messageDto"], res["roomId"]);
-            voiceDetailViewModel.addTextChatMessage(chatMessage);
-          }
-        });
-    return unsubscribeFn;
   }
 }

@@ -6,4 +6,9 @@ abstract class ReportService {
       {required ReportType type, required int commentId});
   Future<String> reportUser(
       {required ReportType type, required String loginId});
+
+  Future<bool> report(
+      {required String targetUserLoginId,
+      required String body,
+      required String reportCategoryIndex});
 }

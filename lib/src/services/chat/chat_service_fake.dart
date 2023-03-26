@@ -202,4 +202,16 @@ class FakeChatService implements ChatService {
     // TODO: implement updateTitleImageUrlChatRoom
     throw UnimplementedError();
   }
+
+  @override
+  getMemberInfoByLoginId(String loginId) {
+    // TODO: implement getMemberInfoByLoginId
+    throw UnimplementedError();
+  }
+
+  @override
+  exitChatRoom({required String roomId}) {
+    // TODO: implement exitChatRoom
+    throw UnimplementedError();
+  }
 }

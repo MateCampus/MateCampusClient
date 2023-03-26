@@ -47,7 +47,7 @@ class _ReportUserFormState extends State<ReportUserForm> {
               ),
               CupertinoDialogAction(
                 onPressed: () {
-                  vm.reportUser(context, widget.loginId);
+                  // vm.reportUser(context, widget.loginId);
                 },
                 child: const Text('신고'),
                 textStyle: TextStyle(

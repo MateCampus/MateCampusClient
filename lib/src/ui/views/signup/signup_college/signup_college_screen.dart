@@ -20,14 +20,7 @@ class _SignUpCollegeScreenState extends State<SignUpCollegeScreen> {
   @override
   void initState() {
     super.initState();
-    vm.setCollegeList();
-    vm.setMajorList();
-    vm.collegeController.addListener(() {
-      vm.searchCollege();
-    });
-    vm.majorController.addListener(() {
-      vm.searchMajor();
-    });
+   
   }
 
   @override

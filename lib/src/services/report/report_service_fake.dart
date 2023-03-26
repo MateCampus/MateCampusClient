@@ -21,4 +21,13 @@ class FakeReportService implements ReportService {
     // TODO: implement reportUser
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> report(
+      {required String targetUserLoginId,
+      required String body,
+      required String reportCategoryIndex}) {
+    // TODO: implement report
+    throw UnimplementedError();
+  }
 }

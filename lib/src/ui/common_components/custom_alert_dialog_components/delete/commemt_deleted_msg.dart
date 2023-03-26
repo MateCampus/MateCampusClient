@@ -7,7 +7,7 @@ class CommentDeletedMsg extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      '댓글을  삭제하시겠습니까?',
+      '댓글을 삭제하시겠습니까?',
       style: TextStyle(fontSize: getProportionateScreenWidth(14)),
     );
   }

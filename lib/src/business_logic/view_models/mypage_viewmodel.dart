@@ -1,24 +1,21 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/interest_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
+import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
+import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import '../../services/interest/interest_service.dart';
-import '../models/enums/collegeCode.dart';
 import '../models/enums/interestCode.dart';
-import '../models/enums/majorCode.dart';
 
 class MypageViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
+  final SignUpService _signUpService = serviceLocator<SignUpService>();
   final InterestService _interestService = serviceLocator<InterestService>();
   MypagePresentation _myInfo = defaultInfo;
   static final MypagePresentation defaultInfo = MypagePresentation(
@@ -38,6 +35,8 @@ class MypageViewModel extends BaseModel {
   final List<InterestPresentation> _allInterestsAfterLoad =
       List.empty(growable: true);
   List<InterestCode> _selectedInterestCodes = List.empty(growable: true);
+  //변경하기 전까지의 나의 관심사코드리스트 -> 이것과 비교해서 변화 유무로 관심사 수정하기 버튼 분기처리함.
+  List<InterestCode> _myInterestCodes = List.empty(growable: true);
 
   //프로필사진 관련 변수
   final ImagePicker picker = ImagePicker();
@@ -60,6 +59,7 @@ class MypageViewModel extends BaseModel {
   List<InterestPresentation> get allInterestsAfterLoad =>
       _allInterestsAfterLoad;
   List<InterestCode> get selectedInterestCodes => _selectedInterestCodes;
+  List<InterestCode> get initialMyInterestCodes => _myInterestCodes;
   String get changedProfileImgPath => _changedProfileImgPath;
   GlobalKey<FormState> get nicknameFormKey => _nicknameFormKey;
   TextEditingController get nicknameController => _nicknameController;
@@ -70,27 +70,32 @@ class MypageViewModel extends BaseModel {
   void loadMyInfo() async {
     setBusy(true);
 
+    HomeViewModel homeViewModel = serviceLocator<HomeViewModel>();
+    await homeViewModel.loadNotificationExist();
     User myInfoResult = await _userService.fetchMyInfo();
 
     _myInfo = MypagePresentation(
         nickname: myInfoResult.nickname,
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
-        collegeName: CollegeData.korNameOf(
-            describeEnum(myInfoResult.collegeCode ?? CollegeCode.college0000)),
-        majorName: MajorData.korNameOf(
-            describeEnum(myInfoResult.majorCode ?? MajorCode.major0000)),
+        collegeName: myInfoResult.collegeName??"",
+        majorName: myInfoResult.majorName ?? "",
         introduction: myInfoResult.introduction ?? defaultInfo.introduction,
         interestCount: myInfoResult.interestCount.toString(),
         friendCount: myInfoResult.friendCount.toString(),
         bookMarkCount: myInfoResult.bookMarkCount.toString(),
         feedCount: myInfoResult.myPostCount.toString(),
         commentCount: myInfoResult.myCommentCount.toString());
+    loadMyInterest();
     setBusy(false);
   }
 
   void loadMyInterest() async {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setBusy(true);
+      resetInterests();
+      _myInterestCodes = InterestObject.myInterests
+          .map((myInterest) => myInterest.codeNum)
+          .toList();
       List<Interest> selectedInterestResults = InterestObject.myInterests;
       _selectedInterestCodes =
           selectedInterestResults.map((interest) => interest.codeNum).toList();
@@ -149,9 +154,10 @@ class MypageViewModel extends BaseModel {
 
   //닉네임 중복확인
   void checkNicknameRedundancy() async {
-    _isValidNickname =
-        await _userService.checkNicknameRedundancy(nickname: _changedNickname!);
+    bool value = await _signUpService.checkNicknameRedundancy(
+        nickname: _changedNickname!);
 
+    _isValidNickname = value;
     //유효성 검사 -> 이 때 nicknameValidator실행
     _nicknameFormKey.currentState!.validate();
     notifyListeners();
@@ -159,12 +165,12 @@ class MypageViewModel extends BaseModel {
 
   //닉네임 validator
   String? nicknameValidator(String? value) {
-    if (value!.length < 2) {
-      return '두글자 이상 입력해주세요';
-    } else if (value.length >= 2 && !_isValidNickname) {
-      return '사용중인 닉네임입니다';
-    } else {
+    if (_isValidNickname) {
       toastMessage('사용 가능한 닉네임 입니다');
+      return null;
+    } else if (!_isValidNickname) {
+      return '이미 사용 중인 닉네임입니다';
+    } else {
       return null;
     }
   }
@@ -186,7 +192,7 @@ class MypageViewModel extends BaseModel {
     _changedProfileImgPath = '';
     notifyListeners();
     Navigator.popUntil(context, ModalRoute.withName('/'));
-    toastMessage('프로필 변경 완료!');
+    toastMessage('프로필 수정 완료!');
   }
 
   void updateInterests({required BuildContext context}) async {
@@ -198,7 +204,7 @@ class MypageViewModel extends BaseModel {
     InterestObject.updateMyInterests(updateInterests);
     notifyListeners();
     Navigator.popUntil(context, ModalRoute.withName('/'));
-    toastMessage('관심사 변경 완료!');
+    toastMessage('관심사 수정 완료!');
   }
 
   void resetInterests() {

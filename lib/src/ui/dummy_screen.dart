@@ -4,9 +4,11 @@ import 'package:zamongcampus/src/business_logic/utils/constants.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
+import 'package:zamongcampus/src/object/secure_storage_object.dart';
 import 'package:zamongcampus/src/object/sqflite_object.dart';
 import 'package:zamongcampus/src/services/chat/chat_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:zamongcampus/src/services/login/login_service.dart';
 import 'package:zamongcampus/src/ui/common_widgets/vertical_spacing.dart';
 import '../object/firebase_object.dart';
 
@@ -15,6 +17,7 @@ class DummyScreen extends StatelessWidget {
   DummyScreen({Key? key}) : super(key: key);
 
   ChatService chatService = serviceLocator<ChatService>();
+  LoginService loginService = serviceLocator<LoginService>();
 
   @override
   Widget build(BuildContext context) {
@@ -148,9 +151,9 @@ class DummyScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  print(await PrefsObject.getToken());
+                  print(await SecureStorageObject.getAccessToken());
                 },
-                child: Text("print token"),
+                child: Text("print access token"),
               ),
               TextButton(
                 onPressed: () {
@@ -160,9 +163,28 @@ class DummyScreen extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () async {
-                  print(await PrefsObject.getRecentTalkUsers());
+                  print(await PrefsObject.getBlockedUsers());
                 },
-                child: Text("recentTalkUser 리스트 출력"),
+                child: Text("blockedUser 리스트 출력"),
+              ),
+               TextButton(
+                onPressed: () async {
+                  PrefsObject.removeBlockedUsers();
+                  print(await PrefsObject.getBlockedUsers());
+                },
+                child: Text("blockedUser 모두 삭제"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  SecureStorageObject.showAllData();
+                },
+                child: Text("secureStorageData 모두 출력"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  loginService.reissueToken();
+                },
+                child: Text("토큰 재발행"),
               ),
               Text(
                 "어드민: 활성화 유저",
@@ -207,14 +229,17 @@ class DummyScreen extends StatelessWidget {
   }
 
   void _activateUser(String text) async {
+    String? accessToken = await SecureStorageObject.getAccessToken();
+    String? refreshToken = await SecureStorageObject.getRefreshToken();
     print(text + " 유저 활성화 시작!");
     if (text.isEmpty) {
-      toastMessage("로그인 id가 비웠습니다");
+      toastMessage("로그인 id가 비워져있습니다");
       return;
     }
     final response = await http.post(
         Uri.parse(devServer + "/api/user/activate?loginId=" + text),
-        headers: AuthService.get_auth_header());
+        headers: AuthService.get_auth_header(
+            accessToken: accessToken, refreshToken: refreshToken));
     if (response.statusCode == 200) {
       print("활성화 완료");
       toastMessage("활성화 완료: " + _textController.text.toString());

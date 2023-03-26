@@ -3,9 +3,9 @@ import 'package:zamongcampus/src/business_logic/models/enums/notificationType.da
 class NotificationZC {
   final NotificationType type;
   final int id;
-  String? imageUrl;
-  String? nickname;
-  String? title;
+  final String imageUrl;
+  final String nickname;
+  final String body;
   bool isUnRead;
   int? voiceRoomId;
   int? postId;
@@ -14,9 +14,9 @@ class NotificationZC {
   NotificationZC(
       {required this.type,
       required this.id,
-      this.imageUrl,
-      this.nickname,
-      this.title,
+      required this.imageUrl,
+      required this.nickname,
+     required this.body,
       required this.isUnRead,
       this.voiceRoomId,
       this.postId,
@@ -30,7 +30,7 @@ class NotificationZC {
         imageUrl: json['imageUrl'],
         nickname: json['nickname'],
         isUnRead: json['unRead'],
-        title: json['title'],
+        body: json['body'],
         voiceRoomId: json['voiceRoomId'],
         postId: json['postId'],
         createdAt: DateTime.parse(json['createdAt']));

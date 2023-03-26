@@ -11,22 +11,33 @@ class FixedText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(30),
-          vertical: getProportionateScreenHeight(15)),
+          horizontal: getProportionateScreenWidth(20),
+          vertical: getProportionateScreenHeight(30)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('어떤 것을 좋아하세요?',
-              style: TextStyle(
-                  fontFamily: 'Gmarket',
-                  fontSize: kTitleFontSize,
-                  fontWeight: FontWeight.w700)),
-          const VerticalSpacing(of: 3),
+           RichText(
+                  text: TextSpan(
+                      text: '관심사',
+                      style: TextStyle(
+                        fontSize: resizeFont(26),
+                        fontWeight: FontWeight.w500,
+                        color: kMainColor,
+                      ),
+                      children: [
+                    TextSpan(
+                        text: '를\n골라주세요',
+                        style: TextStyle(
+                            fontSize: resizeFont(26),
+                            color: Color(0xff111111),
+                            fontWeight: FontWeight.w500))
+                  ])),
+                  VerticalSpacing(of:5),
           Text(
-            '관심사는 10개까지 선택할 수 있어요',
+            '최대 10개까지 선택할 수 있어요',
             style: TextStyle(
-                fontFamily: 'Gmarket',
-                fontSize: kPlainTextFontSize,
+                fontFamily: 'Pretendard',
+                fontSize: resizeFont(16),
                 fontWeight: FontWeight.w500,
                 color: kMainColor),
           )

@@ -3,7 +3,9 @@
    <application
         android:label="자몽캠퍼스"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:allowBackup="false"
+        android:fullBackupContent="false">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -88,4 +90,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <!-- tools:ignore="ProtectedPermissions" /> -->
+    <!-- mail sender 이용 위함 -->
+    <queries>
+     <intent>
+         <action android:name="android.intent.action.SENDTO" />
+         <data android:scheme="mailto" />
+        </intent>
+    </queries>
 </manifest>

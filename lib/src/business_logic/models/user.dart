@@ -1,20 +1,13 @@
 import 'package:zamongcampus/src/business_logic/models/interest.dart';
-import 'package:zamongcampus/src/business_logic/utils/college_data.dart';
-import 'package:zamongcampus/src/business_logic/utils/major_data.dart';
-
-import 'enums/collegeCode.dart';
-import 'enums/friendRequestStatus.dart';
 import 'enums/interestCode.dart';
-import 'enums/majorCode.dart';
-import 'friend.dart';
 
 class User {
   final int? id;
   final String loginId;
   final String nickname;
   final String? imageUrl;
-  final CollegeCode? collegeCode;
-  final MajorCode? majorCode;
+  final String? collegeName;
+  final String? majorName;
   final String? name;
   final String? deviceToken;
   final String? password;
@@ -26,15 +19,14 @@ class User {
   final int? bookMarkCount;
   final int? myPostCount;
   final int? myCommentCount;
-  final FriendRequestStatus? friendRequestStatus;
 
   const User({
     this.id,
     required this.loginId,
     required this.nickname,
     this.imageUrl,
-    this.collegeCode,
-    this.majorCode,
+    this.collegeName,
+    this.majorName,
     this.name,
     this.deviceToken,
     this.password,
@@ -46,7 +38,6 @@ class User {
     this.bookMarkCount,
     this.myPostCount,
     this.myCommentCount,
-    this.friendRequestStatus,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -55,11 +46,9 @@ class User {
         loginId: json['loginId'],
         nickname: json['nickname'],
         imageUrl: json['imageUrl'],
-        collegeCode: json['collegeCode'] != null
-            ? CollegeCode.values.byName(json['collegeCode'].toLowerCase())
-            : null,
-        majorCode: json['majorCode'] != null
-            ? MajorCode.values.byName(json['majorCode'].toLowerCase())
+        collegeName: json['collegeName'],
+        majorName: (json['majorCode'] != null)
+            ? json['majorCode']
             : null,
         name: json['name'],
         deviceToken: json['deviceToken'],
@@ -76,7 +65,6 @@ class User {
         bookMarkCount: json['bookMarkCount'],
         myPostCount: json['myPostCount'],
         myCommentCount: json['myCommentCount'],
-        friendRequestStatus:
-            FriendRequestStatus.values.byName(json['friendStatus'] ?? 'NONE'));
+        );
   }
 }
