@@ -13,8 +13,6 @@ import 'src/config/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-//dev
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(); // 여기에 option을 달아서 click_action을 하는듯?
   print('백그라운드 메세지 ${message.data}');
