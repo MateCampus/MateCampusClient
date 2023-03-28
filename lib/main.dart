@@ -13,6 +13,7 @@ import 'src/config/routes.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
+//dev
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(); // 여기에 option을 달아서 click_action을 하는듯?
@@ -22,7 +23,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   setupServiceLocator(); // for serviceLocator
   WidgetsFlutterBinding.ensureInitialized(); // for firebase
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // for firebase
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform); // for firebase
   FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler); // for firebase(background + terminated)
   runApp(const MyApp());
@@ -33,7 +35,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]); 
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top]);
     timeago.setLocaleMessages('ko', timeago.KoMessages()); // for korean timeago
     return MultiProvider(
         providers: [
@@ -60,11 +63,9 @@ class MyApp extends StatelessWidget {
             primarySwatch: Palette.kToDark,
             fontFamily: 'Spoqa',
             appBarTheme: const AppBarTheme(
-              systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: kMainScreenBackgroundColor,
-                statusBarBrightness: Brightness.light
-              )
-            ),
+                systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: kMainScreenBackgroundColor,
+                    statusBarBrightness: Brightness.light)),
           ),
           routes: routes,
           initialRoute: "/splash",
