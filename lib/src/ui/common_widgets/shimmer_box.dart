@@ -23,11 +23,6 @@ class _ShimmerBoxState extends State<ShimmerBox> {
               borderRadius: BorderRadius.circular(5), gradient: shimmerGradient)
           : const BoxDecoration(
               shape: BoxShape.circle, gradient: shimmerGradient),
-      // child: ShaderMask(
-      //     blendMode: BlendMode.srcATop,
-      //     shaderCallback: (bounds) {
-      //       return shimmerGradient.createShader(bounds);
-      //     }),
     );
   }
 }

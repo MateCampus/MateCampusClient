@@ -45,7 +45,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                           },
                           child: const Text('등록'),
                           style: TextButton.styleFrom(
-                            primary: Colors.grey,
+                            foregroundColor: Colors.grey,
                           ),
                         )
                       : TextButton(
@@ -54,7 +54,7 @@ class _PostCreateScreenState extends State<PostCreateScreen> {
                           },
                           child: const Text('등록'),
                           style: TextButton.styleFrom(
-                            primary: kMainColor,
+                            foregroundColor: kMainColor,
                           ),
                         )
                 ],

@@ -159,12 +159,12 @@ class SignUpViewModel extends BaseModel {
   //비밀번호 validator -> 추후 정책에따라 변경. ex) 특수문자+영어+숫자
   String? pwValidator(String? value) {
     if (value!.length < 5) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
       });
       return '비밀번호는 최소 5자 이상으로 설정해주세요';
     } else {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
       });
       return null;
@@ -175,13 +175,13 @@ class SignUpViewModel extends BaseModel {
   String? pwDoubleCheckValidator(String? value) {
     if (value! != userPwController.text) {
       _isValidPW = false;
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
       });
       return '비밀번호가 일치하지 않습니다';
     } else {
       _isValidPW = true;
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
       });
       return null;
@@ -244,7 +244,7 @@ class SignUpViewModel extends BaseModel {
 
   //학과 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수 -> 일단은 안씀
   void scrollMajorFieldToTop() async {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _collegeScrollController.animateTo(getProportionateScreenHeight(220),
           duration: const Duration(milliseconds: 400),
           curve: Curves.fastOutSlowIn);
@@ -253,14 +253,14 @@ class SignUpViewModel extends BaseModel {
 
   //학교 선택 텍스트필드 눌렀을 때 스크롤 업 해주는 함수-> 얘도 일단은 빼둠
   void scrollCollegeFieldToTop() async {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _collegeScrollController.jumpTo(getProportionateScreenHeight(50));
     });
   }
 
   //내 소개 눌렀을 때 스크롤 업 해주는 함수
   void scrollIntroduceFieldToTop() async {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _optionalProfileScrollController.animateTo(
           getProportionateScreenHeight(100),
           duration: const Duration(milliseconds: 400),
@@ -422,7 +422,7 @@ class SignUpViewModel extends BaseModel {
   void createCollegeOverlay(BuildContext context, OverlayEntry overlayWidget) {
     if (collegeOverlayEntry == null) {
       collegeOverlayEntry = overlayWidget;
-      Overlay.of(context)?.insert(collegeOverlayEntry!);
+      Overlay.of(context).insert(collegeOverlayEntry!);
     }
 
     notifyListeners();
@@ -431,7 +431,7 @@ class SignUpViewModel extends BaseModel {
   void createMajorOverlay(BuildContext context, OverlayEntry overlayWidget) {
     if (majorOverlayEntry == null) {
       majorOverlayEntry = overlayWidget;
-      Overlay.of(context)?.insert(majorOverlayEntry!);
+      Overlay.of(context).insert(majorOverlayEntry!);
     }
 
     notifyListeners();

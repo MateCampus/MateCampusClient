@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
-import 'package:zamongcampus/src/business_logic/view_models/chat_viewmodel.dart';
 import 'package:zamongcampus/src/config/init.dart';
-import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/ui/common_components/signup_bottom_sheet_component/signup_bottom_sheet.dart';
 
 class SplashViewModel extends BaseModel {
@@ -13,8 +9,6 @@ class SplashViewModel extends BaseModel {
   String _splashImg = '';
   String loginImg = '';
   String appStatus = '';
-
-
 
   String get splashImg => _splashImg;
 
@@ -41,8 +35,7 @@ class SplashViewModel extends BaseModel {
     // int num = Random().nextInt(_splashList.length);
     // _splashImg = _splashList[num][0];
     // loginImg = _splashList[num][1];
-    _splashImg ='assets/images/splash/spalsh_testversion.jpg';
-
+    _splashImg = 'assets/images/splash/spalsh_testversion.jpg';
   }
 
   void buildLoginSheet(BuildContext context) {
@@ -62,7 +55,7 @@ class SplashViewModel extends BaseModel {
     });
   }
 
-  void changeAppStatus(AppLifecycleState state){
+  void changeAppStatus(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.resumed:
         appStatus = "resumed";

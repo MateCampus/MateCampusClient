@@ -31,7 +31,7 @@ class _ChatBtnState extends State<ChatBtn> {
           widget.vm.startChat(context);
         },
         style: ElevatedButton.styleFrom(
-          primary: kMainColor,
+          backgroundColor: kMainColor,
           minimumSize: Size(getProportionateScreenWidth(254),
               getProportionateScreenHeight(56)),
           shape: RoundedRectangleBorder(

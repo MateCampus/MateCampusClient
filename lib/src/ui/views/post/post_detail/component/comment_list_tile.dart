@@ -154,7 +154,7 @@ class CommentListTile extends StatelessWidget {
         padding:
             EdgeInsets.symmetric(vertical: getProportionateScreenHeight(5)),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        primary: kPostBtnColor,
+        foregroundColor: kPostBtnColor,
       ),
       child: Text(
         '답글달기',

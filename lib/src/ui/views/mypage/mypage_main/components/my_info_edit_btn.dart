@@ -19,7 +19,7 @@ class MyInfoEditBtn extends StatelessWidget {
             Navigator.pushNamed(context, '/mypageEditInfo');
           },
           style: TextButton.styleFrom(
-              primary: Colors.white,
+              foregroundColor: Colors.white,
               minimumSize: Size(getProportionateScreenWidth(335),
                   getProportionateScreenHeight(46)),
               shape: RoundedRectangleBorder(

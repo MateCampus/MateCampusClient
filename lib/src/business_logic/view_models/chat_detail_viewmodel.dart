@@ -120,7 +120,7 @@ class ChatDetailViewModel extends BaseModel {
   }
 
   void changeScrollToLowest() {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       scrollController.animateTo(
         scrollController.position.minScrollExtent,
         duration: const Duration(milliseconds: 50),
@@ -145,11 +145,11 @@ class ChatDetailViewModel extends BaseModel {
     /*230215 fcm 관련
     fcm으로 타고서 채팅방에 입장하면 index가 -1일것이다. 
     따라서 chatRoomIndex가 음수일때 분기를 해줘야할것같음
-    */ 
+    */
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
-    if(chatRoomIndex<0){
+    if (chatRoomIndex < 0) {
       chatRoomIndex = chatvm.chatRooms.indexOf(chatRoom);
-      print('fcm으로 타고왔고 인덱스는'+chatRoomIndex.toString());
+      print('fcm으로 타고왔고 인덱스는' + chatRoomIndex.toString());
     }
     // await chatService.exitChatRoom(roomId: chatRoom.roomId);
     // _chatService
@@ -157,15 +157,14 @@ class ChatDetailViewModel extends BaseModel {
     // _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     // chatService.deleteAllMemberInfo(); -> 얘는 해줘야할것같지만 다시 메세지가 올 때를 생각해서 해주면 안됨.
-    
+
     chatvm.removeItemAndSaveSpare(chatRoomIndex, chatRoom.roomId, chatRoom);
     resetData();
   }
 
   Future<void> blockUserAndExit(int chatRoomIndex) async {
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
-    
-   
+
     //chat main list에서 지우기
     chatvm.removeItem(chatRoomIndex, chatRoom.roomId);
 
@@ -186,7 +185,7 @@ class ChatDetailViewModel extends BaseModel {
 
     //유저 차단
     await _userService.blockUser(targetLoginId: targetLoginId);
-    
+
     //구독 끊기
     chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
     //채팅관련 로컬 디비 삭제
@@ -195,6 +194,6 @@ class ChatDetailViewModel extends BaseModel {
     _chatService.deleteChatRoomByRoomId(chatRoom.roomId);
     _chatService.deleteAllMemberInfo();
 
-  resetData();
+    resetData();
   }
 }

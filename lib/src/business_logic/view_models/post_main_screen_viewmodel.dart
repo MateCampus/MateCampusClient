@@ -74,7 +74,7 @@ class PostMainScreenViewModel extends BaseModel {
                         (category) => PostCategoryData.korNameOf(category.name))
                     .toList() ??
                 [],
-            collegeName: post.userCollegeName??"",
+            collegeName: post.userCollegeName ?? "",
             userImageUrl: post.userImageUrl.isNotEmpty
                 ? post.userImageUrl
                 : 'assets/images/user/general_user.png',
@@ -113,7 +113,7 @@ class PostMainScreenViewModel extends BaseModel {
                       (category) => PostCategoryData.korNameOf(category.name))
                   .toList() ??
               [],
-          collegeName: post.userCollegeName??"",
+          collegeName: post.userCollegeName ?? "",
           userImageUrl: post.userImageUrl.isNotEmpty
               ? post.userImageUrl
               : 'assets/images/user/general_user.png',
@@ -162,7 +162,7 @@ class PostMainScreenViewModel extends BaseModel {
         break;
       }
     }
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
       notifyListeners();
     });

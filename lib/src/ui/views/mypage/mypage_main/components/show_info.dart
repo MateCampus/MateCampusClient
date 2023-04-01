@@ -109,7 +109,7 @@ class ShowInfo extends StatelessWidget {
           Navigator.pushNamed(context, '/mypageEditInterest');
         },
         style: TextButton.styleFrom(
-            primary: Colors.white,
+            foregroundColor: Colors.white,
             minimumSize: Size(getProportionateScreenWidth(335),
                 getProportionateScreenHeight(50)),
             shape: RoundedRectangleBorder(

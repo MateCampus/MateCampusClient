@@ -30,7 +30,7 @@ class _ChatDetailFromFriendProfileScreenState
       serviceLocator<ChatDetailFromFriendProfileViewModel>();
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       vm.chatDetailInit(widget.profileLoginId, context);
     });
     super.initState();

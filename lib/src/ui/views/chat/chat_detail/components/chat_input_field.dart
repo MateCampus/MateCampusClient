@@ -97,12 +97,12 @@ class _ChatInputFieldState extends State<ChatInputField> {
         color: Colors.white,
       ),
       style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
+        shape: CircleBorder(),
         padding: EdgeInsets.zero,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         visualDensity: const VisualDensity(horizontal: -4),
         elevation: 0,
-        primary: kMainColor,
+        backgroundColor: kMainColor,
       ),
     );
   }

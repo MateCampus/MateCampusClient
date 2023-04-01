@@ -14,16 +14,17 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with WidgetsBindingObserver {
   SplashViewModel vm = serviceLocator<SplashViewModel>();
-  String appStatus ="";
+  String appStatus = "";
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     vm.setImage();
     vm.splashInit(context);
   }
-   @override
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     // switch (state) {
     //   case AppLifecycleState.resumed:
@@ -48,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
     //     break;
     // }
     vm.changeAppStatus(state);
-    print('app 상태'+vm.appStatus);
+    print('app 상태' + vm.appStatus);
   }
 
   // @override
