@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ Future<void> main() async {
       options: DefaultFirebaseOptions.currentPlatform); // for firebase
   FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler); // for firebase(background + terminated)
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance; //for analytics
   runApp(const MyApp());
 }
 
