@@ -23,7 +23,7 @@ class _MypagePostScreenState extends State<MypagePostScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       vm.initData();
     });
     super.initState();

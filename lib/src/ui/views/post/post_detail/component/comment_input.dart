@@ -113,7 +113,7 @@ class _CommentInputState extends State<CommentInput> {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         visualDensity: const VisualDensity(horizontal: -4),
         elevation: 0,
-        primary: kMainColor,
+        backgroundColor: kMainColor,
       ),
     );
   }

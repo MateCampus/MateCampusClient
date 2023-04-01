@@ -24,7 +24,9 @@ class CheckGender extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _genderRadioBtn(vm.genderList[0], 0),
-            HorizontalSpacing(of: 10,),
+            HorizontalSpacing(
+              of: 10,
+            ),
             _genderRadioBtn(vm.genderList[1], 1),
           ],
         )
@@ -45,15 +47,14 @@ class CheckGender extends StatelessWidget {
       ),
       style: ElevatedButton.styleFrom(
           elevation: 0,
-          primary: vm.genderIndex == index ? kMainColor : Colors.white,
-          onPrimary: kMainColor,
-          fixedSize: Size(getProportionateScreenWidth(50),getProportionateScreenHeight(20)),
+          backgroundColor: vm.genderIndex == index ? kMainColor : Colors.white,
+          foregroundColor: kMainColor,
+          fixedSize: Size(getProportionateScreenWidth(50),
+              getProportionateScreenHeight(20)),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(200.0)),
           side: BorderSide(
-              color: vm.genderIndex == index
-                  ? kMainColor
-                  : Color(0xffE5E5EC))),
+              color: vm.genderIndex == index ? kMainColor : Color(0xffE5E5EC))),
     );
   }
 }

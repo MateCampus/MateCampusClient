@@ -31,7 +31,8 @@ class PostTabBtns extends SliverPersistentHeaderDelegate {
                   vm.setCollegeFilter();
                 },
                 style: TextButton.styleFrom(
-                  primary: vm.collegeFilter ? kMainColor : kPostBtnColor,
+                  foregroundColor:
+                      vm.collegeFilter ? kMainColor : kPostBtnColor,
                   padding: EdgeInsets.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 )),

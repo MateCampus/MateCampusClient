@@ -77,7 +77,7 @@ class MypageViewModel extends BaseModel {
     _myInfo = MypagePresentation(
         nickname: myInfoResult.nickname,
         imageUrl: myInfoResult.imageUrl ?? defaultInfo.imageUrl,
-        collegeName: myInfoResult.collegeName??"",
+        collegeName: myInfoResult.collegeName ?? "",
         majorName: myInfoResult.majorName ?? "",
         introduction: myInfoResult.introduction ?? defaultInfo.introduction,
         interestCount: myInfoResult.interestCount.toString(),
@@ -90,7 +90,7 @@ class MypageViewModel extends BaseModel {
   }
 
   void loadMyInterest() async {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       setBusy(true);
       resetInterests();
       _myInterestCodes = InterestObject.myInterests
@@ -133,7 +133,7 @@ class MypageViewModel extends BaseModel {
 
 //닉네임 변경(감지)
   void updateNickname() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _changedNickname = _nicknameController.text;
       notifyListeners();
     });
@@ -141,7 +141,7 @@ class MypageViewModel extends BaseModel {
 
 //소개글 변경
   void updateIntroduction() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_introductionController.text == _myInfo.introduction) {
         _isValidIntroduction = false;
       } else {

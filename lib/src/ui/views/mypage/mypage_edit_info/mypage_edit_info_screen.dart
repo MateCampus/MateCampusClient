@@ -55,7 +55,7 @@ class _MypageEditInfoScreenState extends State<MypageEditInfoScreen> {
       },
       child: const Text('완료하기'),
       style: TextButton.styleFrom(
-          primary: kMainColor,
+          foregroundColor: kMainColor,
           textStyle:
               TextStyle(fontSize: resizeFont(14), fontWeight: FontWeight.w700)),
     );
@@ -66,7 +66,7 @@ class _MypageEditInfoScreenState extends State<MypageEditInfoScreen> {
       onPressed: null,
       child: const Text('완료하기'),
       style: TextButton.styleFrom(
-          primary: kMainColor,
+          foregroundColor: kMainColor,
           textStyle:
               TextStyle(fontSize: resizeFont(14), fontWeight: FontWeight.w700)),
     );

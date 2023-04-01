@@ -20,7 +20,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       vm.initData();
     });
 
@@ -57,8 +57,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
                 elevation: 0,
               ),
               backgroundColor: kMainScreenBackgroundColor,
-              body: SafeArea(
-                  child: Body(vm: vm)));
+              body: SafeArea(child: Body(vm: vm)));
         }));
   }
 }

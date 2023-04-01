@@ -58,9 +58,11 @@ class _GradeInputState extends State<GradeInput> {
       ),
       style: ElevatedButton.styleFrom(
           elevation: 0,
-          primary: widget.vm.gradeIndex == index ? kMainColor : Colors.white,
-          onPrimary: kMainColor,
-          fixedSize: Size(getProportionateScreenWidth(60),getProportionateScreenHeight(20)),
+          backgroundColor:
+              widget.vm.gradeIndex == index ? kMainColor : Colors.white,
+          foregroundColor: kMainColor,
+          fixedSize: Size(getProportionateScreenWidth(60),
+              getProportionateScreenHeight(20)),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(200.0)),
           side: BorderSide(

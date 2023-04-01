@@ -211,7 +211,7 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
   }
 
   void changeScrollToLowest() {
-    SchedulerBinding.instance?.addPostFrameCallback((_) {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
       scrollController.animateTo(
         scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 50),
@@ -236,10 +236,10 @@ class ChatDetailFromFriendProfileViewModel extends BaseModel {
     ChatViewModel chatvm = serviceLocator<ChatViewModel>();
     //chat_detail과 다른점 : chat_detail은 이미 index를 가지고 시작하는데, 여기는 그렇지 않음. 따라서 chatViewModel.chatRooms에서 현재 chatRoom에 대한 index를 따로 구해줘야함.
     int index = chatvm.chatRooms.indexOf(chatRoom);
-    
+
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     chatvm.removeItemAndSaveSpare(index, chatRoom.roomId, chatRoom);
-resetData();
+    resetData();
   }
 
   Future<void> blockUserAndExit() async {
@@ -247,7 +247,7 @@ resetData();
     //chat_detail과 다른점 : chat_detail은 이미 index를 가지고 시작하는데, 여기는 그렇지 않음. 따라서 chatViewModel.chatRooms에서 현재 chatRoom에 대한 index를 따로 구해줘야함.
     int index = chatvm.chatRooms.indexOf(chatRoom);
     // resetData();
-    
+
     //chat main list에서 지우기
     chatvm.removeItem(index, chatRoom.roomId);
 
@@ -269,8 +269,7 @@ resetData();
     //유저 차단
     await _userService.blockUser(targetLoginId: targetLoginId);
 //구독 끊기
-    chatRoom.
-    unsubscribeFn!(unsubscribeHeaders: {});
+    chatRoom.unsubscribeFn!(unsubscribeHeaders: {});
     //채팅관련 로컬 디비 삭제
     _chatService.deleteMessageByRoomId(chatRoom.roomId);
     _chatService.deleteChatRoomMemberInfoByRoomId(chatRoom.roomId);

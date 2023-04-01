@@ -77,7 +77,7 @@ class PostDetailScreenViewModel extends BaseModel {
             id: comment.id,
             loginId: comment.loginId,
             userNickname: comment.userNickname,
-            collegeName: comment.userCollegeName??"",
+            collegeName: comment.userCollegeName ?? "",
             userImageUrl: comment.userImageUrl.isNotEmpty
                 ? comment.userImageUrl
                 : 'assets/images/user/general_user.png',
@@ -89,19 +89,20 @@ class PostDetailScreenViewModel extends BaseModel {
                         id: nestedComment.id,
                         loginId: nestedComment.loginId,
                         userNickname: nestedComment.userNickname,
-                        collegeName: nestedComment.userCollegeName??"",
+                        collegeName: nestedComment.userCollegeName ?? "",
                         userImageUrl: nestedComment.userImageUrl.isNotEmpty
                             ? nestedComment.userImageUrl
                             : 'assets/images/user/general_user.png',
                         body: nestedComment.body,
                         deleted: nestedComment.deleted,
                         parentId: nestedComment.parentId,
-                        createdAt:
-                            dateToElapsedTime(nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                        createdAt: dateToElapsedTime(
+                            nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                         children: nestedComment.children ?? []))
                     .toList() ??
                 [],
-            createdAt: dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
+            createdAt:
+                dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05))))
         .toList();
 
     _postDetail = PostDetailPresentation(
@@ -113,7 +114,7 @@ class PostDetailScreenViewModel extends BaseModel {
                     (category) => PostCategoryData.korNameOf(category.name))
                 .toList() ??
             [],
-        collegeName: postDetailResult.userCollegeName??"",
+        collegeName: postDetailResult.userCollegeName ?? "",
         userImageUrl: postDetailResult.userImageUrl.isNotEmpty
             ? postDetailResult.userImageUrl
             : defaultPostDetail.userImageUrl,
@@ -195,7 +196,7 @@ class PostDetailScreenViewModel extends BaseModel {
         id: comment.id,
         loginId: comment.loginId,
         userNickname: comment.userNickname,
-        collegeName: comment.userCollegeName??"",
+        collegeName: comment.userCollegeName ?? "",
         userImageUrl: comment.userImageUrl.isNotEmpty
             ? comment.userImageUrl
             : 'assets/images/user/general_user.png',
@@ -207,19 +208,20 @@ class PostDetailScreenViewModel extends BaseModel {
                     id: nestedComment.id,
                     loginId: nestedComment.loginId,
                     userNickname: nestedComment.userNickname,
-                    collegeName: nestedComment.userCollegeName??"",
+                    collegeName: nestedComment.userCollegeName ?? "",
                     userImageUrl: nestedComment.userImageUrl.isNotEmpty
                         ? nestedComment.userImageUrl
                         : 'assets/images/user/general_user.png',
                     body: nestedComment.body,
                     deleted: nestedComment.deleted,
                     parentId: nestedComment.parentId,
-                    createdAt:
-                        dateToElapsedTime(nestedComment.createdAt ?? DateTime(2021, 05, 05)),
+                    createdAt: dateToElapsedTime(
+                        nestedComment.createdAt ?? DateTime(2021, 05, 05)),
                     children: nestedComment.children ?? []))
                 .toList() ??
             [],
-        createdAt: dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
+        createdAt:
+            dateToElapsedTime(comment.createdAt ?? DateTime(2021, 05, 05)))));
 
     //총 댓글 수 카운트
     int _commentCount = 0;
@@ -250,7 +252,7 @@ class PostDetailScreenViewModel extends BaseModel {
 
   //댓글 달 때 사용
   void scrollToEnd() async {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(_scrollController.position.maxScrollExtent,
           duration: const Duration(milliseconds: 400),
           curve: Curves.fastOutSlowIn);
@@ -259,7 +261,7 @@ class PostDetailScreenViewModel extends BaseModel {
 
   //대댓글 달 때 사용. 대댓글 달려고 하는 부모 comment위치로 이동
   void scrollToTargetPosition() async {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _scrollController.animateTo(_currentScrollOffset,
           duration: const Duration(milliseconds: 400),
           curve: Curves.fastOutSlowIn);
@@ -301,7 +303,7 @@ class PostDetailScreenViewModel extends BaseModel {
     if (overlayEntry == null) {
       _focusNode.requestFocus();
       overlayEntry = showNestedCommentInput(parentUserNickname);
-      Overlay.of(context)?.insert(overlayEntry!);
+      Overlay.of(context).insert(overlayEntry!);
       print('createoverlay');
     }
     notifyListeners();
