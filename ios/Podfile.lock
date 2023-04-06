@@ -1,8 +1,4 @@
 PODS:
-  - agora_rtc_engine (5.1.0):
-    - AgoraIrisRTC_iOS (~> 3.6.2)
-    - Flutter
-  - AgoraIrisRTC_iOS (3.6.2)
   - device_info_plus (0.0.1):
     - Flutter
   - Firebase/Analytics (8.15.0):
@@ -144,7 +140,6 @@ PODS:
   - Toast (4.0.0)
 
 DEPENDENCIES:
-  - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -162,7 +157,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - AgoraIrisRTC_iOS
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -178,8 +172,6 @@ SPEC REPOS:
     - Toast
 
 EXTERNAL SOURCES:
-  agora_rtc_engine:
-    :path: ".symlinks/plugins/agora_rtc_engine/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
@@ -210,8 +202,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
-  agora_rtc_engine: fb0e823adb228eda4433fabed56d72d64ff87771
-  AgoraIrisRTC_iOS: c789bb65875b54d2b6b02dc278850dc70515b226
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   firebase_analytics: d4be738b2bff9b93e71bc00ce98f066db0a02200
@@ -242,4 +232,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: bfee312227c646b95389573f4b1834c809b6d2eb
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.0
