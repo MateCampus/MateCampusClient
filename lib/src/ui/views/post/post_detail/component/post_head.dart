@@ -20,6 +20,7 @@ class PostHead extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
+            vm.workHistoryFeedToProfile();
             vm.postDetail.loginId == AuthService.loginId
                 ? Navigator.pushNamed(context, UserProfileScreen.routeName,
                     arguments: UserProfileScreenArgs(
