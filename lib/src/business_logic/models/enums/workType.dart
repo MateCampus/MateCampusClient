@@ -1,0 +1,1 @@
+enum WorkType { VISIT, WRITE, SEARCH, MODIFY, DELETE, CLICK }
