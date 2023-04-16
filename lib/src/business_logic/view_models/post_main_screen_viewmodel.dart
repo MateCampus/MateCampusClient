@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/functionType.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/workType.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
@@ -7,10 +9,13 @@ import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/business_logic/view_models/home_viewmodel.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
+import 'package:zamongcampus/src/services/statistics/work_history_service.dart';
 
 class PostMainScreenViewModel extends BaseModel {
   bool isInit = false;
   final PostService _postService = serviceLocator<PostService>();
+  final WorkHistoryService _workHistoryService =
+      serviceLocator<WorkHistoryService>();
 
   List<PostPresentation> _posts = List.empty(growable: true);
   List<int> likepostIds = [];
@@ -202,6 +207,16 @@ class PostMainScreenViewModel extends BaseModel {
     } else {
       return "";
     }
+  }
+
+  void workHistoryFeedWrite() {
+    _workHistoryService.sendWorkHistory(
+        workType: WorkType.VISIT, functionType: FunctionType.FEED_WRITE);
+  }
+
+  void workHistoryFeedToProfile() {
+    _workHistoryService.sendWorkHistory(
+        workType: WorkType.VISIT, functionType: FunctionType.FEED_TO_PROFILE);
   }
 }
 

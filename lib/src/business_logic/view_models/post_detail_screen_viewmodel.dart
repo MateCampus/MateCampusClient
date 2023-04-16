@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/constants/color_constants.dart';
 import 'package:zamongcampus/src/business_logic/models/comment.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/functionType.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/workType.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
 import 'package:zamongcampus/src/business_logic/utils/methods.dart';
 import 'package:zamongcampus/src/business_logic/utils/post_category_data.dart';
@@ -13,10 +15,13 @@ import 'package:zamongcampus/src/config/size_config.dart';
 import 'package:zamongcampus/src/services/comment/comment_service.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
+import 'package:zamongcampus/src/services/statistics/work_history_service.dart';
 
 class PostDetailScreenViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
   final CommentService _commentService = serviceLocator<CommentService>();
+  final WorkHistoryService _workHistoryService =
+      serviceLocator<WorkHistoryService>();
 
   PostDetailPresentation _postDetail = defaultPostDetail;
   List<CommentPresentation> _comments = List.empty(growable: true);
@@ -376,6 +381,11 @@ class PostDetailScreenViewModel extends BaseModel {
         ),
       ),
     );
+  }
+
+  void workHistoryFeedToProfile() {
+    _workHistoryService.sendWorkHistory(
+        workType: WorkType.VISIT, functionType: FunctionType.FEED_TO_PROFILE);
   }
 }
 
