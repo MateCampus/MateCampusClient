@@ -33,6 +33,8 @@ import 'package:zamongcampus/src/services/report/report_service_fake.dart';
 import 'package:zamongcampus/src/services/report/report_service_implementation.dart';
 import 'package:zamongcampus/src/services/signup/signup_service.dart';
 import 'package:zamongcampus/src/services/signup/signup_service_implementation.dart';
+import 'package:zamongcampus/src/services/statistics/work_history_service.dart';
+import 'package:zamongcampus/src/services/statistics/work_history_service_implementation.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/services/user/user_service_fake.dart';
 import 'package:zamongcampus/src/services/user/user_service_implementation.dart';
@@ -78,6 +80,8 @@ void setupServiceLocator() {
       .registerLazySingleton<ReportService>(() => ReportServiceImpl());
   serviceLocator.registerLazySingleton<NotificationService>(
       () => NotificationServiceImpl());
+  serviceLocator.registerLazySingleton<WorkHistoryService>(
+      () => WorkHistoryServiceImpl());
 
   /* view models */
   serviceLocator.registerFactory(() => LoginMainScreenViewModel());
@@ -85,7 +89,7 @@ void setupServiceLocator() {
       () => PostMainScreenViewModel());
   serviceLocator.registerFactory<PostCreateScreenViewModel>(
       () => PostCreateScreenViewModel());
- 
+
   serviceLocator.registerLazySingleton<ChatViewModel>(() => ChatViewModel());
   serviceLocator
       .registerLazySingleton<ChatDetailViewModel>(() => ChatDetailViewModel());
@@ -93,7 +97,7 @@ void setupServiceLocator() {
       () => ChatDetailFromFriendProfileViewModel());
   serviceLocator.registerLazySingleton<PostDetailScreenViewModel>(
       () => PostDetailScreenViewModel());
-  
+
   serviceLocator
       .registerLazySingleton<ProfileViewModel>(() => ProfileViewModel());
   // serviceLocator.registerLazySingleton<UserProfileViewModel>(
