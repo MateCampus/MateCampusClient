@@ -95,6 +95,12 @@ class SignUpViewModel extends BaseModel {
   String _birthday = '0000-00-00'; //for server
   String get birthday => _birthday;
 
+  //학번관련 변수
+  final _userStudentNumberController = TextEditingController();
+
+  TextEditingController get userStudentNumberController =>
+      _userStudentNumberController;
+
   ///관심사 관련 변수
   static final List<InterestPresentation> _systemInterests = InterestCode.values
       .map((interestCode) => InterestPresentation(
@@ -403,7 +409,8 @@ class SignUpViewModel extends BaseModel {
         nickname: _userNicknameController.text,
         grade: _gradeIndex.toString(),
         gender: _genderValue.toString(),
-        birth: _birthday,
+        studentNo: _userStudentNumberController.text,
+        // birth: _birthday,
         interestCodes: _selectedInterests
             .map((selectedInterest) =>
                 selectedInterest.interestCode.name.toUpperCase())

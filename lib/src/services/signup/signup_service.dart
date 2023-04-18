@@ -5,8 +5,8 @@ import 'package:zamongcampus/src/business_logic/models/major.dart';
 abstract class SignUpService {
   Future<bool> checkIdRedundancy({required String id});
   Future<bool> checkNicknameRedundancy({required String nickname});
-  Future<List<Major>> fetchMajors({ required String searchText});
-  Future<List<College>> fetchColleges({ required String searchText});
+  Future<List<Major>> fetchMajors({required String searchText});
+  Future<List<College>> fetchColleges({required String searchText});
   Future<bool> createUser(
       {required String id,
       required String pw,
@@ -18,10 +18,10 @@ abstract class SignUpService {
       required String nickname,
       required String grade,
       required String gender,
-      required String birth,
+      required String studentNo,
+      // required String birth,
       required List<String> interestCodes,
       XFile? profileImg,
       String? introduce});
   Future<bool> requestMajor({required String body});
-
 }

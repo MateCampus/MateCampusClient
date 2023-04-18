@@ -70,7 +70,8 @@ class SignUpServiceImpl implements SignUpService {
       required String nickname,
       required String grade,
       required String gender,
-      required String birth,
+      required String studentNo,
+      // required String birth,
       required List<String> interestCodes,
       XFile? profileImg,
       String? introduce}) async {
@@ -81,20 +82,20 @@ class SignUpServiceImpl implements SignUpService {
     request.fields['password'] = pw;
     request.fields['nickname'] = nickname;
     request.fields['deviceToken'] =
-       FirebaseObject.deviceFcmToken ?? "fake token";
+        FirebaseObject.deviceFcmToken ?? "fake token";
     request.fields['collegeName'] = collegeName;
     request.fields['collegeSeq'] = collegeSeq;
     request.fields['mClass'] = mClass;
     request.fields['majorSeq'] = majorSeq;
     request.fields['grade'] = grade;
     request.fields['gender'] = gender;
-    request.fields['birth'] = birth;
+    request.fields['studentNo'] = studentNo;
+    // request.fields['birth'] = birth;
 
-    if (studentIdImg !=null){
+    if (studentIdImg != null) {
       request.files.add(await http.MultipartFile.fromPath(
-        'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
+          'studentIdImg', studentIdImg.path)); //그러면 결국 XFile로 가져올 필요가 없지 않나?
     }
-    
 
     //리스트 넘기는 법
     // TODO: 바꿔야할지도? join으로
@@ -186,6 +187,4 @@ class SignUpServiceImpl implements SignUpService {
       throw Exception('open api 서버 오류');
     }
   }
-
-
 }
