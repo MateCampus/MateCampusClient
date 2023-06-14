@@ -1,10 +1,15 @@
+import 'package:zamongcampus/src/business_logic/models/enums/functionType.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/workType.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/view_models/base_model.dart';
 import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
+import 'package:zamongcampus/src/services/statistics/work_history_service.dart';
 
 class PostLikedListViewModel extends BaseModel {
   final PostService _postService = serviceLocator<PostService>();
+  final WorkHistoryService _workHistoryService =
+      serviceLocator<WorkHistoryService>();
 
   List<PostLikedUserPresentation> _likedUsers = List.empty(growable: true);
 
@@ -23,12 +28,18 @@ class PostLikedListViewModel extends BaseModel {
         .map((likedUser) => PostLikedUserPresentation(
             loginId: likedUser.loginId,
             nickname: likedUser.nickname,
-            collegeName: likedUser.collegeName??"",
+            collegeName: likedUser.collegeName ?? "",
             majorName: likedUser.majorName ?? "",
             profileImageUrl: likedUser.imageUrl!.isEmpty
                 ? "assets/images/user/general_user.png"
                 : likedUser.imageUrl ?? "assets/images/user/general_user.png"))
         .toList();
+  }
+
+  void workHistoryFeedLikeListToProfile() {
+    _workHistoryService.sendWorkHistory(
+        workType: WorkType.VISIT,
+        functionType: FunctionType.FEED_LIKE_LIST_TO_PROFILE);
   }
 }
 

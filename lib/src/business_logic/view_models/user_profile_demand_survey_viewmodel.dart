@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/arguments/chat_detail_from_friendProfile_screen_args.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/functionType.dart';
+import 'package:zamongcampus/src/business_logic/models/enums/workType.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/models/user.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
@@ -12,12 +14,15 @@ import 'package:zamongcampus/src/config/service_locator.dart';
 import 'package:zamongcampus/src/object/interest_object.dart';
 import 'package:zamongcampus/src/object/prefs_object.dart';
 import 'package:zamongcampus/src/services/post/post_service.dart';
+import 'package:zamongcampus/src/services/statistics/work_history_service.dart';
 import 'package:zamongcampus/src/services/user/user_service.dart';
 import 'package:zamongcampus/src/ui/views/chat/chat_detail_from_friendProfile/chat_detail_from_friendProfile_screen.dart';
 
 class UserProfileDemandSurveyViewModel extends BaseModel {
   final UserService _userService = serviceLocator<UserService>();
   final PostService _postService = serviceLocator<PostService>();
+  final WorkHistoryService _workHistoryService =
+      serviceLocator<WorkHistoryService>();
   final _userProfileRefreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final ScrollController _scrollController = ScrollController();
 
@@ -216,6 +221,11 @@ class UserProfileDemandSurveyViewModel extends BaseModel {
     } else {
       return "";
     }
+  }
+
+  void workHistoryProfilePhoto() {
+    _workHistoryService.sendWorkHistory(
+        workType: WorkType.CLICK, functionType: FunctionType.PROFILE_PHOTO);
   }
 }
 

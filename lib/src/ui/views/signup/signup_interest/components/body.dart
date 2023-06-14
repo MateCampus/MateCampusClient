@@ -19,8 +19,8 @@ class Body extends StatelessWidget {
         const VerticalSpacing(of: 30),
         Padding(
           padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenWidth(20),
-        vertical: getProportionateScreenHeight(10)),
+              horizontal: getProportionateScreenWidth(20),
+              vertical: getProportionateScreenHeight(10)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -40,31 +40,34 @@ class Body extends StatelessWidget {
                             color: Color(0xff111111),
                             fontWeight: FontWeight.w500))
                   ])),
-                  VerticalSpacing(of:5),
-          Text(
-            '최대 10개까지 선택할 수 있어요',
-            style: TextStyle(
-                fontFamily: 'Pretendard',
-                fontSize: resizeFont(16),
-                fontWeight: FontWeight.w500,
-                color: kMainColor),
-          )
+              VerticalSpacing(of: 5),
+              Text(
+                '최대 10개까지 선택할 수 있어요',
+                style: TextStyle(
+                    fontFamily: 'Pretendard',
+                    fontSize: resizeFont(16),
+                    fontWeight: FontWeight.w500,
+                    color: kMainColor),
+              )
             ],
           ),
         ),
         const VerticalSpacing(of: 30),
-        Expanded(child: Padding(
+        Expanded(
+            child: Padding(
           padding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenWidth(20),
-        ),
+            horizontal: getProportionateScreenWidth(20),
+          ),
           child: InterestSelect(vm: vm),
         )),
         SafeArea(
             child: BottomFixedBtnDecoBox(
                 child: DefaultBtn(
-                    text: '회원가입 완료하기',
-                    textColor:(vm.selectedInterests.length>=3)?Colors.white: Color(0xff999999),
-                    btnColor: (vm.selectedInterests.length>=3)?kMainColor:Color(0xffe5e5ec),
+                    text: (vm.selectedInterests.isEmpty)
+                        ? '건너뛰고 완료하기'
+                        : '회원가입 완료하기',
+                    textColor: Colors.white,
+                    btnColor: kMainColor,
                     press: () {
                       vm.createUser(context);
                     })))

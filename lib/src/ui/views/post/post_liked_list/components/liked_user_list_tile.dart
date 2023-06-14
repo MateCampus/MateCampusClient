@@ -21,6 +21,7 @@ class LikedUserListTile extends StatelessWidget {
       children: [
         InkWell(
           onTap: () {
+            vm.workHistoryFeedLikeListToProfile();
             likeduser.loginId == AuthService.loginId
                 ? Navigator.pushNamed(context, UserProfileScreen.routeName,
                     arguments: UserProfileScreenArgs(

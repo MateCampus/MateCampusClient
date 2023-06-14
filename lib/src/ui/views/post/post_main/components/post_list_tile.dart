@@ -18,28 +18,27 @@ import 'package:zamongcampus/src/ui/views/user_profile/user_profile_screen.dart'
 class PostListTile extends StatelessWidget {
   final dynamic vm;
   PostPresentation post;
-  PostListTile(
-      {Key? key, required this.vm, required this.post})
+  PostListTile({Key? key, required this.vm, required this.post})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.pushNamed(context, PostDetailScreen.routeName,
-                          arguments: PostDetailScreenArgs(post.id));
+            arguments: PostDetailScreenArgs(post.id));
       },
       child: Column(
         children: [
           Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(20)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //유저 정보 영역. 프로필 사진을 누르면 상대방 프로필 화면으로 넘어간다.
                 _postUser(context),
-    
+
                 //포스트 영역 -> 누르면 포스트디테일로 넘어감
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -88,6 +87,7 @@ class PostListTile extends StatelessWidget {
       },
       leading: GestureDetector(
         onTap: () {
+          vm.workHistoryFeedToProfile();
           post.loginId == AuthService.loginId
               ? Navigator.pushNamed(context, UserProfileScreen.routeName,
                   arguments: UserProfileScreenArgs(

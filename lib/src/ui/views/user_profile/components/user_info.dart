@@ -35,6 +35,7 @@ class UserInfo extends SliverPersistentHeaderDelegate {
           CircleImageBtn(
               imageUrl: vm.userProfile.imageUrl,
               press: () {
+                vm.workHistoryProfilePhoto();
                 showOriginalProfileImage(context, vm.userProfile.imageUrl);
               },
               size: getProportionateScreenHeight(90)),

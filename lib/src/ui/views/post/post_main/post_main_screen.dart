@@ -46,6 +46,7 @@ class _PostMainScreenState extends State<PostMainScreen> {
                 ),
                 backgroundColor: kMainColor,
                 onPressed: () {
+                  vm.workHistoryFeedWrite();
                   Navigator.pushNamed(context, '/postCreate');
                 },
               ),

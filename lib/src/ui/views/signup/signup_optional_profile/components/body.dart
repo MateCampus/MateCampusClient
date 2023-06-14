@@ -41,9 +41,12 @@ class Body extends StatelessWidget {
         SafeArea(
           child: BottomFixedBtnDecoBox(
             child: DefaultBtn(
-              text: (vm.userImgPath.isEmpty&&vm.userIntroduceController.text.isEmpty) ? "건너뛰기": "다음",
-              textColor: (vm.userImgPath.isEmpty&&vm.userIntroduceController.text.isEmpty) ? Color(0xff999999): Colors.white,
-              btnColor: (vm.userImgPath.isEmpty&&vm.userIntroduceController.text.isEmpty)?Color(0xffe5e5ec):kMainColor,
+              text: (vm.userImgPath.isEmpty &&
+                      vm.userIntroduceController.text.isEmpty)
+                  ? "건너뛰기"
+                  : "다음",
+              textColor: Colors.white,
+              btnColor: kMainColor,
               press: () {
                 // FocusScope.of(context).unfocus();
                 Navigator.pushNamed(context, "/signUpInterest");

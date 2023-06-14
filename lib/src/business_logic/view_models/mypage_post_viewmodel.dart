@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:zamongcampus/src/business_logic/models/post.dart';
 import 'package:zamongcampus/src/business_logic/utils/date_convert.dart';
@@ -164,5 +163,11 @@ class MypagePostViewModel extends BaseModel {
       //이 함수 쓰는 이유 -> https://velog.io/@jun7332568/플러터flutter-setState-or-markNeedsBuild-called-during-build.-오류-해결 참고
       notifyListeners();
     });
+  }
+
+  void workHistoryFeedToProfile() {
+    //post main 의 post listTile을 같이 써서 vm을 dynamic으로 지정. 따라서 같은 명의 메소드가 존재해야함.
+    //그런데 내가 내 피드를 보다가 프로필로 넘어가는 것을 체크하지 않아도 돼서 빈 메서드로 둠
+    //TODO:추후 해결방안 모색.
   }
 }
